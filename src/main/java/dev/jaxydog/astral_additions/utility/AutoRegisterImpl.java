@@ -18,14 +18,52 @@ public class AutoRegisterImpl {
 		CustomStatusEffects.class,
 	};
 
-	/** Generic method for registering content automatically */
-	private static <R extends Registerable> void autoRegister(Class<R> registerable, String method) {
-		for (var contentClass : AutoRegisterImpl.DEFINITION_CLASSES) {
-			if (!contentClass.isAnnotationPresent(AutoRegister.class)) continue;
+	/** Used to check annotation toggles */
+	private enum RegisterType {
+		CLIENT,
+		MAIN,
+		SERVER;
 
-			for (var field : contentClass.getFields()) {
-				if (field.isAnnotationPresent(SkipRegister.class)) continue;
+		/** Returns whether values should be registered */
+		public boolean shouldRegister(AutoRegister annotation) {
+			switch (this) {
+				case CLIENT:
+					return annotation.client();
+				case MAIN:
+					return annotation.main();
+				case SERVER:
+					return annotation.server();
+				default:
+					return false;
+			}
+		}
+
+		/** Returns whether registration should be skipped */
+		public boolean shouldSkip(SkipRegister annotation) {
+			switch (this) {
+				case CLIENT:
+					return annotation.client();
+				case MAIN:
+					return annotation.main();
+				case SERVER:
+					return annotation.server();
+				default:
+					return false;
+			}
+		}
+	}
+
+	/** Generic method for registering content automatically */
+	private static <R extends Registerable> void autoRegister(Class<R> registerable, String method, RegisterType type) {
+		for (var definitions : AutoRegisterImpl.DEFINITION_CLASSES) {
+			if (definitions.isAnnotationPresent(AutoRegister.class)) continue;
+			if (!type.shouldRegister(definitions.getAnnotation(AutoRegister.class))) continue;
+
+			for (var field : definitions.getFields()) {
 				if (!Modifier.isStatic(field.getModifiers())) continue;
+				if (field.isAnnotationPresent(SkipRegister.class)) {
+					if (type.shouldSkip(field.getAnnotation(SkipRegister.class))) continue;
+				}
 
 				try {
 					var value = field.get(null);
@@ -43,17 +81,17 @@ public class AutoRegisterImpl {
 	/** Automatically registers all mod content in the client environment */
 	@Environment(EnvType.CLIENT)
 	public static void autoRegisterClient() {
-		AutoRegisterImpl.autoRegister(Registerable.Client.class, "registerClient");
+		AutoRegisterImpl.autoRegister(Registerable.Client.class, "registerClient", RegisterType.CLIENT);
 	}
 
 	/** Automatically registers all mod content in the main environment */
 	public static void autoRegisterMain() {
-		AutoRegisterImpl.autoRegister(Registerable.Main.class, "registerMain");
+		AutoRegisterImpl.autoRegister(Registerable.Main.class, "registerMain", RegisterType.MAIN);
 	}
 
 	/** Automatically registers all mod content in the server environment */
 	@Environment(EnvType.SERVER)
 	public static void autoRegisterServer() {
-		AutoRegisterImpl.autoRegister(Registerable.Server.class, "registerServer");
+		AutoRegisterImpl.autoRegister(Registerable.Server.class, "registerServer", RegisterType.SERVER);
 	}
 }
