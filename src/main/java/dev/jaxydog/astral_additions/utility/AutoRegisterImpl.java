@@ -12,7 +12,7 @@ import net.fabricmc.api.Environment;
 public class AutoRegisterImpl {
 
 	/** The classes for which to automatically check for registerable values */
-	private static final Class<?>[] DEFINITION_CLASSES = new Class<?>[] {
+	public static final Class<?>[] DEFINITION_CLASSES = new Class<?>[] {
 		CustomBlocks.class,
 		CustomItems.class,
 		CustomStatusEffects.class,
@@ -56,7 +56,7 @@ public class AutoRegisterImpl {
 	/** Generic method for registering content automatically */
 	private static <R extends Registerable> void autoRegister(Class<R> registerable, String method, RegisterType type) {
 		for (var definitions : AutoRegisterImpl.DEFINITION_CLASSES) {
-			if (definitions.isAnnotationPresent(AutoRegister.class)) continue;
+			if (!definitions.isAnnotationPresent(AutoRegister.class)) continue;
 			if (!type.shouldRegister(definitions.getAnnotation(AutoRegister.class))) continue;
 
 			for (var field : definitions.getFields()) {
