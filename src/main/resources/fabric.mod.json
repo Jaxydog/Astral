@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "astral_additions",
+	"version": "${version}",
+
+	"name": "Astral Additions",
+	"description": "Because just plain ol' Astral wasn't enough!",
+	"authors": ["Jaxydog", "Rat Throttleman"],
+	"contact": {
+		"sources": "https://github.com/Jaxydog/AstralAdditions"
+	},
+
+	"license": "MIT",
+	"icon": "assets/astral_additions/icon.png",
+
+	"environment": "*",
+	"entrypoints": {
+		"main": ["dev.jaxydog.astral_additions.AstralAdditions"],
+		"client": ["dev.jaxydog.astral_additions.AstralAdditionsClient"],
+		"server": ["dev.jaxydog.astral_additions.AstralAdditionsServer"]
+	},
+	"mixins": ["astral_additions.mixins.json"],
+
+	"depends": {
+		"fabricloader": ">=0.14.19",
+		"fabric-api": "*",
+		"minecraft": "~1.19.4",
+		"java": ">=17"
+	},
+	"suggests": {
+		"astral": "*"
+	}
+}
