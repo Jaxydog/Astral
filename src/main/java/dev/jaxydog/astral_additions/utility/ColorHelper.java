@@ -3,8 +3,10 @@ package dev.jaxydog.astral_additions.utility;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import org.jetbrains.annotations.ApiStatus.NonExtendable;
 
 /** Provides an interface for easily manipulating colors */
+@NonExtendable
 public interface ColorHelper {
 	/** Scales the given `min` color towards `max`, adding based on the given `scale` */
 	public static RGB scaleColorUp(RGB min, RGB max, float scale) {

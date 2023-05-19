@@ -1,6 +1,9 @@
 package dev.jaxydog.astral_additions.utility;
 
+import org.jetbrains.annotations.ApiStatus.NonExtendable;
+
 /** Contains non-standard function interfaces for when things get really weird */
+@NonExtendable
 public interface Functions {
 	@FunctionalInterface
 	public static interface TriFunction<A, B, C, R> {
