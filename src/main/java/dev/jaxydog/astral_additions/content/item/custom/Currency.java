@@ -7,11 +7,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.random.Random;
 
+/** Provides utility constants, methods, and implementations for the currency item system */
 public interface Currency {
 	/** The NBT key that toggles automatic crafting of currency items */
 	public static final String AUTO_CRAFTABLE_KEY = "AutoCraftable";
 	/** The chance of gaining a rewards item whilst auto-crafting */
-	public static final float REWARD_CHANCE = 0.05f;
+	public static final float REWARD_CHANCE = 0.1f;
 	/** The currency values that are allowed to produce a reward when auto-crafting */
 	public static final List<Currency.Value> REWARDED_VALUES = List.of(Currency.Value.SKULL);
 
