@@ -1,117 +1,107 @@
 package dev.jaxydog.astral_additions.content.item.custom;
 
-import dev.jaxydog.astral_additions.content.item.CustomItem;
 import dev.jaxydog.astral_additions.content.item.CustomItems;
-import net.minecraft.entity.Entity;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-/** Represents a possible reward from using currency */
-public class CurrencyRewardItem extends CustomItem {
+/** Currency item extension to be used as a reward for using the system */
+public class CurrencyRewardItem extends CurrencyItem {
 
-	/** The NBT key that determines the item's model */
-	public static final String REWARD_TYPE_KEY = "RewardType";
-	/** The maximum model identifier, used in stack generation */
-	public static final int MAX_TYPE_ID = 3;
-	/** Contains matching sets of reward items for skeleton crafting */
-	public static final int[][] ITEM_SETS = new int[][] {
-		{}, // this should always be left empty, as it represents skeleton `0`, which does not have a model
-	};
+	/** Stores matching reward sets for skeleton crafting */
+	public final HashMap<Integer, List<Integer>> ITEM_SETS = new HashMap<>();
 
-	public CurrencyRewardItem(String rawId, Settings settings) {
+	public CurrencyRewardItem(String rawId, Settings settings, Map<Integer, List<Integer>> sets) {
 		super(rawId, settings);
+		this.ITEM_SETS.putAll(sets);
 	}
 
-	/** Returns the given reward identifier's containing set */
-	private static @Nullable int[] getRewardSet(int type) {
-		for (var set : CurrencyRewardItem.ITEM_SETS) {
-			for (var id : set) {
-				if (id == type) return set;
+	@Override
+	public boolean attemptAutoCraft(ItemStack stack, Random random, PlayerEntity player) {
+		var rewardId = Currency.getStackId(stack);
+
+		var optionalSkeletonId = this.getContainingSetId(rewardId);
+		if (optionalSkeletonId.isEmpty()) return false;
+
+		var inventory = player.getInventory();
+		var skeletonId = optionalSkeletonId.get();
+		var rewardList = this.ITEM_SETS.get(skeletonId);
+		var totalCrafted = Integer.MAX_VALUE;
+
+		for (var id : rewardList) {
+			var contains = false;
+
+			for (var slot = 0; slot < inventory.size(); slot += 1) {
+				var inventoryStack = inventory.getStack(slot);
+
+				if (!Currency.matchStack(inventoryStack, id, true)) continue;
+
+				totalCrafted = Math.min(totalCrafted, inventoryStack.getCount());
+				contains = true;
 			}
+
+			if (!contains) return false;
 		}
 
-		return null;
-	}
+		if (totalCrafted <= 0 || totalCrafted == Integer.MAX_VALUE) return false;
 
-	/** Returns the given reward set's skeleton identifier */
-	private static int getRewardSetId(int[] set) {
-		for (var index = 1; index < CurrencyRewardItem.ITEM_SETS.length; index += 1) {
-			if (CurrencyRewardItem.ITEM_SETS[index] == set) return index;
+		var skeletonStack = CustomItems.CURRENCY_SKELETON.getCustomStack(skeletonId);
+
+		skeletonStack.setCount(totalCrafted);
+		inventory.offerOrDrop(skeletonStack);
+
+		var craftingInventory = player.playerScreenHandler.getCraftingInput();
+
+		for (var id : rewardList) {
+			inventory.remove(s -> Currency.matchStack(s, id, true), totalCrafted, craftingInventory);
 		}
 
-		return 0;
+		return true;
 	}
 
-	/** Returns the item stack's reward type from its NBT data */
-	public static final int getRewardType(ItemStack stack) {
-		var nbt = stack.getNbt();
+	/** Returns the given reward identifier's parent set identifier */
+	public Optional<Integer> getContainingSetId(int id) {
+		for (var entry : this.ITEM_SETS.entrySet()) {
+			if (entry.getValue().contains(id)) return Optional.of(entry.getKey());
+		}
 
-		if (nbt == null || !nbt.contains(CurrencyRewardItem.REWARD_TYPE_KEY)) return 0;
-
-		return nbt.getInt(CurrencyRewardItem.REWARD_TYPE_KEY);
-	}
-
-	/** Sets the given item stack's reward type via NBT data */
-	public static final void setRewardType(ItemStack stack, int type) {
-		var nbt = stack.getOrCreateNbt();
-		nbt.putInt(CurrencyRewardItem.REWARD_TYPE_KEY, type);
-		nbt.putInt("CustomModelData", type);
+		return Optional.empty();
 	}
 
 	@Override
 	public ItemStack getDefaultStack() {
-		var stack = super.getDefaultStack();
-
-		CurrencyRewardItem.setRewardType(stack, 0);
-
-		return stack;
+		return this.getCustomStack(0);
 	}
 
-	/** Returns an item stack with a randomly-assigned type identifier */
-	public ItemStack getRandomStack(Random random) {
-		var stack = this.getDefaultStack();
-		var type = random.nextBetween(1, CurrencyRewardItem.MAX_TYPE_ID);
+	/** Returns a list of possible reward identifiers */
+	public Set<Integer> getPossibleRewardIds() {
+		var set = new HashSet<Integer>();
 
-		CurrencyRewardItem.setRewardType(stack, type);
+		for (var list : this.ITEM_SETS.values()) list.addAll(list);
+
+		return set;
+	}
+
+	/** Returns an item stack with a randomly-assigned identifier */
+	public ItemStack getRandomStack(Random random) {
+		var ids = this.getPossibleRewardIds();
+
+		if (ids.size() == 0) return this.getDefaultStack();
+
+		var index = random.nextBetween(0, ids.size() - 1);
+		var stack = this.getCustomStack((int) ids.toArray()[index]);
 
 		return stack;
 	}
 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		var type = CurrencyRewardItem.getRewardType(stack);
-		var key = super.getTranslationKey(stack);
-
-		return key + "." + type;
-	}
-
-	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-		super.inventoryTick(stack, world, entity, slot, selected);
-
-		if (!(entity instanceof PlayerEntity)) return;
-
-		var type = CurrencyRewardItem.getRewardType(stack);
-		var set = CurrencyRewardItem.getRewardSet(type);
-
-		if (set == null) return;
-
-		var player = (PlayerEntity) entity;
-		var inventory = player.getInventory();
-
-		for (var id : set) if (!inventory.containsAny(s -> CurrencyRewardItem.getRewardType(s) == id)) return;
-
-		var crafting = player.playerScreenHandler.getCraftingInput();
-		var setIndex = CurrencyRewardItem.getRewardSetId(set);
-		var crafted = CustomItems.CURRENCY_SKELETON.getDefaultStack();
-
-		CurrencySkeletonItem.setSkeletonType(crafted, setIndex);
-
-		if (!player.giveItemStack(crafted)) player.dropStack(crafted);
-
-		for (var id : set) inventory.remove(s -> CurrencyRewardItem.getRewardType(s) == id, 1, crafting);
+		return this.getTranslationKey() + "." + Currency.getStackId(stack);
 	}
 }
