@@ -3,6 +3,7 @@ package dev.jaxydog.astral_additions.utility;
 import dev.jaxydog.astral_additions.AstralAdditions;
 import dev.jaxydog.astral_additions.content.block.CustomBlocks;
 import dev.jaxydog.astral_additions.content.effect.CustomStatusEffects;
+import dev.jaxydog.astral_additions.content.enchantment.CustomEnchantments;
 import dev.jaxydog.astral_additions.content.item.CustomItems;
 import java.lang.reflect.Modifier;
 import net.fabricmc.api.EnvType;
@@ -15,6 +16,7 @@ public class AutoRegisterImpl {
 	public static final Class<?>[] DEFINITION_CLASSES = new Class<?>[] {
 		CustomBlocks.class,
 		CustomItems.class,
+		CustomEnchantments.class,
 		CustomStatusEffects.class,
 	};
 
