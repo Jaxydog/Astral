@@ -1,3 +1,5 @@
-# Astral Additions
+# Astral
 
-Because just plain ol' Astral wasn't enough!
+An addon mod for Astral SMP that provides tons of custom content!
+
+Sorry, no leaks here <3
