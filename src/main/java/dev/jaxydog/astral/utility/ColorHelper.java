@@ -11,9 +11,9 @@ public interface ColorHelper {
 	/** Scales the given `min` color towards `max`, adding based on the given `scale` */
 	public static RGB scaleColorUp(RGB min, RGB max, float scale) {
 		return min
-			.apply(max, (mn, mx) -> (byte) Math.max(mx - mn, 0)) // subtracts the min from the max color, clamping to 0x00 in case of underflow
-			.apply(c -> (byte) ((int) (c * scale) & 0xFF)) // scales the bytes by the provided `scale`
-			.apply(min, (mn, r) -> (byte) Math.min(mn + r, 0xFF)); // adds the scaled range to the min color, clamping it to 0xFF in case of overflow
+			.apply(max, (mn, mx) -> (byte) Math.max(mx - mn, 0x00)) // subtracts the min from the max color, clamping to 0x00 in case of underflow
+			.apply(c -> (byte) ((int) ((float) c * scale) & 0xFF)) // scales the bytes by the provided `scale`
+			.apply(min, (r, mn) -> (byte) Math.min(mn + r, 0xFF)); // adds the scaled range to the min color, clamping it to 0xFF in case of overflow
 	}
 
 	/** Scales the given `min` color towards `max`, adding based on the given `scale` */
@@ -29,9 +29,9 @@ public interface ColorHelper {
 	/** Scales the given `max` color towards `min`, subtracting based on the given `scale` */
 	public static RGB scaleColorDown(RGB min, RGB max, float scale) {
 		return min
-			.apply(max, (mn, mx) -> (byte) Math.max(mx - mn, 0)) // subtracts the min from the max color, clamping to 0x00 in case of underflow
-			.apply(c -> (byte) ((int) (c * scale) & 0xFF)) // scales the bytes by the provided `scale`
-			.apply(max, (mx, r) -> (byte) Math.max(mx - r, 0)); // subtracts the scaled range from the max color, clamping it to 0x00 in case of underflow
+			.apply(max, (mn, mx) -> (byte) Math.max(mx - mn, 0x00)) // subtracts the min from the max color, clamping to 0x00 in case of underflow
+			.apply(c -> (byte) ((int) ((float) c * scale) & 0xFF)) // scales the bytes by the provided `scale`
+			.apply(max, (r, mx) -> (byte) Math.max(mx - r, 0x00)); // subtracts the scaled range from the max color, clamping it to 0x00 in case of underflow
 	}
 
 	/** Scales the given `max` color towards `min`, subtracting based on the given `scale` */
