@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "astral:block/blue_amethyst_block"
+	}
+}

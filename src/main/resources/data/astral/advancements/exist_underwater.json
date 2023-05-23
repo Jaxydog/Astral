@@ -1,0 +1,15 @@
+{
+	"parent": "astral:root",
+	"display": {
+		"title": { "translate": "advancements.astral.exist_underwater.title" },
+		"description": { "translate": "advancements.astral.exist_underwater.description" },
+		"icon": { "item": "minecraft:water_bucket" },
+		"frame": "goal",
+		"announce_to_chat": true,
+		"show_toast": true,
+		"hidden": false
+	},
+	"criteria": {
+		"in_water": { "trigger": "minecraft:impossible" }
+	}
+}

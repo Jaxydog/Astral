@@ -1,0 +1,62 @@
+{
+	"parent": "astral:root",
+	"display": {
+		"title": { "translate": "advancements.astral.breed_animals.title" },
+		"description": { "translate": "advancements.astral.breed_animals.description" },
+		"icon": { "item": "minecraft:wheat" },
+		"frame": "goal",
+		"announce_to_chat": true,
+		"show_toast": true,
+		"hidden": false
+	},
+	"criteria": {
+		"chicken": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:chicken" } }
+		},
+		"cow": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:cow" } }
+		},
+		"sheep": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:sheep" } }
+		},
+		"pig": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:pig" } }
+		},
+		"wolf": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:wolf" } }
+		},
+		"cat": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:cat" } }
+		},
+		"horse": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:horse" } }
+		},
+		"rabbit": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:rabbit" } }
+		},
+		"goat": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:goat" } }
+		},
+		"llama": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:llama" } }
+		},
+		"turtle": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:turtle" } }
+		},
+		"axolotl": {
+			"trigger": "minecraft:bred_animals",
+			"conditions": { "child": { "type": "minecraft:axolotl" } }
+		}
+	}
+}

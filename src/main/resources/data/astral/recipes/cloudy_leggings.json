@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [" C ", "CLC", " C "],
+	"key": {
+		"C": {
+			"item": "astral:cloudy_mane"
+		},
+		"L": {
+			"item": "minecraft:leather_leggings"
+		}
+	},
+	"result": {
+		"item": "astral:cloudy_leggings",
+		"count": 1
+	}
+}

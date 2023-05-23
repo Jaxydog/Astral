@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "astral:item/cloudy_candy_0",
+		"layer1": "astral:item/cloudy_candy_1"
+	}
+}
