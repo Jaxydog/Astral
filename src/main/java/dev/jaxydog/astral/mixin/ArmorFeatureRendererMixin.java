@@ -48,7 +48,7 @@ public abstract class ArmorFeatureRendererMixin {
 
 		if (item instanceof ColoredArmorItem) {
 			for (var index = 0; index < layers; index += 1) {
-				var color = ColorHelper.RGB.fromInt(((ColoredArmorItem) item).getColor(stack, index));
+				var color = ColorHelper.RGB.from(((ColoredArmorItem) item).getColor(stack, index));
 
 				var r = color.r();
 				var g = color.g();
