@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.utility.Identifiable;
+import dev.jaxydog.astral.utility.DyeableHelper;
 import dev.jaxydog.astral.utility.Registerable;
 import java.util.List;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
@@ -21,9 +22,18 @@ public class CustomBlockItem extends BlockItem implements Registerable.Main {
 	/** The custom block item's inner raw identifier */
 	private final String RAW_ID;
 
-	public <B extends Block & Identifiable> CustomBlockItem(B block, Settings settings) {
+	public <B extends Block> CustomBlockItem(String rawId, B block, Settings settings) {
 		super(block, settings);
-		this.RAW_ID = block.getRawId();
+		this.RAW_ID = rawId;
+	}
+
+	public <B extends Block & Registerable> CustomBlockItem(
+		String rawId,
+		DyeColor color,
+		DyeableHelper<B> blocks,
+		Settings settings
+	) {
+		this(rawId, blocks.get(color), settings);
 	}
 
 	@Override
