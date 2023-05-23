@@ -4,6 +4,9 @@
 	"package": "dev.jaxydog.astral.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"bonemeal.CactusBlockMixin",
+		"bonemeal.NetherWartBlockMixin",
+		"bonemeal.SugarCaneBlockMixin",
 		"challenge.AbstractSkeletonEntityMixin",
 		"challenge.CreeperEntityMixin",
 		"challenge.LivingEntityAccessor",
