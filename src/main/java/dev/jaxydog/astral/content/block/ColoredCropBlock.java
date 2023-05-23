@@ -1,16 +1,15 @@
 package dev.jaxydog.astral.content.block;
 
-import dev.jaxydog.astral.utility.Registerable;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 
-/** An extension of a regular custom block that provides color support */
-public abstract class ColoredBlock extends CustomBlock implements Registerable.Client {
+/** An extension of a regular custom crop block that provides color support */
+public abstract class ColoredCropBlock extends CustomCropBlock {
 
-	public ColoredBlock(String rawId, Settings settings) {
-		super(rawId, settings);
+	public ColoredCropBlock(String rawId, Settings settings, Config config) {
+		super(rawId, settings, config);
 	}
 
 	/** Returns the color that the block should render at the given index */
@@ -18,7 +17,6 @@ public abstract class ColoredBlock extends CustomBlock implements Registerable.C
 
 	@Override
 	public void registerClient() {
-		Client.super.registerClient();
 		// This just ensures that registered blocks are actually colored
 		// Calling this on the server will crash it, as the `ColorProviderRegistry` doesn't exist on that environment
 		ColorProviderRegistry.BLOCK.register(this::getColor, this);

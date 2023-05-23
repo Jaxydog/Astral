@@ -113,26 +113,31 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
 	public CustomArmorMaterial setEnchantability(int enchantability) {
 		this.enchantability = enchantability;
+
 		return this;
 	}
 
 	public CustomArmorMaterial setEquipSound(SoundEvent equipSound) {
 		this.equipSound = equipSound;
+
 		return this;
 	}
 
 	public CustomArmorMaterial setRepairIngredient(Ingredient repairIngredient) {
 		this.repairIngredient = repairIngredient;
+
 		return this;
 	}
 
 	public CustomArmorMaterial setToughness(float toughness) {
 		this.toughness = toughness;
+
 		return this;
 	}
 
 	public CustomArmorMaterial setKnockbackResistance(float knockbackResistance) {
 		this.knockbackResistance = knockbackResistance;
+
 		return this;
 	}
 }
