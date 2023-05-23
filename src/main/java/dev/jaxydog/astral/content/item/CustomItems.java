@@ -8,7 +8,7 @@ import dev.jaxydog.astral.content.item.custom.CurrencyItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyRewardItem;
 import dev.jaxydog.astral.content.item.custom.CurrencySkeletonItem;
 import dev.jaxydog.astral.utility.AutoRegister;
-import dev.jaxydog.astral.utility.DyeableHelper;
+import dev.jaxydog.astral.utility.DyeableSet;
 import java.util.HashMap;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -63,16 +63,12 @@ public class CustomItems {
 		new Settings().maxCount(1).rarity(Rarity.EPIC)
 	);
 
-	public static final DyeableHelper<CustomBlockItem> DYED_AMETHYST_BLOCK = DyeableHelper.fromDyeable(
+	public static final DyeableSet<CustomBlockItem> DYED_AMETHYST_BLOCK = new DyeableSet<>(
 		"amethyst_block",
-		CustomBlocks.DYED_AMETHYST_BLOCK,
-		new Settings(),
-		CustomBlockItem::new
+		(id, color) -> new CustomBlockItem(id, CustomBlocks.DYED_AMETHYST_BLOCK.get(color), new Settings())
 	);
-	public static final DyeableHelper<CustomBlockItem> DYED_AMETHYST_CLUSTER = DyeableHelper.fromDyeable(
+	public static final DyeableSet<CustomBlockItem> DYED_AMETHYST_CLUSTER = new DyeableSet<>(
 		"amethyst_cluster",
-		CustomBlocks.DYED_AMETHYST_CLUSTER,
-		new Settings(),
-		CustomBlockItem::new
+		(id, color) -> new CustomBlockItem(id, CustomBlocks.DYED_AMETHYST_CLUSTER.get(color), new Settings())
 	);
 }
