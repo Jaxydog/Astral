@@ -43,9 +43,13 @@ dependencies {
 	modImplementation "com.github.apace100:origins-fabric:v${project.origins_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modApi("com.github.Virtuoel:Pehkui:${project.pehkui_version}", {
-		exclude group: "net.fabricmc.fabric-api"
-	})
+	
+	// TODO: uncomment when Pehkui updates or MC 1.20.0 releases
+	// Pehkui currently prevents the game from launching due to an invalid mixin descriptor
+	//
+	// modApi("com.github.Virtuoel:Pehkui:${project.pehkui_version}", {
+	// 	exclude group: "net.fabricmc.fabric-api"
+	// })
 
 	include "com.github.apace100:apoli-fabric:v${project.apoli_version}"
 	include "com.github.apace100:calio-fabric:v${project.calio_version}"
