@@ -1,3 +1,7 @@
 {
+	"gamerule.challengeAttackAdditive": "Challenge attack additive",
+	"gamerule.challengeChunkStep": "Challenge chunk step",
+	"gamerule.challengeEnabled": "Challenge enabled",
+	"gamerule.challengeHealthAdditive": "Challenge health additive",
 	"itemGroup.astral.default": "Astral"
 }

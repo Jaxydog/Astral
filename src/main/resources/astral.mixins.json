@@ -3,7 +3,13 @@
 	"minVersion": "0.8",
 	"package": "dev.jaxydog.astral.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"mixins": [],
+	"mixins": [
+		"challenge.AbstractSkeletonEntityMixin",
+		"challenge.CreeperEntityMixin",
+		"challenge.LivingEntityAccessor",
+		"challenge.LivingEntityMixin",
+		"challenge.MobEntityMixin"
+	],
 	"client": [],
 	"server": [],
 	"injectors": {
