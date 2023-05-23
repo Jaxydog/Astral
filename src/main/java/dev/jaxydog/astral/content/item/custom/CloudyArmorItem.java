@@ -40,7 +40,7 @@ public class CloudyArmorItem extends ColoredArmorItem implements Cloudy, Dyeable
 		var stack = super.getDefaultStack();
 
 		Cloudy.setStorminess(stack, Cloudy.MIN_VALUE);
-		this.setColor(getDefaultStack(), 0xFFFFFF);
+		this.setColor(stack, 0xFFFFFF);
 
 		return stack;
 	}
