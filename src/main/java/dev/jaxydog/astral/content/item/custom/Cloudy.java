@@ -47,7 +47,7 @@ public interface Cloudy {
 
 	/** Returns the translation key for the item's storminess label */
 	public static String getStorminessTranslationKey() {
-		return Astral.getId(Cloudy.STORMINESS_KEY).toTranslationKey("text");
+		return Astral.getId(Cloudy.STORMINESS_KEY.toLowerCase()).toTranslationKey("text");
 	}
 
 	/** Returns the item's storminess color */
