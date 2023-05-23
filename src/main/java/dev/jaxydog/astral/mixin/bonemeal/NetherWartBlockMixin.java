@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 /** Implements the `Fertilizable` interface for nether wart */
 @Mixin(NetherWartBlock.class)
 @Implements(@Interface(iface = Fertilizable.class, prefix = "impl$"))
-public abstract class NetherWartMixin {
+public abstract class NetherWartBlockMixin {
 
 	public boolean impl$isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
 		return state.get(NetherWartBlock.AGE) < 3;
