@@ -1,12 +1,10 @@
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.utility.Functions.QuadFunction;
-import dev.jaxydog.astral.utility.Functions.QuintFunction;
-import dev.jaxydog.astral.utility.Functions.TriFunction;
 import dev.jaxydog.astral.utility.Registerable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
@@ -74,38 +72,10 @@ public abstract class CustomArmorItem extends ArmorItem implements Registerable.
 		/** The set's inner map containing the value for each armor type */
 		private final HashMap<Type, T> MAP = new HashMap<>(Type.values().length);
 
-		// let's hope that we don't need more than 4 generic arguments lol
-		public SetHelper(ArmorMaterial material, TriFunction<String, ArmorMaterial, Type, T> constructor) {
+		public SetHelper(String baseRawId, BiFunction<String, Type, T> constructor) {
 			for (var type : Type.values()) {
-				var id = material.getName() + "_" + type.getName();
-				var value = constructor.apply(id, material, type);
-
-				this.MAP.put(type, value);
-			}
-		}
-
-		public <A> SetHelper(
-			ArmorMaterial material,
-			A arg1,
-			QuadFunction<String, ArmorMaterial, Type, A, T> constructor
-		) {
-			for (var type : Type.values()) {
-				var id = material.getName() + "_" + type.getName();
-				var value = constructor.apply(id, material, type, arg1);
-
-				this.MAP.put(type, value);
-			}
-		}
-
-		public <A, B> SetHelper(
-			ArmorMaterial material,
-			A arg1,
-			B arg2,
-			QuintFunction<String, ArmorMaterial, Type, A, B, T> constructor
-		) {
-			for (var type : Type.values()) {
-				var id = material.getName() + "_" + type.getName();
-				var value = constructor.apply(id, material, type, arg1, arg2);
+				var id = baseRawId + "_" + type.getName();
+				var value = constructor.apply(id, type);
 
 				this.MAP.put(type, value);
 			}

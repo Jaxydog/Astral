@@ -2,7 +2,7 @@ package dev.jaxydog.astral.mixin;
 
 import dev.jaxydog.astral.content.item.ColoredArmorItem;
 import dev.jaxydog.astral.content.item.CustomArmorItem;
-import dev.jaxydog.astral.utility.ColorHelper;
+import dev.jaxydog.astral.utility.ColorUtil;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -48,11 +48,11 @@ public abstract class ArmorFeatureRendererMixin {
 
 		if (item instanceof ColoredArmorItem) {
 			for (var index = 0; index < layers; index += 1) {
-				var color = ColorHelper.RGB.from(((ColoredArmorItem) item).getColor(stack, index));
+				var color = ColorUtil.RGB.from(((ColoredArmorItem) item).getColor(stack, index));
 
-				var r = color.r();
-				var g = color.g();
-				var b = color.b();
+				var r = color.getR();
+				var g = color.getG();
+				var b = color.getB();
 				var l = "" + index;
 
 				invoker.invokeRenderArmorParts(matrices, vertex, light, item, glint, model, inner, r, g, b, l);

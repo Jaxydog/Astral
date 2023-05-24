@@ -2,8 +2,8 @@ package dev.jaxydog.astral.content.item;
 
 import dev.jaxydog.astral.content.block.CustomBlocks;
 import dev.jaxydog.astral.content.item.CustomArmorItem.SetHelper;
-import dev.jaxydog.astral.content.item.custom.CloudyArmorItem;
-import dev.jaxydog.astral.content.item.custom.CloudyItem;
+import dev.jaxydog.astral.content.item.custom.CloudArmorItem;
+import dev.jaxydog.astral.content.item.custom.CloudItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyRewardItem;
 import dev.jaxydog.astral.content.item.custom.CurrencySkeletonItem;
@@ -22,7 +22,7 @@ import net.minecraft.util.Rarity;
 @AutoRegister
 public class CustomItems {
 
-	public static final CloudyItem CLOUDY_CANDY = new CloudyItem(
+	public static final CloudItem CLOUDY_CANDY = new CloudItem(
 		"cloudy_candy",
 		new Settings()
 			.food(
@@ -36,20 +36,25 @@ public class CustomItems {
 			)
 			.rarity(Rarity.UNCOMMON)
 	);
-	public static final CloudyItem CLOUDY_COTTON = new CloudyItem(
+	public static final CloudItem CLOUDY_COTTON = new CloudItem(
 		"cloudy_cotton",
 		new Settings().rarity(Rarity.UNCOMMON)
 	);
-	public static final CloudyItem CLOUDY_MANE = new CloudyItem("cloudy_mane", new Settings().rarity(Rarity.UNCOMMON));
-	public static final SetHelper<CloudyArmorItem> CLOUDY_ARMOR = new SetHelper<>(
-		new CustomArmorMaterial("cloudy")
-			.setDurability(4.0F)
-			.setEnchantability(15)
-			.setEquipSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER)
-			.setProtectionAmount(2, 5, 3, 2)
-			.setRepairIngredient(Ingredient.ofItems(CustomItems.CLOUDY_COTTON)),
-		new Settings().rarity(Rarity.UNCOMMON),
-		CloudyArmorItem::new
+	public static final CloudItem CLOUDY_MANE = new CloudItem("cloudy_mane", new Settings().rarity(Rarity.UNCOMMON));
+	public static final SetHelper<CloudArmorItem> CLOUD_ARMOR = new SetHelper<>(
+		"cloud",
+		(id, type) ->
+			new CloudArmorItem(
+				id,
+				new CustomArmorMaterial("cloud")
+					.setDurability(4.0F)
+					.setEnchantability(15)
+					.setEquipSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER)
+					.setProtectionAmount(2, 5, 3, 2)
+					.setRepairIngredient(Ingredient.ofItems(CustomItems.CLOUDY_COTTON)),
+				type,
+				new Settings()
+			)
 	);
 
 	public static final CurrencyItem CURRENCY = new CurrencyItem("currency", new Settings().rarity(Rarity.UNCOMMON));

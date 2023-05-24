@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"on_off_mode=false": {
+			"model": "astral:block/randomizer"
+		},
+		"on_off_mode=true": {
+			"model": "astral:block/randomizer_on_off_mode"
+		}
+	}
+}
