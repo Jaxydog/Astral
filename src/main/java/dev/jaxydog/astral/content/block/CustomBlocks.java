@@ -2,6 +2,7 @@ package dev.jaxydog.astral.content.block;
 
 import dev.jaxydog.astral.content.block.custom.DyedAmethystBlock;
 import dev.jaxydog.astral.content.block.custom.DyedAmethystClusterBlock;
+import dev.jaxydog.astral.content.block.custom.RandomizerBlock;
 import dev.jaxydog.astral.utility.AutoRegister;
 import dev.jaxydog.astral.utility.DyeableSet;
 import net.minecraft.block.AbstractBlock.Settings;
@@ -33,5 +34,10 @@ public class CustomBlocks {
 					.strength(1.5F)
 					.requiresTool()
 			)
+	);
+
+	public static final RandomizerBlock RANDOMIZER = new RandomizerBlock(
+		"randomizer_block",
+		Settings.of(Material.METAL).requiresTool().strength(-1.0F, 3600000.0F).dropsNothing()
 	);
 }

@@ -76,4 +76,10 @@ public class CustomItems {
 		"amethyst_cluster",
 		(id, color) -> new CustomBlockItem(id, CustomBlocks.DYED_AMETHYST_CLUSTER.get(color), new Settings())
 	);
+
+	public static final CustomBlockItem RANDOMIZER_BLOCK = new CustomBlockItem(
+		"randomizer",
+		CustomBlocks.RANDOMIZER,
+		new Settings().rarity(Rarity.UNCOMMON)
+	);
 }
