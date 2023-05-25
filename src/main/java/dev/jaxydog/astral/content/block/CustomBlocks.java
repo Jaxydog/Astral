@@ -11,7 +11,7 @@ import net.minecraft.sound.BlockSoundGroup;
 
 /** Contains definitions for all custom blocks */
 @AutoRegister
-public class CustomBlocks {
+public final class CustomBlocks {
 
 	public static final DyeableSet<DyedAmethystBlock> DYED_AMETHYST_BLOCK = new DyeableSet<>(
 		"amethyst_block",

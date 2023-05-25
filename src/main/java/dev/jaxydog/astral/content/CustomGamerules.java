@@ -10,7 +10,7 @@ import net.minecraft.world.GameRules.Key;
 
 /** Contains commonly shared gamerules */
 @AutoRegister
-public class CustomGamerules {
+public final class CustomGamerules {
 
 	/** Defines the gamerule that toggles mob challenge on or off */
 	public static final Key<BooleanRule> CHALLENGE_ENABLED = GameRuleRegistry.register(

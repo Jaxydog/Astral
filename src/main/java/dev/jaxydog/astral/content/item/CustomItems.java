@@ -20,7 +20,7 @@ import net.minecraft.util.Rarity;
 
 /** Contains definitions for all custom items */
 @AutoRegister
-public class CustomItems {
+public final class CustomItems {
 
 	public static final CloudItem CLOUDY_CANDY = new CloudItem(
 		"cloudy_candy",
