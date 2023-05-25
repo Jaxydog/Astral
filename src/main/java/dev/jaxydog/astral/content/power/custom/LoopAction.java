@@ -10,6 +10,7 @@ import io.github.apace100.calio.data.SerializableDataTypes;
 import java.util.function.Supplier;
 import net.minecraft.registry.Registry;
 
+/** Implements a meta action that runs a provided action `repeat` times */
 public class LoopAction extends MetaAction {
 
 	public LoopAction(String rawId) {
