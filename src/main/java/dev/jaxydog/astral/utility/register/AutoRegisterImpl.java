@@ -3,6 +3,7 @@ package dev.jaxydog.astral.utility.register;
 import dev.jaxydog.astral.Astral;
 import dev.jaxydog.astral.content.CustomGamerules;
 import dev.jaxydog.astral.content.block.CustomBlocks;
+import dev.jaxydog.astral.content.data.CustomData;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.enchantment.CustomEnchantments;
 import dev.jaxydog.astral.content.item.CustomItems;
@@ -17,6 +18,7 @@ public final class AutoRegisterImpl {
 	/** The classes that should be automatically checked for registerable values */
 	public static final Class<?>[] DEFINITIONS_CLASSES = new Class<?>[] {
 		CustomBlocks.class,
+		CustomData.class,
 		CustomEnchantments.class,
 		CustomGamerules.class,
 		CustomItems.class,
