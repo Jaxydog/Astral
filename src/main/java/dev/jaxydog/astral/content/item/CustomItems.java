@@ -7,6 +7,7 @@ import dev.jaxydog.astral.content.item.custom.CloudItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyRewardItem;
 import dev.jaxydog.astral.content.item.custom.CurrencySkeletonItem;
+import dev.jaxydog.astral.content.item.custom.MirrorItem;
 import dev.jaxydog.astral.utility.DyeableSet;
 import dev.jaxydog.astral.utility.register.AutoRegister;
 import java.util.HashMap;
@@ -76,6 +77,8 @@ public final class CustomItems {
 		"amethyst_cluster",
 		(id, color) -> new CustomBlockItem(id, CustomBlocks.DYED_AMETHYST_CLUSTER.get(color), new Settings())
 	);
+
+	public static final MirrorItem MIRROR = new MirrorItem("mirror", new Settings().maxCount(1).rarity(Rarity.RARE));
 
 	public static final CustomBlockItem RANDOMIZER_BLOCK = new CustomBlockItem(
 		"randomizer",
