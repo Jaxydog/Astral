@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.mixin.challenge;
 
-import dev.jaxydog.astral.utility.ChallengeHelper;
+import dev.jaxydog.astral.utility.ChallengeUtil;
 import net.minecraft.entity.mob.CreeperEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,10 +15,10 @@ public abstract class CreeperEntityMixin {
 	private float injectModifiedPower(float power) {
 		var self = (CreeperEntity) (Object) this;
 
-		if (!ChallengeHelper.isEnabled(self.getWorld())) return power;
+		if (!ChallengeUtil.isEnabled(self.getWorld())) return power;
 
-		var additive = ChallengeHelper.getAttackAdditive(self.getWorld());
-		var modifier = ChallengeHelper.getChallengeModifier(self, additive);
+		var additive = ChallengeUtil.getAttackAdditive(self.getWorld());
+		var modifier = ChallengeUtil.getChallengeModifier(self, additive);
 
 		return power + ((float) modifier / 5.0F);
 	}

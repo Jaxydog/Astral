@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus.NonExtendable;
 
 /** Provides utility methods for dealing with mob challenge scaling */
 @NonExtendable
-public interface ChallengeHelper {
+public interface ChallengeUtil {
 	/** Returns whether mob challenge scaling is enabled */
 	public static boolean isEnabled(World world) {
 		return world.getGameRules().getBoolean(CustomGamerules.CHALLENGE_ENABLED);
@@ -44,16 +44,16 @@ public interface ChallengeHelper {
 
 	/** Returns a stat modifier calculated using the provided values */
 	public static double getChallengeModifier(Entity entity, int step, int additive) {
-		var distance = ChallengeHelper.getDistanceFromSpawn(entity);
+		var distance = ChallengeUtil.getDistanceFromSpawn(entity);
 
-		return ChallengeHelper.getChallengeModifier(step, additive, distance);
+		return ChallengeUtil.getChallengeModifier(step, additive, distance);
 	}
 
 	/** Returns a stat modifier calculated using the provided values */
 	public static double getChallengeModifier(Entity entity, int additive) {
-		var distance = ChallengeHelper.getDistanceFromSpawn(entity);
-		var step = ChallengeHelper.getChunkStep(entity.getWorld());
+		var distance = ChallengeUtil.getDistanceFromSpawn(entity);
+		var step = ChallengeUtil.getChunkStep(entity.getWorld());
 
-		return ChallengeHelper.getChallengeModifier(step, additive, distance);
+		return ChallengeUtil.getChallengeModifier(step, additive, distance);
 	}
 }

@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.mixin.challenge;
 
-import dev.jaxydog.astral.utility.ChallengeHelper;
+import dev.jaxydog.astral.utility.ChallengeUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.AbstractSkeletonEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -20,7 +20,7 @@ public class AbstractSkeletonEntityMixin {
 	private void attackInject(LivingEntity target, float pullProgress, CallbackInfo callbackInfo) {
 		var self = (AbstractSkeletonEntity) (Object) this;
 
-		if (!ChallengeHelper.isEnabled(self.getWorld())) return;
+		if (!ChallengeUtil.isEnabled(self.getWorld())) return;
 
 		var hand = ProjectileUtil.getHandPossiblyHolding(self, Items.BOW);
 		var stack = self.getProjectileType(self.getStackInHand(hand));
@@ -31,8 +31,8 @@ public class AbstractSkeletonEntityMixin {
 		var z = target.getZ() - self.getZ();
 		var h = Math.sqrt(x * x + z * z);
 
-		var additive = ChallengeHelper.getAttackAdditive(self.getWorld());
-		var modifier = ChallengeHelper.getChallengeModifier(self, additive);
+		var additive = ChallengeUtil.getAttackAdditive(self.getWorld());
+		var modifier = ChallengeUtil.getChallengeModifier(self, additive);
 
 		projectile.setVelocity(x, y + h * 0.2D, z, 1.6f, 14 - self.world.getDifficulty().getId() * 4);
 		projectile.setDamage(projectile.getDamage() + modifier);

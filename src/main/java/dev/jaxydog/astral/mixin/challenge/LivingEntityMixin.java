@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.mixin.challenge;
 
-import dev.jaxydog.astral.utility.ChallengeHelper;
+import dev.jaxydog.astral.utility.ChallengeUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
@@ -18,19 +18,19 @@ public abstract class LivingEntityMixin {
 	/** Stores whether or not the entity needs to reset its health; should only be true if the gamerules are updated or when the entity is first spawned */
 	private boolean shouldResetHealth = false;
 	/** Stores the previously used health additive value to check whether the entity's health should be updated */
-	private int lastHealthAdditive = ChallengeHelper.getHealthAdditive(((LivingEntity) (Object) this).getWorld());
+	private int lastHealthAdditive = ChallengeUtil.getHealthAdditive(((LivingEntity) (Object) this).getWorld());
 	/** Stores the previously used chunk step value to check whether the entity's health should be updated */
-	private int lastChunkStep = ChallengeHelper.getChunkStep(((LivingEntity) (Object) this).getWorld());
+	private int lastChunkStep = ChallengeUtil.getChunkStep(((LivingEntity) (Object) this).getWorld());
 
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
 		var self = (LivingEntity) (Object) this;
 
-		if (!(self instanceof MobEntity) || !ChallengeHelper.isEnabled(self.getWorld())) return;
+		if (!(self instanceof MobEntity) || !ChallengeUtil.isEnabled(self.getWorld())) return;
 
-		var additive = ChallengeHelper.getHealthAdditive(self.getWorld());
-		var chunkStep = ChallengeHelper.getChunkStep(self.getWorld());
+		var additive = ChallengeUtil.getHealthAdditive(self.getWorld());
+		var chunkStep = ChallengeUtil.getChunkStep(self.getWorld());
 
 		if (this.lastHealthAdditive != additive) {
 			this.shouldResetHealth = true;
@@ -42,7 +42,7 @@ public abstract class LivingEntityMixin {
 		}
 
 		var unscaled = self.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
-		var modifier = ChallengeHelper.getChallengeModifier(self, chunkStep, additive);
+		var modifier = ChallengeUtil.getChallengeModifier(self, chunkStep, additive);
 
 		callbackInfo.setReturnValue((float) (unscaled + modifier));
 	}
@@ -56,7 +56,7 @@ public abstract class LivingEntityMixin {
 
 		var maxHealth = self.getMaxHealth();
 
-		if (!ChallengeHelper.isEnabled(self.getWorld())) {
+		if (!ChallengeUtil.isEnabled(self.getWorld())) {
 			if (self.getHealth() > maxHealth) this.setHealthData(maxHealth);
 			this.shouldResetHealth = true;
 		} else if (this.shouldResetHealth) {
