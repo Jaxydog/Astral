@@ -11,7 +11,11 @@
 		"challenge.CreeperEntityMixin",
 		"challenge.LivingEntityAccessor",
 		"challenge.LivingEntityMixin",
-		"challenge.MobEntityMixin"
+		"challenge.MobEntityMixin",
+		"ArmorFeatureRendererInvoker",
+		"ArmorFeatureRendererMixin",
+		"ArmorItemMixin",
+		"ItemMixin"
 	],
 	"client": [],
 	"server": [],
