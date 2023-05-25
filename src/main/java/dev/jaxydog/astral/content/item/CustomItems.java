@@ -42,7 +42,7 @@ public final class CustomItems {
 	);
 	public static final CloudItem CLOUDY_MANE = new CloudItem("cloudy_mane", new Settings().rarity(Rarity.UNCOMMON));
 	public static final SetHelper<CloudArmorItem> CLOUD_ARMOR = new SetHelper<>(
-		"cloud",
+		"cloudy",
 		(id, type) ->
 			new CloudArmorItem(
 				id,
