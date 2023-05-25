@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.utility.Registerable;
+import dev.jaxydog.astral.utility.register.Registerable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;

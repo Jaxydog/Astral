@@ -7,8 +7,8 @@ import dev.jaxydog.astral.content.item.custom.CloudItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyRewardItem;
 import dev.jaxydog.astral.content.item.custom.CurrencySkeletonItem;
-import dev.jaxydog.astral.utility.AutoRegister;
 import dev.jaxydog.astral.utility.DyeableSet;
+import dev.jaxydog.astral.utility.register.AutoRegister;
 import java.util.HashMap;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -82,4 +82,6 @@ public class CustomItems {
 		CustomBlocks.RANDOMIZER,
 		new Settings().rarity(Rarity.UNCOMMON)
 	);
+
+	private CustomItems() {}
 }

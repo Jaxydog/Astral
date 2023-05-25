@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.block;
 
-import dev.jaxydog.astral.utility.Registerable;
+import dev.jaxydog.astral.utility.register.Registerable;
 import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

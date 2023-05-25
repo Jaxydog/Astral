@@ -1,7 +1,7 @@
 package dev.jaxydog.astral.content.item;
 
 import dev.jaxydog.astral.Astral;
-import dev.jaxydog.astral.utility.Registerable;
+import dev.jaxydog.astral.utility.register.Registerable;
 import java.util.List;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;

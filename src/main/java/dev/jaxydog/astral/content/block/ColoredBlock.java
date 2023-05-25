@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.block;
 
-import dev.jaxydog.astral.utility.Registerable;
+import dev.jaxydog.astral.utility.register.Registerable;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;

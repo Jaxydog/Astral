@@ -1,6 +1,6 @@
 package dev.jaxydog.astral;
 
-import dev.jaxydog.astral.utility.AutoRegisterImpl;
+import dev.jaxydog.astral.utility.register.AutoRegisterImpl;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class Astral implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		AutoRegisterImpl.autoRegisterMain();
+		AutoRegisterImpl.runMain();
 		Astral.LOGGER.info("Astral has loaded! Thanks for playing with us <3");
 	}
 }

@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content;
 
-import dev.jaxydog.astral.utility.AutoRegister;
+import dev.jaxydog.astral.utility.register.AutoRegister;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.GameRules.BooleanRule;
@@ -36,4 +36,6 @@ public class CustomGamerules {
 		Category.MOBS,
 		GameRuleFactory.createIntRule(1)
 	);
+
+	private CustomGamerules() {}
 }

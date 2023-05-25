@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.enchantment;
 
-import dev.jaxydog.astral.utility.Registerable;
+import dev.jaxydog.astral.utility.register.Registerable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

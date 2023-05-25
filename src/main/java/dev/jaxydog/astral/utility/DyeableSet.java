@@ -1,5 +1,6 @@
 package dev.jaxydog.astral.utility;
 
+import dev.jaxydog.astral.utility.register.Registerable;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 import net.minecraft.util.DyeColor;
