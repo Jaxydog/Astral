@@ -7,6 +7,9 @@ import dev.jaxydog.astral.content.data.CustomData;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.enchantment.CustomEnchantments;
 import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.power.CustomActions;
+import dev.jaxydog.astral.content.power.CustomConditions;
+import dev.jaxydog.astral.content.power.CustomPowers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import net.fabricmc.api.EnvType;
@@ -17,11 +20,14 @@ public final class AutoRegisterImpl {
 
 	/** The classes that should be automatically checked for registerable values */
 	public static final Class<?>[] DEFINITIONS_CLASSES = new Class<?>[] {
+		CustomActions.class,
 		CustomBlocks.class,
+		CustomConditions.class,
 		CustomData.class,
 		CustomEnchantments.class,
 		CustomGamerules.class,
 		CustomItems.class,
+		CustomPowers.class,
 		CustomStatusEffects.class,
 	};
 
