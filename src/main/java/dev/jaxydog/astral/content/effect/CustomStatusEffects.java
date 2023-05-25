@@ -4,4 +4,7 @@ import dev.jaxydog.astral.utility.register.AutoRegister;
 
 /** Contains definitions for all custom status effects */
 @AutoRegister
-public class CustomStatusEffects {}
+public class CustomStatusEffects {
+
+	private CustomStatusEffects() {}
+}
