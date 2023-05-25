@@ -29,10 +29,9 @@ public class DyeableSet<T extends Registerable> implements Registerable.Client, 
 		return this.MAP.get(color);
 	}
 
-	/** Always returns null; this should not be used */
 	@Override
 	public String getRawId() {
-		return null;
+		throw new UnsupportedOperationException("the 'DyeableSet' class does not have its own identifier");
 	}
 
 	@Override
