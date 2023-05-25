@@ -3,7 +3,6 @@ package dev.jaxydog.astral.content.item;
 import dev.jaxydog.astral.utility.register.Registerable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.BiFunction;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
@@ -82,19 +81,20 @@ public abstract class CustomArmorItem extends ArmorItem implements Registerable.
 		}
 
 		/** Returns the set's armor item for the given armor type */
-		public Optional<T> get(Type type) {
-			return Optional.ofNullable(this.MAP.get(type));
+		public T get(Type type) {
+			return this.MAP.get(type);
 		}
 
-		/** This always will return `null` and should not be used */
 		@Override
 		public String getRawId() {
-			return null;
+			throw new UnsupportedOperationException("the 'SetHelper' class does not have its own identifier");
 		}
 
 		@Override
 		public void registerClient() {
-			for (var value : this.MAP.values()) {
+			for (var type : Type.values()) {
+				var value = this.get(type);
+
 				if (!(value instanceof Registerable.Client)) continue;
 
 				((Registerable.Client) value).registerClient();
@@ -103,7 +103,9 @@ public abstract class CustomArmorItem extends ArmorItem implements Registerable.
 
 		@Override
 		public void registerMain() {
-			for (var value : this.MAP.values()) {
+			for (var type : Type.values()) {
+				var value = this.get(type);
+
 				if (!(value instanceof Registerable.Main)) continue;
 
 				((Registerable.Main) value).registerMain();
@@ -112,7 +114,9 @@ public abstract class CustomArmorItem extends ArmorItem implements Registerable.
 
 		@Override
 		public void registerServer() {
-			for (var value : this.MAP.values()) {
+			for (var type : Type.values()) {
+				var value = this.get(type);
+
 				if (!(value instanceof Registerable.Server)) continue;
 
 				((Registerable.Server) value).registerServer();
