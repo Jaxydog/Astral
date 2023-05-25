@@ -65,13 +65,13 @@ public abstract class CustomArmorItem extends ArmorItem implements Registerable.
 	}
 
 	/** Wraps an armor set and provides automatic registration */
-	public static class SetHelper<T extends CustomArmorItem>
+	public static class SetUtil<T extends CustomArmorItem>
 		implements Registerable.Client, Registerable.Main, Registerable.Server {
 
 		/** The set's inner map containing the value for each armor type */
 		private final HashMap<Type, T> MAP = new HashMap<>(Type.values().length);
 
-		public SetHelper(String baseRawId, BiFunction<String, Type, T> constructor) {
+		public SetUtil(String baseRawId, BiFunction<String, Type, T> constructor) {
 			for (var type : Type.values()) {
 				var id = baseRawId + "_" + type.getName();
 				var value = constructor.apply(id, type);

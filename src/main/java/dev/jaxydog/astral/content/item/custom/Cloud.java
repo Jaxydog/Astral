@@ -2,7 +2,7 @@ package dev.jaxydog.astral.content.item.custom;
 
 import dev.jaxydog.astral.Astral;
 import dev.jaxydog.astral.utility.ColorUtil;
-import dev.jaxydog.astral.utility.NbtHelper;
+import dev.jaxydog.astral.utility.NbtUtil;
 import java.util.Locale;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -41,7 +41,7 @@ public interface Cloud {
 
 	/** Returns the given stack's storminess value */
 	public default double getStorminessValue(ItemStack stack) {
-		return Cloud.normalizeStorminessValue(NbtHelper.getDouble(stack, Cloud.STORMINESS_KEY));
+		return Cloud.normalizeStorminessValue(NbtUtil.getDouble(stack, Cloud.STORMINESS_KEY));
 	}
 
 	/** Sets the given item stack's storminess value */

@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.utility.NbtHelper;
+import dev.jaxydog.astral.utility.NbtUtil;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,8 +18,8 @@ public interface Currency {
 
 	/** Returns whether the given item stack can be used in auto-crafting */
 	public static boolean isAutoCraftable(ItemStack stack) {
-		if (NbtHelper.contains(stack, Currency.AUTO_CRAFTABLE_KEY)) {
-			return NbtHelper.getBoolean(stack, Currency.AUTO_CRAFTABLE_KEY);
+		if (NbtUtil.contains(stack, Currency.AUTO_CRAFTABLE_KEY)) {
+			return NbtUtil.getBoolean(stack, Currency.AUTO_CRAFTABLE_KEY);
 		} else {
 			return true;
 		}
@@ -32,12 +32,12 @@ public interface Currency {
 
 	/** Returns the given item stack's custom identifier */
 	public static int getStackId(ItemStack stack) {
-		return NbtHelper.getInt(stack, NbtHelper.CUSTOM_MODEL_DATA_KEY);
+		return NbtUtil.getInt(stack, NbtUtil.CUSTOM_MODEL_DATA_KEY);
 	}
 
 	/** Sets the given item stack's custom identifier */
 	public static void setStackId(ItemStack stack, int id) {
-		stack.getOrCreateNbt().putInt(NbtHelper.CUSTOM_MODEL_DATA_KEY, id);
+		stack.getOrCreateNbt().putInt(NbtUtil.CUSTOM_MODEL_DATA_KEY, id);
 	}
 
 	/** Sets the given item stack's custom identifier */

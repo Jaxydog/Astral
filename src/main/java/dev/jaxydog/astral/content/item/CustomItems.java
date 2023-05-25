@@ -1,7 +1,7 @@
 package dev.jaxydog.astral.content.item;
 
 import dev.jaxydog.astral.content.block.CustomBlocks;
-import dev.jaxydog.astral.content.item.CustomArmorItem.SetHelper;
+import dev.jaxydog.astral.content.item.CustomArmorItem.SetUtil;
 import dev.jaxydog.astral.content.item.custom.CloudArmorItem;
 import dev.jaxydog.astral.content.item.custom.CloudItem;
 import dev.jaxydog.astral.content.item.custom.CurrencyItem;
@@ -41,7 +41,7 @@ public final class CustomItems {
 		new Settings().rarity(Rarity.UNCOMMON)
 	);
 	public static final CloudItem CLOUDY_MANE = new CloudItem("cloudy_mane", new Settings().rarity(Rarity.UNCOMMON));
-	public static final SetHelper<CloudArmorItem> CLOUD_ARMOR = new SetHelper<>(
+	public static final SetUtil<CloudArmorItem> CLOUD_ARMOR = new SetUtil<>(
 		"cloudy",
 		(id, type) ->
 			new CloudArmorItem(

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus.NonExtendable;
 
 /** Provides utility methods to safely interact with an item stack's NBT data */
 @NonExtendable
-public interface NbtHelper {
+public interface NbtUtil {
 	/** The NBT key that corresponds to the built-in custom model data renderer */
 	public static final String CUSTOM_MODEL_DATA_KEY = "CustomModelData";
 
@@ -43,7 +43,7 @@ public interface NbtHelper {
 
 	/** Returns the boolean stored at the provided key, defaulted to `false` */
 	public static boolean getBoolean(ItemStack stack, String key) {
-		return NbtHelper.getByte(stack, key) != 0;
+		return NbtUtil.getByte(stack, key) != 0;
 	}
 
 	/** Returns the byte stored at the provided key, defaulted to `0` */

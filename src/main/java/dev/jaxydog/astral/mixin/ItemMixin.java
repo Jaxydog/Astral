@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.astral.utility.NbtHelper;
+import dev.jaxydog.astral.utility.NbtUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,8 +16,8 @@ public abstract class ItemMixin {
 
 	@Inject(method = "hasGlint", at = @At("HEAD"), cancellable = true)
 	private void hasGlintInject(ItemStack stack, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (NbtHelper.contains(stack, ItemMixin.SET_GLINT_KEY)) {
-			callbackInfo.setReturnValue(NbtHelper.getBoolean(stack, ItemMixin.SET_GLINT_KEY));
+		if (NbtUtil.contains(stack, ItemMixin.SET_GLINT_KEY)) {
+			callbackInfo.setReturnValue(NbtUtil.getBoolean(stack, ItemMixin.SET_GLINT_KEY));
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package dev.jaxydog.astral.content.item.custom;
 
 import dev.jaxydog.astral.content.item.ColoredItem;
-import dev.jaxydog.astral.utility.NbtHelper;
+import dev.jaxydog.astral.utility.NbtUtil;
 import java.util.List;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
@@ -47,7 +47,7 @@ public class CloudItem extends ColoredItem implements Cloud {
 
 	@Override
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-		if (!NbtHelper.contains(stack, Cloud.STORMINESS_KEY)) {
+		if (!NbtUtil.contains(stack, Cloud.STORMINESS_KEY)) {
 			this.setStorminessValue(stack, Cloud.MIN_STORMINESS);
 		}
 
