@@ -37,27 +37,27 @@ public class DyeableSet<T extends Registerable> implements Registerable.Client, 
 	@Override
 	public void registerClient() {
 		for (var value : this.MAP.values()) {
-			if (!(value instanceof Registerable.Client)) continue;
-
-			((Registerable.Client) value).registerClient();
+			if (value instanceof Registerable.Client client) {
+				client.registerClient();
+			}
 		}
 	}
 
 	@Override
 	public void registerMain() {
 		for (var value : this.MAP.values()) {
-			if (!(value instanceof Registerable.Main)) continue;
-
-			((Registerable.Main) value).registerMain();
+			if (value instanceof Registerable.Main main) {
+				main.registerMain();
+			}
 		}
 	}
 
 	@Override
 	public void registerServer() {
 		for (var value : this.MAP.values()) {
-			if (!(value instanceof Registerable.Server)) continue;
-
-			((Registerable.Server) value).registerServer();
+			if (value instanceof Registerable.Server server) {
+				server.registerServer();
+			}
 		}
 	}
 }

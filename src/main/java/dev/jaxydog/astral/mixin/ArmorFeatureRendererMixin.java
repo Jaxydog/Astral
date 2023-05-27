@@ -33,10 +33,7 @@ public abstract class ArmorFeatureRendererMixin {
 		var invoker = (ArmorFeatureRendererInvoker) self;
 		var stack = ((LivingEntity) entity).getEquippedStack(slot);
 
-		if (!(stack.getItem() instanceof CustomArmorItem)) return;
-
-		var item = (CustomArmorItem) stack.getItem();
-
+		if (!(stack.getItem() instanceof CustomArmorItem item)) return;
 		if (item.getSlotType() != slot) return;
 
 		self.getContextModel().copyBipedStateTo(model);
@@ -46,9 +43,9 @@ public abstract class ArmorFeatureRendererMixin {
 		var glint = stack.hasGlint();
 		var inner = invoker.invokeUsesInnerModel(slot);
 
-		if (item instanceof ColoredArmorItem) {
+		if (item instanceof ColoredArmorItem colored) {
 			for (var index = 0; index < layers; index += 1) {
-				var color = ColorUtil.RGB.from(((ColoredArmorItem) item).getColor(stack, index));
+				var color = ColorUtil.RGB.from(colored.getColor(stack, index));
 
 				var r = color.getR();
 				var g = color.getG();
