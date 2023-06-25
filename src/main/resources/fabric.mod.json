@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "astral",
+	"version": "${version}",
+	"name": "Astral",
+	"description": "An addon mod for Astral SMP that provides tons of custom content!\n\nSorry, no leaks here <3",
+	"authors": ["Jaxydog", "Rat Throttleman"],
+	"contact": {
+		"sources": "https://github.com/Jaxydog/Astral",
+		"issues": "https://github.com/Jaxydog/Astral/issues"
+	},
+	"license": "ISC",
+	"icon": "assets/astral/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["dev.jaxydog.Astral"],
+		"client": ["dev.jaxydog.AstralClient"],
+		"server": ["dev.jaxydog.AstralServer"],
+		"fabric-datagen": ["dev.jaxydog.AstralDataGenerator"]
+	},
+	"mixins": ["astral.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": { "cheese": ">=1.2.0" }
+}

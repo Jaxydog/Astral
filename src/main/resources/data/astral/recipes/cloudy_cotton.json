@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "astral:cloudy_mane"
+		},
+		{
+			"item": "astral:cloudy_mane"
+		},
+		{
+			"item": "astral:cloudy_mane"
+		},
+		{
+			"item": "astral:cloudy_mane"
+		}
+	],
+	"result": {
+		"item": "astral:cloudy_cotton",
+		"count": 1
+	}
+}

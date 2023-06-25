@@ -1,0 +1,23 @@
+{
+	"required": true,
+	"package": "dev.jaxydog.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"bonemeal.CactusBlockMixin",
+		"bonemeal.NetherWartBlockMixin",
+		"bonemeal.SugarCaneBlockMixin",
+		"challenge.AbstractSkeletonEntityMixin",
+		"challenge.CreeperEntityMixin",
+		"challenge.LivingEntityAccessor",
+		"challenge.LivingEntityMixin",
+		"challenge.MobEntityMixin",
+		"ArmorItemMixin",
+		"ItemMixin"
+	],
+	"client": [
+		"ArmorFeatureRendererInvoker",
+		"ArmorFeatureRendererMixin"
+	],
+	"server": [],
+	"injectors": { "defaultRequire": 1 }
+}

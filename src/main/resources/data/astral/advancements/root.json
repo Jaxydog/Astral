@@ -1,0 +1,15 @@
+{
+	"display": {
+		"title": { "translate": "advancements.astral.root.title" },
+		"description": { "translate": "advancements.astral.root.description" },
+		"icon": { "item": "minecraft:nether_star" },
+		"background": "astral:textures/gui/advancements/backgrounds/root.png",
+		"frame": "challenge",
+		"announce_to_chat": false,
+		"show_toast": false,
+		"hidden": false
+	},
+	"criteria": {
+		"exist": { "trigger": "minecraft:tick" }
+	}
+}

@@ -1,0 +1,425 @@
+{
+	"hidden": true,
+	"type": "origins:multiple",
+	"exist_underwater_resource": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 86400,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:exist_underwater"
+		}
+	},
+	"exist_underwater_update": {
+		"type": "origins:action_over_time",
+		"interval": 20,
+		"entity_action": {
+			"type": "origins:change_resource",
+			"resource": "*:*_exist_underwater_resource",
+			"operation": "add",
+			"change": 1
+		},
+		"condition": {
+			"type": "origins:and",
+			"conditions": [
+				{
+					"type": "origins:advancement",
+					"advancement": "astral:exist_underwater",
+					"inverted": true
+				},
+				{
+					"type": "origins:submerged_in",
+					"fluid": "minecraft:water"
+				}
+			]
+		}
+	},
+	"guys_being_dudes": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 7200,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:guys_being_dudes"
+		}
+	},
+	"guys_being_dudes_update": {
+		"type": "origins:action_over_time",
+		"interval": 20,
+		"entity_action": {
+			"type": "origins:change_resource",
+			"resource": "*:*_guys_being_dudes_resource",
+			"operation": "add",
+			"change": 1
+		},
+		"falling_action": {
+			"type": "origins:if_else",
+			"condition": {
+				"type": "origins:advancement",
+				"advancement": "astral:guys_being_dudes",
+				"inverted": true
+			},
+			"if_action": {
+				"type": "origins:change_resource",
+				"resource": "*:*_guys_being_dudes_resource",
+				"operation": "set",
+				"change": 0
+			}
+		},
+		"condition": {
+			"type": "origins:and",
+			"conditions": [
+				{
+					"type": "origins:advancement",
+					"advancement": "astral:guys_being_dudes",
+					"inverted": true
+				},
+				{
+					"type": "origins:command",
+					"command": "execute if entity @e[type = minecraft:player, distance = ..32]",
+					"comparison": ">=",
+					"compare_to": 3
+				}
+			]
+		}
+	},
+	"kill_birds_resource": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 3,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:kill_birds"
+		}
+	},
+	"kill_birds_killed_ghast": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 1,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:change_resource",
+			"resource": "*:*_kill_birds_resource",
+			"change": 1
+		}
+	},
+	"kill_birds_killed_phantom": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 1,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:change_resource",
+			"resource": "*:*_kill_birds_resource",
+			"change": 1
+		}
+	},
+	"kill_birds_killed_apollian": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 1,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:change_resource",
+			"resource": "*:*_kill_birds_resource",
+			"change": 1
+		}
+	},
+	"kill_birds_update": {
+		"type": "origins:modify_damage_dealt",
+		"bientity_action": {
+			"type": "origins:if_else_list",
+			"actions": [
+				{
+					"condition": {
+						"type": "origins:and",
+						"conditions": [
+							{
+								"type": "origins:actor_condition",
+								"condition": {
+									"type": "origins:resource",
+									"resource": "*:*_kill_birds_killed_ghast",
+									"comparison": "==",
+									"compare_to": 0
+								}
+							},
+							{
+								"type": "origins:target_condition",
+								"condition": {
+									"type": "origins:entity_type",
+									"entity_type": "minecraft:ghast"
+								}
+							}
+						]
+					},
+					"action": {
+						"type": "origins:actor_action",
+						"action": {
+							"type": "origins:and",
+							"actions": [
+								{
+									"type": "origins:change_resource",
+									"resource": "*:*_kill_birds_killed_ghast",
+									"operation": "set",
+									"change": 1
+								},
+								{
+									"type": "origins:change_resource",
+									"resource": "*:*_kill_birds_resource",
+									"operation": "add",
+									"change": 1
+								}
+							]
+						}
+					}
+				},
+				{
+					"condition": {
+						"type": "origins:and",
+						"conditions": [
+							{
+								"type": "origins:actor_condition",
+								"condition": {
+									"type": "origins:resource",
+									"resource": "*:*_kill_birds_killed_phantom",
+									"comparison": "==",
+									"compare_to": 0
+								}
+							},
+							{
+								"type": "origins:target_condition",
+								"condition": {
+									"type": "origins:entity_type",
+									"entity_type": "minecraft:phantom"
+								}
+							}
+						]
+					},
+					"action": {
+						"type": "origins:actor_action",
+						"action": {
+							"type": "origins:and",
+							"actions": [
+								{
+									"type": "origins:change_resource",
+									"resource": "*:*_kill_birds_killed_phantom",
+									"operation": "set",
+									"change": 1
+								},
+								{
+									"type": "origins:change_resource",
+									"resource": "*:*_kill_birds_resource",
+									"operation": "add",
+									"change": 1
+								}
+							]
+						}
+					}
+				},
+				{
+					"condition": {
+						"type": "origins:and",
+						"conditions": [
+							{
+								"type": "origins:actor_condition",
+								"condition": {
+									"type": "origins:resource",
+									"resource": "*:*_kill_birds_killed_apollian",
+									"comparison": "==",
+									"compare_to": 0
+								}
+							},
+							{
+								"type": "origins:target_condition",
+								"condition": {
+									"type": "origins:or",
+									"conditions": [
+										{
+											"type": "origins:origin",
+											"origin": "apollian:apollian"
+										},
+										{
+											"type": "origins:origin",
+											"origin": "apollian:apollianup"
+										}
+									]
+								}
+							}
+						]
+					},
+					"action": {
+						"type": "origins:actor_action",
+						"action": {
+							"type": "origins:and",
+							"actions": [
+								{
+									"type": "origins:change_resource",
+									"resource": "*:*_kill_birds_killed_apollian",
+									"operation": "set",
+									"change": 1
+								},
+								{
+									"type": "origins:change_resource",
+									"resource": "*:*_kill_birds_resource",
+									"operation": "add",
+									"change": 1
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		"bientity_condition": {
+			"type": "origins:target_condition",
+			"condition": {
+				"type": "origins:health",
+				"comparison": "<=",
+				"compare_to": 0
+			}
+		},
+		"condition": {
+			"type": "origins:advancement",
+			"advancement": "astral:kill_birds",
+			"inverted": true
+		}
+	},
+	"kill_dad": {
+		"type": "origins:self_action_on_kill",
+		"cooldown": 1,
+		"entity_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:kill_dad"
+		},
+		"target_condition": {
+			"type": "origins:command",
+			"command": "execute if entity @s[name=candygoust]",
+			"comparison": "!=",
+			"compare_to": 0
+		},
+		"condition": {
+			"type": "origins:advancement",
+			"advancement": "astral:kill_dad",
+			"inverted": true
+		}
+	},
+	"kill_man": {
+		"type": "origins:self_action_on_kill",
+		"cooldown": 1,
+		"entity_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:kill_man"
+		},
+		"target_condition": {
+			"type": "origins:command",
+			"command": "execute if entity @s[name=___Hollow_]",
+			"comparison": "!=",
+			"compare_to": 0
+		},
+		"condition": {
+			"type": "origins:advancement",
+			"advancement": "astral:kill_man",
+			"inverted": true
+		}
+	},
+	"maws_hate_it_resource": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 2,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:maws_hate_it"
+		}
+	},
+	"maws_hate_it_update": {
+		"type": "origins:modify_crafting",
+		"recipe": "minecraft:beacon",
+		"entity_action": {
+			"type": "origins:change_resource",
+			"resource": "*:*_maws_hate_it_resource",
+			"operation": "add",
+			"change": 1
+		},
+		"condition": {
+			"type": "origins:advancement",
+			"advancement": "astral:maws_hate_it",
+			"inverted": true
+		}
+	},
+	"ravaged_resource": {
+		"type": "origins:resource",
+		"min": 0,
+		"max": 5,
+		"hud_render": { "should_render": false },
+		"max_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:ravaged"
+		}
+	},
+	"ravaged_update": {
+		"type": "origins:modify_damage_dealt",
+		"bientity_action": {
+			"type": "origins:actor_action",
+			"action": {
+				"type": "origins:change_resource",
+				"resource": "*:*_ravaged_resource",
+				"operation": "add",
+				"change": 1
+			}
+		},
+		"bientity_condition": {
+			"type": "origins:target_condition",
+			"condition": {
+				"type": "origins:and",
+				"conditions": [
+					{
+						"type": "origins:entity_type",
+						"entity_type": "minecraft:ravager"
+					},
+					{
+						"type": "origins:health",
+						"comparison": "<=",
+						"compare_to": 0
+					}
+				]
+			}
+		},
+		"condition": {
+			"type": "origins:advancement",
+			"advancement": "astral:ravaged",
+			"inverted": true
+		}
+	},
+	"survive_comical_smack": {
+		"type": "origins:action_when_damage_taken",
+		"cooldown": 1,
+		"entity_action": {
+			"type": "origins:execute_command",
+			"command": "advancement grant @s only astral:survive_comical_smack"
+		},
+		"damage_condition": {
+			"type": "origins:amount",
+			"comparison": ">=",
+			"compare_to": 30
+		},
+		"condition": {
+			"type": "origins:and",
+			"conditions": [
+				{
+					"type": "origins:advancement",
+					"advancement": "astral:survive_comical_smack",
+					"inverted": true
+				},
+				{
+					"type": "origins:health",
+					"comparison": ">",
+					"compare_to": 0
+				}
+			]
+		}
+	}
+}

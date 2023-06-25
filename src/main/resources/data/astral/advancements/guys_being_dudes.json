@@ -1,0 +1,15 @@
+{
+	"parent": "astral:root",
+	"display": {
+		"title": { "translate": "advancements.astral.guys_being_dudes.title" },
+		"description": { "translate": "advancements.astral.guys_being_dudes.description" },
+		"icon": { "item": "minecraft:grass_block" },
+		"frame": "goal",
+		"announce_to_chat": true,
+		"show_toast": true,
+		"hidden": false
+	},
+	"criteria": {
+		"or_gals_or_non_beanie_pals_heart_emoji": { "trigger": "minecraft:impossible" }
+	}
+}
