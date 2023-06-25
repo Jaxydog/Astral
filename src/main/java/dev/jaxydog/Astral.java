@@ -3,6 +3,7 @@ package dev.jaxydog;
 import dev.jaxydog.content.CustomContent;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -35,7 +36,16 @@ public final class Astral implements ModInitializer {
 
 		CustomContent.INSTANCE.registerMain();
 
-		Astral.LOGGER.info("Astral has loaded! Thank you for playing with us <3");
+		FabricLoader.getInstance().getModContainer(Astral.MOD_ID).ifPresentOrElse(mod -> {
+			final String version = mod.getMetadata().getVersion().getFriendlyString();
+			final String text = String.format("Astral v%s has loaded!", version);
+
+			Astral.LOGGER.info(text);
+		}, () -> {
+			Astral.LOGGER.info("Astral has loaded!");
+		});
+
+		Astral.LOGGER.info("Thank you for playing with us <3");
 	}
 
 }
