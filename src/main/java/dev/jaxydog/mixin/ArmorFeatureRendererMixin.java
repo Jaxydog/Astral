@@ -22,59 +22,59 @@ import net.minecraft.item.ItemStack;
 @Mixin(ArmorFeatureRenderer.class)
 public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extends BipedEntityModel<T>, A extends BipedEntityModel<T>> {
 
-    /** Returns the mixin's 'this' instance */
-    @SuppressWarnings("unchecked")
-    private final ArmorFeatureRenderer<T, M, A> self() {
-        return (ArmorFeatureRenderer<T, M, A>) (Object) this;
-    }
+	/** Returns the mixin's 'this' instance */
+	@SuppressWarnings("unchecked")
+	private final ArmorFeatureRenderer<T, M, A> self() {
+		return (ArmorFeatureRenderer<T, M, A>) (Object) this;
+	}
 
-    /** Returns the mixin's invoker */
-    private final ArmorFeatureRendererInvoker invoker() {
-        return (ArmorFeatureRendererInvoker) this.self();
-    }
+	/** Returns the mixin's invoker */
+	private final ArmorFeatureRendererInvoker invoker() {
+		return (ArmorFeatureRendererInvoker) this.self();
+	}
 
-    @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
-    private void renderArmorInject(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-            T entity, EquipmentSlot armorSlot, int light, A model, CallbackInfo callbackInfo) {
-        final ItemStack equipped = entity.getEquippedStack(armorSlot);
+	@Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
+	private void renderArmorInject(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+			T entity, EquipmentSlot armorSlot, int light, A model, CallbackInfo callbackInfo) {
+		final ItemStack equipped = entity.getEquippedStack(armorSlot);
 
-        if (!(equipped.getItem() instanceof CustomArmorItem armorItem)) {
-            return;
-        }
-        if (armorItem.getSlotType() != armorSlot) {
-            return;
-        }
+		if (!(equipped.getItem() instanceof CustomArmorItem armorItem)) {
+			return;
+		}
+		if (armorItem.getSlotType() != armorSlot) {
+			return;
+		}
 
-        final ArmorFeatureRenderer<T, M, A> self = this.self();
-        final ArmorFeatureRendererInvoker invoker = this.invoker();
+		final ArmorFeatureRenderer<T, M, A> self = this.self();
+		final ArmorFeatureRendererInvoker invoker = this.invoker();
 
-        self.getContextModel().copyBipedStateTo(model);
-        invoker.invokeSetVisible(model, armorSlot);
+		self.getContextModel().copyBipedStateTo(model);
+		invoker.invokeSetVisible(model, armorSlot);
 
-        final int layers = armorItem.getTextureLayers();
-        final boolean inner = invoker.invokeUsesInnerModel(armorSlot);
+		final int layers = armorItem.getTextureLayers();
+		final boolean inner = invoker.invokeUsesInnerModel(armorSlot);
 
-        for (int index = 0; index < layers; index += 1) {
-            final String label = String.valueOf(index);
-            final float r, g, b;
+		for (int index = 0; index < layers; index += 1) {
+			final String label = String.valueOf(index);
+			final float r, g, b;
 
-            if (armorItem instanceof ColoredArmorItem colored) {
-                RGB color = RGB.from(colored.getColor(equipped, index));
+			if (armorItem instanceof ColoredArmorItem colored) {
+				RGB color = RGB.from(colored.getColor(equipped, index));
 
-                r = ((float) color.getR()) / 255.0F;
-                g = ((float) color.getG()) / 255.0F;
-                b = ((float) color.getB()) / 255.0F;
-            } else {
-                r = 1.0F;
-                g = 1.0F;
-                b = 1.0F;
-            }
+				r = ((float) color.getR()) / 255.0F;
+				g = ((float) color.getG()) / 255.0F;
+				b = ((float) color.getB()) / 255.0F;
+			} else {
+				r = 1.0F;
+				g = 1.0F;
+				b = 1.0F;
+			}
 
-            invoker.invokeRenderArmorParts(matrices, vertexConsumers, light, armorItem, model,
-                    inner, r, g, b, label);
-        }
+			invoker.invokeRenderArmorParts(matrices, vertexConsumers, light, armorItem, model,
+					inner, r, g, b, label);
+		}
 
-        callbackInfo.cancel();
-    }
+		callbackInfo.cancel();
+	}
 
 }

@@ -17,18 +17,18 @@ import net.minecraft.item.ArmorItem;
 @Mixin(ArmorFeatureRenderer.class)
 public interface ArmorFeatureRendererInvoker {
 
-    /** Invokes the 'renderArmorParts' method */
-    @Invoker("renderArmorParts")
-    public void invokeRenderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-            int light, ArmorItem item, BipedEntityModel<?> model, boolean secondTextureLayer,
-            float red, float green, float blue, @Nullable String overlay);
+	/** Invokes the 'renderArmorParts' method */
+	@Invoker("renderArmorParts")
+	public void invokeRenderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+			int light, ArmorItem item, BipedEntityModel<?> model, boolean secondTextureLayer,
+			float red, float green, float blue, @Nullable String overlay);
 
-    /** Invokes the 'setVisible' method */
-    @Invoker("setVisible")
-    public void invokeSetVisible(BipedEntityModel<?> bipedModel, EquipmentSlot slot);
+	/** Invokes the 'setVisible' method */
+	@Invoker("setVisible")
+	public void invokeSetVisible(BipedEntityModel<?> bipedModel, EquipmentSlot slot);
 
-    /** Invokes the 'usesInnerModel' method */
-    @Invoker("usesInnerModel")
-    public boolean invokeUsesInnerModel(EquipmentSlot slot);
+	/** Invokes the 'usesInnerModel' method */
+	@Invoker("usesInnerModel")
+	public boolean invokeUsesInnerModel(EquipmentSlot slot);
 
 }

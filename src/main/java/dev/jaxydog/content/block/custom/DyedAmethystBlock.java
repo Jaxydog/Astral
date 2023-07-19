@@ -13,24 +13,24 @@ import net.minecraft.world.World;
 /** Implements dyed amethyst blocks */
 public class DyedAmethystBlock extends CustomBlock {
 
-    public DyedAmethystBlock(String rawId, Settings settings) {
-        super(rawId, settings);
-    }
+	public DyedAmethystBlock(String rawId, Settings settings) {
+		super(rawId, settings);
+	}
 
-    private void playChimeSound(World world, BlockPos pos, SoundEvent sound) {
-        world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0f,
-                0.5f + world.random.nextFloat() * 1.2f);
-    }
+	private void playChimeSound(World world, BlockPos pos, SoundEvent sound) {
+		world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0f,
+				0.5f + world.random.nextFloat() * 1.2f);
+	}
 
-    @Override
-    public void onProjectileHit(World world, BlockState state, BlockHitResult hit,
-            ProjectileEntity projectile) {
-        if (!world.isClient) {
-            var pos = hit.getBlockPos();
+	@Override
+	public void onProjectileHit(World world, BlockState state, BlockHitResult hit,
+			ProjectileEntity projectile) {
+		if (!world.isClient) {
+			var pos = hit.getBlockPos();
 
-            this.playChimeSound(world, pos, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT);
-            this.playChimeSound(world, pos, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME);
-        }
-    }
+			this.playChimeSound(world, pos, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT);
+			this.playChimeSound(world, pos, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME);
+		}
+	}
 
 }

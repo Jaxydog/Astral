@@ -16,126 +16,126 @@ import net.minecraft.world.World;
 /** Extends a custom item and implements the basic currency system */
 public class CurrencyItem extends CustomItem implements Currency {
 
-    public CurrencyItem(String rawId, Settings settings) {
-        super(rawId, settings);
-    }
+	public CurrencyItem(String rawId, Settings settings) {
+		super(rawId, settings);
+	}
 
-    /** Returns the item's default stack with the given currency value and combinable setting */
-    public ItemStack getDefaultStack(Unit unit, boolean isCombinable) {
-        ItemStack stack = new ItemStack(this);
+	/** Returns the item's default stack with the given currency value and combinable setting */
+	public ItemStack getDefaultStack(Unit unit, boolean isCombinable) {
+		ItemStack stack = new ItemStack(this);
 
-        this.setUnit(stack, unit);
-        this.setCombinable(stack, isCombinable);
+		this.setUnit(stack, unit);
+		this.setCombinable(stack, isCombinable);
 
-        return stack;
-    }
+		return stack;
+	}
 
-    @Override
-    public ItemStack getDefaultStack() {
-        return this.getDefaultStack(Unit.SHARD, true);
-    }
+	@Override
+	public ItemStack getDefaultStack() {
+		return this.getDefaultStack(Unit.SHARD, true);
+	}
 
-    /** Returns the total number of generated rewards for the current combine process */
-    public int getTotalRewards(Random random, Unit unit, int totalCrafted, double chance) {
-        if (!Currency.REWARDABLE.contains(unit)) {
-            return 0;
-        }
+	/** Returns the total number of generated rewards for the current combine process */
+	public int getTotalRewards(Random random, Unit unit, int totalCrafted, double chance) {
+		if (!Currency.REWARDABLE.contains(unit)) {
+			return 0;
+		}
 
-        int totalRewards = 0;
+		int totalRewards = 0;
 
-        for (int _index = 0; _index < totalCrafted; _index += 1) {
-            if (random.nextDouble() < chance) {
-                totalRewards += 1;
-            }
-        }
+		for (int _index = 0; _index < totalCrafted; _index += 1) {
+			if (random.nextDouble() < chance) {
+				totalRewards += 1;
+			}
+		}
 
-        return totalRewards;
-    }
+		return totalRewards;
+	}
 
-    @Override
-    public String getTranslationKey(ItemStack stack) {
-        int id = this.getUnit(stack).map(Unit::getId)
-                .orElseGet(() -> this.getCustomModelData(stack));
+	@Override
+	public String getTranslationKey(ItemStack stack) {
+		int id = this.getUnit(stack).map(Unit::getId)
+				.orElseGet(() -> this.getCustomModelData(stack));
 
-        return super.getTranslationKey(stack) + "." + id;
-    }
+		return super.getTranslationKey(stack) + "." + id;
+	}
 
-    @Override
-    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-        this.setCombinable(stack, false);
+	@Override
+	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+		this.setCombinable(stack, false);
 
-        super.onCraft(stack, world, player);
-    }
+		super.onCraft(stack, world, player);
+	}
 
-    @Override
-    public void tryCombine(PlayerEntity player, ItemStack stack) {
-        final Unit unit, next;
+	@Override
+	public void tryCombine(PlayerEntity player, ItemStack stack) {
+		final Unit unit, next;
 
-        try {
-            unit = this.getUnit(stack).get();
-            next = unit.getNext().get();
-        } catch (NoSuchElementException _exception) {
-            return;
-        }
+		try {
+			unit = this.getUnit(stack).get();
+			next = unit.getNext().get();
+		} catch (NoSuchElementException _exception) {
+			return;
+		}
 
-        final PlayerInventory inventory = player.getInventory();
-        final int costForOne = next.getShards() / unit.getShards();
+		final PlayerInventory inventory = player.getInventory();
+		final int costForOne = next.getShards() / unit.getShards();
 
-        int validItems = 0;
+		int validItems = 0;
 
-        for (int slot = 0; slot < inventory.size(); slot += 1) {
-            ItemStack content = inventory.getStack(slot);
+		for (int slot = 0; slot < inventory.size(); slot += 1) {
+			ItemStack content = inventory.getStack(slot);
 
-            if (this.validateStack(content, unit)) {
-                validItems += content.getCount();
-            }
-        }
+			if (this.validateStack(content, unit)) {
+				validItems += content.getCount();
+			}
+		}
 
-        if (validItems < costForOne) {
-            return;
-        }
+		if (validItems < costForOne) {
+			return;
+		}
 
-        final Random random = player.getRandom();
-        final GameRules gamerules = player.getWorld().getGameRules();
-        final double rewardChance = gamerules.get(CustomGamerules.CURRENCY_REWARD_CHANCE).get();
+		final Random random = player.getRandom();
+		final GameRules gamerules = player.getWorld().getGameRules();
+		final double rewardChance = gamerules.get(CustomGamerules.CURRENCY_REWARD_CHANCE).get();
 
-        final int totalCrafted = validItems / costForOne;
-        final int totalRewards = this.getTotalRewards(random, unit, totalCrafted, rewardChance);
-        final int costForAll = totalCrafted * costForOne;
+		final int totalCrafted = validItems / costForOne;
+		final int totalRewards = this.getTotalRewards(random, unit, totalCrafted, rewardChance);
+		final int costForAll = totalCrafted * costForOne;
 
-        for (int remaining = totalCrafted; remaining > 0; remaining -= this.getMaxCount()) {
-            ItemStack combined = this.getDefaultStack(next, true);
+		for (int remaining = totalCrafted; remaining > 0; remaining -= this.getMaxCount()) {
+			ItemStack combined = this.getDefaultStack(next, true);
 
-            combined.setCount(Math.min(remaining, combined.getMaxCount()));
-            inventory.offerOrDrop(combined);
-        }
+			combined.setCount(Math.min(remaining, combined.getMaxCount()));
+			inventory.offerOrDrop(combined);
+		}
 
-        for (int remaining = totalRewards; remaining > 0; remaining -= 1) {
-            Set<Integer> ids = CurrencyRewardItem.Recipe.listRewardIds();
-            int id = ((Integer[]) ids.toArray())[random.nextInt(ids.size())];
-            ItemStack reward = CustomItems.CURRENCY_REWARD.getDefaultStack(id);
+		for (int remaining = totalRewards; remaining > 0; remaining -= 1) {
+			Set<Integer> ids = CurrencyRewardItem.Recipe.listRewardIds();
+			int id = ((Integer[]) ids.toArray())[random.nextInt(ids.size())];
+			ItemStack reward = CustomItems.CURRENCY_REWARD.getDefaultStack(id);
 
-            inventory.offerOrDrop(reward);
-        }
+			inventory.offerOrDrop(reward);
+		}
 
-        final Inventory crafting = player.playerScreenHandler.getCraftingInput();
+		final Inventory crafting = player.playerScreenHandler.getCraftingInput();
 
-        inventory.remove(content -> this.validateStack(content, unit), costForAll, crafting);
-    }
+		inventory.remove(content -> this.validateStack(content, unit), costForAll, crafting);
+	}
 
-    /** Returns whether the given item stack is a valid combinable currency of the given unit */
-    private boolean validateStack(ItemStack stack, Unit unit) {
-        if (!(stack.getItem() instanceof Currency currency)) {
-            return false;
-        }
-        if (!currency.isCombinable(stack)) {
-            return false;
-        }
-        if (currency.getUnit(stack).filter(u -> u == unit).isEmpty()) {
-            return false;
-        }
+	/** Returns whether the given item stack is a valid combinable currency of the given unit */
+	private boolean validateStack(ItemStack stack, Unit unit) {
+		if (!(stack.getItem() instanceof Currency currency)) {
+			return false;
+		}
+		if (!currency.isCombinable(stack)) {
+			return false;
+		}
+		if (currency.getUnit(stack).filter(u -> u == unit).isEmpty()) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 }

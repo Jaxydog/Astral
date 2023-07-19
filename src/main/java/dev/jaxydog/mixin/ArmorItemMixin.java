@@ -25,34 +25,34 @@ import net.minecraft.item.Item.Settings;
 @Mixin(ArmorItem.class)
 public abstract class ArmorItemMixin {
 
-    @Shadow
-    @Final
-    private static EnumMap<Type, UUID> MODIFIERS;
+	@Shadow
+	@Final
+	private static EnumMap<Type, UUID> MODIFIERS;
 
-    @Shadow
-    @Final
-    @Mutable
-    private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+	@Shadow
+	@Final
+	@Mutable
+	private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
-    @Shadow
-    @Final
-    private float knockbackResistance;
+	@Shadow
+	@Final
+	private float knockbackResistance;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void constructor(ArmorMaterial material, Type type, Settings settings,
-            CallbackInfo info) {
-        if (!(material instanceof CustomArmorMaterial)) {
-            return;
-        }
+	@Inject(method = "<init>", at = @At("RETURN"))
+	private void constructor(ArmorMaterial material, Type type, Settings settings,
+			CallbackInfo info) {
+		if (!(material instanceof CustomArmorMaterial)) {
+			return;
+		}
 
-        UUID uuid = MODIFIERS.get(type);
-        var builder = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder();
-        EntityAttributeModifier modifier = new EntityAttributeModifier(uuid,
-                "Armor knockback resistance", this.knockbackResistance, Operation.ADDITION);
+		UUID uuid = MODIFIERS.get(type);
+		var builder = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder();
+		EntityAttributeModifier modifier = new EntityAttributeModifier(uuid,
+				"Armor knockback resistance", this.knockbackResistance, Operation.ADDITION);
 
-        this.attributeModifiers.forEach(builder::put);
-        builder.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, modifier);
-        this.attributeModifiers = builder.build();
-    }
+		this.attributeModifiers.forEach(builder::put);
+		builder.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, modifier);
+		this.attributeModifiers = builder.build();
+	}
 
 }

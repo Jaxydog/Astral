@@ -25,111 +25,111 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class DyedAmethystClusterBlock extends DyedAmethystBlock
-        implements Registerable.Client, Waterloggable {
+		implements Registerable.Client, Waterloggable {
 
-    /** Whether the block is waterlogged */
-    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    /** The direction that the block is facing */
-    public static final DirectionProperty FACING = Properties.FACING;
+	/** Whether the block is waterlogged */
+	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+	/** The direction that the block is facing */
+	public static final DirectionProperty FACING = Properties.FACING;
 
-    // The block voxel shapes
-    private final VoxelShape UP_SHAPE =
-            Block.createCuboidShape(3.0D, 0.0F, 3.0D, 13.0D, 7.0D, 13.0D);
-    private final VoxelShape DOWN_SHAPE =
-            Block.createCuboidShape(3.0D, 9.0D, 3.0D, 13.0D, 16.0D, 13.0D);
-    private final VoxelShape NORTH_SHAPE =
-            Block.createCuboidShape(3.0D, 3.0D, 9.0D, 13.0D, 13.0D, 16.0D);
-    private final VoxelShape SOUTH_SHAPE =
-            Block.createCuboidShape(3.0D, 3.0D, 0.0F, 13.0D, 13.0D, 7.0D);
-    private final VoxelShape EAST_SHAPE =
-            Block.createCuboidShape(0.0F, 3.0D, 3.0D, 7.0D, 13.0D, 13.0D);
-    private final VoxelShape WEST_SHAPE =
-            Block.createCuboidShape(9.0D, 3.0D, 3.0D, 16.0D, 13.0D, 13.0D);
+	// The block voxel shapes
+	private final VoxelShape UP_SHAPE =
+			Block.createCuboidShape(3.0D, 0.0F, 3.0D, 13.0D, 7.0D, 13.0D);
+	private final VoxelShape DOWN_SHAPE =
+			Block.createCuboidShape(3.0D, 9.0D, 3.0D, 13.0D, 16.0D, 13.0D);
+	private final VoxelShape NORTH_SHAPE =
+			Block.createCuboidShape(3.0D, 3.0D, 9.0D, 13.0D, 13.0D, 16.0D);
+	private final VoxelShape SOUTH_SHAPE =
+			Block.createCuboidShape(3.0D, 3.0D, 0.0F, 13.0D, 13.0D, 7.0D);
+	private final VoxelShape EAST_SHAPE =
+			Block.createCuboidShape(0.0F, 3.0D, 3.0D, 7.0D, 13.0D, 13.0D);
+	private final VoxelShape WEST_SHAPE =
+			Block.createCuboidShape(9.0D, 3.0D, 3.0D, 16.0D, 13.0D, 13.0D);
 
-    public DyedAmethystClusterBlock(String rawId, Settings settings) {
-        super(rawId, settings);
-    }
+	public DyedAmethystClusterBlock(String rawId, Settings settings) {
+		super(rawId, settings);
+	}
 
-    @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos,
-            ShapeContext context) {
-        switch (state.get(FACING)) {
-            case UP:
-                return this.UP_SHAPE;
-            case DOWN:
-                return this.DOWN_SHAPE;
-            case NORTH:
-                return this.NORTH_SHAPE;
-            case SOUTH:
-                return this.SOUTH_SHAPE;
-            case EAST:
-                return this.EAST_SHAPE;
-            case WEST:
-                return this.WEST_SHAPE;
-            default:
-                return this.UP_SHAPE;
-        }
-    }
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos,
+			ShapeContext context) {
+		switch (state.get(FACING)) {
+			case UP:
+				return this.UP_SHAPE;
+			case DOWN:
+				return this.DOWN_SHAPE;
+			case NORTH:
+				return this.NORTH_SHAPE;
+			case SOUTH:
+				return this.SOUTH_SHAPE;
+			case EAST:
+				return this.EAST_SHAPE;
+			case WEST:
+				return this.WEST_SHAPE;
+			default:
+				return this.UP_SHAPE;
+		}
+	}
 
-    @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        var direction = state.get(FACING);
-        var blockPos = pos.offset(direction.getOpposite());
+	@Override
+	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+		var direction = state.get(FACING);
+		var blockPos = pos.offset(direction.getOpposite());
 
-        return world.getBlockState(blockPos).isSideSolidFullSquare(world, blockPos, direction);
-    }
+		return world.getBlockState(blockPos).isSideSolidFullSquare(world, blockPos, direction);
+	}
 
-    @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction,
-            BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (state.get(WATERLOGGED).booleanValue()) {
-            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        }
+	@Override
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction,
+			BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+		if (state.get(WATERLOGGED).booleanValue()) {
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
 
-        if (direction == state.get(FACING).getOpposite() && !state.canPlaceAt(world, pos)) {
-            return Blocks.AIR.getDefaultState();
-        } else {
-            return state;
-        }
-    }
+		if (direction == state.get(FACING).getOpposite() && !state.canPlaceAt(world, pos)) {
+			return Blocks.AIR.getDefaultState();
+		} else {
+			return state;
+		}
+	}
 
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        var worldAccess = ctx.getWorld();
-        var blockPos = ctx.getBlockPos();
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		var worldAccess = ctx.getWorld();
+		var blockPos = ctx.getBlockPos();
 
-        return this.getDefaultState()
-                .with(WATERLOGGED, worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER)
-                .with(FACING, ctx.getSide());
-    }
+		return this.getDefaultState()
+				.with(WATERLOGGED, worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER)
+				.with(FACING, ctx.getSide());
+	}
 
-    @Override
-    public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
-    }
+	@Override
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(FACING, rotation.rotate(state.get(FACING)));
+	}
 
-    @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(FACING)));
-    }
+	@Override
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.rotate(mirror.getRotation(state.get(FACING)));
+	}
 
-    @Override
-    public FluidState getFluidState(BlockState state) {
-        if (state.get(WATERLOGGED).booleanValue()) {
-            return Fluids.WATER.getStill(false);
-        } else {
-            return Fluids.EMPTY.getDefaultState();
-        }
-    }
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		if (state.get(WATERLOGGED).booleanValue()) {
+			return Fluids.WATER.getStill(false);
+		} else {
+			return Fluids.EMPTY.getDefaultState();
+		}
+	}
 
-    @Override
-    protected void appendProperties(Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, FACING);
-    }
+	@Override
+	protected void appendProperties(Builder<Block, BlockState> builder) {
+		builder.add(WATERLOGGED, FACING);
+	}
 
-    @Override
-    public void registerClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(this, RenderLayer.getCutout());
-    }
+	@Override
+	public void registerClient() {
+		BlockRenderLayerMap.INSTANCE.putBlock(this, RenderLayer.getCutout());
+	}
 
 }

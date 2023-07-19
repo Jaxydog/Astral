@@ -17,156 +17,156 @@ import net.minecraft.util.Pair;
 /** Extends a currency item and implements the currency reward system */
 public class CurrencyRewardItem extends CustomItem implements Currency {
 
-    public CurrencyRewardItem(String rawId, Settings settings) {
-        super(rawId, settings);
-    }
+	public CurrencyRewardItem(String rawId, Settings settings) {
+		super(rawId, settings);
+	}
 
-    /** Returns the item's default stack with the given identifier */
-    public ItemStack getDefaultStack(int id) {
-        ItemStack stack = super.getDefaultStack();
+	/** Returns the item's default stack with the given identifier */
+	public ItemStack getDefaultStack(int id) {
+		ItemStack stack = super.getDefaultStack();
 
-        this.setRewardId(stack, id);
+		this.setRewardId(stack, id);
 
-        return stack;
-    }
+		return stack;
+	}
 
-    @Override
-    public ItemStack getDefaultStack() {
-        return this.getDefaultStack(0);
-    }
+	@Override
+	public ItemStack getDefaultStack() {
+		return this.getDefaultStack(0);
+	}
 
-    /** Returns the given stack's reward identifier */
-    public int getRewardId(ItemStack stack) {
-        return this.getCustomModelData(stack);
-    }
+	/** Returns the given stack's reward identifier */
+	public int getRewardId(ItemStack stack) {
+		return this.getCustomModelData(stack);
+	}
 
-    /** Sets the given stack's reward identifier */
-    public void setRewardId(ItemStack stack, int id) {
-        this.setCustomModelData(stack, id);
-    }
+	/** Sets the given stack's reward identifier */
+	public void setRewardId(ItemStack stack, int id) {
+		this.setCustomModelData(stack, id);
+	}
 
-    @Override
-    public String getTranslationKey(ItemStack stack) {
-        return super.getTranslationKey(stack) + "." + this.getCustomModelData(stack);
-    }
+	@Override
+	public String getTranslationKey(ItemStack stack) {
+		return super.getTranslationKey(stack) + "." + this.getCustomModelData(stack);
+	}
 
-    @Override
-    public void tryCombine(PlayerEntity player, ItemStack stack) {
-        final int id = this.getRewardId(stack);
-        final Recipe recipe;
+	@Override
+	public void tryCombine(PlayerEntity player, ItemStack stack) {
+		final int id = this.getRewardId(stack);
+		final Recipe recipe;
 
-        try {
-            recipe = Recipe.fromId(id).get();
-        } catch (NoSuchElementException _exception) {
-            return;
-        }
+		try {
+			recipe = Recipe.fromId(id).get();
+		} catch (NoSuchElementException _exception) {
+			return;
+		}
 
-        recipe.tryCraft(player);
-    }
+		recipe.tryCraft(player);
+	}
 
-    public static final class Recipe {
+	public static final class Recipe {
 
-        /** Stores a list of all skeleton reward recipes */
-        private static final ArrayList<Recipe> LIST = new ArrayList<>();
+		/** Stores a list of all skeleton reward recipes */
+		private static final ArrayList<Recipe> LIST = new ArrayList<>();
 
-        /** The recipe's skeleton identifier */
-        private final int ID;
-        /** The recipe's reward ingredients list */
-        private final List<Pair<Integer, Integer>> REWARDS;
+		/** The recipe's skeleton identifier */
+		private final int ID;
+		/** The recipe's reward ingredients list */
+		private final List<Pair<Integer, Integer>> REWARDS;
 
-        public Recipe(int id, List<Pair<Integer, Integer>> rewards) {
-            this.ID = id;
-            this.REWARDS = rewards;
-        }
+		public Recipe(int id, List<Pair<Integer, Integer>> rewards) {
+			this.ID = id;
+			this.REWARDS = rewards;
+		}
 
-        /** Returns a list of all skeleton reward recipes */
-        public static final List<Recipe> list() {
-            return Recipe.LIST;
-        }
+		/** Returns a list of all skeleton reward recipes */
+		public static final List<Recipe> list() {
+			return Recipe.LIST;
+		}
 
-        /** Returns a list of all skeleton identifiers */
-        public static final List<Integer> listIds() {
-            return Recipe.list().stream().map(r -> Integer.valueOf(r.getId())).toList();
-        }
+		/** Returns a list of all skeleton identifiers */
+		public static final List<Integer> listIds() {
+			return Recipe.list().stream().map(r -> Integer.valueOf(r.getId())).toList();
+		}
 
-        /** Returns a set containing all possible reward identifiers */
-        public static final Set<Integer> listRewardIds() {
-            TreeSet<Integer> set = new TreeSet<>();
+		/** Returns a set containing all possible reward identifiers */
+		public static final Set<Integer> listRewardIds() {
+			TreeSet<Integer> set = new TreeSet<>();
 
-            for (Recipe recipe : Recipe.list()) {
-                List<Pair<Integer, Integer>> list = recipe.getRewardsList();
+			for (Recipe recipe : Recipe.list()) {
+				List<Pair<Integer, Integer>> list = recipe.getRewardsList();
 
-                set.addAll(list.stream().map(Pair::getLeft).toList());
-            }
+				set.addAll(list.stream().map(Pair::getLeft).toList());
+			}
 
-            return set;
-        }
+			return set;
+		}
 
-        /** Returns a recipe with a matching skeleton identifier */
-        public static final Optional<Recipe> fromId(int id) {
-            return Recipe.list().stream().filter(r -> r.getId() == id).findFirst();
-        }
+		/** Returns a recipe with a matching skeleton identifier */
+		public static final Optional<Recipe> fromId(int id) {
+			return Recipe.list().stream().filter(r -> r.getId() == id).findFirst();
+		}
 
-        /** Returns the recipe's skeleton identifier */
-        public final int getId() {
-            return this.ID;
-        }
+		/** Returns the recipe's skeleton identifier */
+		public final int getId() {
+			return this.ID;
+		}
 
-        /** Returns the recipe's reward ingredients list */
-        public final List<Pair<Integer, Integer>> getRewardsList() {
-            return this.REWARDS;
-        }
+		/** Returns the recipe's reward ingredients list */
+		public final List<Pair<Integer, Integer>> getRewardsList() {
+			return this.REWARDS;
+		}
 
-        /** Returns whether the given recipe is craftable in the provided inventory */
-        public final boolean isCraftableIn(PlayerInventory inventory) {
-            for (Pair<Integer, Integer> pair : this.getRewardsList()) {
-                final int id = pair.getLeft();
-                final int count = pair.getRight();
+		/** Returns whether the given recipe is craftable in the provided inventory */
+		public final boolean isCraftableIn(PlayerInventory inventory) {
+			for (Pair<Integer, Integer> pair : this.getRewardsList()) {
+				final int id = pair.getLeft();
+				final int count = pair.getRight();
 
-                int validItems = 0;
+				int validItems = 0;
 
-                for (int slot = 0; slot < inventory.size(); slot += 1) {
-                    ItemStack stack = inventory.getStack(slot);
+				for (int slot = 0; slot < inventory.size(); slot += 1) {
+					ItemStack stack = inventory.getStack(slot);
 
-                    if (this.validateReward(stack, id)) {
-                        validItems += stack.getCount();
-                    }
-                }
+					if (this.validateReward(stack, id)) {
+						validItems += stack.getCount();
+					}
+				}
 
-                if (validItems < count) {
-                    return false;
-                }
-            }
+				if (validItems < count) {
+					return false;
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public final void tryCraft(PlayerEntity player) {
-            final PlayerInventory inventory = player.getInventory();
-            final Inventory crafting = player.playerScreenHandler.getCraftingInput();
+		public final void tryCraft(PlayerEntity player) {
+			final PlayerInventory inventory = player.getInventory();
+			final Inventory crafting = player.playerScreenHandler.getCraftingInput();
 
-            while (this.isCraftableIn(inventory)) {
-                for (Pair<Integer, Integer> pair : this.getRewardsList()) {
-                    final int id = pair.getLeft();
-                    final int count = pair.getRight();
+			while (this.isCraftableIn(inventory)) {
+				for (Pair<Integer, Integer> pair : this.getRewardsList()) {
+					final int id = pair.getLeft();
+					final int count = pair.getRight();
 
-                    inventory.remove(stack -> this.validateReward(stack, id), count, crafting);
-                }
+					inventory.remove(stack -> this.validateReward(stack, id), count, crafting);
+				}
 
-                ItemStack skeleton = CustomItems.CURRENCY_SKELETON.getDefaultStack(this.getId());
+				ItemStack skeleton = CustomItems.CURRENCY_SKELETON.getDefaultStack(this.getId());
 
-                inventory.offerOrDrop(skeleton);
-            }
-        }
+				inventory.offerOrDrop(skeleton);
+			}
+		}
 
-        /** Returns whether the given stack is a valid reward ingredient */
-        public final boolean validateReward(ItemStack stack, int id) {
-            if (!(stack.getItem() instanceof CurrencyRewardItem reward)) {
-                return false;
-            }
+		/** Returns whether the given stack is a valid reward ingredient */
+		public final boolean validateReward(ItemStack stack, int id) {
+			if (!(stack.getItem() instanceof CurrencyRewardItem reward)) {
+				return false;
+			}
 
-            return reward.getCustomModelData(stack) == id;
-        }
-    }
+			return reward.getCustomModelData(stack) == id;
+		}
+	}
 
 }
