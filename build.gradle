@@ -8,7 +8,21 @@ group = project.maven_group
 
 base { archivesName = project.archives_base_name }
 
-repositories {}
+repositories {
+    maven { url = 'https://ladysnake.jfrog.io/artifactory/mods' }
+    maven { url = 'https://maven.ladysnake.org/releases' }
+    maven {
+        url = 'https://maven.cafeteria.dev'
+        content { includeGroup 'net.adriantodt.fabricmc' }
+    }
+    maven {
+        url "https://maven.jamieswhiteshirt.com/libs-release"
+        content { includeGroup "com.jamieswhiteshirt" }
+    }
+    maven { url "https://jitpack.io" }
+    maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://maven.terraformersmc.com/" }
+}
 
 loom {
     runs {
@@ -18,7 +32,7 @@ loom {
 			vmArg "-Dfabric-api.datagen"
 			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
 			vmArg "-Dfabric-api.datagen.modid=astral"
- 
+
 			runDir "build/datagen"
 		}
 	}
@@ -36,6 +50,9 @@ dependencies {
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "com.github.apace100:origins-fabric:v${project.origins_version}"
+	modImplementation include("com.github.apace100:apoli:v${project.apoli_version}")
+	modImplementation include("com.github.apace100:calio:v${project.calio_version}")
 }
 
 processResources {
@@ -54,7 +71,7 @@ java {
 }
 
 jar {
-	from("LICENSE") { rename { "${it}_${project.archivesBaseName}"} }
+	from("LICENSE") { rename { "${it}_${project.archivesBaseName}" } }
 }
 
 publishing {
