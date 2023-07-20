@@ -8,11 +8,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import dev.jaxydog.content.item.CustomItem;
 import dev.jaxydog.content.item.CustomItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Pair;
+import net.minecraft.world.World;
 
 /** Extends a currency item and implements the currency reward system */
 public class CurrencyRewardItem extends CustomItem implements Currency {
@@ -62,6 +64,16 @@ public class CurrencyRewardItem extends CustomItem implements Currency {
 		}
 
 		recipe.tryCraft(player);
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot,
+			boolean selected) {
+		super.inventoryTick(stack, world, entity, slot, selected);
+
+		if (entity instanceof PlayerEntity player) {
+			this.tryCombine(player, stack);
+		}
 	}
 
 	public static final class Recipe {

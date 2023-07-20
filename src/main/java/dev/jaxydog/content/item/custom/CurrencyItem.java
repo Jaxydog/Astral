@@ -5,6 +5,7 @@ import java.util.Set;
 import dev.jaxydog.content.CustomGamerules;
 import dev.jaxydog.content.item.CustomItem;
 import dev.jaxydog.content.item.CustomItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -136,6 +137,16 @@ public class CurrencyItem extends CustomItem implements Currency {
 		}
 
 		return true;
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot,
+			boolean selected) {
+		super.inventoryTick(stack, world, entity, slot, selected);
+
+		if (entity instanceof PlayerEntity player) {
+			this.tryCombine(player, stack);
+		}
 	}
 
 }
