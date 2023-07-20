@@ -5,6 +5,9 @@ import dev.jaxydog.content.command.CustomArgumentTypes;
 import dev.jaxydog.content.command.CustomCommands;
 import dev.jaxydog.content.data.CustomData;
 import dev.jaxydog.content.item.CustomItems;
+import dev.jaxydog.content.power.CustomActions;
+import dev.jaxydog.content.power.CustomConditions;
+import dev.jaxydog.content.power.CustomPowers;
 import dev.jaxydog.utility.register.ContentContainer;
 import dev.jaxydog.utility.register.Skip;
 
@@ -22,5 +25,8 @@ public final class CustomContent extends ContentContainer {
 	public static final CustomItems ITEMS = new CustomItems();
 	public static final CustomCommands COMMANDS = new CustomCommands();
 	public static final CustomArgumentTypes ARGUMENT_TYPES = new CustomArgumentTypes();
+	public static final CustomActions ACTIONS = new CustomActions();
+	public static final CustomConditions CONDITIONS = new CustomConditions();
+	public static final CustomPowers POWERS = new CustomPowers();
 
 }
