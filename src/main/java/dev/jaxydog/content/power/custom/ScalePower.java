@@ -17,16 +17,19 @@ public class ScalePower extends CustomPower {
 	private final float REACH;
 	/** The motion scale */
 	private final float MOTION;
+	/** The jump scale */
+	private final float JUMP;
 	/** Whether to reset the entity's scale when the power is lost */
 	private final boolean RESET;
 
 	public ScalePower(PowerType<?> type, LivingEntity entity, float width, float height,
-			float reach, float motion, boolean reset) {
+			float reach, float motion, float jump, boolean reset) {
 		super(type, entity);
 		this.WIDTH = width;
 		this.HEIGHT = height;
 		this.REACH = reach;
 		this.MOTION = motion;
+		this.JUMP = jump;
 		this.RESET = reset;
 	}
 
@@ -50,6 +53,11 @@ public class ScalePower extends CustomPower {
 		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.MOTION).build();
 	}
 
+	/** Returns the entity's jump scale API */
+	public static ScaleData getJumpScale(LivingEntity entity) {
+		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.JUMP_HEIGHT).build();
+	}
+
 	/** Returns the powers's width scale */
 	public float getWidthScale() {
 		return this.WIDTH;
@@ -70,6 +78,11 @@ public class ScalePower extends CustomPower {
 		return this.MOTION;
 	}
 
+	/** Returns the powers's jump scale */
+	public float getJumpScale() {
+		return this.JUMP;
+	}
+
 	/** Returns whether the entity's scale should be reset when the power is lost */
 	public boolean isResetOnLost() {
 		return this.RESET;
@@ -81,6 +94,7 @@ public class ScalePower extends CustomPower {
 		ScalePower.getHeightScale(this.entity).setScale(this.getHeightScale());
 		ScalePower.getReachScale(this.entity).setScale(this.getReachScale());
 		ScalePower.getMotionScale(this.entity).setScale(this.getMotionScale());
+		ScalePower.getJumpScale(this.entity).setScale(this.getJumpScale());
 	}
 
 	/** Resets the entity's scale to the default values */
@@ -89,6 +103,7 @@ public class ScalePower extends CustomPower {
 		ScalePower.getHeightScale(this.entity).setScale(1.0F);
 		ScalePower.getReachScale(this.entity).setScale(1.0F);
 		ScalePower.getMotionScale(this.entity).setScale(1.0F);
+		ScalePower.getJumpScale(this.entity).setScale(1.0F);
 	}
 
 	@Override
