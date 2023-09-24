@@ -12,12 +12,13 @@
 		"challenge.LivingEntityMixin",
 		"challenge.MobEntityMixin",
 		"ArmorItemMixin",
-		"ItemMixin"
+		"ItemMixin",
+		"ParrotEntityMixin"
 	],
 	"client": [
 		"ArmorFeatureRendererInvoker",
 		"ArmorFeatureRendererMixin"
 	],
-	"server": [],
+	"server": [ ],
 	"injectors": { "defaultRequire": 1 }
 }
