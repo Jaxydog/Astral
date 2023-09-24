@@ -9,146 +9,151 @@ import virtuoel.pehkui.api.ScaleTypes;
 /** The scale power */
 public class ScalePower extends CustomPower {
 
-	/** The width scale */
-	private final float WIDTH;
-	/** The height scale */
-	private final float HEIGHT;
-	/** The reach scale */
-	private final float REACH;
-	/** The motion scale */
-	private final float MOTION;
-	/** The jump scale */
-	private final float JUMP;
-	/** Whether to reset the entity's scale when the power is lost */
-	private final boolean RESET;
+    /** The width scale */
+    private final float WIDTH;
+    /** The height scale */
+    private final float HEIGHT;
+    /** The reach scale */
+    private final float REACH;
+    /** The motion scale */
+    private final float MOTION;
+    /** The jump scale */
+    private final float JUMP;
+    /** Whether to reset the entity's scale when the power is lost */
+    private final boolean RESET;
 
-	public ScalePower(PowerType<?> type, LivingEntity entity, float width, float height,
-			float reach, float motion, float jump, boolean reset) {
-		super(type, entity);
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		this.REACH = reach;
-		this.MOTION = motion;
-		this.JUMP = jump;
-		this.RESET = reset;
-	}
+    public ScalePower(PowerType<?> type, LivingEntity entity, float width, float height,
+            float reach, float motion, float jump, boolean reset) {
+        super(type, entity);
 
-	/** Returns the entity's width scale API */
-	public static ScaleData getWidthScale(LivingEntity entity) {
-		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.WIDTH).build();
-	}
+        this.WIDTH = width;
+        this.HEIGHT = height;
+        this.REACH = reach;
+        this.MOTION = motion;
+        this.JUMP = jump;
+        this.RESET = reset;
 
-	/** Returns the entity's height scale API */
-	public static ScaleData getHeightScale(LivingEntity entity) {
-		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.HEIGHT).build();
-	}
+        this.setTicking(true);
+    }
 
-	/** Returns the entity's reach scale API */
-	public static ScaleData getReachScale(LivingEntity entity) {
-		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.REACH).build();
-	}
+    /** Returns the entity's width scale API */
+    public static ScaleData getWidthScale(LivingEntity entity) {
+        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.WIDTH).build();
+    }
 
-	/** Returns the entity's motion scale API */
-	public static ScaleData getMotionScale(LivingEntity entity) {
-		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.MOTION).build();
-	}
+    /** Returns the entity's height scale API */
+    public static ScaleData getHeightScale(LivingEntity entity) {
+        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.HEIGHT).build();
+    }
 
-	/** Returns the entity's jump scale API */
-	public static ScaleData getJumpScale(LivingEntity entity) {
-		return ScaleData.Builder.create().entity(entity).type(ScaleTypes.JUMP_HEIGHT).build();
-	}
+    /** Returns the entity's reach scale API */
+    public static ScaleData getReachScale(LivingEntity entity) {
+        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.REACH).build();
+    }
 
-	/** Returns the powers's width scale */
-	public float getWidthScale() {
-		return this.WIDTH;
-	}
+    /** Returns the entity's motion scale API */
+    public static ScaleData getMotionScale(LivingEntity entity) {
+        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.MOTION).build();
+    }
 
-	/** Returns the powers's height scale */
-	public float getHeightScale() {
-		return this.HEIGHT;
-	}
+    /** Returns the entity's jump scale API */
+    public static ScaleData getJumpScale(LivingEntity entity) {
+        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.JUMP_HEIGHT).build();
+    }
 
-	/** Returns the powers's reach scale */
-	public float getReachScale() {
-		return this.REACH;
-	}
+    /** Returns the powers's width scale */
+    public float getWidthScale() {
+        return this.WIDTH;
+    }
 
-	/** Returns the powers's motion scale */
-	public float getMotionScale() {
-		return this.MOTION;
-	}
+    /** Returns the powers's height scale */
+    public float getHeightScale() {
+        return this.HEIGHT;
+    }
 
-	/** Returns the powers's jump scale */
-	public float getJumpScale() {
-		return this.JUMP;
-	}
+    /** Returns the powers's reach scale */
+    public float getReachScale() {
+        return this.REACH;
+    }
 
-	/** Returns whether the entity's scale should be reset when the power is lost */
-	public boolean isResetOnLost() {
-		return this.RESET;
-	}
+    /** Returns the powers's motion scale */
+    public float getMotionScale() {
+        return this.MOTION;
+    }
 
-	/** Sets the entity's scale to match the power's values */
-	private void setScale() {
-		ScalePower.getWidthScale(this.entity).setScale(this.getWidthScale());
-		ScalePower.getHeightScale(this.entity).setScale(this.getHeightScale());
-		ScalePower.getReachScale(this.entity).setScale(this.getReachScale());
-		ScalePower.getMotionScale(this.entity).setScale(this.getMotionScale());
-		ScalePower.getJumpScale(this.entity).setScale(this.getJumpScale());
-	}
+    /** Returns the powers's jump scale */
+    public float getJumpScale() {
+        return this.JUMP;
+    }
 
-	/** Resets the entity's scale to the default values */
-	private void resetScale() {
-		ScalePower.getWidthScale(this.entity).setScale(1.0F);
-		ScalePower.getHeightScale(this.entity).setScale(1.0F);
-		ScalePower.getReachScale(this.entity).setScale(1.0F);
-		ScalePower.getMotionScale(this.entity).setScale(1.0F);
-		ScalePower.getJumpScale(this.entity).setScale(1.0F);
-	}
+    /** Returns whether the entity's scale should be reset when the power is lost */
+    public boolean isResetOnLost() {
+        return this.RESET;
+    }
 
-	@Override
-	public void tick() {
-		if (this.isActive()) {
-			this.setScale();
-		}
+    /** Sets the entity's scale to match the power's values */
+    private void setScale() {
+        ScalePower.getWidthScale(this.entity).setScale(this.getWidthScale());
+        ScalePower.getHeightScale(this.entity).setScale(this.getHeightScale());
+        ScalePower.getReachScale(this.entity).setScale(this.getReachScale());
+        ScalePower.getMotionScale(this.entity).setScale(this.getMotionScale());
+        ScalePower.getJumpScale(this.entity).setScale(this.getJumpScale());
+    }
 
-		super.tick();
-	}
+    /** Resets the entity's scale to the default values */
+    private void resetScale() {
+        ScalePower.getWidthScale(this.entity).setScale(1.0F);
+        ScalePower.getHeightScale(this.entity).setScale(1.0F);
+        ScalePower.getReachScale(this.entity).setScale(1.0F);
+        ScalePower.getMotionScale(this.entity).setScale(1.0F);
+        ScalePower.getJumpScale(this.entity).setScale(1.0F);
+    }
 
-	@Override
-	public void onAdded() {
-		if (this.isActive()) {
-			this.setScale();
-		}
+    @Override
+    public void tick() {
+        if (this.isActive()) {
+            this.setScale();
+        } else if (this.isResetOnLost()) {
+            this.resetScale();
+        }
 
-		super.onAdded();
-	}
+        super.tick();
+    }
 
-	@Override
-	public void onGained() {
-		if (this.isActive()) {
-			this.setScale();
-		}
+    @Override
+    public void onAdded() {
+        if (this.isActive()) {
+            this.setScale();
+        }
 
-		super.onGained();
-	}
+        super.onAdded();
+    }
 
-	@Override
-	public void onLost() {
-		if (this.isResetOnLost()) {
-			this.resetScale();
-		}
+    @Override
+    public void onGained() {
+        if (this.isActive()) {
+            this.setScale();
+        }
 
-		super.onLost();
-	}
+        super.onGained();
+    }
 
-	@Override
-	public void onRemoved() {
-		if (this.isResetOnLost()) {
-			this.resetScale();
-		}
+    @Override
+    public void onLost() {
+        if (this.isResetOnLost()) {
+            this.resetScale();
+        }
 
-		super.onRemoved();
-	}
+        super.onLost();
+    }
+
+    @Override
+    public void onRemoved() {
+        if (this.isResetOnLost()) {
+            this.resetScale();
+        }
+
+        super.onRemoved();
+    }
 
 }
