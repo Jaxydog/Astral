@@ -91,22 +91,36 @@ public class ScalePower extends CustomPower {
         return this.RESET;
     }
 
+    /** Sets the entity's scale to the given value, returning early if the scale is unchanged. */
+    private void setScale(ScaleData data, float scale) {
+        this.setScale(data, scale, false);
+    }
+
+    /** Sets the entity's scale to the given value, returning early if the scale is unchanged. */
+    private void setScale(ScaleData data, float scale, boolean force) {
+        if (data.getScale() == scale && !force) {
+            return;
+        }
+
+        data.setScale(scale);
+    }
+
     /** Sets the entity's scale to match the power's values */
     private void setScale() {
-        ScalePower.getWidthScale(this.entity).setScale(this.getWidthScale());
-        ScalePower.getHeightScale(this.entity).setScale(this.getHeightScale());
-        ScalePower.getReachScale(this.entity).setScale(this.getReachScale());
-        ScalePower.getMotionScale(this.entity).setScale(this.getMotionScale());
-        ScalePower.getJumpScale(this.entity).setScale(this.getJumpScale());
+        this.setScale(ScalePower.getWidthScale(this.entity), this.getWidthScale());
+        this.setScale(ScalePower.getHeightScale(this.entity), this.getHeightScale());
+        this.setScale(ScalePower.getReachScale(this.entity), this.getReachScale());
+        this.setScale(ScalePower.getMotionScale(this.entity), this.getMotionScale());
+        this.setScale(ScalePower.getJumpScale(this.entity), this.getJumpScale());
     }
 
     /** Resets the entity's scale to the default values */
     private void resetScale() {
-        ScalePower.getWidthScale(this.entity).setScale(1.0F);
-        ScalePower.getHeightScale(this.entity).setScale(1.0F);
-        ScalePower.getReachScale(this.entity).setScale(1.0F);
-        ScalePower.getMotionScale(this.entity).setScale(1.0F);
-        ScalePower.getJumpScale(this.entity).setScale(1.0F);
+        this.setScale(ScalePower.getWidthScale(this.entity), 1.0F);
+        this.setScale(ScalePower.getHeightScale(this.entity), 1.0F);
+        this.setScale(ScalePower.getReachScale(this.entity), 1.0F);
+        this.setScale(ScalePower.getMotionScale(this.entity), 1.0F);
+        this.setScale(ScalePower.getJumpScale(this.entity), 1.0F);
     }
 
     @Override
