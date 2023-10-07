@@ -1,5 +1,6 @@
 package dev.jaxydog.content.power.custom;
 
+import dev.jaxydog.content.data.ScaleOperation;
 import dev.jaxydog.content.power.CustomPower;
 import io.github.apace100.apoli.power.PowerType;
 import net.minecraft.entity.LivingEntity;
@@ -21,9 +22,11 @@ public class ScalePower extends CustomPower {
     private final float JUMP;
     /** Whether to reset the entity's scale when the power is lost */
     private final boolean RESET;
+    /** The scale operation */
+    private final ScaleOperation OPERATION;
 
     public ScalePower(PowerType<?> type, LivingEntity entity, float width, float height,
-            float reach, float motion, float jump, boolean reset) {
+            float reach, float motion, float jump, boolean reset, ScaleOperation operation) {
         super(type, entity);
 
         this.WIDTH = width;
@@ -32,33 +35,34 @@ public class ScalePower extends CustomPower {
         this.MOTION = motion;
         this.JUMP = jump;
         this.RESET = reset;
+        this.OPERATION = operation;
 
         this.setTicking(true);
     }
 
     /** Returns the entity's width scale API */
-    public static ScaleData getWidthScale(LivingEntity entity) {
-        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.WIDTH).build();
+    public ScaleData getWidthScaleData() {
+        return ScaleData.Builder.create().entity(this.entity).type(ScaleTypes.WIDTH).build();
     }
 
     /** Returns the entity's height scale API */
-    public static ScaleData getHeightScale(LivingEntity entity) {
-        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.HEIGHT).build();
+    public ScaleData getHeightScaleData() {
+        return ScaleData.Builder.create().entity(this.entity).type(ScaleTypes.HEIGHT).build();
     }
 
     /** Returns the entity's reach scale API */
-    public static ScaleData getReachScale(LivingEntity entity) {
-        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.REACH).build();
+    public ScaleData getReachScaleData() {
+        return ScaleData.Builder.create().entity(this.entity).type(ScaleTypes.REACH).build();
     }
 
     /** Returns the entity's motion scale API */
-    public static ScaleData getMotionScale(LivingEntity entity) {
-        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.MOTION).build();
+    public ScaleData getMotionScaleData() {
+        return ScaleData.Builder.create().entity(this.entity).type(ScaleTypes.MOTION).build();
     }
 
     /** Returns the entity's jump scale API */
-    public static ScaleData getJumpScale(LivingEntity entity) {
-        return ScaleData.Builder.create().entity(entity).type(ScaleTypes.JUMP_HEIGHT).build();
+    public ScaleData getJumpScaleData() {
+        return ScaleData.Builder.create().entity(this.entity).type(ScaleTypes.JUMP_HEIGHT).build();
     }
 
     /** Returns the powers's width scale */
@@ -91,36 +95,27 @@ public class ScalePower extends CustomPower {
         return this.RESET;
     }
 
-    /** Sets the entity's scale to the given value, returning early if the scale is unchanged. */
-    private void setScale(ScaleData data, float scale) {
-        this.setScale(data, scale, false);
-    }
-
-    /** Sets the entity's scale to the given value, returning early if the scale is unchanged. */
-    private void setScale(ScaleData data, float scale, boolean force) {
-        if (data.getScale() == scale && !force) {
-            return;
-        }
-
-        data.setScale(scale);
+    /** Returns the scale operation */
+    public ScaleOperation getOperation() {
+        return this.OPERATION;
     }
 
     /** Sets the entity's scale to match the power's values */
     private void setScale() {
-        this.setScale(ScalePower.getWidthScale(this.entity), this.getWidthScale());
-        this.setScale(ScalePower.getHeightScale(this.entity), this.getHeightScale());
-        this.setScale(ScalePower.getReachScale(this.entity), this.getReachScale());
-        this.setScale(ScalePower.getMotionScale(this.entity), this.getMotionScale());
-        this.setScale(ScalePower.getJumpScale(this.entity), this.getJumpScale());
+        this.getOperation().setScale(this.getWidthScaleData(), this.getWidthScale());
+        this.getOperation().setScale(this.getHeightScaleData(), this.getHeightScale());
+        this.getOperation().setScale(this.getReachScaleData(), this.getReachScale());
+        this.getOperation().setScale(this.getMotionScaleData(), this.getMotionScale());
+        this.getOperation().setScale(this.getJumpScaleData(), this.getJumpScale());
     }
 
     /** Resets the entity's scale to the default values */
     private void resetScale() {
-        this.setScale(ScalePower.getWidthScale(this.entity), 1.0F);
-        this.setScale(ScalePower.getHeightScale(this.entity), 1.0F);
-        this.setScale(ScalePower.getReachScale(this.entity), 1.0F);
-        this.setScale(ScalePower.getMotionScale(this.entity), 1.0F);
-        this.setScale(ScalePower.getJumpScale(this.entity), 1.0F);
+        this.getOperation().resetScale(this.getWidthScaleData());
+        this.getOperation().resetScale(this.getHeightScaleData());
+        this.getOperation().resetScale(this.getReachScaleData());
+        this.getOperation().resetScale(this.getMotionScaleData());
+        this.getOperation().resetScale(this.getJumpScaleData());
     }
 
     @Override
