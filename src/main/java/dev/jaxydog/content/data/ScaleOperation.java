@@ -29,7 +29,7 @@ public enum ScaleOperation {
     /** Returns the target scale for the given data */
     public float getTarget(ScaleData data, float value) {
         return switch (this) {
-            case ADDITIVE -> data.getInitialScale() + value;
+            case ADDITIVE -> 1.0F + value;
             case MULTIPLICATIVE -> value;
         };
     }
@@ -38,16 +38,12 @@ public enum ScaleOperation {
     public void setScale(ScaleData data, float value) {
         final float target = this.getTarget(data, value);
 
-        if (data.getScale() != target) {
-            data.setScale(target);
-        }
+        data.setScale(target);
     }
 
     /** Sets the scale of the given data */
     public void resetScale(ScaleData data) {
-        if (data.getScale() != data.getInitialScale()) {
-            data.resetScale();
-        }
+        data.resetScale();
     }
 
 }
