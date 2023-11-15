@@ -4,7 +4,7 @@ import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,7 +19,7 @@ public abstract class LivingEntityMixin {
 	 * Stores whether or not the entity needs to reset its health; should only be true if the
 	 * gamerules are updated or when the entity is first spawned
 	 */
-	private boolean shouldResetHealth = false;
+	private boolean shouldResetHealth = true;
 	/**
 	 * Stores the previously used health additive value to check whether the entity's health should
 	 * be updated
@@ -49,19 +49,21 @@ public abstract class LivingEntityMixin {
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
 		final LivingEntity living = this.self();
+		final World world = living.getWorld();
+		final boolean enabled = MobChallengeUtil.isEnabled(world);
 
-		if (!(living instanceof MobEntity self) || !MobChallengeUtil.isEnabled(self.getWorld())) {
+		if (world.isClient || !(living instanceof MobEntity self) || !enabled) {
 			return;
 		}
 
-		final double additive = MobChallengeUtil.getHealthAdditive(self.getWorld());
+		final double additive = MobChallengeUtil.getHealthAdditive(world);
 
 		if (this.lastHealthAdditive != additive) {
 			this.shouldResetHealth = true;
 			this.lastHealthAdditive = additive;
 		}
 
-		final int chunkStep = MobChallengeUtil.getChunkStep(self.getWorld());
+		final int chunkStep = MobChallengeUtil.getChunkStep(world);
 
 		if (this.lastChunkStep != chunkStep) {
 			this.shouldResetHealth = true;
@@ -78,12 +80,13 @@ public abstract class LivingEntityMixin {
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickInject(CallbackInfo callbackInfo) {
 		final LivingEntity self = this.self();
+		final World world = self.getWorld();
 
-		if (!(self instanceof MobEntity) || self.getPos() == Vec3d.ZERO) {
+		if (world.isClient || !(self instanceof MobEntity)) {
 			return;
 		}
 
-		final boolean enabled = !MobChallengeUtil.isEnabled(self.getWorld());
+		final boolean enabled = !MobChallengeUtil.isEnabled(world);
 		final float maxHealth = self.getMaxHealth();
 
 		if (this.shouldResetHealth || (enabled && self.getHealth() > maxHealth)) {
