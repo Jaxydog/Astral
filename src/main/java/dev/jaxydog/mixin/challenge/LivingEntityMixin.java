@@ -21,6 +21,11 @@ public abstract class LivingEntityMixin {
 	 */
 	private boolean shouldResetHealth = true;
 	/**
+	 * Stores whether mob challenge was previously enabled to determine whether the entity's health
+	 * should be updated
+	 */
+	private boolean lastEnableState = MobChallengeUtil.isEnabled(this.self().getWorld());
+	/**
 	 * Stores the previously used health additive value to check whether the entity's health should
 	 * be updated
 	 */
@@ -86,10 +91,15 @@ public abstract class LivingEntityMixin {
 			return;
 		}
 
-		final boolean enabled = !MobChallengeUtil.isEnabled(world);
+		final boolean enabled = MobChallengeUtil.isEnabled(world);
 		final float maxHealth = self.getMaxHealth();
 
-		if (this.shouldResetHealth || (enabled && self.getHealth() > maxHealth)) {
+		if (this.lastEnableState != enabled) {
+			this.lastEnableState = enabled;
+			this.shouldResetHealth = true;
+		}
+
+		if (this.shouldResetHealth) {
 			this.setHealthData(maxHealth);
 			this.shouldResetHealth = false;
 		}
