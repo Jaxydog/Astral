@@ -1,6 +1,6 @@
 package dev.jaxydog.mixin.challenge;
 
-import dev.jaxydog.utility.ChallengeUtil;
+import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.mob.MobEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,15 +21,16 @@ public abstract class MobEntityMixin {
 	 */
 	@ModifyVariable(method = "tryAttack", at = @At("STORE"), ordinal = 0)
 	private float damageVarInject(float attack) {
-		MobEntity self = this.self();
+		final MobEntity self = this.self();
 
-		if (!ChallengeUtil.isEnabled(self.getWorld()))
+		if (!MobChallengeUtil.isEnabled(self.getWorld())) {
 			return attack;
+		} else {
+			final double additive = MobChallengeUtil.getAttackAdditive(self.getWorld());
+			final double scaled = MobChallengeUtil.getScaledAdditive(self, additive);
 
-		int additive = ChallengeUtil.getAttackAdditive(self.getWorld());
-		double modifier = ChallengeUtil.getChallengeModifier(self, additive);
-
-		return attack + (float) modifier;
+			return attack + (float) scaled;
+		}
 	}
 
 }

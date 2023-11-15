@@ -1,6 +1,6 @@
 package dev.jaxydog.mixin.challenge;
 
-import dev.jaxydog.utility.ChallengeUtil;
+import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
@@ -24,15 +24,15 @@ public abstract class LivingEntityMixin {
 	 * Stores the previously used health additive value to check whether the entity's health should
 	 * be updated
 	 */
-	private int lastHealthAdditive = ChallengeUtil.getHealthAdditive(this.self().getWorld());
+	private double lastHealthAdditive = MobChallengeUtil.getHealthAdditive(this.self().getWorld());
 	/**
 	 * Stores the previously used chunk step value to check whether the entity's health should be
 	 * updated
 	 */
-	private int lastChunkStep = ChallengeUtil.getChunkStep(this.self().getWorld());
+	private double lastChunkStep = MobChallengeUtil.getChunkStep(this.self().getWorld());
 
 	/** Returns the mixin's 'this' instance */
-	private LivingEntity self() {
+	private final LivingEntity self() {
 		return (LivingEntity) (Object) this;
 	}
 
@@ -40,7 +40,7 @@ public abstract class LivingEntityMixin {
 	 * Convenience method to sent the entity's current health to the given value without calling
 	 * `getMaxHealth()`
 	 */
-	private void setHealthData(float health) {
+	private final void setHealthData(float health) {
 		this.self().getDataTracker().set(LivingEntityAccessor.getHealthTracker(),
 				Math.max(0, health));
 	}
@@ -48,44 +48,45 @@ public abstract class LivingEntityMixin {
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
-		LivingEntity self = this.self();
+		final LivingEntity living = this.self();
 
-		if (!(self instanceof MobEntity) || !ChallengeUtil.isEnabled(self.getWorld()))
+		if (!(living instanceof MobEntity self) || !MobChallengeUtil.isEnabled(self.getWorld())) {
 			return;
+		}
 
-		int additive = ChallengeUtil.getHealthAdditive(self.getWorld());
-		int chunkStep = ChallengeUtil.getChunkStep(self.getWorld());
+		final double additive = MobChallengeUtil.getHealthAdditive(self.getWorld());
 
 		if (this.lastHealthAdditive != additive) {
 			this.shouldResetHealth = true;
 			this.lastHealthAdditive = additive;
 		}
+
+		final int chunkStep = MobChallengeUtil.getChunkStep(self.getWorld());
+
 		if (this.lastChunkStep != chunkStep) {
 			this.shouldResetHealth = true;
 			this.lastChunkStep = chunkStep;
 		}
 
-		double unscaled = self.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
-		double modifier = ChallengeUtil.getChallengeModifier(self, chunkStep, additive);
+		final double base = self.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
+		final double scaled = MobChallengeUtil.getScaledAdditive(self, additive);
 
-		callbackInfo.setReturnValue((float) (unscaled + modifier));
+		callbackInfo.setReturnValue((float) (base + scaled));
 	}
 
 	/** Automatically updates an entity's maximum health if necessary */
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickInject(CallbackInfo callbackInfo) {
-		LivingEntity self = this.self();
+		final LivingEntity self = this.self();
 
-		if (!(self instanceof MobEntity) || self.getPos() == Vec3d.ZERO)
+		if (!(self instanceof MobEntity) || self.getPos() == Vec3d.ZERO) {
 			return;
+		}
 
-		float maxHealth = self.getMaxHealth();
+		final boolean enabled = !MobChallengeUtil.isEnabled(self.getWorld());
+		final float maxHealth = self.getMaxHealth();
 
-		if (!ChallengeUtil.isEnabled(self.getWorld())) {
-			if (self.getHealth() > maxHealth)
-				this.setHealthData(maxHealth);
-			this.shouldResetHealth = true;
-		} else if (this.shouldResetHealth) {
+		if (this.shouldResetHealth || (enabled && self.getHealth() > maxHealth)) {
 			this.setHealthData(maxHealth);
 			this.shouldResetHealth = false;
 		}
