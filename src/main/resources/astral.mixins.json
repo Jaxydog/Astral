@@ -23,6 +23,7 @@
         "challenge.SlimeEntityMixin",
         "challenge.SmallFireballEntityMixin",
         "challenge.TridentEntityMixin",
+        "challenge.WitherSkullEntityMixin",
         "challenge.WolfEntityMixin",
         "ArmorItemMixin",
         "ItemMixin",
