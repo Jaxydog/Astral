@@ -16,6 +16,7 @@
         "challenge.MobEntityMixin",
         "challenge.PersistentProjectileEntityMixin",
         "challenge.PolarBearEntityMixin",
+        "challenge.RamImpactTaskMixin",
         "challenge.SlimeEntityMixin",
         "challenge.SmallFireballEntityMixin",
         "challenge.TridentEntityMixin",
