@@ -34,11 +34,6 @@ public class DyeableCloudArmorItem extends CloudArmorItem implements DyeableItem
 	}
 
 	@Override
-	public int getTextureLayers() {
-		return 2;
-	}
-
-	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot,
 			boolean selected) {
 		this.updateStorminess(stack, entity, 1.0D / 160.0D, 1.0D / 320.0D);
