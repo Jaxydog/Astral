@@ -9,6 +9,7 @@
         "challenge.BeeEntityMixin",
         "challenge.CreeperEntityMixin",
         "challenge.FireballEntityMixin",
+        "challenge.HoglinMixin",
         "challenge.IronGolemEntityMixin",
         "challenge.LivingEntityMixin",
         "challenge.MobEntityMixin",
