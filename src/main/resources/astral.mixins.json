@@ -12,6 +12,7 @@
         "challenge.HoglinMixin",
         "challenge.IronGolemEntityMixin",
         "challenge.LivingEntityMixin",
+        "challenge.LlamaSpitEntityMixin",
         "challenge.MobEntityMixin",
         "challenge.PersistentProjectileEntityMixin",
         "challenge.PolarBearEntityMixin",
