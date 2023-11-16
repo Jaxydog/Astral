@@ -11,6 +11,8 @@
         "challenge.LivingEntityAccessor",
         "challenge.LivingEntityMixin",
         "challenge.MobEntityMixin",
+        "challenge.PolarBearEntityMixin",
+        "challenge.SlimeEntityMixin",
         "challenge.WolfEntityMixin",
         "ArmorItemMixin",
         "ItemMixin",
