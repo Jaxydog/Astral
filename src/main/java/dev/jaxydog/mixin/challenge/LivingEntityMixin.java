@@ -1,13 +1,19 @@
 package dev.jaxydog.mixin.challenge;
 
 import dev.jaxydog.utility.MobChallengeUtil;
+import net.minecraft.entity.Attackable;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,7 +21,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Implements the mob challenge system's health changes */
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin {
+public abstract class LivingEntityMixin extends Entity implements Attackable {
+
+	@Shadow
+	@Final
+	private static TrackedData<Float> HEALTH;
+
+	public LivingEntityMixin(EntityType<?> type, World world) {
+		super(type, world);
+	}
 
 	/** Stores whether this entity ignores challenge scaling rules. */
 	public boolean ignoreChallengeScaling = false;
@@ -50,8 +64,7 @@ public abstract class LivingEntityMixin {
 	 * `getMaxHealth()`
 	 */
 	private final void setHealthData(float health) {
-		this.self().getDataTracker().set(LivingEntityAccessor.getHealthTracker(),
-				Math.max(0, health));
+		this.getDataTracker().set(LivingEntityMixin.HEALTH, Math.max(0, health));
 	}
 
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
@@ -61,11 +74,10 @@ public abstract class LivingEntityMixin {
 			return;
 		}
 
-		final LivingEntity living = this.self();
-		final World world = living.getWorld();
+		final World world = this.getWorld();
 		final boolean enabled = MobChallengeUtil.isEnabled(world);
 
-		if (world.isClient || !(living instanceof MobEntity self) || !enabled) {
+		if (!enabled || world.isClient() || !(this.self() instanceof MobEntity self)) {
 			return;
 		}
 
@@ -84,7 +96,7 @@ public abstract class LivingEntityMixin {
 		}
 
 		final double base = self.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
-		final double scaled = MobChallengeUtil.getScaledAdditive(self, additive);
+		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
 		callbackInfo.setReturnValue((float) (base + scaled));
 	}
@@ -92,10 +104,9 @@ public abstract class LivingEntityMixin {
 	/** Automatically updates an entity's maximum health if necessary */
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickInject(CallbackInfo callbackInfo) {
-		final LivingEntity self = this.self();
-		final World world = self.getWorld();
+		final World world = this.getWorld();
 
-		if (world.isClient || !(self instanceof MobEntity)) {
+		if (world.isClient || !(this.self() instanceof MobEntity self)) {
 			return;
 		}
 

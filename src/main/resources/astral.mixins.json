@@ -8,7 +8,6 @@
         "bonemeal.SugarCaneBlockMixin",
         "challenge.AbstractSkeletonEntityMixin",
         "challenge.CreeperEntityMixin",
-        "challenge.LivingEntityAccessor",
         "challenge.LivingEntityMixin",
         "challenge.MobEntityMixin",
         "challenge.PolarBearEntityMixin",

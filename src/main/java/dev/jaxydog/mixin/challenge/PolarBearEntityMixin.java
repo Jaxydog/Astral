@@ -6,18 +6,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.Angerable;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.world.World;
 
 /** Implements the mob challenge system for polar bears */
 @Mixin(PolarBearEntity.class)
-public abstract class PolarBearEntityMixin {
+public abstract class PolarBearEntityMixin extends AnimalEntity implements Angerable {
 
-	/** Returns the mixin's 'this' instance */
-	private PolarBearEntity self() {
-		return (PolarBearEntity) (Object) this;
+	protected PolarBearEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
+		super(entityType, world);
 	}
 
 	@Inject(method = "tryAttack", at = @At("HEAD"), cancellable = true)
@@ -25,23 +27,19 @@ public abstract class PolarBearEntityMixin {
 		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
 			return;
 		}
-
-		final PolarBearEntity self = this.self();
-		final World world = self.getWorld();
-
-		if (!MobChallengeUtil.isEnabled(world)) {
+		if (!MobChallengeUtil.isEnabled(this.getWorld())) {
 			return;
 		}
 
-		final double base = self.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-		final double additive = MobChallengeUtil.getAttackAdditive(world);
-		final double scaled = MobChallengeUtil.getScaledAdditive(self, additive);
+		final double base = this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
+		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		final DamageSource source = self.getDamageSources().mobAttack(self);
+		final DamageSource source = this.getDamageSources().mobAttack(this);
 		final boolean applyEffects = target.damage(source, (float) (base + scaled));
 
 		if (applyEffects) {
-			self.applyDamageEffects(self, target);
+			this.applyDamageEffects(this, target);
 		}
 
 		callbackInfo.setReturnValue(applyEffects);
