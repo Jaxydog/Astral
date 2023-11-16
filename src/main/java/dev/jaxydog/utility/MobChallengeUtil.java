@@ -14,7 +14,8 @@ import net.minecraft.world.World;
 /** Provides utility methods for dealing with mod challenge scaling. */
 @NonExtendable
 public interface MobChallengeUtil {
-
+	/** The block position used as the world origin. */
+	public static final BlockPos ORIGIN = new BlockPos(0, 63, 0);
 	/** An NBT key that tells an entity to ignore challenge scaling. */
 	public static final String IGNORE_KEY = "IgnoreChallengeScaling";
 	/** A tag that determines which entities are scaled. */
@@ -36,7 +37,7 @@ public interface MobChallengeUtil {
 
 	/** Returns the world's configured chunk step size. */
 	public static int getChunkStep(World world) {
-		return world.getGameRules().getInt(CustomGamerules.CHALLENGE_CHUNK_STEP);
+		return Math.max(world.getGameRules().getInt(CustomGamerules.CHALLENGE_CHUNK_STEP), 1);
 	}
 
 	/** Returns the world's configured attack additive value. */
@@ -51,19 +52,22 @@ public interface MobChallengeUtil {
 
 	/** Returns the given entity's distance to the world spawn. */
 	public static double getSpawnDistance(Entity entity) {
-		final BlockPos spawn = entity.getWorld().getSpawnPos();
+		final boolean useOrigin = !entity.getWorld().getGameRules()
+				.get(CustomGamerules.CHALLENGE_USE_WORLDSPAWN).get();
+		final BlockPos center =
+				useOrigin ? MobChallengeUtil.ORIGIN : entity.getWorld().getSpawnPos();
 
-		return Math.sqrt(entity.getBlockPos().getSquaredDistance(spawn));
+		return Math.sqrt(entity.getBlockPos().getSquaredDistance(center));
 	}
 
 	/** Returns a statistic additive that has been scaled using the mob challenge configuration. */
 	public static double getScaledAdditive(Entity entity, double additive) {
-		final World world = entity.getWorld();
-		final int step = MobChallengeUtil.getChunkStep(world);
+		final int step = MobChallengeUtil.getChunkStep(entity.getWorld());
 		final double distance = MobChallengeUtil.getSpawnDistance(entity);
 		final double modifier = Math.max(0.0D, additive) * ((distance / 16.0D) / step);
+		final boolean overworld = entity.getWorld().getRegistryKey().equals(World.OVERWORLD);
 
-		return world.getRegistryKey().equals(World.OVERWORLD) ? modifier : modifier / 2.0;
+		return overworld ? modifier : modifier / 2.0;
 	}
 
 }

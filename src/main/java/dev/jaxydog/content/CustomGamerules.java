@@ -29,6 +29,10 @@ public final class CustomGamerules extends ContentContainer {
 	@Skip
 	public static final Key<DoubleRule> CHALLENGE_HEALTH_ADDITIVE = GameRuleRegistry.register(
 			"challengeHealthAdditive", Category.MOBS, GameRuleFactory.createDoubleRule(1.0D));
+	/** Defines the gamerule that determines whether scaling uses worldspawn or 0, 0. */
+	@Skip
+	public static final Key<BooleanRule> CHALLENGE_USE_WORLDSPAWN = GameRuleRegistry.register(
+			"challengeUseWorldspawn", Category.MOBS, GameRuleFactory.createBooleanRule(true));
 
 	/** Defines the gamerule that configures the chance of crafting a reward from currency */
 	@Skip
