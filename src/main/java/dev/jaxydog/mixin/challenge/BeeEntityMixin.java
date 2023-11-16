@@ -1,7 +1,6 @@
 package dev.jaxydog.mixin.challenge;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import dev.jaxydog.utility.MobChallengeUtil;
@@ -18,9 +17,6 @@ public abstract class BeeEntityMixin extends AnimalEntity implements Angerable, 
 	protected BeeEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
 	}
-
-	@Invoker("setHasStung")
-	public abstract void setHasStungInvoker(boolean hasStung);
 
 	@ModifyArg(method = "tryAttack", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
