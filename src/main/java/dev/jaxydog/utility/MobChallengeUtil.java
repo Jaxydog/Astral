@@ -24,7 +24,7 @@ public interface MobChallengeUtil {
 
 	/** Determines whether a given entity should have scaling applied */
 	public static boolean shouldScale(Entity entity) {
-		return entity instanceof LivingEntity living
+		return entity != null && entity instanceof LivingEntity living
 				&& MobChallengeUtil.isEnabled(living.getWorld())
 				&& living.getType().isIn(MobChallengeUtil.SCALED_ENTITIES)
 				&& !((LivingEntityMixinAccess) living).ignoresChallengeScaling();
