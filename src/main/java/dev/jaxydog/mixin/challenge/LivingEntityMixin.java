@@ -4,6 +4,8 @@ import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
+	/** Stores whether this entity ignores challenge scaling rules. */
+	public boolean ignoreChallengeScaling = false;
 	/**
 	 * Stores whether or not the entity needs to reset its health; should only be true if the
 	 * gamerules are updated or when the entity is first spawned
@@ -53,6 +57,10 @@ public abstract class LivingEntityMixin {
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
+		if (this.ignoreChallengeScaling) {
+			return;
+		}
+
 		final LivingEntity living = this.self();
 		final World world = living.getWorld();
 		final boolean enabled = MobChallengeUtil.isEnabled(world);
@@ -105,4 +113,19 @@ public abstract class LivingEntityMixin {
 		}
 	}
 
+	/** Deserializes the `ignoreChallengeScaling` field. */
+	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+	private void readCustomDataFromNbtInject(NbtCompound nbt, CallbackInfo callbackInfo) {
+		if (nbt.contains(MobChallengeUtil.IGNORE_KEY, NbtElement.BYTE_TYPE)) {
+			this.ignoreChallengeScaling = nbt.getBoolean(MobChallengeUtil.IGNORE_KEY);
+		}
+	}
+
+	/** Serializes the `ignoreChallengeScaling` field. */
+	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+	private void writeCustomDataToNbtInject(NbtCompound nbt, CallbackInfo callbackInfo) {
+		if (this.ignoreChallengeScaling) {
+			nbt.putBoolean(MobChallengeUtil.IGNORE_KEY, this.ignoreChallengeScaling);
+		}
+	}
 }

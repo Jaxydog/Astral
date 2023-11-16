@@ -21,6 +21,10 @@ public abstract class CreeperEntityMixin {
 	/** Modifies the creeper's explosion strength to account for mob challenge scaling */
 	@ModifyVariable(method = "explode", at = @At("STORE"), ordinal = 0)
 	private float powerVarInject(float power) {
+		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
+			return power;
+		}
+
 		final CreeperEntity self = this.self();
 
 		if (!MobChallengeUtil.isEnabled(self.getWorld())) {

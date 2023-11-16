@@ -26,6 +26,10 @@ public abstract class AbstractSkeletonEntityMixin {
 	/** Increases a skeleton's shot arrow's damage based on mob challenge scale */
 	@Inject(method = "attack", at = @At("INVOKE"), cancellable = true)
 	private void attackInject(LivingEntity target, float pullProgress, CallbackInfo callbackInfo) {
+		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
+			return;
+		}
+
 		final AbstractSkeletonEntity self = this.self();
 
 		if (!MobChallengeUtil.isEnabled(self.getWorld())) {

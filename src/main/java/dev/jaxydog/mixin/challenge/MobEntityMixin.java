@@ -21,6 +21,10 @@ public abstract class MobEntityMixin {
 	 */
 	@ModifyVariable(method = "tryAttack", at = @At("STORE"), ordinal = 0)
 	private float damageVarInject(float attack) {
+		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
+			return attack;
+		}
+
 		final MobEntity self = this.self();
 
 		if (!MobChallengeUtil.isEnabled(self.getWorld())) {
