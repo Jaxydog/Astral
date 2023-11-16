@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -20,17 +19,16 @@ public abstract class SlimeEntityMixin extends MobEntity implements Monster {
 		super(entityType, world);
 	}
 
-	@Inject(method = "getDamageAmount", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getDamageAmount", at = @At("RETURN"), cancellable = true)
 	private void getDamageAmountMixin(CallbackInfoReturnable<Float> callbackInfo) {
 		if (!MobChallengeUtil.shouldScale(this)) {
 			return;
 		}
 
-		final double base = this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		callbackInfo.setReturnValue((float) (base + scaled));
+		callbackInfo.setReturnValue(callbackInfo.getReturnValue() + (float) scaled);
 	}
 
 }
