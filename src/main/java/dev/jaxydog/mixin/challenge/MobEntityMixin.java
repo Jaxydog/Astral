@@ -8,7 +8,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /** Implements most of the mob challenge system's attack changes */
 @Mixin(MobEntity.class)
@@ -18,20 +18,18 @@ public abstract class MobEntityMixin extends LivingEntity implements Targeter {
 		super(entityType, world);
 	}
 
-	/**
-	 * Modifies the damage value within the `tryAttack` method to increase damage based on challenge
-	 * scaling
-	 */
-	@ModifyVariable(method = "tryAttack", at = @At("STORE"), ordinal = 0)
-	private float damageVarInject(float attack) {
+	@ModifyArg(method = "tryAttack", at = @At(value = "INVOKE",
+			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
+			index = 1)
+	private float tryAttackArgsInject(float damage) {
 		if (!MobChallengeUtil.shouldScale(this)) {
-			return attack;
+			return damage;
 		}
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return attack + (float) scaled;
+		return damage + (float) scaled;
 	}
 
 }
