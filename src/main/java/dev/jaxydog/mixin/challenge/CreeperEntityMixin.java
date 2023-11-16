@@ -31,7 +31,7 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SkinOv
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return (float) Math.max(power + (scaled / 10.0D), CreeperEntityMixin.MAX_POWER);
+		return (float) Math.min(power + (scaled / 10.0D), CreeperEntityMixin.MAX_POWER);
 	}
 
 }
