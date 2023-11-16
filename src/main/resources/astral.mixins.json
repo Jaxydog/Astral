@@ -15,6 +15,7 @@
         "challenge.PolarBearEntityMixin",
         "challenge.SlimeEntityMixin",
         "challenge.SmallFireballEntityMixin",
+        "challenge.TridentEntityMixin",
         "challenge.WolfEntityMixin",
         "ArmorItemMixin",
         "ItemMixin",
