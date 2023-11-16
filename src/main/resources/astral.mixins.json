@@ -9,6 +9,7 @@
         "challenge.AbstractSkeletonEntityMixin",
         "challenge.BeeEntityMixin",
         "challenge.CreeperEntityMixin",
+        "challenge.FireballEntityMixin",
         "challenge.LivingEntityMixin",
         "challenge.MobEntityMixin",
         "challenge.PolarBearEntityMixin",
