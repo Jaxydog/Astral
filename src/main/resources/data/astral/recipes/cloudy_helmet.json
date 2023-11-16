@@ -1,16 +1,9 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": ["CLC"],
-	"key": {
-		"C": {
-			"item": "astral:cloudy_mane"
-		},
-		"L": {
-			"item": "minecraft:leather_helmet"
-		}
-	},
-	"result": {
-		"item": "astral:cloudy_helmet",
-		"count": 1
-	}
+    "type": "minecraft:crafting_shaped",
+    "pattern": [ "CLC" ],
+    "key": {
+        "C": { "item": "astral:cloudy_cotton" },
+        "L": { "item": "minecraft:leather_helmet" }
+    },
+    "result": { "item": "astral:cloudy_helmet" }
 }

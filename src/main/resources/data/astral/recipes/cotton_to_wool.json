@@ -1,0 +1,8 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [ "CC", "CC" ],
+    "key": {
+        "C": { "item": "astral:cloudy_cotton" }
+    },
+    "result": { "item": "minecraft:white_wool" }
+}

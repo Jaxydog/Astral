@@ -1,19 +1,13 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [" C ", "CSC", " I "],
-	"key": {
-		"C": {
-			"item": "astral:cloudy_mane"
-		},
-		"S": {
-			"item": "minecraft:sugar"
-		},
-		"I": {
-			"item": "minecraft:stick"
-		}
-	},
-	"result": {
-		"item": "astral:cloudy_candy",
-		"count": 2
-	}
+    "type": "minecraft:crafting_shaped",
+    "pattern": [ " C ", "CSC", " I " ],
+    "key": {
+        "C": { "item": "astral:cloudy_mane" },
+        "S": { "item": "minecraft:sugar" },
+        "I": { "item": "minecraft:stick" }
+    },
+    "result": {
+        "item": "astral:cloudy_candy",
+        "count": 2
+    }
 }
