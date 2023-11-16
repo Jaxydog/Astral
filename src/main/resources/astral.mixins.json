@@ -11,6 +11,8 @@
         "challenge.EnderDragonEntityMixin",
         "challenge.EvokerFangsEntityMixin",
         "challenge.FireballEntityMixin",
+        "challenge.GuardianEntityMixin",
+        "challenge.GuardianEntityFireBeamGoalMixin",
         "challenge.HoglinMixin",
         "challenge.IronGolemEntityMixin",
         "challenge.LivingEntityMixin",
