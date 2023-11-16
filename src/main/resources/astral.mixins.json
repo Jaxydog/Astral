@@ -8,6 +8,7 @@
         "bonemeal.SugarCaneBlockMixin",
         "challenge.BeeEntityMixin",
         "challenge.CreeperEntityMixin",
+        "challenge.EvokerFangsEntityMixin",
         "challenge.FireballEntityMixin",
         "challenge.HoglinMixin",
         "challenge.IronGolemEntityMixin",
