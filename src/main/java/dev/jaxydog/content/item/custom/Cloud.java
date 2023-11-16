@@ -105,7 +105,7 @@ public interface Cloud {
 			this.increaseStorminess(stack, increaseDelta);
 		} else if (!entity.isWet() && !entity.getWorld().isRaining()
 				&& value > Cloud.MIN_STORMINESS) {
-			this.decreaseStorminess(stack, decreaseDelta);
+			this.decreaseStorminess(stack, decreaseDelta * (entity.isOnFire() ? 2.0D : 1.0D));
 		}
 	}
 
