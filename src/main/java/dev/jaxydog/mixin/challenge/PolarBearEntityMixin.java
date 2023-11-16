@@ -24,10 +24,7 @@ public abstract class PolarBearEntityMixin extends AnimalEntity implements Anger
 
 	@Inject(method = "tryAttack", at = @At("HEAD"), cancellable = true)
 	private void tryAttackInject(Entity target, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
-			return;
-		}
-		if (!MobChallengeUtil.isEnabled(this.getWorld())) {
+		if (!MobChallengeUtil.shouldScale(this)) {
 			return;
 		}
 

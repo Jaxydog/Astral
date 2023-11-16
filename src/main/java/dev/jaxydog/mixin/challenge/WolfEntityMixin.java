@@ -24,11 +24,7 @@ public abstract class WolfEntityMixin extends TameableEntity implements Angerabl
 
 	@Inject(method = "tryAttack", at = @At("HEAD"), cancellable = true)
 	private void tryAttackInject(Entity target, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
-			return;
-		}
-
-		if (this.isTamed() || !MobChallengeUtil.isEnabled(this.getWorld())) {
+		if (!MobChallengeUtil.shouldScale(this) || this.isTamed()) {
 			return;
 		}
 

@@ -30,16 +30,11 @@ public abstract class AbstractSkeletonEntityMixin extends HostileEntity implemen
 	/** Increases a skeleton's shot arrow's damage based on mob challenge scale */
 	@Inject(method = "attack", at = @At("INVOKE"), cancellable = true)
 	private void attackInject(LivingEntity target, float pullProgress, CallbackInfo callbackInfo) {
-		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
+		if (!MobChallengeUtil.shouldScale(this)) {
 			return;
 		}
 
 		final World world = this.getWorld();
-
-		if (!MobChallengeUtil.isEnabled(world)) {
-			return;
-		}
-
 		final Hand hand = ProjectileUtil.getHandPossiblyHolding(this, Items.BOW);
 		final ItemStack stack = this.getProjectileType(this.getStackInHand(hand));
 		final PersistentProjectileEntity projectile =

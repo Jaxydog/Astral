@@ -1,8 +1,14 @@
 package dev.jaxydog.utility;
 
 import org.jetbrains.annotations.ApiStatus.NonExtendable;
+import dev.jaxydog.Astral;
 import dev.jaxydog.content.CustomGamerules;
+import dev.jaxydog.mixin.challenge.LivingEntityMixin;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -12,6 +18,16 @@ public interface MobChallengeUtil {
 
 	/** An NBT key that tells an entity to ignore challenge scaling. */
 	public static final String IGNORE_KEY = "IgnoreChallengeScaling";
+	/** A tag that determines which entities are scaled. */
+	public static final TagKey<EntityType<?>> SCALED_ENTITIES =
+			TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("scaled_entities"));
+
+	/** Determines whether a given entity should have scaling applied */
+	public static boolean shouldScale(LivingEntity entity) {
+		return MobChallengeUtil.isEnabled(entity.getWorld())
+				&& entity.getType().isIn(MobChallengeUtil.SCALED_ENTITIES)
+				&& !((LivingEntityMixin) (Object) entity).ignoreChallengeScaling;
+	}
 
 	/** Returns whether mob challenge scaling is enabled. */
 	public static boolean isEnabled(World world) {

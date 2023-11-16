@@ -24,10 +24,7 @@ public abstract class MobEntityMixin extends LivingEntity implements Targeter {
 	 */
 	@ModifyVariable(method = "tryAttack", at = @At("STORE"), ordinal = 0)
 	private float damageVarInject(float attack) {
-		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
-			return attack;
-		}
-		if (!MobChallengeUtil.isEnabled(this.getWorld())) {
+		if (!MobChallengeUtil.shouldScale(this)) {
 			return attack;
 		}
 

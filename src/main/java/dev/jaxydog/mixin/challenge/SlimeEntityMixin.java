@@ -22,10 +22,7 @@ public abstract class SlimeEntityMixin extends MobEntity implements Monster {
 
 	@Inject(method = "getDamageAmount", at = @At("HEAD"), cancellable = true)
 	private void getDamageAmountMixin(CallbackInfoReturnable<Float> callbackInfo) {
-		if (((LivingEntityMixin) (Object) this).ignoreChallengeScaling) {
-			return;
-		}
-		if (!MobChallengeUtil.isEnabled(this.getWorld())) {
+		if (!MobChallengeUtil.shouldScale(this)) {
 			return;
 		}
 

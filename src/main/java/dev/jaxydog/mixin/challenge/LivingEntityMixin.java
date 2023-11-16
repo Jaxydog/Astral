@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
@@ -70,32 +69,25 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
-		if (this.ignoreChallengeScaling) {
+		if (!MobChallengeUtil.shouldScale(this.self()) || this.getWorld().isClient()) {
 			return;
 		}
 
-		final World world = this.getWorld();
-		final boolean enabled = MobChallengeUtil.isEnabled(world);
-
-		if (!enabled || world.isClient() || !(this.self() instanceof MobEntity self)) {
-			return;
-		}
-
-		final double additive = MobChallengeUtil.getHealthAdditive(world);
+		final double additive = MobChallengeUtil.getHealthAdditive(this.getWorld());
 
 		if (this.lastHealthAdditive != additive) {
 			this.shouldResetHealth = true;
 			this.lastHealthAdditive = additive;
 		}
 
-		final int chunkStep = MobChallengeUtil.getChunkStep(world);
+		final int chunkStep = MobChallengeUtil.getChunkStep(this.getWorld());
 
 		if (this.lastChunkStep != chunkStep) {
 			this.shouldResetHealth = true;
 			this.lastChunkStep = chunkStep;
 		}
 
-		final double base = self.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
+		final double base = this.self().getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
 		callbackInfo.setReturnValue((float) (base + scaled));
@@ -104,14 +96,12 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
 	/** Automatically updates an entity's maximum health if necessary */
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickInject(CallbackInfo callbackInfo) {
-		final World world = this.getWorld();
-
-		if (world.isClient || !(this.self() instanceof MobEntity self)) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
-		final boolean enabled = MobChallengeUtil.isEnabled(world);
-		final float maxHealth = self.getMaxHealth();
+		final boolean enabled = MobChallengeUtil.isEnabled(this.getWorld());
+		final float maxHealth = this.self().getMaxHealth();
 
 		if (this.lastEnableState != enabled) {
 			this.lastEnableState = enabled;
