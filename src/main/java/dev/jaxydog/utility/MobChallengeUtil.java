@@ -3,7 +3,6 @@ package dev.jaxydog.utility;
 import org.jetbrains.annotations.ApiStatus.NonExtendable;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.CustomGamerules;
-import dev.jaxydog.mixin.challenge.LivingEntityMixin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -23,10 +22,11 @@ public interface MobChallengeUtil {
 			TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("scaled_entities"));
 
 	/** Determines whether a given entity should have scaling applied */
-	public static boolean shouldScale(LivingEntity entity) {
-		return MobChallengeUtil.isEnabled(entity.getWorld())
-				&& entity.getType().isIn(MobChallengeUtil.SCALED_ENTITIES)
-				&& !((LivingEntityMixin) (Object) entity).ignoreChallengeScaling;
+	public static boolean shouldScale(Entity entity) {
+		return entity instanceof LivingEntity living
+				&& MobChallengeUtil.isEnabled(living.getWorld())
+				&& living.getType().isIn(MobChallengeUtil.SCALED_ENTITIES)
+				&& !((LivingEntityMixinAccess) living).ignoresChallengeScaling();
 	}
 
 	/** Returns whether mob challenge scaling is enabled. */

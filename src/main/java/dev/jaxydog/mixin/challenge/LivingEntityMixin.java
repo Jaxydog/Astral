@@ -1,5 +1,6 @@
 package dev.jaxydog.mixin.challenge;
 
+import dev.jaxydog.utility.LivingEntityMixinAccess;
 import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
@@ -20,7 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Implements the mob challenge system's health changes */
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements Attackable {
+public abstract class LivingEntityMixin extends Entity
+		implements Attackable, LivingEntityMixinAccess {
 
 	@Shadow
 	@Final
@@ -31,7 +33,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
 	}
 
 	/** Stores whether this entity ignores challenge scaling rules. */
-	public boolean ignoreChallengeScaling = false;
+	private boolean ignoreChallengeScaling = false;
 	/**
 	 * Stores whether or not the entity needs to reset its health; should only be true if the
 	 * gamerules are updated or when the entity is first spawned
@@ -58,6 +60,11 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
 		return (LivingEntity) (Object) this;
 	}
 
+	@Override
+	public boolean ignoresChallengeScaling() {
+		return this.ignoreChallengeScaling;
+	}
+
 	/**
 	 * Convenience method to sent the entity's current health to the given value without calling
 	 * `getMaxHealth()`
@@ -69,7 +76,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(this.self()) || this.getWorld().isClient()) {
+		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) {
 			return;
 		}
 
