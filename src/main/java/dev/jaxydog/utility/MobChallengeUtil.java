@@ -62,6 +62,10 @@ public interface MobChallengeUtil {
 
 	/** Returns a statistic additive that has been scaled using the mob challenge configuration. */
 	public static double getScaledAdditive(Entity entity, double additive) {
+		if (entity == null || entity.getWorld() == null) {
+			return additive;
+		}
+
 		final int step = MobChallengeUtil.getChunkStep(entity.getWorld());
 		final double distance = MobChallengeUtil.getSpawnDistance(entity);
 		final double modifier = Math.max(0.0D, additive) * ((distance / 16.0D) / step);
