@@ -20,7 +20,7 @@ public interface MobChallengeUtil {
 	public static final String IGNORE_KEY = "IgnoreChallengeScaling";
 	/** A tag that determines which entities are scaled. */
 	public static final TagKey<EntityType<?>> SCALED_ENTITIES =
-			TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("scaled_entities"));
+			TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("challenge"));
 
 	/** Determines whether a given entity should have scaling applied */
 	public static boolean shouldScale(Entity entity) {
