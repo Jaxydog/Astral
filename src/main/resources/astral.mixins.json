@@ -10,6 +10,7 @@
         "challenge.BeeEntityMixin",
         "challenge.CreeperEntityMixin",
         "challenge.FireballEntityMixin",
+        "challenge.IronGolemEntityMixin",
         "challenge.LivingEntityMixin",
         "challenge.MobEntityMixin",
         "challenge.PolarBearEntityMixin",
