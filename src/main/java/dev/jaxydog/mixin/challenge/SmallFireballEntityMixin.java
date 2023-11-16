@@ -22,7 +22,7 @@ public abstract class SmallFireballEntityMixin extends AbstractFireballEntity {
 			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
 			index = 1)
 	private float onEntityHitArgsInject(float damage) {
-		if (!MobChallengeUtil.shouldScale(this.getOwner())) {
+		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) {
 			return damage;
 		}
 
