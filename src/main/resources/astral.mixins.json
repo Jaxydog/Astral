@@ -24,6 +24,7 @@
         "challenge.ShulkerBulletEntityMixin",
         "challenge.SlimeEntityMixin",
         "challenge.SmallFireballEntityMixin",
+        "challenge.SonicBoomTaskMixin",
         "challenge.TridentEntityMixin",
         "challenge.WitherSkullEntityMixin",
         "challenge.WolfEntityMixin",
