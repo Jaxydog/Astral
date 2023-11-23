@@ -1,5 +1,7 @@
 # Astral
 
-An [Origins](https://github.com/apace100/origins-fabric) addon mod for Astral SMP that provides tons of custom content!
+An [Origins](https://github.com/apace100/origins-fabric) addon mod for Astral SMP that provides custom content.
 
-Sorry, no leaks here <3
+---
+
+If you're seeing this, please look away for now (unless you're from Modrinth)!
