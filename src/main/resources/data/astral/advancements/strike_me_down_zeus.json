@@ -1,20 +1,15 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.strike_me_down_zeus.title" },
-		"description": { "translate": "advancements.astral.strike_me_down_zeus.description" },
-		"icon": { "item": "minecraft:lightning_rod" },
-		"frame": "challenge",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"you_dont_have_the_balls": {
-			"trigger": "minecraft:entity_hurt_player",
-			"conditions": {
-				"damage": { "source_entity": { "type": "minecraft:lightning_bolt" } }
-			}
-		}
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.strike_me_down_zeus.title" },
+        "description": { "translate": "advancements.astral.strike_me_down_zeus.description" },
+        "icon": { "item": "minecraft:lightning_rod" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "you_dont_have_the_balls": { "trigger": "minecraft:impossible" }
+    }
 }

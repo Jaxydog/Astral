@@ -1,21 +1,21 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.break_diamond_hoe.title" },
-		"description": { "translate": "advancements.astral.break_diamond_hoe.description" },
-		"icon": { "item": "minecraft:diamond_hoe" },
-		"frame": "goal",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"break": {
-			"trigger": "minecraft:item_durability_changed",
-			"conditions": {
-				"item": { "items": ["minecraft:diamond_hoe"] },
-				"durability": 0
-			}
-		}
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.break_diamond_hoe.title" },
+        "description": { "translate": "advancements.astral.break_diamond_hoe.description" },
+        "icon": { "item": "minecraft:diamond_hoe" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "break": {
+            "trigger": "minecraft:item_durability_changed",
+            "conditions": {
+                "item": { "items": [ "minecraft:diamond_hoe" ] },
+                "durability": 0
+            }
+        }
+    }
 }

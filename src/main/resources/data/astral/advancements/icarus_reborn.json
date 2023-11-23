@@ -1,20 +1,22 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.icarus_reborn.title" },
-		"description": { "translate": "advancements.astral.icarus_reborn.description" },
-		"icon": { "item": "minecraft:elytra" },
-		"frame": "goal",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"fall_guys": {
-			"trigger": "minecraft:fall_from_height",
-			"conditions": {
-				"distance": { "absolute": 200 }
-			}
-		}
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.icarus_reborn.title" },
+        "description": { "translate": "advancements.astral.icarus_reborn.description" },
+        "icon": { "item": "minecraft:elytra" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "fall_guys": {
+            "trigger": "minecraft:fall_from_height",
+            "conditions": {
+                "distance": {
+                    "y": { "min": 200.0 }
+                }
+            }
+        }
+    }
 }

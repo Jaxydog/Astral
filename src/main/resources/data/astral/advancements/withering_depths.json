@@ -1,15 +1,15 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.withering_depths.title" },
-		"description": { "translate": "advancements.astral.withering_depths.description" },
-		"icon": { "item": "minecraft:wither_skeleton_skull" },
-		"frame": "challenge",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"over9000": { "trigger": "minecraft:impossible" }
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.withering_depths.title" },
+        "description": { "translate": "advancements.astral.withering_depths.description" },
+        "icon": { "item": "minecraft:wither_skeleton_skull" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "over9000": { "trigger": "minecraft:impossible" }
+    }
 }

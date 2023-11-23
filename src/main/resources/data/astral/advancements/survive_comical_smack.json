@@ -1,15 +1,15 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.survive_comical_smack.title" },
-		"description": { "translate": "advancements.astral.survive_comical_smack.description" },
-		"icon": { "item": "minecraft:shield" },
-		"frame": "challenge",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"ilivedbitch": { "trigger": "minecraft:impossible" }
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.survive_comical_smack.title" },
+        "description": { "translate": "advancements.astral.survive_comical_smack.description" },
+        "icon": { "item": "minecraft:netherite_axe" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "ilivedbitch": { "trigger": "minecraft:impossible" }
+    }
 }

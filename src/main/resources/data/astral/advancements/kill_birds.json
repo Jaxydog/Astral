@@ -1,15 +1,27 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.kill_birds.title" },
-		"description": { "translate": "advancements.astral.kill_birds.description" },
-		"icon": { "item": "minecraft:feather" },
-		"frame": "challenge",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"withthreepoisons": { "trigger": "minecraft:impossible" }
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.kill_birds.title" },
+        "description": { "translate": "advancements.astral.kill_birds.description" },
+        "icon": { "item": "minecraft:feather" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "withthreepoisons": { "trigger": "minecraft:impossible" },
+        "ghast": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:ghast" }
+            }
+        },
+        "chicken": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:chicken" }
+            }
+        }
+    }
 }

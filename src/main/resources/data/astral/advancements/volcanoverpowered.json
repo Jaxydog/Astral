@@ -1,0 +1,26 @@
+{
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.volcanoverpowered.title" },
+        "description": { "translate": "advancements.astral.volcanoverpowered.description" },
+        "icon": { "item": "minecraft:beacon" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "wither_be_gone": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:wither" }
+            }
+        },
+        "beeeeg_levels": {
+            "trigger": "minecraft:tick",
+            "conditions": {
+                "player": { "nbt": "{XpLevel:40}" }
+            }
+        }
+    }
+}

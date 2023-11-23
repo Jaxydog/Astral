@@ -1,42 +1,56 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.kill_fish.title" },
-		"description": { "translate": "advancements.astral.kill_fish.description" },
-		"icon": { "item": "minecraft:cod" },
-		"frame": "goal",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"cod": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:cod" } }
-		},
-		"drowned": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:drowned" } }
-		},
-		"tropical_fish": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:tropical_fish" } }
-		},
-		"squid": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:squid" } }
-		},
-		"glow_squid": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:glow_squid" } }
-		},
-		"guardian": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:guardian" } }
-		},
-		"dolphin": {
-			"trigger": "minecraft:player_killed_entity",
-			"conditions": { "entity": { "type": "minecraft:dolphin" } }
-		}
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.kill_fish.title" },
+        "description": { "translate": "advancements.astral.kill_fish.description" },
+        "icon": { "item": "minecraft:cod" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "cod": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:cod" }
+            }
+        },
+        "drowned": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:drowned" }
+            }
+        },
+        "tropical_fish": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:tropical_fish" }
+            }
+        },
+        "squid": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:squid" }
+            }
+        },
+        "glow_squid": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:glow_squid" }
+            }
+        },
+        "guardian": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:guardian" }
+            }
+        },
+        "dolphin": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": { "type": "minecraft:dolphin" }
+            }
+        }
+    }
 }

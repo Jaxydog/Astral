@@ -1,15 +1,15 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.ravaged.title" },
-		"description": { "translate": "advancements.astral.ravaged.description" },
-		"icon": { "item": "minecraft:saddle" },
-		"frame": "challenge",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": false
-	},
-	"criteria": {
-		"thats_like_a_lot_of_ravagers": { "trigger": "minecraft:impossible" }
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.ravaged.title" },
+        "description": { "translate": "advancements.astral.ravaged.description" },
+        "icon": { "item": "minecraft:saddle" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": false
+    },
+    "criteria": {
+        "thats_like_a_lot_of_ravagers": { "trigger": "minecraft:impossible" }
+    }
 }

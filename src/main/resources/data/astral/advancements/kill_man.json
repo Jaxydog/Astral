@@ -1,15 +1,15 @@
 {
-	"parent": "astral:root",
-	"display": {
-		"title": { "translate": "advancements.astral.kill_man.title" },
-		"description": { "translate": "advancements.astral.kill_man.description" },
-		"icon": { "item": "minecraft:tnt" },
-		"frame": "challenge",
-		"announce_to_chat": true,
-		"show_toast": true,
-		"hidden": true
-	},
-	"criteria": {
-		"ripbozo": { "trigger": "minecraft:impossible" }
-	}
+    "parent": "astral:root",
+    "display": {
+        "title": { "translate": "advancements.astral.kill_man.title" },
+        "description": { "translate": "advancements.astral.kill_man.description" },
+        "icon": { "item": "minecraft:tnt" },
+        "frame": "challenge",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "hidden": true
+    },
+    "criteria": {
+        "ripbozo": { "trigger": "minecraft:impossible" }
+    }
 }
