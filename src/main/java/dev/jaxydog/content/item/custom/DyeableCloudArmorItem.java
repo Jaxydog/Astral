@@ -50,9 +50,9 @@ public class DyeableCloudArmorItem extends CloudArmorItem implements DyeableItem
 		final double level = equipped.stream().map(this::getStorminess).reduce(0D, (a, b) -> a + b);
 
 		if (entity instanceof LivingEntity living && full && set) {
-			final boolean dry = (level / 4.0D < 0.5D);
+			final boolean dry = level / 4.0D < 0.5D;
 			final StatusEffect type = dry ? StatusEffects.JUMP_BOOST : StatusEffects.SLOWNESS;
-			final StatusEffectInstance effect = new StatusEffectInstance(type, 60, 0, false, false);
+			final StatusEffectInstance effect = new StatusEffectInstance(type, 20, 0, false, false);
 
 			living.setStatusEffect(effect, living);
 		}
