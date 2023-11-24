@@ -1,13 +1,16 @@
 package dev.jaxydog;
 
 import dev.jaxydog.content.CustomContent;
+import dev.jaxydog.utility.CurrencyUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -35,6 +38,8 @@ public final class Astral implements ModInitializer {
 		Registry.register(Registries.ITEM_GROUP, Astral.getId("default"), Astral.ITEM_GROUP);
 
 		CustomContent.INSTANCE.registerMain();
+		ResourceManagerHelper.get(ResourceType.SERVER_DATA)
+				.registerReloadListener(new CurrencyUtil.Loader());
 
 		FabricLoader.getInstance().getModContainer(Astral.MOD_ID).ifPresentOrElse(mod -> {
 			final String version = mod.getMetadata().getVersion().getFriendlyString();

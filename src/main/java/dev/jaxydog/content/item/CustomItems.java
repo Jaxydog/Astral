@@ -2,9 +2,6 @@ package dev.jaxydog.content.item;
 
 import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.item.custom.CloudItem;
-import dev.jaxydog.content.item.custom.CurrencyItem;
-import dev.jaxydog.content.item.custom.CurrencyRewardItem;
-import dev.jaxydog.content.item.custom.CurrencySkeletonItem;
 import dev.jaxydog.content.item.custom.DyeableCloudArmorItem;
 import dev.jaxydog.content.item.custom.MirrorItem;
 import dev.jaxydog.utility.ArmorSet;
@@ -30,13 +27,6 @@ public final class CustomItems extends ContentContainer {
 	public static final ArmorSet<DyeableCloudArmorItem> CLOUD_ARMOR_SET =
 			new ArmorSet<>("cloudy", (rawId, type) -> new DyeableCloudArmorItem(rawId,
 					CustomItems.ArmorMaterials.CLOUDY, type, new Settings()));
-
-	public static final CurrencyItem CURRENCY =
-			new CurrencyItem("currency", new Settings().rarity(Rarity.UNCOMMON));
-	public static final CurrencyRewardItem CURRENCY_REWARD = new CurrencyRewardItem(
-			"currency_reward", new Settings().maxCount(16).rarity(Rarity.RARE));
-	public static final CurrencySkeletonItem CURRENCY_SKELETON = new CurrencySkeletonItem(
-			"currency_skeleton", new Settings().maxCount(1).rarity(Rarity.EPIC));
 
 	public static final MirrorItem MIRROR =
 			new MirrorItem("mirror", new Settings().maxCount(1).rarity(Rarity.RARE));

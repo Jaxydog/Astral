@@ -31,7 +31,9 @@
         "challenge.WolfEntityMixin",
         "ArmorItemMixin",
         "ItemMixin",
-        "ParrotEntityMixin"
+        "ParrotEntityMixin",
+        "PlayerInventoryMixin",
+        "ShapelessRecipeMixin"
     ],
     "client": [
         "ArmorFeatureRendererInvoker",
