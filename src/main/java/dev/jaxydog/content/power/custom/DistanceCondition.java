@@ -21,49 +21,27 @@ public class DistanceCondition extends CustomCondition<Entity> {
 		super(rawId);
 	}
 
-	private Vec3d parsePosition(Vec3d pos, String string) {
-		final List<String> parts = List.of(string.trim().split(" ")).subList(0, 3);
-
-		if (parts.size() != 3) {
-			Astral.LOGGER.warn("Invalid position provided: '" + string + "'");
-
-			return pos;
-		}
-
-		final double x = this.parsePosition(pos.x, parts.get(0));
-		final double y = this.parsePosition(pos.y, parts.get(1));
-		final double z = this.parsePosition(pos.z, parts.get(2));
-
-		return new Vec3d(x, y, z);
-	}
-
-	private double parsePosition(double pos, String string) {
-		if (string.equals("~") || string.equals("^")) {
-			return pos;
-		}
-
-		try {
-			return Double.parseDouble(string);
-		} catch (Exception exception) {
-			Astral.LOGGER.warn(exception.getLocalizedMessage());
-			return pos;
-		}
-	}
-
 	@Override
 	public boolean check(Instance data, Entity entity) {
+		final List<Double> targetList = data.get("position");
+
+		if (targetList.size() < 3) {
+			Astral.LOGGER.warn("Expected three position coordinates!");
+
+			return false;
+		}
+
 		final Vec3d entityPos = entity.getPos();
-		final Vec3d targetPos = this.parsePosition(entityPos, data.getString("position"));
-		final double compareTo = data.getDouble("compare_to");
+		final Vec3d targetPos = new Vec3d(targetList.get(0), targetList.get(1), targetList.get(2));
 		final double distance = Math.sqrt(entityPos.squaredDistanceTo(targetPos));
 
-		return data.<Comparison>get("comparison").compare(distance, compareTo);
+		return data.<Comparison>get("comparison").compare(distance, data.getDouble("compare_to"));
 	}
 
 	@Override
 	public CustomConditionFactory<Entity> factory() {
 		final SerializableData data =
-				new SerializableData().add("position", SerializableDataTypes.STRING)
+				new SerializableData().add("position", SerializableDataTypes.DOUBLES)
 						.add("comparison", ApoliDataTypes.COMPARISON)
 						.add("compare_to", SerializableDataTypes.DOUBLE);
 
