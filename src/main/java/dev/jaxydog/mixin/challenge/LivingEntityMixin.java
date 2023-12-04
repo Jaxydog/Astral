@@ -103,7 +103,7 @@ public abstract class LivingEntityMixin extends Entity
 	/** Automatically updates an entity's maximum health if necessary */
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickInject(CallbackInfo callbackInfo) {
-		if (this.getWorld().isClient()) {
+		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) {
 			return;
 		}
 
