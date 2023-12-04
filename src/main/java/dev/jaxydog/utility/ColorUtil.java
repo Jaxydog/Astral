@@ -10,9 +10,9 @@ public interface ColorUtil {
 
 	/** Scales the given `min` color upwards towards `max` based on the given `scale` */
 	public static RGB scaleUp(RGB min, RGB max, double scale) {
-		var clamped = Math.max(0.0D, Math.min(1.0D, scale));
-		var difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
-		var scaled = difference.apply(n -> (short) (n * clamped));
+		final double clamped = Math.max(0.0D, Math.min(1.0D, scale));
+		final RGB difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
+		final RGB scaled = difference.apply(n -> (short) (n * clamped));
 
 		return min.apply(scaled, (n, s) -> (short) (n + s));
 	}
@@ -24,9 +24,9 @@ public interface ColorUtil {
 
 	/** Scales the given `max` color downwards towards `min` based on the given `scale` */
 	public static RGB scaleDown(RGB min, RGB max, double scale) {
-		var clamped = Math.max(0.0D, Math.min(1.0D, scale));
-		var difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
-		var scaled = difference.apply(n -> (short) (n * clamped));
+		final double clamped = Math.max(0.0D, Math.min(1.0D, scale));
+		final RGB difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
+		final RGB scaled = difference.apply(n -> (short) (n * clamped));
 
 		return max.apply(scaled, (n, s) -> (short) (n - s));
 	}
@@ -52,9 +52,9 @@ public interface ColorUtil {
 
 		/** Creates an RGB color value from the provided integer */
 		public static final RGB from(int color) {
-			short r = (short) (color >> 16 & 0xFF);
-			short g = (short) (color >> 8 & 0xFF);
-			short b = (short) (color & 0xFF);
+			final short r = (short) (color >> 16 & 0xFF);
+			final short g = (short) (color >> 8 & 0xFF);
+			final short b = (short) (color & 0xFF);
 
 			return new RGB(r, g, b);
 		}
@@ -81,69 +81,69 @@ public interface ColorUtil {
 
 		/** Returns the RGB color's integer representation */
 		public final int getInt() {
-			int r = ((int) this.getR()) << 16;
-			int g = ((int) this.getG()) << 8;
-			int b = (int) this.getB();
+			final int r = ((int) this.getR()) << 16;
+			final int g = ((int) this.getG()) << 8;
+			final int b = (int) this.getB();
 
 			return r | g | b;
 		}
 
 		/** Applies the given function to the RGB color's color components */
 		public final RGB apply(Function<Short, Short> f) {
-			short r = f.apply(this.getR());
-			short g = f.apply(this.getG());
-			short b = f.apply(this.getB());
+			final short r = f.apply(this.getR());
+			final short g = f.apply(this.getG());
+			final short b = f.apply(this.getB());
 
 			return new RGB(r, g, b);
 		}
 
 		/** Applies the given function to the RGB colors' color components */
 		public final RGB apply(RGB other, BiFunction<Short, Short, Short> f) {
-			short r = f.apply(this.getR(), other.getR());
-			short g = f.apply(this.getG(), other.getG());
-			short b = f.apply(this.getB(), other.getB());
+			final short r = f.apply(this.getR(), other.getR());
+			final short g = f.apply(this.getG(), other.getG());
+			final short b = f.apply(this.getB(), other.getB());
 
 			return new RGB(r, g, b);
 		}
 
 		/** Applies the given function to the RGB color's R color component */
 		public final RGB applyR(Function<Short, Short> f) {
-			var r = f.apply(this.getR());
+			final short r = f.apply(this.getR());
 
 			return new RGB(r, this.getG(), this.getB());
 		}
 
 		/** Applies the given function to the RGB color's R color component */
 		public final RGB applyG(Function<Short, Short> f) {
-			var g = f.apply(this.getG());
+			final short g = f.apply(this.getG());
 
 			return new RGB(this.getR(), g, this.getB());
 		}
 
 		/** Applies the given function to the RGB color's R color component */
 		public final RGB applyB(Function<Short, Short> f) {
-			var b = f.apply(this.getB());
+			final short b = f.apply(this.getB());
 
 			return new RGB(this.getR(), this.getG(), b);
 		}
 
 		/** Applies the given function to the RGB colors' R color component */
 		public final RGB applyR(short other, BiFunction<Short, Short, Short> f) {
-			var r = f.apply(this.getR(), other);
+			final short r = f.apply(this.getR(), other);
 
 			return new RGB(r, this.getG(), this.getB());
 		}
 
 		/** Applies the given function to the RGB colors' R color component */
 		public final RGB applyG(short other, BiFunction<Short, Short, Short> f) {
-			var g = f.apply(this.getG(), other);
+			final short g = f.apply(this.getG(), other);
 
 			return new RGB(this.getR(), g, this.getB());
 		}
 
 		/** Applies the given function to the RGB colors' R color component */
 		public final RGB applyB(short other, BiFunction<Short, Short, Short> f) {
-			var b = f.apply(this.getB(), other);
+			final short b = f.apply(this.getB(), other);
 
 			return new RGB(this.getR(), this.getG(), b);
 		}

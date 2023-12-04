@@ -17,6 +17,7 @@ public class CustomConditionFactory<T> extends ConditionFactory<T> implements Re
 	public CustomConditionFactory(String rawId, SerializableData data,
 			BiFunction<SerializableData.Instance, T, Boolean> condition) {
 		super(Astral.getId(rawId), data, condition);
+
 		this.RAW_ID = rawId;
 	}
 

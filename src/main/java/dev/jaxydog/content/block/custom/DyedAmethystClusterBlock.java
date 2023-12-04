@@ -53,22 +53,15 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos,
 			ShapeContext context) {
-		switch (state.get(FACING)) {
-			case UP:
-				return this.UP_SHAPE;
-			case DOWN:
-				return this.DOWN_SHAPE;
-			case NORTH:
-				return this.NORTH_SHAPE;
-			case SOUTH:
-				return this.SOUTH_SHAPE;
-			case EAST:
-				return this.EAST_SHAPE;
-			case WEST:
-				return this.WEST_SHAPE;
-			default:
-				return this.UP_SHAPE;
-		}
+		return switch (state.get(DyedAmethystClusterBlock.FACING)) {
+			case UP -> this.UP_SHAPE;
+			case DOWN -> this.DOWN_SHAPE;
+			case NORTH -> this.NORTH_SHAPE;
+			case SOUTH -> this.SOUTH_SHAPE;
+			case EAST -> this.EAST_SHAPE;
+			case WEST -> this.WEST_SHAPE;
+			default -> this.UP_SHAPE;
+		};
 	}
 
 	@Override

@@ -13,6 +13,7 @@ public class CustomBlock extends Block implements Registerable.Main {
 
 	public CustomBlock(String rawId, Settings settings) {
 		super(settings);
+
 		this.RAW_ID = rawId;
 	}
 

@@ -15,7 +15,7 @@ public abstract class ContentContainer implements Registerable.All {
 	private final void register(Env env, @Nullable FabricDataGenerator generator) {
 		final Class<? extends ContentContainer> source = this.getClass();
 
-		for (Field field : source.getFields()) {
+		for (final Field field : source.getFields()) {
 			this.register(env, generator, field);
 		}
 	}
@@ -42,7 +42,7 @@ public abstract class ContentContainer implements Registerable.All {
 			if (env.getInterface().isInstance(value)) {
 				env.getMethod().invoke(value);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Astral.LOGGER.error(e.getLocalizedMessage());
 		}
 	}

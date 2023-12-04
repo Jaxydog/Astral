@@ -90,18 +90,13 @@ public interface Registerable {
 
 		/** Returns whether a field should be skipped based on its annotation */
 		public final boolean isSkipped(Skip annotation) {
-			switch (this) {
-				case MAIN:
-					return annotation.main();
-				case CLIENT:
-					return annotation.client();
-				case SERVER:
-					return annotation.server();
-				case DATAGEN:
-					return annotation.datagen();
-				default:
-					return true;
-			}
+			return switch (this) {
+				case MAIN -> annotation.main();
+				case CLIENT -> annotation.client();
+				case SERVER -> annotation.server();
+				case DATAGEN -> annotation.datagen();
+				default -> true;
+			};
 		}
 
 	}

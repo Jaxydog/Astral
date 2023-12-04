@@ -16,7 +16,7 @@ public final class CustomBlocks extends ContentContainer {
 			(rawId, color) -> new DyedAmethystBlock(rawId, Settings.copy(Blocks.AMETHYST_BLOCK)));
 	public static final DyeableSet<DyedAmethystClusterBlock> DYED_AMETHYST_CLUSTER_BLOCK_SET =
 			new DyeableSet<>("amethyst_cluster",
-					(rawId, color) -> new DyedAmethystClusterBlock(rawId,
+					(rawId, _color) -> new DyedAmethystClusterBlock(rawId,
 							Settings.copy(Blocks.AMETHYST_CLUSTER)));
 
 	public static final RandomizerBlock RANDOMIZER =

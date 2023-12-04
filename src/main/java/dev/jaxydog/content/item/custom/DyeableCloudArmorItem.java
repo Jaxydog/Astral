@@ -22,17 +22,16 @@ public class DyeableCloudArmorItem extends CloudArmorItem implements DyeableItem
 
 	@Override
 	public int getColor(ItemStack stack, int index) {
-		if (index == 0)
-			return this.getColor(stack);
-		if (index == 1)
-			return this.getStorminessColor(stack);
-
-		return 0xFF_FF_FF;
+		return switch (index) {
+			case 0 -> this.getColor(stack);
+			case 1 -> this.getStorminessColor(stack);
+			default -> 0xFF_FF_FF;
+		};
 	}
 
 	@Override
 	public ItemStack getDefaultStack() {
-		var stack = super.getDefaultStack();
+		final ItemStack stack = super.getDefaultStack();
 
 		this.setColor(stack, DyeableItem.DEFAULT_COLOR);
 

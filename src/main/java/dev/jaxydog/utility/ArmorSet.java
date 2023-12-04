@@ -13,9 +13,9 @@ public final class ArmorSet<T extends Registerable> implements Registerable.All 
 	private final HashMap<Type, T> MAP = new HashMap<>(Type.values().length);
 
 	public ArmorSet(String baseRawId, BiFunction<String, Type, T> constructor) {
-		for (Type type : Type.values()) {
-			String rawId = baseRawId + "_" + type.getName();
-			T value = constructor.apply(rawId, type);
+		for (final Type type : Type.values()) {
+			final String rawId = baseRawId + "_" + type.getName();
+			final T value = constructor.apply(rawId, type);
 
 			this.MAP.put(type, value);
 		}
@@ -33,10 +33,10 @@ public final class ArmorSet<T extends Registerable> implements Registerable.All 
 
 	@Override
 	public final void registerClient() {
-		for (Type type : Type.values()) {
-			T value = this.get(type);
+		for (final Type type : Type.values()) {
+			final T value = this.get(type);
 
-			if (value instanceof Client client) {
+			if (value instanceof final Client client) {
 				client.registerClient();
 			}
 		}
@@ -44,10 +44,10 @@ public final class ArmorSet<T extends Registerable> implements Registerable.All 
 
 	@Override
 	public final void registerMain() {
-		for (Type type : Type.values()) {
-			T value = this.get(type);
+		for (final Type type : Type.values()) {
+			final T value = this.get(type);
 
-			if (value instanceof Main main) {
+			if (value instanceof final Main main) {
 				main.registerMain();
 			}
 		}
@@ -55,10 +55,10 @@ public final class ArmorSet<T extends Registerable> implements Registerable.All 
 
 	@Override
 	public final void registerServer() {
-		for (Type type : Type.values()) {
-			T value = this.get(type);
+		for (final Type type : Type.values()) {
+			final T value = this.get(type);
 
-			if (value instanceof Server server) {
+			if (value instanceof final Server server) {
 				server.registerServer();
 			}
 		}
@@ -66,12 +66,13 @@ public final class ArmorSet<T extends Registerable> implements Registerable.All 
 
 	@Override
 	public final void registerDatagen(FabricDataGenerator generator) {
-		for (Type type : Type.values()) {
-			T value = this.get(type);
+		for (final Type type : Type.values()) {
+			final T value = this.get(type);
 
-			if (value instanceof Datagen dataGenerator) {
+			if (value instanceof final Datagen dataGenerator) {
 				dataGenerator.registerDatagen(generator);
 			}
 		}
 	}
+
 }

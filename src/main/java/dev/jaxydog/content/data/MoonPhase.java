@@ -32,7 +32,7 @@ public enum MoonPhase {
 
 	/** Returns the moon phase with the given name */
 	public static MoonPhase from(String name) {
-		for (MoonPhase phase : MoonPhase.values()) {
+		for (final MoonPhase phase : MoonPhase.values()) {
 			if (phase.getName() == name) {
 				return phase;
 			}

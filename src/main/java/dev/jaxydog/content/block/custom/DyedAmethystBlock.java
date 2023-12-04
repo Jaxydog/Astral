@@ -26,10 +26,10 @@ public class DyedAmethystBlock extends CustomBlock {
 	public void onProjectileHit(World world, BlockState state, BlockHitResult hit,
 			ProjectileEntity projectile) {
 		if (!world.isClient) {
-			var pos = hit.getBlockPos();
+			final BlockPos position = hit.getBlockPos();
 
-			this.playChimeSound(world, pos, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT);
-			this.playChimeSound(world, pos, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME);
+			this.playChimeSound(world, position, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT);
+			this.playChimeSound(world, position, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME);
 		}
 	}
 

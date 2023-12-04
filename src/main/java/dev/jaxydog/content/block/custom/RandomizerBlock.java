@@ -26,11 +26,9 @@ public class RandomizerBlock extends CustomBlock {
 	public RandomizerBlock(String rawId, Settings settings) {
 		super(rawId, settings);
 
-		BlockState state = this.stateManager.getDefaultState().with(RandomizerBlock.ACTIVE_VALUE, 0)
-				.with(RandomizerBlock.BOOLEAN_MODE, false)
-				.with(RandomizerBlock.RETAIN_STATE, false);
-
-		this.setDefaultState(state);
+		this.setDefaultState(this.stateManager.getDefaultState()
+				.with(RandomizerBlock.ACTIVE_VALUE, 0).with(RandomizerBlock.BOOLEAN_MODE, false)
+				.with(RandomizerBlock.RETAIN_STATE, false));
 	}
 
 	@Override
@@ -46,7 +44,7 @@ public class RandomizerBlock extends CustomBlock {
 			return ActionResult.PASS;
 		}
 
-		BlockState toggled =
+		final BlockState toggled =
 				state.cycle(RandomizerBlock.BOOLEAN_MODE).with(RandomizerBlock.RETAIN_STATE, false);
 
 		world.setBlockState(pos, toggled);
@@ -77,11 +75,15 @@ public class RandomizerBlock extends CustomBlock {
 
 	/** Generates a new active block value */
 	private void generateValue(BlockState state, World world, BlockPos pos) {
-		int value =
-				state.get(RandomizerBlock.BOOLEAN_MODE) ? (world.getRandom().nextBoolean() ? 0 : 15)
-						: world.getRandom().nextBetween(0, 15);
+		final int value;
 
-		BlockState update = state.with(RandomizerBlock.ACTIVE_VALUE, value)
+		if (state.get(RandomizerBlock.BOOLEAN_MODE)) {
+			value = world.getRandom().nextBoolean() ? 0 : 15;
+		} else {
+			value = world.getRandom().nextBetween(0, 15);
+		}
+
+		final BlockState update = state.with(RandomizerBlock.ACTIVE_VALUE, value)
 				.with(RandomizerBlock.RETAIN_STATE, true);
 
 		world.setBlockState(pos, update);
@@ -89,9 +91,7 @@ public class RandomizerBlock extends CustomBlock {
 
 	/** Discards the block's active value */
 	private void discardValue(BlockState state, World world, BlockPos pos) {
-		BlockState update = state.with(RandomizerBlock.RETAIN_STATE, false);
-
-		world.setBlockState(pos, update);
+		world.setBlockState(pos, state.with(RandomizerBlock.RETAIN_STATE, false));
 	}
 
 }

@@ -23,6 +23,7 @@ public class CustomArmorItem extends ArmorItem implements Registerable.Main {
 
 	public CustomArmorItem(String rawId, ArmorMaterial material, Type type, Settings settings) {
 		super(material, type, settings);
+
 		this.RAW_ID = rawId;
 	}
 
@@ -40,10 +41,9 @@ public class CustomArmorItem extends ArmorItem implements Registerable.Main {
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip,
 			TooltipContext context) {
 		// This will automatically add item tooltips as long as there's a consecutive listing for
-		// each
-		// lang file entry starting at 0
-		var key = stack.getItem().getTranslationKey(stack) + ".lore_";
-		var index = 0;
+		// each lang file entry starting at 0
+		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
+		int index = 0;
 
 		while (I18n.hasTranslation(key + index)) {
 			tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));

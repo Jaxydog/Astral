@@ -23,6 +23,7 @@ public class CustomPowerFactory<P extends Power> extends PowerFactory<P>
 	public CustomPowerFactory(String rawId, SerializableData data,
 			Function<SerializableData.Instance, BiFunction<PowerType<P>, LivingEntity, P>> factoryConstructor) {
 		super(Astral.getId(rawId), data, factoryConstructor);
+
 		this.RAW_ID = rawId;
 	}
 

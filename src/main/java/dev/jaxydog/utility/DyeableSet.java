@@ -16,9 +16,9 @@ public final class DyeableSet<T extends Registerable> implements Registerable.Al
 	private final HashMap<DyeColor, T> MAP = new HashMap<>(DyeColor.values().length);
 
 	public DyeableSet(String baseRawId, BiFunction<String, DyeColor, T> constructor) {
-		for (DyeColor color : DyeColor.values()) {
-			String rawId = color.asString() + "_" + baseRawId;
-			T value = constructor.apply(rawId, color);
+		for (final DyeColor color : DyeColor.values()) {
+			final String rawId = color.asString() + "_" + baseRawId;
+			final T value = constructor.apply(rawId, color);
 
 			this.MAP.put(color, value);
 		}
@@ -36,8 +36,8 @@ public final class DyeableSet<T extends Registerable> implements Registerable.Al
 
 	@Override
 	public final void registerClient() {
-		for (T value : this.MAP.values()) {
-			if (value instanceof Client client) {
+		for (final T value : this.MAP.values()) {
+			if (value instanceof final Client client) {
 				client.registerClient();
 			}
 		}
@@ -45,8 +45,8 @@ public final class DyeableSet<T extends Registerable> implements Registerable.Al
 
 	@Override
 	public final void registerMain() {
-		for (T value : this.MAP.values()) {
-			if (value instanceof Main main) {
+		for (final T value : this.MAP.values()) {
+			if (value instanceof final Main main) {
 				main.registerMain();
 			}
 		}
@@ -54,8 +54,8 @@ public final class DyeableSet<T extends Registerable> implements Registerable.Al
 
 	@Override
 	public final void registerServer() {
-		for (T value : this.MAP.values()) {
-			if (value instanceof Server server) {
+		for (final T value : this.MAP.values()) {
+			if (value instanceof final Server server) {
 				server.registerServer();
 			}
 		}
@@ -63,8 +63,8 @@ public final class DyeableSet<T extends Registerable> implements Registerable.Al
 
 	@Override
 	public final void registerDatagen(FabricDataGenerator generator) {
-		for (T value : this.MAP.values()) {
-			if (value instanceof Datagen dataGenerator) {
+		for (final T value : this.MAP.values()) {
+			if (value instanceof final Datagen dataGenerator) {
 				dataGenerator.registerDatagen(generator);
 			}
 		}

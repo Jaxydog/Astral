@@ -17,6 +17,7 @@ public class CustomActionFactory<T> extends ActionFactory<T> implements Register
 	public CustomActionFactory(String rawId, SerializableData data,
 			BiConsumer<SerializableData.Instance, T> effect) {
 		super(Astral.getId(rawId), data, effect);
+
 		this.RAW_ID = rawId;
 	}
 

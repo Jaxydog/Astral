@@ -23,14 +23,15 @@ public class CustomBlockItem extends BlockItem implements Registerable.Main {
 
 	public CustomBlockItem(String rawId, Block block, Settings settings) {
 		super(block, settings);
+
 		this.RAW_ID = rawId;
 	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip,
 			TooltipContext context) {
-		var key = stack.getItem().getTranslationKey(stack) + ".lore_";
-		var index = 0;
+		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
+		int index = 0;
 
 		while (I18n.hasTranslation(key + index)) {
 			tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
