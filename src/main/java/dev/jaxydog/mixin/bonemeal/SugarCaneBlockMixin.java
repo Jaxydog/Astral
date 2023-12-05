@@ -33,7 +33,7 @@ public abstract class SugarCaneBlockMixin {
 	/** Returns the top-most block of the sugar cane */
 	private final BlockPos getTop(WorldView world, BlockPos current) {
 		while (true) {
-			BlockPos above = current.up();
+			final BlockPos above = current.up();
 
 			if (world.getBlockState(above).getBlock() instanceof SugarCaneBlock) {
 				current = above;
@@ -64,13 +64,12 @@ public abstract class SugarCaneBlockMixin {
 
 	public boolean impl$isFertilizable(WorldView world, BlockPos pos, BlockState state,
 			boolean isClient) {
-		SugarCaneBlock self = this.self();
-		BlockPos top = this.getTop(world, pos);
+		final BlockPos top = this.getTop(world, pos);
 
 		if (!world.getBlockState(top).isAir()) {
 			return false;
 		}
-		if (!self.canPlaceAt(world.getBlockState(top), world, top)) {
+		if (!this.self().canPlaceAt(world.getBlockState(top), world, top)) {
 			return false;
 		}
 
@@ -78,7 +77,6 @@ public abstract class SugarCaneBlockMixin {
 	}
 
 	public void impl$grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-		SugarCaneBlock self = this.self();
 		BlockPos top = this.getTop(world, pos).up();
 
 		if (random.nextFloat() > SugarCaneBlockMixin.GROW_CHANCE) {
@@ -93,7 +91,7 @@ public abstract class SugarCaneBlockMixin {
 
 		top = top.up();
 
-		if (!self.canPlaceAt(world.getBlockState(top), world, top)) {
+		if (!this.self().canPlaceAt(world.getBlockState(top), world, top)) {
 			return;
 		}
 		if (random.nextFloat() > SugarCaneBlockMixin.BONUS_CHANCE) {
