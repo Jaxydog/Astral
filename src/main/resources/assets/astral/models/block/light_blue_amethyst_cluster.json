@@ -1,6 +1,4 @@
 {
-	"parent": "block/cross",
-	"textures": {
-		"cross": "astral:block/light_blue_amethyst_cluster"
-	}
+    "parent": "block/cross",
+    "textures": { "cross": "astral:block/light_blue_amethyst_cluster" }
 }

@@ -1,11 +1,7 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "astral:block/blue_amethyst_cluster"
-	},
-	"display": {
-		"head": {
-			"translation": [0, 14, -5]
-		}
-	}
+    "parent": "item/generated",
+    "textures": { "layer0": "astral:block/blue_amethyst_cluster" },
+    "display": {
+        "head": { "translation": [ 0, 14, -5 ] }
+    }
 }

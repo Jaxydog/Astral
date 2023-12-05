@@ -1,6 +1,4 @@
 {
-	"parent": "minecraft:item/handheld",
-	"textures": {
-		"layer0": "astral:item/mirror_broken"
-	}
+    "parent": "minecraft:item/handheld",
+    "textures": { "layer0": "astral:item/mirror_broken" }
 }

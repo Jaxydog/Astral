@@ -1,7 +1,5 @@
 {
-	"variants": {
-		"": {
-			"model": "astral:block/black_amethyst_block"
-		}
-	}
+    "variants": {
+        "": { "model": "astral:block/black_amethyst_block" }
+    }
 }

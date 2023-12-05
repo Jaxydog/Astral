@@ -1,4 +1,4 @@
 {
-	"replace": false,
-	"values": ["astral:cloudy_helmet", "astral:cloudy_chestplate", "astral:cloudy_leggings", "astral:cloudy_boots"]
+    "replace": false,
+    "values": [ "astral:cloudy_helmet", "astral:cloudy_chestplate", "astral:cloudy_leggings", "astral:cloudy_boots" ]
 }

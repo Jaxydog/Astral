@@ -1,6 +1,4 @@
 {
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "astral:item/cloudy_mane"
-	}
+    "parent": "minecraft:item/generated",
+    "textures": { "layer0": "astral:item/cloudy_mane" }
 }

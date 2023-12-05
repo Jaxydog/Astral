@@ -1,40 +1,34 @@
 {
-	"type": "minecraft:entity",
-	"pools": [
-		{
-			"rolls": 1,
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "minecraft:player_head",
-					"functions": [
-						{
-							"function": "minecraft:set_lore",
-							"replace": true,
-							"lore": [
-								[
-									{
-										"text": "Killed by §e"
-									},
-									{
-										"selector": "@s"
-									}
-								]
-							],
-							"entity": "killer_player"
-						},
-						{
-							"function": "minecraft:fill_player_head",
-							"entity": "this"
-						}
-					],
-					"conditions": [
-						{
-							"condition": "minecraft:killed_by_player"
-						}
-					]
-				}
-			]
-		}
-	]
+    "type": "minecraft:entity",
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:player_head",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_lore",
+                            "replace": true,
+                            "lore": [
+                                [
+                                    { "text": "Killed by §e" },
+                                    { "selector": "@s" }
+                                ]
+                            ],
+                            "entity": "killer_player"
+                        },
+                        {
+                            "function": "minecraft:fill_player_head",
+                            "entity": "this"
+                        }
+                    ],
+                    "conditions": [
+                        { "condition": "minecraft:killed_by_player" }
+                    ]
+                }
+            ]
+        }
+    ]
 }

@@ -29,6 +29,7 @@
     "advancements.astral.volcanoverpowered.title": "Volcano-verpowered!",
     "advancements.astral.withering_depths.description": "It's amazing that you stay so slim!",
     "advancements.astral.withering_depths.title": "Withering Depths",
+
     "block.astral.black_amethyst_block": "Block of Black Amethyst",
     "block.astral.black_amethyst_cluster": "Black Amethyst Cluster",
     "block.astral.blue_amethyst_block": "Block of Blue Amethyst",
@@ -62,12 +63,14 @@
     "block.astral.white_amethyst_cluster": "White Amethyst Cluster",
     "block.astral.yellow_amethyst_block": "Block of Yellow Amethyst",
     "block.astral.yellow_amethyst_cluster": "Yellow Amethyst Cluster",
+
     "gamerule.challengeAttackAdditive": "Scaling attack additive",
     "gamerule.challengeChunkStep": "Scaling chunk step",
     "gamerule.challengeEnabled": "Challenge scaling enabled",
     "gamerule.challengeHealthAdditive": "Scaling health additive",
     "gamerule.challengeUseWorldspawn": "Scaling uses worldspawn",
     "gamerule.currencyRewardChance": "Currency reward chance",
+
     "item.astral.cloudy_boots.lore_0": "You feel light and fluffy!",
     "item.astral.cloudy_boots": "Cloudy Leather Boots",
     "item.astral.cloudy_candy": "Cloudy Candy",
@@ -80,6 +83,8 @@
     "item.astral.cloudy_leggings": "Cloudy Leather Pants",
     "item.astral.cloudy_mane": "Cloudy Mane",
     "item.astral.mirror": "Mirror",
+
     "itemGroup.astral.default": "Astral",
+
     "text.astral.storminess": "Storminess"
 }

@@ -1,8 +1,8 @@
 {
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "astral:item/cloudy_leggings_0",
-		"layer1": "astral:item/cloudy_leggings_1",
-		"layer2": "astral:item/cloudy_leggings_2"
-	}
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "astral:item/cloudy_leggings_0",
+        "layer1": "astral:item/cloudy_leggings_1",
+        "layer2": "astral:item/cloudy_leggings_2"
+    }
 }
