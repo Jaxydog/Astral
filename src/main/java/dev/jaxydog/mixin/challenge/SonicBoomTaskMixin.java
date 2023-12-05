@@ -33,7 +33,7 @@ public abstract class SonicBoomTaskMixin extends MultiTickTask<WardenEntity> {
 	@Final
 	private static int SOUND_DELAY;
 
-	private static final double DAMAGE = 10.0D;
+	private static final double DAMAGE = 10D;
 
 	public SonicBoomTaskMixin(Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState,
 			int minRunTime, int maxRunTime) {

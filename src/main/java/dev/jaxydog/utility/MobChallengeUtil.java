@@ -68,7 +68,7 @@ public interface MobChallengeUtil {
 
 		final int step = MobChallengeUtil.getChunkStep(entity.getWorld());
 		final double distance = MobChallengeUtil.getSpawnDistance(entity);
-		final double modifier = Math.max(0.0D, additive) * ((distance / 16.0D) / step);
+		final double modifier = Math.max(0D, additive) * ((distance / 16D) / step);
 		final boolean overworld = entity.getWorld().getRegistryKey().equals(World.OVERWORLD);
 
 		return overworld ? modifier : modifier / 2.0;

@@ -29,7 +29,7 @@ public enum ScaleOperation {
 	/** Returns the target scale for the given data */
 	public float getTarget(ScaleData data, float value) {
 		return switch (this) {
-			case ADDITIVE -> 1.0F + value;
+			case ADDITIVE -> 1F + value;
 			case MULTIPLICATIVE -> value;
 		};
 	}

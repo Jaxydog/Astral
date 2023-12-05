@@ -24,11 +24,11 @@ public final class CustomGamerules extends ContentContainer {
 	/** Defines the gamerule that configures how many attack points are added every chunk step */
 	@Skip
 	public static final Key<DoubleRule> CHALLENGE_ATTACK_ADDITIVE = GameRuleRegistry.register(
-			"challengeAttackAdditive", Category.MOBS, GameRuleFactory.createDoubleRule(1.0D));
+			"challengeAttackAdditive", Category.MOBS, GameRuleFactory.createDoubleRule(1D));
 	/** Defines the gamerule that configures how many health points are added every chunk step */
 	@Skip
 	public static final Key<DoubleRule> CHALLENGE_HEALTH_ADDITIVE = GameRuleRegistry.register(
-			"challengeHealthAdditive", Category.MOBS, GameRuleFactory.createDoubleRule(1.0D));
+			"challengeHealthAdditive", Category.MOBS, GameRuleFactory.createDoubleRule(1D));
 	/** Defines the gamerule that determines whether scaling uses worldspawn or 0, 0. */
 	@Skip
 	public static final Key<BooleanRule> CHALLENGE_USE_WORLDSPAWN = GameRuleRegistry.register(

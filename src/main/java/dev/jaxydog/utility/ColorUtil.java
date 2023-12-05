@@ -10,7 +10,7 @@ public interface ColorUtil {
 
 	/** Scales the given `min` color upwards towards `max` based on the given `scale` */
 	public static RGB scaleUp(RGB min, RGB max, double scale) {
-		final double clamped = Math.max(0.0D, Math.min(1.0D, scale));
+		final double clamped = Math.max(0D, Math.min(1D, scale));
 		final RGB difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
 		final RGB scaled = difference.apply(n -> (short) (n * clamped));
 
@@ -24,7 +24,7 @@ public interface ColorUtil {
 
 	/** Scales the given `max` color downwards towards `min` based on the given `scale` */
 	public static RGB scaleDown(RGB min, RGB max, double scale) {
-		final double clamped = Math.max(0.0D, Math.min(1.0D, scale));
+		final double clamped = Math.max(0D, Math.min(1D, scale));
 		final RGB difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
 		final RGB scaled = difference.apply(n -> (short) (n * clamped));
 

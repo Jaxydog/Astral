@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 @Mixin(WitherSkullEntity.class)
 public abstract class WitherSkullEntityMixin extends ExplosiveProjectileEntity {
 
-	private static final float MAX_POWER = 25.0F;
+	private static final float MAX_POWER = 25F;
 
 	public WitherSkullEntityMixin(EntityType<? extends ExplosiveProjectileEntity> type,
 			LivingEntity owner, double directionX, double directionY, double directionZ,
@@ -32,7 +32,7 @@ public abstract class WitherSkullEntityMixin extends ExplosiveProjectileEntity {
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return Math.min(power + (float) (scaled / 10.0D), WitherSkullEntityMixin.MAX_POWER);
+		return Math.min(power + (float) (scaled / 10D), WitherSkullEntityMixin.MAX_POWER);
 	}
 
 	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE",

@@ -21,7 +21,7 @@ public class MirrorItem extends CustomItem implements Registerable.Client {
 
 	/** Returns the mirror item's model predicate value */
 	public float getBrokenModel(ItemStack stack, World world, LivingEntity entity, int seed) {
-		return this.isBroken(stack) ? 1.0F : 0.0F;
+		return this.isBroken(stack) ? 1F : 0F;
 	}
 
 	/** Returns whether the mirror is broken */

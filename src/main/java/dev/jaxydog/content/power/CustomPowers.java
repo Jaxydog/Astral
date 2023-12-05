@@ -12,11 +12,11 @@ public final class CustomPowers extends ContentContainer {
 
 	public static final CustomPowerFactory<ScalePower> SCALE = new CustomPowerFactory<ScalePower>(
 			"scale",
-			new SerializableData().add("width", SerializableDataTypes.FLOAT, 1.0F)
-					.add("height", SerializableDataTypes.FLOAT, 1.0F)
-					.add("reach", SerializableDataTypes.FLOAT, 1.0F)
-					.add("motion", SerializableDataTypes.FLOAT, 1.0F)
-					.add("jump", SerializableDataTypes.FLOAT, 1.0F)
+			new SerializableData().add("width", SerializableDataTypes.FLOAT, 1F)
+					.add("height", SerializableDataTypes.FLOAT, 1F)
+					.add("reach", SerializableDataTypes.FLOAT, 1F)
+					.add("motion", SerializableDataTypes.FLOAT, 1F)
+					.add("jump", SerializableDataTypes.FLOAT, 1F)
 					.add("reset_on_lost", SerializableDataTypes.BOOLEAN, true)
 					.add("operation", CustomData.SCALE_OPERATION, ScaleOperation.MULTIPLICATIVE),
 			data -> (type, entity) -> new ScalePower(type, entity, data.getFloat("width"),

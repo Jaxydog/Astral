@@ -33,18 +33,12 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock
 	public static final DirectionProperty FACING = Properties.FACING;
 
 	// The block voxel shapes
-	private final VoxelShape UP_SHAPE =
-			Block.createCuboidShape(3.0D, 0.0F, 3.0D, 13.0D, 7.0D, 13.0D);
-	private final VoxelShape DOWN_SHAPE =
-			Block.createCuboidShape(3.0D, 9.0D, 3.0D, 13.0D, 16.0D, 13.0D);
-	private final VoxelShape NORTH_SHAPE =
-			Block.createCuboidShape(3.0D, 3.0D, 9.0D, 13.0D, 13.0D, 16.0D);
-	private final VoxelShape SOUTH_SHAPE =
-			Block.createCuboidShape(3.0D, 3.0D, 0.0F, 13.0D, 13.0D, 7.0D);
-	private final VoxelShape EAST_SHAPE =
-			Block.createCuboidShape(0.0F, 3.0D, 3.0D, 7.0D, 13.0D, 13.0D);
-	private final VoxelShape WEST_SHAPE =
-			Block.createCuboidShape(9.0D, 3.0D, 3.0D, 16.0D, 13.0D, 13.0D);
+	private final VoxelShape UP_SHAPE = Block.createCuboidShape(3D, 0F, 3D, 13D, 7D, 13D);
+	private final VoxelShape DOWN_SHAPE = Block.createCuboidShape(3D, 9D, 3D, 13D, 16D, 13D);
+	private final VoxelShape NORTH_SHAPE = Block.createCuboidShape(3D, 3D, 9D, 13D, 13D, 16D);
+	private final VoxelShape SOUTH_SHAPE = Block.createCuboidShape(3D, 3D, 0F, 13D, 13D, 7D);
+	private final VoxelShape EAST_SHAPE = Block.createCuboidShape(0F, 3D, 3D, 7D, 13D, 13D);
+	private final VoxelShape WEST_SHAPE = Block.createCuboidShape(9D, 3D, 3D, 16D, 13D, 13D);
 
 	public DyedAmethystClusterBlock(String rawId, Settings settings) {
 		super(rawId, settings);

@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 @Mixin(FireballEntity.class)
 public abstract class FireballEntityMixin extends AbstractFireballEntity {
 
-	private static final float MAX_POWER = 25.0F;
+	private static final float MAX_POWER = 25F;
 
 	public FireballEntityMixin(EntityType<? extends AbstractFireballEntity> entityType,
 			LivingEntity livingEntity, double d, double e, double f, World world) {
@@ -31,7 +31,7 @@ public abstract class FireballEntityMixin extends AbstractFireballEntity {
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return Math.min(power + (float) (scaled / 10.0D), FireballEntityMixin.MAX_POWER);
+		return Math.min(power + (float) (scaled / 10D), FireballEntityMixin.MAX_POWER);
 	}
 
 	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE",

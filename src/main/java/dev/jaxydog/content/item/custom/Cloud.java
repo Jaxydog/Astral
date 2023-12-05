@@ -19,9 +19,9 @@ public interface Cloud {
 	public static final String STORMINESS_KEY = "Storminess";
 
 	/** The maximum possible item storminess value */
-	public static final double MAX_STORMINESS = 1.0D;
+	public static final double MAX_STORMINESS = 1D;
 	/** The minimum possible item storminess value */
-	public static final double MIN_STORMINESS = 0.0D;
+	public static final double MIN_STORMINESS = 0D;
 	/** The numeric margin that determines when the storminess value is rounded */
 	public static final double ROUND_THRESHOLD = 0.001D;
 
@@ -74,7 +74,7 @@ public interface Cloud {
 	/** Returns the provided stack's storminess tooltip text */
 	public default Text getStorminessText(ItemStack stack) {
 		MutableText label = Cloud.getStorminessLabelText();
-		double value = this.getStorminess(stack) * 100.0D;
+		double value = this.getStorminess(stack) * 100D;
 		String percent = String.format(Locale.getDefault(), "%.0f", value);
 
 		return label.append(":").append(ScreenTexts.SPACE).append(percent + "%");
@@ -105,7 +105,7 @@ public interface Cloud {
 			this.increaseStorminess(stack, increaseDelta);
 		} else if (!entity.isWet() && !entity.getWorld().isRaining()
 				&& value > Cloud.MIN_STORMINESS) {
-			this.decreaseStorminess(stack, decreaseDelta * (entity.isOnFire() ? 2.0D : 1.0D));
+			this.decreaseStorminess(stack, decreaseDelta * (entity.isOnFire() ? 2D : 1D));
 		}
 	}
 

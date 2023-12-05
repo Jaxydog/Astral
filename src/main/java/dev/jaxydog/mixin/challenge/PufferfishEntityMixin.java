@@ -38,7 +38,7 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 		final int puff = this.getPuffState();
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
-		final double damage = 1.0D + (double) puff + scaled;
+		final double damage = 1D + (double) puff + scaled;
 
 		if (mob.damage(this.getDamageSources().mobAttack(this), (float) damage)) {
 			mob.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * puff, 0), this);
@@ -55,7 +55,7 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 		final int puff = this.getPuffState();
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
-		final double damage = 1.0D + (double) puff + scaled;
+		final double damage = 1D + (double) puff + scaled;
 
 		final DamageSource source = this.getDamageSources().mobAttack(this);
 		final boolean applyEffects = player.damage(source, (float) damage);

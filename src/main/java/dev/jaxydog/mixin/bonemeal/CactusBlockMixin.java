@@ -21,9 +21,9 @@ public abstract class CactusBlockMixin {
 	/** Configures the maximum fertilizable height of a cactus */
 	private static final int MAX_HEIGHT = 3;
 	/** Configures how likely a cactus is to grow when fertilizing it */
-	private static final float GROW_CHANCE = 2.0F / 3.0F;
+	private static final float GROW_CHANCE = 2F / 3F;
 	/** Configures how likely a cactus is to grow an extra time when fertilizing it */
-	private static final float BONUS_CHANCE = 1.0F / 3.0F;
+	private static final float BONUS_CHANCE = 1F / 3F;
 
 	/** Returns the mixin's 'this' instance */
 	private final CactusBlock self() {

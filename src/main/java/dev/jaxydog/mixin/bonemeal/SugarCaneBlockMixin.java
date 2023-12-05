@@ -21,9 +21,9 @@ public abstract class SugarCaneBlockMixin {
 	/** Configures the maximum fertilizable height of sugar cane */
 	private static final int MAX_HEIGHT = 3;
 	/** Configures how likely sugar cane is to grow when fertilizing it */
-	private static final float GROW_CHANCE = 2.0F / 3.0F;
+	private static final float GROW_CHANCE = 2F / 3F;
 	/** Configures how likely sugar cane is to grow an extra time when fertilizing it */
-	private static final float BONUS_CHANCE = 1.0F / 3.0F;
+	private static final float BONUS_CHANCE = 1F / 3F;
 
 	/** Returns the mixin's 'this' instance */
 	private final SugarCaneBlock self() {

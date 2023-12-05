@@ -41,7 +41,7 @@ public class DyeableCloudArmorItem extends CloudArmorItem implements DyeableItem
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot,
 			boolean selected) {
-		this.updateStorminess(stack, entity, 1.0D / 160.0D, 1.0D / 320.0D);
+		this.updateStorminess(stack, entity, 1D / 160D, 1D / 320D);
 
 		final ArrayList<ItemStack> equipped = Lists.newArrayList(entity.getArmorItems());
 		final boolean full = equipped.size() == 4;
@@ -49,7 +49,7 @@ public class DyeableCloudArmorItem extends CloudArmorItem implements DyeableItem
 		final double level = equipped.stream().map(this::getStorminess).reduce(0D, (a, b) -> a + b);
 
 		if (entity instanceof LivingEntity living && full && set) {
-			final boolean dry = level / 4.0D < 0.5D;
+			final boolean dry = level / 4D < 0.5D;
 			final StatusEffect type = dry ? StatusEffects.JUMP_BOOST : StatusEffects.SLOWNESS;
 			final StatusEffectInstance effect = new StatusEffectInstance(type, 20, 0, false, false);
 

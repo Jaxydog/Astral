@@ -19,7 +19,7 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SkinOv
 	}
 
 	/** The maximum allowed explosion power. */
-	private static final double MAX_POWER = 50.0D;
+	private static final double MAX_POWER = 50D;
 
 	/** Modifies the creeper's explosion strength to account for mob challenge scaling */
 	@ModifyVariable(method = "explode", at = @At("STORE"), ordinal = 0)
@@ -31,7 +31,7 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SkinOv
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return (float) Math.min(power + (scaled / 10.0D), CreeperEntityMixin.MAX_POWER);
+		return (float) Math.min(power + (scaled / 10D), CreeperEntityMixin.MAX_POWER);
 	}
 
 }

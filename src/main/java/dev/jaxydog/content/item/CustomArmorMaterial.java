@@ -89,8 +89,8 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 		private int enchantability = 0;
 		private SoundEvent equipSound = SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
 		private Ingredient repairIngredient = Ingredient.empty();
-		private float toughness = 0.0F;
-		private float knockbackResistance = 0.0F;
+		private float toughness = 0F;
+		private float knockbackResistance = 0F;
 
 		private Builder(String name) {
 			this.NAME = name;

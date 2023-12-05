@@ -42,7 +42,7 @@ public class CloudItem extends ColoredItem implements Cloud {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot,
 			boolean selected) {
-		this.updateStorminess(stack, entity, 1.0D / 40.0D, 1.0D / 80.0D);
+		this.updateStorminess(stack, entity, 1D / 40D, 1D / 80D);
 
 		super.inventoryTick(stack, world, entity, slot, selected);
 	}
