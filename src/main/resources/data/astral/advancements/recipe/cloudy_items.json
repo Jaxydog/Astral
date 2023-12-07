@@ -1,0 +1,23 @@
+{
+    "criteria": {
+        "block": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    { "items": [ "astral:cloudy_mane" ] }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "recipes": [
+            "astral:cloudy_boots",
+            "astral:cloudy_candy",
+            "astral:cloudy_chestplate",
+            "astral:cloudy_cotton",
+            "astral:cloudy_helmet",
+            "astral:cloudy_leggings",
+            "astral:cotton_to_wool"
+        ]
+    }
+}
