@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "minecraft:amethyst_cluster" },
+        { "item": "minecraft:purple_dye" }
+    ],
+    "result": { "item": "astral:purple_amethyst_cluster" }
+}

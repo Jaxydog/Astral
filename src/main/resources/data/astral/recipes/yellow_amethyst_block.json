@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "minecraft:amethyst_block" },
+        { "item": "minecraft:yellow_dye" }
+    ],
+    "result": { "item": "astral:yellow_amethyst_block" }
+}

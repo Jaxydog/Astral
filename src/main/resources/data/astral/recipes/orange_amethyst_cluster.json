@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "minecraft:amethyst_cluster" },
+        { "item": "minecraft:orange_dye" }
+    ],
+    "result": { "item": "astral:orange_amethyst_cluster" }
+}
