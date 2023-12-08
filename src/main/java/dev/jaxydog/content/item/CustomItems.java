@@ -4,8 +4,8 @@ import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.item.custom.CloudItem;
 import dev.jaxydog.content.item.custom.DyeableCloudArmorItem;
 import dev.jaxydog.content.item.custom.MirrorItem;
-import dev.jaxydog.utility.ArmorSet;
-import dev.jaxydog.utility.DyeableSet;
+import dev.jaxydog.utility.ArmorMap;
+import dev.jaxydog.utility.DyeableMap;
 import dev.jaxydog.utility.register.ContentContainer;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,19 +24,19 @@ public final class CustomItems extends ContentContainer {
 			new CloudItem("cloudy_mane", new Settings().rarity(Rarity.UNCOMMON));
 	public static final CloudItem CLOUDY_COTTON =
 			new CloudItem("cloudy_cotton", new Settings().rarity(Rarity.UNCOMMON));
-	public static final ArmorSet<DyeableCloudArmorItem> CLOUD_ARMOR_SET =
-			new ArmorSet<>("cloudy", (rawId, type) -> new DyeableCloudArmorItem(rawId,
+	public static final ArmorMap<DyeableCloudArmorItem> CLOUD_ARMOR_MAP =
+			new ArmorMap<>("cloudy", (rawId, type) -> new DyeableCloudArmorItem(rawId,
 					CustomItems.ArmorMaterials.CLOUDY, type, new Settings()));
 
 	public static final MirrorItem MIRROR =
 			new MirrorItem("mirror", new Settings().maxCount(1).rarity(Rarity.RARE));
 
-	public static final DyeableSet<CustomBlockItem> DYED_AMETHYST_BLOCK_SET =
-			new DyeableSet<>("amethyst_block", (rawId, color) -> new CustomBlockItem(rawId,
-					CustomBlocks.DYED_AMETHYST_BLOCK_SET.get(color), new Settings()));
-	public static final DyeableSet<CustomBlockItem> DYED_AMETHYST_CLUSTER_SET =
-			new DyeableSet<>("amethyst_cluster", (rawId, color) -> new CustomBlockItem(rawId,
-					CustomBlocks.DYED_AMETHYST_CLUSTER_BLOCK_SET.get(color), new Settings()));
+	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_BLOCK_MAP =
+			new DyeableMap<>("amethyst_block", (rawId, color) -> new CustomBlockItem(rawId,
+					CustomBlocks.DYED_AMETHYST_BLOCK_MAP.get(color), new Settings()));
+	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_CLUSTER_MAP =
+			new DyeableMap<>("amethyst_cluster", (rawId, color) -> new CustomBlockItem(rawId,
+					CustomBlocks.DYED_AMETHYST_CLUSTER_BLOCK_MAP.get(color), new Settings()));
 
 	public static final CustomBlockItem RANDOMIZER_BLOCK = new CustomBlockItem("randomizer",
 			CustomBlocks.RANDOMIZER, new Settings().rarity(Rarity.UNCOMMON));
