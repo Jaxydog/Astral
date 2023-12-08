@@ -1,6 +1,7 @@
 package dev.jaxydog.utility;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -11,11 +12,13 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	private final String RAW_ID;
 	private final HashMap<K, V> INNER;
+	private final Comparator<K> COMPARATOR;
 
 	public RegisterableMap(String rawId, Supplier<K[]> keys, BiFunction<String, K, V> constructor,
-			BiFunction<K, String, String> idGen) {
+			BiFunction<K, String, String> idGen, Comparator<K> comparator) {
 		this.RAW_ID = rawId;
 		this.INNER = new HashMap<>(keys.get().length);
+		this.COMPARATOR = comparator;
 
 		for (final K key : keys.get()) {
 			final String id = idGen.apply(key, this.getRawId());
@@ -40,38 +43,38 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerMain() {
-		for (final V value : this.INNER.values()) {
-			if (value instanceof final Registerable.Main main) {
+		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+			if (this.get(key) instanceof final Registerable.Main main) {
 				main.registerMain();
 			}
-		}
+		});
 	}
 
 	@Override
 	public void registerClient() {
-		for (final V value : this.INNER.values()) {
-			if (value instanceof final Registerable.Client client) {
+		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+			if (this.get(key) instanceof final Registerable.Client client) {
 				client.registerClient();
 			}
-		}
+		});
 	}
 
 	@Override
 	public void registerServer() {
-		for (final V value : this.INNER.values()) {
-			if (value instanceof final Registerable.Server server) {
+		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+			if (this.get(key) instanceof final Registerable.Server server) {
 				server.registerServer();
 			}
-		}
+		});
 	}
 
 	@Override
 	public void registerDatagen(Pack pack) {
-		for (final V value : this.INNER.values()) {
-			if (value instanceof final Registerable.Datagen datagen) {
+		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+			if (this.get(key) instanceof final Registerable.Datagen datagen) {
 				datagen.registerDatagen(pack);
 			}
-		}
+		});
 	}
 
 }
