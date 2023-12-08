@@ -2,7 +2,7 @@ package dev.jaxydog.utility.register;
 
 import java.lang.reflect.Method;
 import dev.jaxydog.Astral;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 import net.minecraft.util.Identifier;
 
 /** Provides a set of interfaces for registering values at runtime */
@@ -44,7 +44,7 @@ public interface Registerable {
 	public static interface Datagen extends Registerable {
 
 		/** Registers the value on the datagen client */
-		public void registerDatagen(FabricDataGenerator generator);
+		public void registerDatagen(Pack generator);
 
 	}
 
@@ -82,7 +82,7 @@ public interface Registerable {
 		/** Returns the environment's registration method */
 		public final Method getMethod() throws NoSuchMethodException {
 			if (this == Env.DATAGEN) {
-				return this.getInterface().getMethod(this.METHOD_NAME, FabricDataGenerator.class);
+				return this.getInterface().getMethod(this.METHOD_NAME, Pack.class);
 			} else {
 				return this.getInterface().getMethod(this.METHOD_NAME);
 			}

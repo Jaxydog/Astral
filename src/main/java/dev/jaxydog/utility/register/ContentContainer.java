@@ -6,22 +6,22 @@ import static java.lang.reflect.Modifier.isFinal;
 import java.lang.reflect.Field;
 import org.jetbrains.annotations.Nullable;
 import dev.jaxydog.Astral;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 
 /** Represents a class that exists solely to define content */
 public abstract class ContentContainer implements Registerable.All {
 
 	/** Automatically registers all possible fields within the class */
-	private final void register(Env env, @Nullable FabricDataGenerator generator) {
+	private final void register(Env env, @Nullable Pack pack) {
 		final Class<? extends ContentContainer> source = this.getClass();
 
 		for (final Field field : source.getFields()) {
-			this.register(env, generator, field);
+			this.register(env, pack, field);
 		}
 	}
 
 	/** Automatically registers a field if possible */
-	private final void register(Env env, @Nullable FabricDataGenerator generator, Field field) {
+	private final void register(Env env, @Nullable Pack pack, Field field) {
 		final int modifiers = field.getModifiers();
 
 		if (!isPublic(modifiers) || !isStatic(modifiers) || !isFinal(modifiers)) {
@@ -40,10 +40,14 @@ public abstract class ContentContainer implements Registerable.All {
 			final Object value = field.get(null);
 
 			if (env.getInterface().isInstance(value)) {
-				env.getMethod().invoke(value);
+				if (env == Env.DATAGEN) {
+					env.getMethod().invoke(value, pack);
+				} else {
+					env.getMethod().invoke(value);
+				}
 			}
 		} catch (final Exception e) {
-			Astral.LOGGER.error(e.getLocalizedMessage());
+			Astral.LOGGER.error(e.toString());
 		}
 	}
 
@@ -68,8 +72,8 @@ public abstract class ContentContainer implements Registerable.All {
 	}
 
 	@Override
-	public final void registerDatagen(FabricDataGenerator generator) {
-		this.register(Env.DATAGEN, generator);
+	public final void registerDatagen(Pack pack) {
+		this.register(Env.DATAGEN, pack);
 	}
 
 }
