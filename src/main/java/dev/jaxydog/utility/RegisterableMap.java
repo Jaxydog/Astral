@@ -3,7 +3,6 @@ package dev.jaxydog.utility;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import dev.jaxydog.utility.register.Registerable;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
@@ -14,12 +13,12 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 	private final HashMap<K, V> INNER;
 
 	public RegisterableMap(String rawId, Supplier<K[]> keys, BiFunction<String, K, V> constructor,
-			Function<K, String> stringifier) {
+			BiFunction<K, String, String> idGen) {
 		this.RAW_ID = rawId;
 		this.INNER = new HashMap<>(keys.get().length);
 
 		for (final K key : keys.get()) {
-			final String id = String.format("%s_%s", stringifier.apply(key), this.getRawId());
+			final String id = idGen.apply(key, this.getRawId());
 			final V value = constructor.apply(id, key);
 
 			this.INNER.put(key, value);
