@@ -2,7 +2,7 @@
     "type": "minecraft:crafting_shapeless",
     "group": "dyed_amethyst_block",
     "ingredients": [
-        { "item": "minecraft:amethyst_block" },
+        { "tag": "astral:amethyst_blocks" },
         { "item": "minecraft:cyan_dye" }
     ],
     "result": { "item": "astral:cyan_amethyst_block" }

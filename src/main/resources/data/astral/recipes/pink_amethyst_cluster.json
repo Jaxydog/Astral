@@ -2,7 +2,7 @@
     "type": "minecraft:crafting_shapeless",
     "group": "dyed_amethyst_cluster",
     "ingredients": [
-        { "item": "minecraft:amethyst_cluster" },
+        { "tag": "astral:amethyst_clusters" },
         { "item": "minecraft:pink_dye" }
     ],
     "result": { "item": "astral:pink_amethyst_cluster" }
