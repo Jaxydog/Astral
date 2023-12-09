@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "dyed_amethyst_cluster",
     "ingredients": [
         { "item": "minecraft:amethyst_cluster" },
         { "item": "minecraft:cyan_dye" }
