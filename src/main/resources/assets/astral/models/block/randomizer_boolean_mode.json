@@ -1,12 +1,12 @@
 {
     "parent": "minecraft:block/cube",
     "textures": {
-        "particle": "astral:block/randomizer_up",
-        "down": "astral:block/randomizer_down",
-        "up": "astral:block/randomizer_up",
-        "north": "astral:block/randomizer_down",
-        "south": "astral:block/randomizer_up",
-        "west": "astral:block/randomizer_down",
-        "east": "astral:block/randomizer_up"
+        "particle": "astral:block/randomizer_one_boolean",
+        "down": "astral:block/randomizer_six_boolean",
+        "up": "astral:block/randomizer_one_boolean",
+        "north": "astral:block/randomizer_six_boolean",
+        "south": "astral:block/randomizer_one_boolean",
+        "west": "astral:block/randomizer_six_boolean",
+        "east": "astral:block/randomizer_one_boolean"
     }
 }
