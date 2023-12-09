@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": { "layer0": "minecraft:item/gray_dye" },
+
+    "overrides": [
+        {
+            "predicate": { "custom_model_data": 1 },
+            "model": "astral:item/placeholder/enderman_plush"
+        }
+    ]
+}

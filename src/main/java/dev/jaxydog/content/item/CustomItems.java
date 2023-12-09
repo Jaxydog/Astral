@@ -4,6 +4,7 @@ import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.item.custom.CloudItem;
 import dev.jaxydog.content.item.custom.DyeableCloudArmorItem;
 import dev.jaxydog.content.item.custom.MirrorItem;
+import dev.jaxydog.content.item.custom.PlaceholderItem;
 import dev.jaxydog.utility.ArmorMap;
 import dev.jaxydog.utility.DyeableMap;
 import dev.jaxydog.utility.register.ContentContainer;
@@ -30,6 +31,8 @@ public final class CustomItems extends ContentContainer {
 
 	public static final MirrorItem MIRROR =
 			new MirrorItem("mirror", new Settings().maxCount(1).rarity(Rarity.RARE));
+	public static final PlaceholderItem PLACEHOLDER = new PlaceholderItem("placeholder",
+			new Settings().fireproof().maxCount(1).rarity(Rarity.UNCOMMON));
 
 	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_BLOCK_MAP =
 			new DyeableMap<>("amethyst_block", (rawId, color) -> new CustomBlockItem(rawId,
