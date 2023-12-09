@@ -20,6 +20,6 @@ public final class CustomBlocks extends ContentContainer {
 							Settings.copy(Blocks.AMETHYST_CLUSTER)));
 
 	public static final RandomizerBlock RANDOMIZER =
-			new RandomizerBlock("randomizer", Settings.copy(Blocks.COMMAND_BLOCK));
+			new RandomizerBlock("randomizer", Settings.copy(Blocks.IRON_BLOCK));
 
 }

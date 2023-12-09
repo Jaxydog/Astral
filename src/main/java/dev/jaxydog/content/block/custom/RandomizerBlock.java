@@ -40,7 +40,7 @@ public class RandomizerBlock extends CustomBlock {
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockHitResult hit) {
-		if (!player.canModifyBlocks() || !player.isCreative()) {
+		if (!player.canModifyBlocks()) {
 			return ActionResult.PASS;
 		}
 

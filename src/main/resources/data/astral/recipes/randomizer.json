@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [ "III", "IXI", "III" ],
+    "key": {
+        "I": { "item": "minecraft:iron_block" },
+        "X": { "item": "minecraft:redstone_torch" }
+    },
+    "result": { "item": "astral:randomizer" }
+}

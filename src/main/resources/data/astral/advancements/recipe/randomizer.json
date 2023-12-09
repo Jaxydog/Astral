@@ -1,0 +1,15 @@
+{
+    "criteria": {
+        "block": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    { "items": [ "minecraft:redstone_torch" ] }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "recipes": [ "astral:randomizer" ]
+    }
+}
