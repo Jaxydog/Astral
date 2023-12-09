@@ -1,39 +1,40 @@
 package dev.jaxydog.utility;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Supplier;
 import dev.jaxydog.utility.register.Registerable;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 
 public abstract class RegisterableMap<K, V extends Registerable> implements Registerable.All {
 
 	private final String RAW_ID;
-	private final HashMap<K, V> INNER;
-	private final Comparator<K> COMPARATOR;
+	private final HashMap<K, V> INNER = new HashMap<>(this.keys().size());
 
-	public RegisterableMap(String rawId, Supplier<K[]> keys, BiFunction<String, K, V> constructor,
-			BiFunction<K, String, String> idGen, Comparator<K> comparator) {
+	public RegisterableMap(String rawId, BiFunction<String, K, V> constructor) {
 		this.RAW_ID = rawId;
-		this.INNER = new HashMap<>(keys.get().length);
-		this.COMPARATOR = comparator;
 
-		for (final K key : keys.get()) {
-			final String id = idGen.apply(key, this.getRawId());
+		for (final K key : this.keys()) {
+			final String id = this.getRawId(key);
 			final V value = constructor.apply(id, key);
 
 			this.INNER.put(key, value);
 		}
 	}
 
-	public final V get(K key) {
-		return this.INNER.get(key);
+	public abstract Set<K> keys();
+
+	public abstract String getRawId(K key);
+
+	protected abstract int compareKeys(K a, K b);
+
+	public final Collection<V> values() {
+		return this.INNER.values();
 	}
 
-	public final Collection<V> getAll() {
-		return this.INNER.values();
+	public final V get(K key) {
+		return this.INNER.get(key);
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerMain() {
-		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Main main) {
 				main.registerMain();
 			}
@@ -52,7 +53,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerClient() {
-		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Client client) {
 				client.registerClient();
 			}
@@ -61,7 +62,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerServer() {
-		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Server server) {
 				server.registerServer();
 			}
@@ -70,7 +71,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerDatagen(Pack pack) {
-		this.INNER.keySet().stream().sorted(this.COMPARATOR).forEach(key -> {
+		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Datagen datagen) {
 				datagen.registerDatagen(pack);
 			}
