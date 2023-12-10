@@ -10,6 +10,10 @@
         {
             "predicate": { "custom_model_data": 2 },
             "model": "astral:item/placeholder/kiwi_plush"
+        },
+        {
+            "predicate": { "custom_model_data": 3 },
+            "model": "astral:item/placeholder/handmade_mirror"
         }
     ]
 }
