@@ -14,6 +14,10 @@
         {
             "predicate": { "custom_model_data": 3 },
             "model": "astral:item/placeholder/handmade_mirror"
+        },
+        {
+            "predicate": { "custom_model_data": 4 },
+            "model": "astral:item/placeholder/miku_funkopop"
         }
     ]
 }
