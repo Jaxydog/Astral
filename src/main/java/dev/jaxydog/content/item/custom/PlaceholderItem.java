@@ -3,9 +3,11 @@ package dev.jaxydog.content.item.custom;
 import java.util.HashMap;
 import dev.jaxydog.content.item.CustomItem;
 import dev.jaxydog.content.item.Customized;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.Equipment;
 import net.minecraft.item.ItemStack;
 
-public class PlaceholderItem extends CustomItem implements Customized {
+public class PlaceholderItem extends CustomItem implements Customized, Equipment {
 
 	private static final HashMap<Integer, String> TRANSLATION_KEYS = new HashMap<>();
 
@@ -31,6 +33,12 @@ public class PlaceholderItem extends CustomItem implements Customized {
 
 			return key;
 		}
+	}
+
+
+	@Override
+	public final EquipmentSlot getSlotType() {
+		return EquipmentSlot.HEAD;
 	}
 
 }
