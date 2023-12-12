@@ -10,30 +10,46 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 public abstract class RegisterableMap<K, V extends Registerable> implements Registerable.All {
 
 	private final String RAW_ID;
-	private final HashMap<K, V> INNER = new HashMap<>(this.keys().size());
+	private final BiFunction<String, K, V> CONSTRUCTOR;
+	private final HashMap<K, V> INNER = new HashMap<>();
 
 	public RegisterableMap(String rawId, BiFunction<String, K, V> constructor) {
 		this.RAW_ID = rawId;
-
-		for (final K key : this.keys()) {
-			final String id = this.getRawId(key);
-			final V value = constructor.apply(id, key);
-
-			this.INNER.put(key, value);
-		}
+		this.CONSTRUCTOR = constructor;
 	}
-
-	public abstract Set<K> keys();
 
 	public abstract String getRawId(K key);
 
 	protected abstract int compareKeys(K a, K b);
 
-	public final Collection<V> values() {
+	public Set<K> keys() {
+		return Set.of();
+	}
+
+	public Collection<V> values() {
+		this.constructIfEmpty();
+
 		return this.INNER.values();
 	}
 
+	protected final void constructIfEmpty() {
+		if (this.INNER.isEmpty()) {
+			this.construct();
+		}
+	}
+
+	private final void construct() {
+		for (final K key : this.keys()) {
+			final String id = this.getRawId(key);
+			final V value = this.CONSTRUCTOR.apply(id, key);
+
+			this.INNER.put(key, value);
+		}
+	}
+
 	public final V get(K key) {
+		this.constructIfEmpty();
+
 		return this.INNER.get(key);
 	}
 
@@ -44,6 +60,8 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerMain() {
+		this.constructIfEmpty();
+
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Main main) {
 				main.registerMain();
@@ -53,6 +71,8 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerClient() {
+		this.constructIfEmpty();
+
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Client client) {
 				client.registerClient();
@@ -62,6 +82,8 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerServer() {
+		this.constructIfEmpty();
+
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Server server) {
 				server.registerServer();
@@ -71,6 +93,8 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	@Override
 	public void registerDatagen(Pack pack) {
+		this.constructIfEmpty();
+
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Registerable.Datagen datagen) {
 				datagen.registerDatagen(pack);

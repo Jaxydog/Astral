@@ -6,6 +6,8 @@ import dev.jaxydog.content.item.Customized;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Equipment;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class PlaceholderItem extends CustomItem implements Customized, Equipment {
 
@@ -14,7 +16,6 @@ public class PlaceholderItem extends CustomItem implements Customized, Equipment
 	public PlaceholderItem(String rawId, Settings settings) {
 		super(rawId, settings);
 	}
-
 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
@@ -35,10 +36,14 @@ public class PlaceholderItem extends CustomItem implements Customized, Equipment
 		}
 	}
 
+	@Override
+	public EquipmentSlot getSlotType() {
+		return EquipmentSlot.HEAD;
+	}
 
 	@Override
-	public final EquipmentSlot getSlotType() {
-		return EquipmentSlot.HEAD;
+	public void registerMain() {
+		Registry.register(Registries.ITEM, this.getId(), this);
 	}
 
 }
