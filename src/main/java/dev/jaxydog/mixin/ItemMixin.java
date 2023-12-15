@@ -12,10 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Item.class)
 public abstract class ItemMixin {
 
+	/** The NBT key that corresponds to the modded-in enchantment glint disable tag */
+	public static final String SET_GLINT_KEY = "SetGlint";
+
 	@Inject(method = "hasGlint", at = @At("HEAD"), cancellable = true)
 	private void hasGlintInject(ItemStack stack, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (NbtUtil.contains(stack, NbtUtil.SET_GLINT_KEY)) {
-			callbackInfo.setReturnValue(NbtUtil.getBoolean(stack, NbtUtil.SET_GLINT_KEY));
+		if (NbtUtil.contains(stack, SET_GLINT_KEY)) {
+			callbackInfo.setReturnValue(NbtUtil.getBoolean(stack, SET_GLINT_KEY));
 		}
 	}
 

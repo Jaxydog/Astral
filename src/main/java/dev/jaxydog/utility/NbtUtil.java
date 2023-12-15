@@ -11,11 +11,6 @@ import org.jetbrains.annotations.ApiStatus.NonExtendable;
 @NonExtendable
 public interface NbtUtil {
 
-	/** The NBT key that corresponds to the built-in custom model data renderer */
-	public static final String CUSTOM_MODEL_DATA_KEY = "CustomModelData";
-	/** The NBT key that corresponds to the modded-in enchantment glint disable tag */
-	public static final String SET_GLINT_KEY = "SetGlint";
-
 	/** Returns the base NBT compound stored in the item stack */
 	public static Optional<NbtCompound> getCompound(ItemStack stack) {
 		return Optional.ofNullable(stack.getNbt());
