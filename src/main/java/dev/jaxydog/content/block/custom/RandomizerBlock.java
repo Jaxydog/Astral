@@ -27,25 +27,24 @@ public class RandomizerBlock extends CustomBlock {
 		super(rawId, settings);
 
 		this.setDefaultState(this.stateManager.getDefaultState()
-				.with(RandomizerBlock.ACTIVE_VALUE, 0).with(RandomizerBlock.BOOLEAN_MODE, false)
-				.with(RandomizerBlock.RETAIN_STATE, false));
+			.with(ACTIVE_VALUE, 0)
+			.with(BOOLEAN_MODE, false)
+			.with(RETAIN_STATE, false));
 	}
 
 	@Override
 	protected void appendProperties(Builder<Block, BlockState> builder) {
-		builder.add(RandomizerBlock.ACTIVE_VALUE, RandomizerBlock.BOOLEAN_MODE,
-				RandomizerBlock.RETAIN_STATE);
+		builder.add(ACTIVE_VALUE, BOOLEAN_MODE, RETAIN_STATE);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player,
-			Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+		BlockHitResult hit) {
 		if (!player.canModifyBlocks()) {
 			return ActionResult.PASS;
 		}
 
-		final BlockState toggled =
-				state.cycle(RandomizerBlock.BOOLEAN_MODE).with(RandomizerBlock.RETAIN_STATE, false);
+		final BlockState toggled = state.cycle(BOOLEAN_MODE).with(RETAIN_STATE, false);
 
 		world.setBlockState(pos, toggled);
 		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, toggled));
@@ -66,32 +65,29 @@ public class RandomizerBlock extends CustomBlock {
 			return 0;
 		}
 
-		if (!state.get(RandomizerBlock.RETAIN_STATE)) {
+		if (!state.get(RETAIN_STATE)) {
 			this.generateValue(state, world, pos);
 		}
 
-		return state.get(RandomizerBlock.ACTIVE_VALUE);
+		return state.get(ACTIVE_VALUE);
 	}
 
 	/** Generates a new active block value */
 	private void generateValue(BlockState state, World world, BlockPos pos) {
 		final int value;
 
-		if (state.get(RandomizerBlock.BOOLEAN_MODE)) {
+		if (state.get(BOOLEAN_MODE)) {
 			value = world.getRandom().nextBoolean() ? 0 : 15;
 		} else {
 			value = world.getRandom().nextBetween(0, 15);
 		}
 
-		final BlockState update = state.with(RandomizerBlock.ACTIVE_VALUE, value)
-				.with(RandomizerBlock.RETAIN_STATE, true);
-
-		world.setBlockState(pos, update);
+		world.setBlockState(pos, state.with(ACTIVE_VALUE, value).with(RETAIN_STATE, true));
 	}
 
 	/** Discards the block's active value */
 	private void discardValue(BlockState state, World world, BlockPos pos) {
-		world.setBlockState(pos, state.with(RandomizerBlock.RETAIN_STATE, false));
+		world.setBlockState(pos, state.with(RETAIN_STATE, false));
 	}
 
 }

@@ -33,8 +33,7 @@ public abstract class PlayerInventoryMixin {
 	public abstract ItemStack getStack(int slot);
 
 	@Shadow
-	public abstract int remove(Predicate<ItemStack> shouldRemove, int maxCount,
-			Inventory craftingInventory);
+	public abstract int remove(Predicate<ItemStack> shouldRemove, int maxCount, Inventory craftingInventory);
 
 	@Inject(method = "updateItems", at = @At("TAIL"))
 	private void updateItemsInject(CallbackInfo callbackInfo) {

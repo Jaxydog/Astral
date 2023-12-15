@@ -14,14 +14,13 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 /** An extension of a regular power factory that provides additional functionality */
-public class CustomPowerFactory<P extends Power> extends PowerFactory<P>
-		implements Registerable.Main {
+public class CustomPowerFactory<P extends Power> extends PowerFactory<P> implements Registerable.Main {
 
 	/** The custom power factory's inner raw identifier */
 	private final String RAW_ID;
 
 	public CustomPowerFactory(String rawId, SerializableData data,
-			Function<SerializableData.Instance, BiFunction<PowerType<P>, LivingEntity, P>> factoryConstructor) {
+		Function<SerializableData.Instance, BiFunction<PowerType<P>, LivingEntity, P>> factoryConstructor) {
 		super(Astral.getId(rawId), data, factoryConstructor);
 
 		this.RAW_ID = rawId;

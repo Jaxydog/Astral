@@ -62,8 +62,7 @@ public abstract class SugarCaneBlockMixin {
 		return true;
 	}
 
-	public boolean impl$isFertilizable(WorldView world, BlockPos pos, BlockState state,
-			boolean isClient) {
+	public boolean impl$isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
 		final BlockPos top = this.getTop(world, pos);
 
 		if (!world.getBlockState(top).isAir()) {
@@ -73,19 +72,19 @@ public abstract class SugarCaneBlockMixin {
 			return false;
 		}
 
-		return this.getHeight(world, top, true) < SugarCaneBlockMixin.MAX_HEIGHT;
+		return this.getHeight(world, top, true) < MAX_HEIGHT;
 	}
 
 	public void impl$grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
 		BlockPos top = this.getTop(world, pos).up();
 
-		if (random.nextFloat() > SugarCaneBlockMixin.GROW_CHANCE) {
+		if (random.nextFloat() > GROW_CHANCE) {
 			return;
 		}
 
 		world.setBlockState(top, Blocks.CACTUS.getDefaultState());
 
-		if (this.getHeight(world, top, false) >= SugarCaneBlockMixin.MAX_HEIGHT) {
+		if (this.getHeight(world, top, false) >= MAX_HEIGHT) {
 			return;
 		}
 
@@ -94,7 +93,7 @@ public abstract class SugarCaneBlockMixin {
 		if (!this.self().canPlaceAt(world.getBlockState(top), world, top)) {
 			return;
 		}
-		if (random.nextFloat() > SugarCaneBlockMixin.BONUS_CHANCE) {
+		if (random.nextFloat() > BONUS_CHANCE) {
 			return;
 		}
 

@@ -29,28 +29,25 @@ import net.minecraft.item.trim.ArmorTrim;
 public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extends BipedEntityModel<T>, A extends BipedEntityModel<T>> {
 
 	@Invoker("renderArmorParts")
-	public abstract void renderArmorPartsInvoker(MatrixStack matrices,
-			VertexConsumerProvider vertexConsumers, int light, ArmorItem item, A model,
-			boolean inner, float red, float green, float blue, @Nullable String overlay);
+	public abstract void renderArmorPartsInvoker(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+		int light, ArmorItem item, A model, boolean inner, float red, float green, float blue,
+		@Nullable String overlay);
 
 	@Invoker("renderGlint")
-	public abstract void renderGlintInvoker(MatrixStack matrices,
-			VertexConsumerProvider vertexConsumers, int light, A model);
+	public abstract void renderGlintInvoker(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
+		A model);
 
 	@Invoker("renderTrim")
 	public abstract void renderTrimInvoker(ArmorMaterial material, MatrixStack matrices,
-			VertexConsumerProvider vertexConsumers, int light, ArmorTrim trim, A model,
-			boolean leggings);
+		VertexConsumerProvider vertexConsumers, int light, ArmorTrim trim, A model, boolean leggings);
 
 	@Invoker("usesInnerModel")
 	public abstract boolean usesInnerModelInvoker(EquipmentSlot slot);
 
-	@Inject(method = "renderArmor", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;usesInnerModel(Lnet/minecraft/entity/EquipmentSlot;)Z"),
-			locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+	@Inject(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;usesInnerModel(Lnet/minecraft/entity/EquipmentSlot;)Z"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
 	private void newRenderArmorInject(MatrixStack matrix, VertexConsumerProvider vertex, T entity,
-			EquipmentSlot slot, int light, A model, CallbackInfo callbackInfo, ItemStack stack,
-			ArmorItem item) {
+		EquipmentSlot slot, int light, A model, CallbackInfo callbackInfo, ItemStack stack,
+		ArmorItem item) {
 		if (!(item instanceof final CustomArmorItem custom)) {
 			return;
 		}

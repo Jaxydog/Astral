@@ -38,8 +38,7 @@ public class CustomArmorItem extends ArmorItem implements Registerable.Main {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip,
-			TooltipContext context) {
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		// This will automatically add item tooltips as long as there's a consecutive listing for
 		// each lang file entry starting at 0
 		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
@@ -61,8 +60,9 @@ public class CustomArmorItem extends ArmorItem implements Registerable.Main {
 	@Override
 	public void registerMain() {
 		Registry.register(Registries.ITEM, this.getId(), this);
-		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
-				.register(g -> g.add(this));
+		ItemGroupEvents
+			.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
+			.register(g -> g.add(this));
 	}
 
 }

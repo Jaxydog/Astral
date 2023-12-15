@@ -27,8 +27,7 @@ public class CustomItem extends Item implements Registerable.Main {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip,
-			TooltipContext context) {
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
 		int index = 0;
 
@@ -48,8 +47,9 @@ public class CustomItem extends Item implements Registerable.Main {
 	@Override
 	public void registerMain() {
 		Registry.register(Registries.ITEM, this.getId(), this);
-		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
-				.register(g -> g.add(this));
+		ItemGroupEvents
+			.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
+			.register(g -> g.add(this));
 	}
 
 }

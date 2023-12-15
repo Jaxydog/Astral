@@ -17,9 +17,7 @@ public abstract class EvokerFangsEntityMixin extends Entity implements Ownable {
 		super(type, world);
 	}
 
-	@ModifyArg(method = "damage", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float damageArgsInject(float damage) {
 		final Entity entity = this.getOwner() != null ? this.getOwner() : this;
 

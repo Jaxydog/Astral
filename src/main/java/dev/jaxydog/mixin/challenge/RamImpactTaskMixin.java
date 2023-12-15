@@ -20,8 +20,8 @@ public abstract class RamImpactTaskMixin extends MultiTickTask<GoatEntity> {
 
 	private @Nullable GoatEntity entity;
 
-	public RamImpactTaskMixin(Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState,
-			int minRunTime, int maxRunTime) {
+	public RamImpactTaskMixin(Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState, int minRunTime,
+		int maxRunTime) {
 		super(requiredMemoryState, minRunTime, maxRunTime);
 	}
 
@@ -30,18 +30,14 @@ public abstract class RamImpactTaskMixin extends MultiTickTask<GoatEntity> {
 		this.entity = entity;
 	}
 
-	@ModifyArg(method = "keepRunning", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "keepRunning", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float keepRunningArgsInject(float damage) {
-		final GoatEntity entity;
-
-		if ((entity = this.entity) == null || !MobChallengeUtil.shouldScale(entity)) {
+		if (this.entity == null || !MobChallengeUtil.shouldScale(this.entity)) {
 			return damage;
 		}
 
-		final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
-		final double scaled = MobChallengeUtil.getScaledAdditive(entity, additive);
+		final double additive = MobChallengeUtil.getAttackAdditive(this.entity.getWorld());
+		final double scaled = MobChallengeUtil.getScaledAdditive(this.entity, additive);
 
 		this.entity = null; // make sure we don't hold this forever
 

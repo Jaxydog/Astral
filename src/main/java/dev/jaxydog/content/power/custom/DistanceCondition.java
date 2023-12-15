@@ -31,19 +31,18 @@ public class DistanceCondition extends CustomCondition<Entity> {
 			return false;
 		}
 
-		final Vec3d entityPos = entity.getPos();
 		final Vec3d targetPos = new Vec3d(targetList.get(0), targetList.get(1), targetList.get(2));
-		final double distance = Math.sqrt(entityPos.squaredDistanceTo(targetPos));
+		final double distance = Math.sqrt(entity.getPos().squaredDistanceTo(targetPos));
 
 		return data.<Comparison>get("comparison").compare(distance, data.getDouble("compare_to"));
 	}
 
 	@Override
 	public CustomConditionFactory<Entity> factory() {
-		final SerializableData data =
-				new SerializableData().add("position", SerializableDataTypes.DOUBLES)
-						.add("comparison", ApoliDataTypes.COMPARISON)
-						.add("compare_to", SerializableDataTypes.DOUBLE);
+		final SerializableData data = new SerializableData()
+			.add("position", SerializableDataTypes.DOUBLES)
+			.add("comparison", ApoliDataTypes.COMPARISON)
+			.add("compare_to", SerializableDataTypes.DOUBLE);
 
 		return new CustomConditionFactory<>(this.getRawId(), data, this::check);
 	}

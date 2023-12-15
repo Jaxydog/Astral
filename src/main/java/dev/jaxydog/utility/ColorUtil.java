@@ -19,7 +19,7 @@ public interface ColorUtil {
 
 	/** Scales the given `min` color upwards towards `max` based on the given `scale` */
 	public static int scaleUp(int min, int max, double scale) {
-		return ColorUtil.scaleUp(RGB.from(min), RGB.from(max), scale).getInt();
+		return scaleUp(RGB.from(min), RGB.from(max), scale).getInt();
 	}
 
 	/** Scales the given `max` color downwards towards `min` based on the given `scale` */
@@ -33,7 +33,7 @@ public interface ColorUtil {
 
 	/** Scales the given `max` color downwards towards `min` based on the given `scale` */
 	public static int scaleDown(int min, int max, double scale) {
-		return ColorUtil.scaleUp(RGB.from(min), RGB.from(max), scale).getInt();
+		return scaleUp(RGB.from(min), RGB.from(max), scale).getInt();
 	}
 
 	/** Stores an RGB color value */

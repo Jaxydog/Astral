@@ -4,6 +4,7 @@ import net.minecraft.world.LunarWorldView;
 
 /** Represents the phases of the moon */
 public enum MoonPhase {
+
 	/** An invalid phase */
 	NONE(-1),
 	/** A full moon */
@@ -32,13 +33,13 @@ public enum MoonPhase {
 
 	/** Returns the moon phase with the given name */
 	public static MoonPhase from(String name) {
-		for (final MoonPhase phase : MoonPhase.values()) {
+		for (final MoonPhase phase : values()) {
 			if (phase.getName() == name) {
 				return phase;
 			}
 		}
 
-		return MoonPhase.NONE;
+		return NONE;
 	}
 
 	/** Returns the value's inner phase identifier */
@@ -55,4 +56,5 @@ public enum MoonPhase {
 	public boolean isCurrent(LunarWorldView world) {
 		return world.getMoonPhase() == this.ID;
 	}
+
 }

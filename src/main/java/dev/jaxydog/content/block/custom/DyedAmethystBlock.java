@@ -18,13 +18,11 @@ public class DyedAmethystBlock extends CustomBlock {
 	}
 
 	private void playChimeSound(World world, BlockPos pos, SoundEvent sound) {
-		world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0f,
-				0.5f + world.random.nextFloat() * 1.2f);
+		world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0f, 0.5f + world.random.nextFloat() * 1.2f);
 	}
 
 	@Override
-	public void onProjectileHit(World world, BlockState state, BlockHitResult hit,
-			ProjectileEntity projectile) {
+	public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
 		if (!world.isClient) {
 			final BlockPos position = hit.getBlockPos();
 

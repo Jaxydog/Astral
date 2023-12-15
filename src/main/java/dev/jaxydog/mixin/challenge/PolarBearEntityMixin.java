@@ -18,9 +18,7 @@ public abstract class PolarBearEntityMixin extends AnimalEntity implements Anger
 		super(entityType, world);
 	}
 
-	@ModifyArg(method = "tryAttack", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "tryAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float tryAttackArgsInject(float damage) {
 		if (!MobChallengeUtil.shouldScale(this)) {
 			return damage;

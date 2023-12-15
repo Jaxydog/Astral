@@ -28,24 +28,16 @@ public class MoonPhaseCondition extends CustomCondition<Entity> {
 
 		if (phase != MoonPhase.NONE) {
 			return phase.isCurrent(world);
+		} else {
+			return data.<List<MoonPhase>>get("phases").stream().anyMatch(e -> e.isCurrent(world));
 		}
-
-		final List<MoonPhase> phases = data.get("phases");
-
-		for (MoonPhase entry : phases) {
-			if (entry.isCurrent(world)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	@Override
 	public CustomConditionFactory<Entity> factory() {
-		final SerializableData data =
-				new SerializableData().add("phase", CustomData.MOON_PHASE, MoonPhase.NONE)
-						.add("phases", CustomData.MOON_PHASES, new ArrayList<>());
+		final SerializableData data = new SerializableData()
+			.add("phase", CustomData.MOON_PHASE, MoonPhase.NONE)
+			.add("phases", CustomData.MOON_PHASES, new ArrayList<>());
 
 		return new CustomConditionFactory<>(this.getRawId(), data, this::check);
 	}

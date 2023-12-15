@@ -25,12 +25,12 @@ public class PlaceholderItem extends CustomItem implements Customized, Equipment
 			return super.getTranslationKey(stack);
 		}
 
-		if (PlaceholderItem.TRANSLATION_KEYS.containsKey(data)) {
-			return PlaceholderItem.TRANSLATION_KEYS.get(data);
+		if (TRANSLATION_KEYS.containsKey(data)) {
+			return TRANSLATION_KEYS.get(data);
 		} else {
 			final String key = super.getTranslationKey(stack) + "." + data;
 
-			PlaceholderItem.TRANSLATION_KEYS.put(data, key);
+			TRANSLATION_KEYS.put(data, key);
 
 			return key;
 		}

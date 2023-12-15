@@ -25,8 +25,7 @@ public abstract class CustomMetaCondition implements Registerable.Main {
 	public abstract <T> boolean check(Instance data, T value);
 
 	/** Returns the condition's factory */
-	public abstract <T> CustomConditionFactory<T> factory(
-			SerializableDataType<ConditionFactory<T>.Instance> type);
+	public abstract <T> CustomConditionFactory<T> factory(SerializableDataType<ConditionFactory<T>.Instance> type);
 
 	@Override
 	public String getRawId() {
@@ -36,13 +35,13 @@ public abstract class CustomMetaCondition implements Registerable.Main {
 	@Override
 	public void registerMain() {
 		this.<Pair<Entity, Entity>>factory(ApoliDataTypes.BIENTITY_CONDITION)
-				.register(ApoliRegistries.BIENTITY_CONDITION);
+			.register(ApoliRegistries.BIENTITY_CONDITION);
 		this.<CachedBlockPosition>factory(ApoliDataTypes.BLOCK_CONDITION)
-				.register(ApoliRegistries.BLOCK_CONDITION);
+			.register(ApoliRegistries.BLOCK_CONDITION);
 		this.<Entity>factory(ApoliDataTypes.ENTITY_CONDITION)
-				.register(ApoliRegistries.ENTITY_CONDITION);
+			.register(ApoliRegistries.ENTITY_CONDITION);
 		this.<ItemStack>factory(ApoliDataTypes.ITEM_CONDITION)
-				.register(ApoliRegistries.ITEM_CONDITION);
+			.register(ApoliRegistries.ITEM_CONDITION);
 	}
 
 }

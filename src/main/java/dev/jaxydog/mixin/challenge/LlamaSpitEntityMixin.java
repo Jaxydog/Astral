@@ -16,9 +16,7 @@ public abstract class LlamaSpitEntityMixin extends ProjectileEntity {
 		super(entityType, world);
 	}
 
-	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float onEntityHitArgsInject(float damage) {
 		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) {
 			return damage;

@@ -28,8 +28,7 @@ public abstract class CustomMetaAction implements Registerable.Main {
 	public abstract <T> void execute(Instance data, T value);
 
 	/** Returns the action's factory */
-	public abstract <T> CustomActionFactory<T> factory(
-			SerializableDataType<ActionFactory<T>.Instance> type);
+	public abstract <T> CustomActionFactory<T> factory(SerializableDataType<ActionFactory<T>.Instance> type);
 
 	@Override
 	public String getRawId() {
@@ -39,12 +38,13 @@ public abstract class CustomMetaAction implements Registerable.Main {
 	@Override
 	public void registerMain() {
 		this.<Pair<Entity, Entity>>factory(ApoliDataTypes.BIENTITY_ACTION)
-				.register(ApoliRegistries.BIENTITY_ACTION);
+			.register(ApoliRegistries.BIENTITY_ACTION);
 		this.<Triple<World, BlockPos, Direction>>factory(ApoliDataTypes.BLOCK_ACTION)
-				.register(ApoliRegistries.BLOCK_ACTION);
-		this.<Entity>factory(ApoliDataTypes.ENTITY_ACTION).register(ApoliRegistries.ENTITY_ACTION);
+			.register(ApoliRegistries.BLOCK_ACTION);
+		this.<Entity>factory(ApoliDataTypes.ENTITY_ACTION)
+			.register(ApoliRegistries.ENTITY_ACTION);
 		this.<Pair<World, ItemStack>>factory(ApoliDataTypes.ITEM_ACTION)
-				.register(ApoliRegistries.ITEM_ACTION);
+			.register(ApoliRegistries.ITEM_ACTION);
 	}
 
 }

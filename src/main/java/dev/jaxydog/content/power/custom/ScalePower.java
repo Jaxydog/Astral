@@ -25,8 +25,8 @@ public class ScalePower extends CustomPower {
 	/** The scale operation */
 	private final ScaleOperation OPERATION;
 
-	public ScalePower(PowerType<?> type, LivingEntity entity, float width, float height,
-			float reach, float motion, float jump, boolean reset, ScaleOperation operation) {
+	public ScalePower(PowerType<?> type, LivingEntity entity, float width, float height, float reach, float motion,
+		float jump, boolean reset, ScaleOperation operation) {
 		super(type, entity);
 
 		this.WIDTH = width;

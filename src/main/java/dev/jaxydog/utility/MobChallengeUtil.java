@@ -19,15 +19,17 @@ public interface MobChallengeUtil {
 	/** An NBT key that tells an entity to ignore challenge scaling. */
 	public static final String IGNORE_KEY = "IgnoreChallengeScaling";
 	/** A tag that determines which entities are scaled. */
-	public static final TagKey<EntityType<?>> SCALED_ENTITIES =
-			TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("challenge"));
+	public static final TagKey<EntityType<?>> SCALED_ENTITIES = TagKey.of(
+		RegistryKeys.ENTITY_TYPE,
+		Astral.getId("challenge"));
 
 	/** Determines whether a given entity should have scaling applied */
 	public static boolean shouldScale(Entity entity) {
-		return entity != null && entity instanceof LivingEntity living
-				&& MobChallengeUtil.isEnabled(living.getWorld())
-				&& living.getType().isIn(MobChallengeUtil.SCALED_ENTITIES)
-				&& !((LivingEntityMixinAccess) living).ignoresChallengeScaling();
+		return entity != null
+			&& entity instanceof LivingEntity living
+			&& isEnabled(living.getWorld())
+			&& living.getType().isIn(SCALED_ENTITIES)
+			&& !((LivingEntityMixinAccess) living).ignoresChallengeScaling();
 	}
 
 	/** Returns whether mob challenge scaling is enabled. */
@@ -52,10 +54,8 @@ public interface MobChallengeUtil {
 
 	/** Returns the given entity's distance to the world spawn. */
 	public static double getSpawnDistance(Entity entity) {
-		final boolean useOrigin = !entity.getWorld().getGameRules()
-				.get(CustomGamerules.CHALLENGE_USE_WORLDSPAWN).get();
-		final BlockPos center =
-				useOrigin ? MobChallengeUtil.ORIGIN : entity.getWorld().getSpawnPos();
+		final boolean useOrigin = !entity.getWorld().getGameRules().get(CustomGamerules.CHALLENGE_USE_WORLDSPAWN).get();
+		final BlockPos center = useOrigin ? ORIGIN : entity.getWorld().getSpawnPos();
 
 		return Math.sqrt(entity.getBlockPos().getSquaredDistance(center));
 	}
@@ -66,8 +66,8 @@ public interface MobChallengeUtil {
 			return additive;
 		}
 
-		final int step = MobChallengeUtil.getChunkStep(entity.getWorld());
-		final double distance = MobChallengeUtil.getSpawnDistance(entity);
+		final int step = getChunkStep(entity.getWorld());
+		final double distance = getSpawnDistance(entity);
 		final double modifier = Math.max(0D, additive) * ((distance / 16D) / step);
 		final boolean overworld = entity.getWorld().getRegistryKey().equals(World.OVERWORLD);
 

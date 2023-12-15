@@ -22,9 +22,8 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 	private final float TOUGHNESS;
 	private final float KNOCKBACK_RESISTANCE;
 
-	private CustomArmorMaterial(Map<Type, Integer> durability, Map<Type, Integer> protection,
-			int enchantability, SoundEvent equipSound, Ingredient repairIngredient, String name,
-			float toughness, float knockbackResistance) {
+	private CustomArmorMaterial(Map<Type, Integer> durability, Map<Type, Integer> protection, int enchantability,
+		SoundEvent equipSound, Ingredient repairIngredient, String name, float toughness, float knockbackResistance) {
 		this.DURABILITY = durability;
 		this.PROTECTION = protection;
 		this.ENCHANTABILITY = enchantability;
@@ -103,9 +102,11 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 		}
 
 		public final Builder setDurability(int helmet, int chestplate, int leggings, int boots) {
-			return this.setDurability(Type.HELMET, helmet)
-					.setDurability(Type.CHESTPLATE, chestplate)
-					.setDurability(Type.LEGGINGS, leggings).setDurability(Type.BOOTS, boots);
+			return this
+				.setDurability(Type.HELMET, helmet)
+				.setDurability(Type.CHESTPLATE, chestplate)
+				.setDurability(Type.LEGGINGS, leggings)
+				.setDurability(Type.BOOTS, boots);
 		}
 
 		public final Builder setDurability(int durability) {
@@ -118,12 +119,12 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 			return this;
 		}
 
-		public final Builder setProtectionAmount(int helmet, int chestplate, int leggings,
-				int boots) {
-			return this.setProtectionAmount(Type.HELMET, helmet)
-					.setProtectionAmount(Type.CHESTPLATE, chestplate)
-					.setProtectionAmount(Type.LEGGINGS, leggings)
-					.setProtectionAmount(Type.BOOTS, boots);
+		public final Builder setProtectionAmount(int helmet, int chestplate, int leggings, int boots) {
+			return this
+				.setProtectionAmount(Type.HELMET, helmet)
+				.setProtectionAmount(Type.CHESTPLATE, chestplate)
+				.setProtectionAmount(Type.LEGGINGS, leggings)
+				.setProtectionAmount(Type.BOOTS, boots);
 		}
 
 		public final Builder setProtectionAmount(int protection) {
@@ -161,9 +162,15 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 		}
 
 		public final CustomArmorMaterial build() {
-			return new CustomArmorMaterial(this.durability, this.protection, this.enchantability,
-					this.equipSound, this.repairIngredient, this.NAME, this.toughness,
-					this.knockbackResistance);
+			return new CustomArmorMaterial(
+				this.durability,
+				this.protection,
+				this.enchantability,
+				this.equipSound,
+				this.repairIngredient,
+				this.NAME,
+				this.toughness,
+				this.knockbackResistance);
 		}
 
 	}

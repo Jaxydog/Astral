@@ -17,9 +17,7 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
 		super(entityType, world);
 	}
 
-	@ModifyArg(method = "launchLivingEntities", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "launchLivingEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float launchLivingEntitiesArgsInject(float damage) {
 		if (!MobChallengeUtil.shouldScale(this)) {
 			return damage;
@@ -31,9 +29,7 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
 		return damage + (float) scaled;
 	}
 
-	@ModifyArg(method = "damageLivingEntities", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "damageLivingEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float damageLivingEntitiesArgsInject(float damage) {
 		if (!MobChallengeUtil.shouldScale(this)) {
 			return damage;

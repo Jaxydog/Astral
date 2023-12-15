@@ -12,14 +12,11 @@ import net.minecraft.world.World;
 @Mixin(PersistentProjectileEntity.class)
 public abstract class PersistentProjectileEntityMixin extends ProjectileEntity {
 
-	public PersistentProjectileEntityMixin(EntityType<? extends ProjectileEntity> entityType,
-			World world) {
+	public PersistentProjectileEntityMixin(EntityType<? extends ProjectileEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
-	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float onEntityHitArgsInject(float damage) {
 		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) {
 			return damage;

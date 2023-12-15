@@ -31,7 +31,7 @@ public class CloudyItem extends ColoredItem implements Cloudy {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-		this.updateStorminess(stack, entity, CloudyItem.INCREASE_DELTA, CloudyItem.DECREASE_DELTA);
+		this.updateStorminess(stack, entity, INCREASE_DELTA, DECREASE_DELTA);
 
 		super.inventoryTick(stack, world, entity, slot, selected);
 	}

@@ -21,11 +21,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public class DyedAmethystClusterBlock extends DyedAmethystBlock
-		implements Registerable.Client, Waterloggable {
+public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Registerable.Client, Waterloggable {
 
 	/** Whether the block is waterlogged */
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
@@ -45,8 +45,7 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos,
-			ShapeContext context) {
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return switch (state.get(DyedAmethystClusterBlock.FACING)) {
 			case UP -> this.UP_SHAPE;
 			case DOWN -> this.DOWN_SHAPE;
@@ -60,15 +59,15 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock
 
 	@Override
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		var direction = state.get(FACING);
-		var blockPos = pos.offset(direction.getOpposite());
+		final Direction direction = state.get(FACING);
+		final BlockPos blockPos = pos.offset(direction.getOpposite());
 
 		return world.getBlockState(blockPos).isSideSolidFullSquare(world, blockPos, direction);
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction,
-			BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
+		WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(WATERLOGGED).booleanValue()) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -82,12 +81,11 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		var worldAccess = ctx.getWorld();
-		var blockPos = ctx.getBlockPos();
+		final World world = ctx.getWorld();
+		final BlockPos blockPos = ctx.getBlockPos();
+		final boolean waterlogged = world.getFluidState(blockPos).getFluid() == Fluids.WATER;
 
-		return this.getDefaultState()
-				.with(WATERLOGGED, worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER)
-				.with(FACING, ctx.getSide());
+		return this.getDefaultState().with(WATERLOGGED, waterlogged).with(FACING, ctx.getSide());
 	}
 
 	@Override

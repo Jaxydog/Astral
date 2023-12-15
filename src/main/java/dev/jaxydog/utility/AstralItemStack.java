@@ -8,13 +8,11 @@ public interface AstralItemStack {
 	public default void astral$setItem(Item item) {}
 
 	public default ItemStack astral$copyWithItem(Item item) {
-		final ItemStack self = (ItemStack) this;
-
-		if (self.isEmpty()) {
+		if (((ItemStack) this).isEmpty()) {
 			return ItemStack.EMPTY;
 		}
 
-		final ItemStack copy = self.copy();
+		final ItemStack copy = ((ItemStack) this).copy();
 
 		copy.astral$setItem(item);
 

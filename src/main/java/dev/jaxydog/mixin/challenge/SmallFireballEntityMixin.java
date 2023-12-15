@@ -13,14 +13,12 @@ import net.minecraft.world.World;
 @Mixin(SmallFireballEntity.class)
 public abstract class SmallFireballEntityMixin extends AbstractFireballEntity {
 
-	public SmallFireballEntityMixin(EntityType<? extends AbstractFireballEntity> entityType,
-			LivingEntity livingEntity, double d, double e, double f, World world) {
+	public SmallFireballEntityMixin(EntityType<? extends AbstractFireballEntity> entityType, LivingEntity livingEntity,
+		double d, double e, double f, World world) {
 		super(entityType, livingEntity, d, e, f, world);
 	}
 
-	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float onEntityHitArgsInject(float damage) {
 		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) {
 			return damage;

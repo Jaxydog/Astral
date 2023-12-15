@@ -49,8 +49,7 @@ public interface Registerable {
 	}
 
 	/** A value registered in all environments */
-	public static interface All extends Main, Client, Server, Datagen {
-	}
+	public static interface All extends Main, Client, Server, Datagen {}
 
 	/** Used in the registration process to distinguish between different target environments */
 	public static enum Env {

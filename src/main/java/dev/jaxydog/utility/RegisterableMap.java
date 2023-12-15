@@ -63,7 +63,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Registerable.Main main) {
+			if (this.get(key) instanceof final Main main) {
 				main.registerMain();
 			}
 		});
@@ -74,7 +74,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Registerable.Client client) {
+			if (this.get(key) instanceof final Client client) {
 				client.registerClient();
 			}
 		});
@@ -85,7 +85,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Registerable.Server server) {
+			if (this.get(key) instanceof final Server server) {
 				server.registerServer();
 			}
 		});
@@ -96,7 +96,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Registerable.Datagen datagen) {
+			if (this.get(key) instanceof final Datagen datagen) {
 				datagen.registerDatagen(pack);
 			}
 		});

@@ -19,8 +19,7 @@ public abstract class CustomCommand implements Registerable.Main {
 	}
 
 	/** Executes the command */
-	public abstract int execute(CommandContext<ServerCommandSource> context)
-			throws CommandSyntaxException;
+	public abstract int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException;
 
 	/** A predicate that determines if a source can use the command */
 	public abstract boolean requires(ServerCommandSource source);
@@ -37,8 +36,9 @@ public abstract class CustomCommand implements Registerable.Main {
 
 	@Override
 	public void registerMain() {
-		CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> dispatcher
-				.register(this.getCommand().executes(this::execute)));
+		CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> {
+			dispatcher.register(this.getCommand().executes(this::execute));
+		});
 	}
 
 }

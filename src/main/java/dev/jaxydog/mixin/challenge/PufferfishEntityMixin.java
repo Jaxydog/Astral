@@ -60,14 +60,12 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 		final DamageSource source = this.getDamageSources().mobAttack(this);
 		final boolean applyEffects = player.damage(source, (float) damage);
 
-		if (player instanceof ServerPlayerEntity server && puff > 0 && applyEffects) {
-			final StatusEffectInstance status =
-					new StatusEffectInstance(StatusEffects.POISON, 60 * puff, 0);
+		if (player instanceof final ServerPlayerEntity server && puff > 0 && applyEffects) {
+			final StatusEffectInstance status = new StatusEffectInstance(StatusEffects.POISON, 60 * puff, 0);
 
 			if (!this.isSilent()) {
-				server.networkHandler.sendPacket(
-						new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PUFFERFISH_STING,
-								GameStateChangeS2CPacket.DEMO_OPEN_SCREEN));
+				server.networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PUFFERFISH_STING,
+					GameStateChangeS2CPacket.DEMO_OPEN_SCREEN));
 			}
 
 			player.addStatusEffect(status, this);

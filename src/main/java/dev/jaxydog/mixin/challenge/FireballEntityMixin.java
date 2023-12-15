@@ -15,14 +15,12 @@ public abstract class FireballEntityMixin extends AbstractFireballEntity {
 
 	private static final float MAX_POWER = 25F;
 
-	public FireballEntityMixin(EntityType<? extends AbstractFireballEntity> entityType,
-			LivingEntity livingEntity, double d, double e, double f, World world) {
+	public FireballEntityMixin(EntityType<? extends AbstractFireballEntity> entityType, LivingEntity livingEntity,
+		double d, double e, double f, World world) {
 		super(entityType, livingEntity, d, e, f, world);
 	}
 
-	@ModifyArg(method = "onCollision", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/World$ExplosionSourceType;)Lnet/minecraft/world/explosion/Explosion;"),
-			index = 4)
+	@ModifyArg(method = "onCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/World$ExplosionSourceType;)Lnet/minecraft/world/explosion/Explosion;"), index = 4)
 	private float onCollisionArgsInject(float power) {
 		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) {
 			return power;
@@ -31,12 +29,10 @@ public abstract class FireballEntityMixin extends AbstractFireballEntity {
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return Math.min(power + (float) (scaled / 10D), FireballEntityMixin.MAX_POWER);
+		return Math.min(power + (float) (scaled / 10D), MAX_POWER);
 	}
 
-	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float onEntityHitArgsInject(float damage) {
 		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) {
 			return damage;

@@ -12,13 +12,13 @@ public enum ScaleOperation {
 
 	/** Returns the scale operation with the given name */
 	public static ScaleOperation from(String name) {
-		for (final ScaleOperation operation : ScaleOperation.values()) {
+		for (final ScaleOperation operation : values()) {
 			if (operation.getName() == name.toLowerCase()) {
 				return operation;
 			}
 		}
 
-		return ScaleOperation.MULTIPLICATIVE;
+		return MULTIPLICATIVE;
 	}
 
 	/** Returns the operation's name */

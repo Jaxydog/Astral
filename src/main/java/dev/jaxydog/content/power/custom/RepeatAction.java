@@ -26,10 +26,10 @@ public class RepeatAction extends CustomMetaAction {
 	}
 
 	@Override
-	public <T> CustomActionFactory<T> factory(
-			SerializableDataType<ActionFactory<T>.Instance> type) {
-		final SerializableData data =
-				new SerializableData().add("repeat", SerializableDataTypes.INT).add("action", type);
+	public <T> CustomActionFactory<T> factory(SerializableDataType<ActionFactory<T>.Instance> type) {
+		final SerializableData data = new SerializableData()
+			.add("repeat", SerializableDataTypes.INT)
+			.add("action", type);
 
 		return new CustomActionFactory<T>(this.getRawId(), data, this::execute);
 	}

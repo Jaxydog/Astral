@@ -21,8 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Implements the mob challenge system's health changes */
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity
-		implements Attackable, LivingEntityMixinAccess {
+public abstract class LivingEntityMixin extends Entity implements Attackable, LivingEntityMixinAccess {
 
 	@Shadow
 	@Final
@@ -45,8 +44,8 @@ public abstract class LivingEntityMixin extends Entity
 	 */
 	private boolean lastEnableState = MobChallengeUtil.isEnabled(this.self().getWorld());
 	/**
-	 * Stores the previously used health additive value to check whether the entity's health should
-	 * be updated
+	 * Stores the previously used health additive value to check whether the entity's health should be
+	 * updated
 	 */
 	private double lastHealthAdditive = MobChallengeUtil.getHealthAdditive(this.self().getWorld());
 	/**
@@ -70,7 +69,7 @@ public abstract class LivingEntityMixin extends Entity
 	 * `getMaxHealth()`
 	 */
 	private final void setHealthData(float health) {
-		this.getDataTracker().set(LivingEntityMixin.HEALTH, Math.max(0, health));
+		this.getDataTracker().set(HEALTH, Math.max(0, health));
 	}
 
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */

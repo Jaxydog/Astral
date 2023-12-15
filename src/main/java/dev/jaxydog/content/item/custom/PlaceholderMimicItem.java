@@ -127,16 +127,14 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType,
-			PlayerEntity player) {
+	public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
 		return this.getItem(stack).onStackClicked(stack, slot, clickType, player);
 	}
 
 	@Override
-	public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType,
-			PlayerEntity player, StackReference cursorStackReference) {
-		return this.getItem(stack).onClicked(stack, otherStack, slot, clickType, player,
-				cursorStackReference);
+	public boolean onClicked(ItemStack stack, ItemStack held, Slot slot, ClickType type, PlayerEntity player,
+		StackReference cursor) {
+		return this.getItem(stack).onClicked(stack, held, slot, type, player, cursor);
 	}
 
 	@Override
@@ -145,8 +143,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos,
-			LivingEntity miner) {
+	public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
 		return this.getItem(stack).postMine(stack, world, state, pos, miner);
 	}
 
@@ -156,8 +153,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity,
-			Hand hand) {
+	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
 		return this.getItem(stack).useOnEntity(stack, user, entity, hand);
 	}
 
@@ -177,8 +173,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot,
-			boolean selected) {
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		this.getItem(stack).inventoryTick(stack, world, entity, slot, selected);
 	}
 
@@ -198,14 +193,12 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user,
-			int remainingUseTicks) {
+	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		this.getItem(stack).onStoppedUsing(stack, world, user, remainingUseTicks);
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip,
-			TooltipContext context) {
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		this.getItem(stack).appendTooltip(stack, world, tooltip, context);
 	}
 
@@ -240,8 +233,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(
-			EquipmentSlot slot) {
+	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
 		return this.getItem().getAttributeModifiers(slot);
 	}
 
@@ -305,20 +297,18 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack,
-			ItemStack newStack) {
+	public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
 		return this.getItem(oldStack).allowNbtUpdateAnimation(player, hand, oldStack, newStack);
 	}
 
 	@Override
-	public boolean allowContinuingBlockBreaking(PlayerEntity player, ItemStack oldStack,
-			ItemStack newStack) {
+	public boolean allowContinuingBlockBreaking(PlayerEntity player, ItemStack oldStack, ItemStack newStack) {
 		return this.getItem(oldStack).allowContinuingBlockBreaking(player, oldStack, newStack);
 	}
 
 	@Override
 	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack,
-			EquipmentSlot slot) {
+		EquipmentSlot slot) {
 		return this.getItem(stack).getAttributeModifiers(stack, slot);
 	}
 
@@ -333,8 +323,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> equipAndSwap(Item item, World world, PlayerEntity user,
-			Hand hand) {
+	public TypedActionResult<ItemStack> equipAndSwap(Item item, World world, PlayerEntity user, Hand hand) {
 		if (this.getItem(user.getStackInHand(hand)) instanceof final Equipment equipment) {
 			return equipment.equipAndSwap(item, world, user, hand);
 		} else {

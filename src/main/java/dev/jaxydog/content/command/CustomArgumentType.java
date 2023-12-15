@@ -27,8 +27,10 @@ public abstract class CustomArgumentType<T> implements ArgumentType<T>, Register
 
 	@Override
 	public void registerMain() {
-		ArgumentTypeRegistry.registerArgumentType(this.getId(), this.getClass(),
-				ConstantArgumentSerializer.of(() -> this));
+		ArgumentTypeRegistry.registerArgumentType(
+			this.getId(),
+			this.getClass(),
+			ConstantArgumentSerializer.of(() -> this));
 	}
 
 }

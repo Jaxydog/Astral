@@ -26,17 +26,17 @@ public class MirrorItem extends CustomItem implements Registerable.Client {
 
 	/** Returns whether the mirror is broken */
 	public boolean isBroken(ItemStack stack) {
-		return NbtUtil.getBoolean(stack, MirrorItem.BROKEN_KEY);
+		return NbtUtil.getBoolean(stack, BROKEN_KEY);
 	}
 
 	/** Sets whether the provided item stack is broken */
 	public void setBroken(ItemStack stack, boolean broken) {
-		stack.getOrCreateNbt().putBoolean(MirrorItem.BROKEN_KEY, broken);
+		stack.getOrCreateNbt().putBoolean(BROKEN_KEY, broken);
 	}
 
 	@Override
 	public ItemStack getDefaultStack() {
-		ItemStack stack = super.getDefaultStack();
+		final ItemStack stack = super.getDefaultStack();
 
 		this.setBroken(stack, false);
 
@@ -45,8 +45,7 @@ public class MirrorItem extends CustomItem implements Registerable.Client {
 
 	@Override
 	public void registerClient() {
-		ModelPredicateProviderRegistry.register(this, new Identifier("broken"),
-				this::getBrokenModel);
+		ModelPredicateProviderRegistry.register(this, new Identifier("broken"), this::getBrokenModel);
 	}
 
 }

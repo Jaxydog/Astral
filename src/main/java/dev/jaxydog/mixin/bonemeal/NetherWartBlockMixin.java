@@ -18,8 +18,7 @@ import net.minecraft.world.WorldView;
 @Implements(@Interface(iface = Fertilizable.class, prefix = "impl$"))
 public abstract class NetherWartBlockMixin {
 
-	public boolean impl$isFertilizable(WorldView world, BlockPos pos, BlockState state,
-			boolean isClient) {
+	public boolean impl$isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
 		return state.get(NetherWartBlock.AGE) < 3;
 	}
 
@@ -28,8 +27,8 @@ public abstract class NetherWartBlockMixin {
 	}
 
 	public void impl$grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-		int growth = random.nextInt(2) + 1;
-		int current = state.get(NetherWartBlock.AGE);
+		final int growth = random.nextInt(2) + 1;
+		final int current = state.get(NetherWartBlock.AGE);
 
 		state = state.with(NetherWartBlock.AGE, Math.min(current + growth, 3));
 		world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);

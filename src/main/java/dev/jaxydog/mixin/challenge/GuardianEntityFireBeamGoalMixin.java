@@ -16,9 +16,7 @@ public abstract class GuardianEntityFireBeamGoalMixin extends Goal {
 	@Final
 	private GuardianEntity guardian;
 
-	@ModifyArg(method = "tick", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"),
-			index = 1)
+	@ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 1)
 	private float tickArgsInject(float damage) {
 		if (!MobChallengeUtil.shouldScale(this.guardian)) {
 			return damage;

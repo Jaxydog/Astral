@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableMultimap.Builder;
+
 import dev.jaxydog.content.item.CustomArmorMaterial;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -40,15 +42,18 @@ public abstract class ArmorItemMixin {
 
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void constructor(ArmorMaterial material, Type type, Settings settings,
-			CallbackInfo info) {
+		CallbackInfo info) {
 		if (!(material instanceof CustomArmorMaterial)) {
 			return;
 		}
 
-		UUID uuid = MODIFIERS.get(type);
-		var builder = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder();
-		EntityAttributeModifier modifier = new EntityAttributeModifier(uuid,
-				"Armor knockback resistance", this.knockbackResistance, Operation.ADDITION);
+		final UUID uuid = MODIFIERS.get(type);
+		final Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+		final EntityAttributeModifier modifier = new EntityAttributeModifier(
+			uuid,
+			"Armor knockback resistance",
+			this.knockbackResistance,
+			Operation.ADDITION);
 
 		this.attributeModifiers.forEach(builder::put);
 		builder.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, modifier);

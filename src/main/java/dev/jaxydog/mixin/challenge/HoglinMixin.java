@@ -11,8 +11,7 @@ import net.minecraft.entity.mob.Hoglin;
 @Mixin(Hoglin.class)
 public interface HoglinMixin {
 
-	@ModifyArgs(method = "tryAttack", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
+	@ModifyArgs(method = "tryAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
 	private static void tryAttackArgsInject(Args args) {
 		final DamageSource source = args.get(0);
 

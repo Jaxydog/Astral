@@ -14,7 +14,8 @@ public interface Cloudy {
 	/** The NBT key used to determine and store an item stack's storminess value. */
 	public static final String STORMINESS_KEY = "Storminess";
 	/** The translation key assigned to the item's storminess tooltip label. */
-	public static final String STORMINESS_LABEL_KEY = Astral.getId(Cloudy.STORMINESS_KEY.toLowerCase())
+	public static final String STORMINESS_LABEL_KEY = Astral
+		.getId(STORMINESS_KEY.toLowerCase())
 		.toTranslationKey("text");
 
 	/** The minimum possible item color value. */
@@ -52,8 +53,8 @@ public interface Cloudy {
 	public default double getStorminess(ItemStack stack) {
 		final double storminess;
 
-		if (stack.hasNbt() && stack.getNbt().contains(Cloudy.STORMINESS_KEY)) {
-			storminess = stack.getNbt().getDouble(Cloudy.STORMINESS_KEY);
+		if (stack.hasNbt() && stack.getNbt().contains(STORMINESS_KEY)) {
+			storminess = stack.getNbt().getDouble(STORMINESS_KEY);
 		} else {
 			storminess = this.getMinStorminess(stack);
 		}
@@ -68,9 +69,9 @@ public interface Cloudy {
 		storminess = this.clampStorminess(stack, storminess);
 
 		if (storminess <= min + Math.ulp(storminess)) {
-			stack.removeSubNbt(Cloudy.STORMINESS_KEY);
+			stack.removeSubNbt(STORMINESS_KEY);
 		} else {
-			stack.getOrCreateNbt().putDouble(Cloudy.STORMINESS_KEY, storminess);
+			stack.getOrCreateNbt().putDouble(STORMINESS_KEY, storminess);
 		}
 	}
 
@@ -81,12 +82,12 @@ public interface Cloudy {
 		final double max = this.getMaxStorminess(stack);
 		final double percentage = (storminess - min) / (max - min);
 
-		return ColorUtil.scaleDown(Cloudy.COLOR_MIN, Cloudy.COLOR_MAX, percentage).getInt();
+		return ColorUtil.scaleDown(COLOR_MIN, COLOR_MAX, percentage).getInt();
 	}
 
 	/** Returns the given item stack's storminess tooltip text. */
 	public default Text getStorminessText(ItemStack stack) {
-		final MutableText label = Text.translatable(Cloudy.STORMINESS_LABEL_KEY);
+		final MutableText label = Text.translatable(STORMINESS_LABEL_KEY);
 		final double storminess = this.getStorminess(stack) * 100D;
 		final String percentage = String.format("%.0f%%", storminess);
 
