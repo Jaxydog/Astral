@@ -37,7 +37,7 @@ public interface Cloudy {
 	public default double clampStorminess(ItemStack stack, double storminess) {
 		final double min = this.getMinStorminess(stack);
 		final double max = this.getMaxStorminess(stack);
-		final double margin = (max - min) / 1000D;
+		final double margin = ((max - min) / 1000D) + Math.ulp(storminess);
 
 		if (storminess <= min + margin) {
 			return min;
