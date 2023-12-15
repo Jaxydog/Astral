@@ -28,7 +28,7 @@ public final class CustomItems extends ContentContainer {
 	public static final CloudyItem CLOUDY_COTTON = new CloudyItem(
 		"cloudy_cotton",
 		new Settings().rarity(Rarity.UNCOMMON));
-	public static final ArmorMap<DyeableCloudyArmorItem> CLOUD_ARMOR_MAP = new ArmorMap<>(
+	public static final ArmorMap<DyeableCloudyArmorItem> CLOUD_ARMOR = new ArmorMap<>(
 		"cloudy",
 		(rawId, type) -> new DyeableCloudyArmorItem(rawId, ArmorMaterials.CLOUDY, type, new Settings()));
 
@@ -39,10 +39,10 @@ public final class CustomItems extends ContentContainer {
 		"placeholder",
 		new Settings().fireproof().maxCount(1).rarity(Rarity.UNCOMMON));
 
-	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_BLOCK_MAP = new DyeableMap<>(
+	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_BLOCKS = new DyeableMap<>(
 		"amethyst_block",
 		(rawId, color) -> new CustomBlockItem(rawId, CustomBlocks.DYED_AMETHYST_BLOCKS.get(color), new Settings()));
-	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_CLUSTER_MAP = new DyeableMap<>(
+	public static final DyeableMap<CustomBlockItem> DYED_AMETHYST_CLUSTERS = new DyeableMap<>(
 		"amethyst_cluster",
 		(rawId, color) -> new CustomBlockItem(rawId, CustomBlocks.DYED_AMETHYST_CLUSTER_BLOCKS.get(color),
 			new Settings()));
