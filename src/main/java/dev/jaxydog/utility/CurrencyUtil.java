@@ -386,19 +386,18 @@ public interface CurrencyUtil {
 		protected void apply(Map<Identifier, JsonElement> data, ResourceManager _manager, Profiler _profiler) {
 			data.entrySet().stream().filter(e -> e.getValue() instanceof JsonObject).forEach(e -> {
 				final JsonObject json = (JsonObject) e.getValue();
-				final String namespace = e.getKey().getNamespace();
 				final String path = e.getKey().getPath();
 
 				switch (path.replaceFirst("\\.json$", "")) {
-					case "units" -> this.loadUnits(namespace, json);
-					case "rewards" -> this.loadRewards(namespace, json);
-					case "skeletons" -> this.loadSkeletons(namespace, json);
+					case "units" -> this.loadUnits(json);
+					case "rewards" -> this.loadRewards(json);
+					case "skeletons" -> this.loadSkeletons(json);
 				}
 			});
 		}
 
 		/** Loads currency units from the given JSON object */
-		private void loadUnits(String namespace, JsonObject json) {
+		private void loadUnits(JsonObject json) {
 			final HashMap<Identifier, Unit> map = new HashMap<>(json.entrySet().size());
 
 			json.asMap().forEach((key, data) -> {
@@ -425,7 +424,7 @@ public interface CurrencyUtil {
 		}
 
 		/** Loads currency rewards from the given JSON object */
-		private void loadRewards(String namespace, JsonObject json) {
+		private void loadRewards(JsonObject json) {
 			final HashMap<Identifier, Reward> map = new HashMap<>(json.entrySet().size());
 
 			json.asMap().forEach((key, value) -> {
@@ -451,7 +450,7 @@ public interface CurrencyUtil {
 		}
 
 		/** Loads currency skeletons from the given JSON object */
-		private void loadSkeletons(String namespace, JsonObject json) {
+		private void loadSkeletons(JsonObject json) {
 			final HashMap<Identifier, Skeleton> map = new HashMap<>(json.entrySet().size());
 
 			json.asMap().forEach((key, value) -> {
