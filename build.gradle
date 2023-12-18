@@ -6,25 +6,25 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-base { archivesName = project.archives_base_name }
+base {archivesName = project.archives_base_name}
 
 repositories {
-    maven { url = 'https://maven.ladysnake.org/releases' }
-    maven {
-        url = 'https://maven.cafeteria.dev'
-        content { includeGroup 'net.adriantodt.fabricmc' }
-    }
-    maven {
-        url "https://maven.jamieswhiteshirt.com/libs-release"
-        content { includeGroup "com.jamieswhiteshirt" }
-    }
-    maven { url "https://jitpack.io" }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url "https://maven.terraformersmc.com/" }
+	maven {url = 'https://maven.ladysnake.org/releases'}
+	maven {
+		url = 'https://maven.cafeteria.dev'
+		content {includeGroup 'net.adriantodt.fabricmc'}
+	}
+	maven {
+		url "https://maven.jamieswhiteshirt.com/libs-release"
+		content {includeGroup "com.jamieswhiteshirt"}
+	}
+	maven {url "https://jitpack.io"}
+	maven {url "https://maven.shedaniel.me/"}
+	maven {url "https://maven.terraformersmc.com/"}
 }
 
 loom {
-    runs {
+	runs {
 		datagen {
 			inherit server
 			name "Data Generation"
@@ -39,7 +39,7 @@ loom {
 
 sourceSets {
 	main {
-		resources { srcDirs += ['src/main/generated'] }
+		resources {srcDirs += ['src/main/generated']}
 	}
 }
 
@@ -52,18 +52,19 @@ dependencies {
 	modImplementation "com.github.apace100:origins-fabric:v${project.origins_version}"
 	modImplementation include("com.github.apace100:apoli:v${project.apoli_version}")
 	modImplementation include("com.github.apace100:calio:v${project.calio_version}")
-	modApi("com.github.Virtuoel:Pehkui:${project.pehkui_version}", {
-		exclude group: "net.fabricmc.fabric-api"
-	})
+	modApi(
+		"com.github.Virtuoel:Pehkui:${project.pehkui_version}",
+		{exclude group: "net.fabricmc.fabric-api"}
+	)
 }
 
 processResources {
 	inputs.property "version", project.version
 
-	filesMatching("fabric.mod.json") { expand "version": project.version }
+	filesMatching("fabric.mod.json") {expand "version": project.version}
 }
 
-tasks.withType(JavaCompile).configureEach { it.options.release = 17 }
+tasks.withType(JavaCompile).configureEach {it.options.release = 17}
 
 java {
 	withSourcesJar()
@@ -73,12 +74,13 @@ java {
 }
 
 jar {
-	from("LICENSE") { rename { "${it}_${project.archivesBaseName}" } }
+	from("LICENSE") {rename {"${it}_${project.archivesBaseName}"}}
 }
 
 publishing {
 	publications {
-		mavenJava(MavenPublication) { from components.java }
+		//noinspection GroovyAssignabilityCheck
+		mavenJava(MavenPublication) {from components.java}
 	}
 
 	repositories {}

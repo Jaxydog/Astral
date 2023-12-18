@@ -32,18 +32,14 @@ public interface CurrencyUtil {
 
 	/** Automatically exchanges currency items within the inventory */
 	static void tryExchange(PlayerEntity entity, PlayerInventory inventory) {
-		if (entity.getWorld().isClient()) {
-			return;
-		}
+		if (entity.getWorld().isClient()) return;
 
 		final ArrayList<ItemStack> items = new ArrayList<>();
 
 		for (int slot = 0; slot < inventory.size(); slot += 1) {
 			final ItemStack stack = inventory.getStack(slot);
 
-			if (!stack.isEmpty()) {
-				items.add(stack);
-			}
+			if (!stack.isEmpty()) items.add(stack);
 		}
 
 		final List<Pair<ItemStack, Unit>> units = items.stream()

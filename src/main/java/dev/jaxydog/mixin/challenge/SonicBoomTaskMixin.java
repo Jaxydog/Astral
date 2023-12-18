@@ -42,7 +42,11 @@ public abstract class SonicBoomTaskMixin extends MultiTickTask<WardenEntity> {
 		super(requiredMemoryState, minRunTime, maxRunTime);
 	}
 
-	@Inject(method = "keepRunning", at = @At("HEAD"), cancellable = true)
+	@Inject(
+		method = "keepRunning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/mob/WardenEntity;J)V",
+		at = @At("HEAD"),
+		cancellable = true
+	)
 	private void keepRunningInject(ServerWorld serverWorld, WardenEntity entity, long l, CallbackInfo callbackInfo) {
 		if (!MobChallengeUtil.shouldScale(entity)) return;
 

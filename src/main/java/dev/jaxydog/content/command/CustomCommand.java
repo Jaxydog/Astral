@@ -20,9 +20,8 @@ public abstract class CustomCommand implements Registerable.Main {
 
 	@Override
 	public void registerMain() {
-		CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> {
-			dispatcher.register(this.getCommand().executes(this::execute));
-		});
+		CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> dispatcher.register(this.getCommand()
+			.executes(this::execute)));
 	}
 
 	/** Returns the command's builder */
@@ -31,6 +30,7 @@ public abstract class CustomCommand implements Registerable.Main {
 	}
 
 	/** Executes the command */
+	@SuppressWarnings("RedundantThrows")
 	public abstract int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException;
 
 	@Override

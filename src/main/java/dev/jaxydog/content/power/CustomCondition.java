@@ -32,6 +32,7 @@ public abstract class CustomCondition<T> implements Registerable.Main {
 	public abstract CustomConditionFactory<T> factory();
 
 	/** Returns the action's registry */
+	@SuppressWarnings("SameReturnValue")
 	public abstract Registry<ConditionFactory<T>> registry();
 
 }

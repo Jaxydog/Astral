@@ -40,9 +40,7 @@ public final class Astral implements ModInitializer {
 			final String version = mod.getMetadata().getVersion().getFriendlyString();
 
 			LOGGER.info(String.format("Astral v%s has loaded!", version));
-		}, () -> {
-			LOGGER.info("Astral has loaded!");
-		});
+		}, () -> LOGGER.info("Astral has loaded!"));
 
 		LOGGER.info("Thank you for playing with us <3");
 	}

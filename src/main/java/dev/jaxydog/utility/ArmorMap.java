@@ -13,11 +13,6 @@ public class ArmorMap<T extends Registerable> extends RegisterableMap<Type, T> {
 	}
 
 	@Override
-	public final String getRawId(Type key) {
-		return String.format("%s_%s", this.getRawId(), key.getName());
-	}
-
-	@Override
 	protected final int compareKeys(Type a, Type b) {
 		return a.compareTo(b);
 	}
@@ -25,6 +20,11 @@ public class ArmorMap<T extends Registerable> extends RegisterableMap<Type, T> {
 	@Override
 	public final Set<Type> keys() {
 		return Set.of(Type.values());
+	}
+
+	@Override
+	public final String getRawId(Type key) {
+		return String.format("%s_%s", this.getRawId(), key.getName());
 	}
 
 }

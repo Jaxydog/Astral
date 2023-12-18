@@ -17,6 +17,7 @@ public abstract class CustomArgumentType<T> implements ArgumentType<T>, Register
 		this.RAW_ID = rawId;
 	}
 
+	@SuppressWarnings("RedundantThrows")
 	@Override
 	public abstract T parse(StringReader reader) throws CommandSyntaxException;
 

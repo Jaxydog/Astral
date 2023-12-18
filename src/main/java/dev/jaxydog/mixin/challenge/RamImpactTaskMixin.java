@@ -29,16 +29,21 @@ public abstract class RamImpactTaskMixin extends MultiTickTask<GoatEntity> {
 		super(requiredMemoryState, minRunTime, maxRunTime);
 	}
 
-	@Inject(method = "keepRunning", at = @At("HEAD"))
+	@Inject(
+		method = "keepRunning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/passive/GoatEntity;J)V",
+		at = @At("HEAD")
+	)
 	private void keepRunningCapture(ServerWorld w, GoatEntity entity, long l, CallbackInfo c) {
 		this.entity = entity;
 	}
 
 	@ModifyArg(
-		method = "keepRunning", at = @At(
-		value = "INVOKE",
-		target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
-	), index = 1
+		method = "keepRunning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/passive/GoatEntity;J)V",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
+		),
+		index = 1
 	)
 	private float keepRunningArgsInject(float damage) {
 		if (!MobChallengeUtil.shouldScale(this.entity)) return damage;

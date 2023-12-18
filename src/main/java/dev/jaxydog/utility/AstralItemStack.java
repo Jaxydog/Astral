@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public interface AstralItemStack {
 
-	default ItemStack astral$copyWithItem(Item item) {
+	default ItemStack astral$copyWithItemStack(Item item) {
 		if (((ItemStack) this).isEmpty()) {
 			return ItemStack.EMPTY;
 		}

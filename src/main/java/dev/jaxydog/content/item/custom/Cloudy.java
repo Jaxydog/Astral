@@ -60,11 +60,13 @@ public interface Cloudy {
 	}
 
 	/** Returns this item's minimum storminess value. */
+	@SuppressWarnings("SameReturnValue")
 	default double getMinStorminess(ItemStack stack) {
 		return 0D;
 	}
 
 	/** Returns this item's maximum storminess value. */
+	@SuppressWarnings("SameReturnValue")
 	default double getMaxStorminess(ItemStack stack) {
 		return 1D;
 	}

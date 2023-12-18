@@ -24,6 +24,7 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SkinOv
 	}
 
 	/** Modifies the creeper's explosion strength to account for mob challenge scaling */
+	@SuppressWarnings("InvalidInjectorMethodSignature")
 	@ModifyVariable(method = "explode", at = @At("STORE"), ordinal = 0)
 	private float powerVarInject(float power) {
 		if (!MobChallengeUtil.shouldScale(this)) {

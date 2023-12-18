@@ -14,7 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ShapelessRecipe.class)
 public abstract class ShapelessRecipeMixin {
 
-	@Inject(method = "craft", at = @At("RETURN"), cancellable = true)
+	@Inject(
+		method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",
+		at = @At("RETURN"),
+		cancellable = true
+	)
 	private void craftInject(CallbackInfoReturnable<ItemStack> callbackInfo) {
 		final ItemStack stack = callbackInfo.getReturnValue();
 		final Item item = stack.getItem();
