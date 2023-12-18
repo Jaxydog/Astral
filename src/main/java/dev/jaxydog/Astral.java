@@ -6,6 +6,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -15,6 +17,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 /** The mod entrypoint */
 public final class Astral implements ModInitializer {
@@ -36,18 +40,22 @@ public final class Astral implements ModInitializer {
 		CustomContent.INSTANCE.registerMain();
 		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new CurrencyUtil.Loader());
 
-		FabricLoader.getInstance().getModContainer(MOD_ID).ifPresentOrElse(mod -> {
-			final String version = mod.getMetadata().getVersion().getFriendlyString();
+		getMetadata().ifPresent(metadata -> {
+			final String name = metadata.getName();
+			final String version = metadata.getVersion().getFriendlyString();
 
-			LOGGER.info(String.format("Astral v%s has loaded!", version));
-		}, () -> LOGGER.info("Astral has loaded!"));
-
-		LOGGER.info("Thank you for playing with us <3");
+			LOGGER.info(String.format("%s v%s has loaded! Thank you for playing with us <3", name, version));
+		});
 	}
 
 	/** Returns an identifier using the mod's namespace */
 	public static Identifier getId(String path) {
 		return Identifier.of(MOD_ID, path);
+	}
+
+	/** Returns the metadata for this mod. */
+	public static Optional<ModMetadata> getMetadata() {
+		return FabricLoader.getInstance().getModContainer(MOD_ID).map(ModContainer::getMetadata);
 	}
 
 }

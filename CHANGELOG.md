@@ -6,6 +6,7 @@
 - The formatting of all files has been updated and normalized.
 - Simplified the logic of some code, such as removing an extra variable assignment within `RamImpactTaskMixin`'s
   injection method.
+- Fixed multiple spelling errors, most notably correcting the spelling of "gibbous" in `astral:moon_phase`
 - `RegisterableMap` has been updated.
     - Most constructor arguments have been extracted into abstract methods.
     - Values now have lazy initialization, only being constructed when they are registered or any value is fetched.
