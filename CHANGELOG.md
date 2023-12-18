@@ -40,6 +40,7 @@
     - Added a "Kiwi Plush" model.
     - Added a "Handmade Mirror" model.
     - Added a "Hatsune Miku Pop! Figurine" model.
+    - Added a "Coil Head Plush" model.
 - Created `PlaceholderMimicItem`, which nearly perfectly imitates another already-defined item, while *also*
   extending `PlaceholderItem`.
 - Updated cloudy items
