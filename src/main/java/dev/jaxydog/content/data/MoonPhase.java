@@ -9,8 +9,8 @@ public enum MoonPhase {
 	NONE(-1),
 	/** A full moon */
 	FULL_MOON(0),
-	/** A waning gibbus */
-	WANING_GIBBUS(1),
+	/** A waning gibbous */
+	WANING_GIBBOUS(1),
 	/** A third quarter */
 	THIRD_QUARTER(2),
 	/** A waning crescent */
@@ -21,35 +21,35 @@ public enum MoonPhase {
 	WAXING_CRESCENT(5),
 	/** A first quarter */
 	FIRST_QUARTER(6),
-	/** A waxing gibbus */
-	WAXING_GIBBUS(7);
+	/** A waxing gibbous */
+	WAXING_GIBBOUS(7);
 
 	/** The inner phase identifier */
 	private final int ID;
 
-	private MoonPhase(int id) {
+	MoonPhase(int id) {
 		this.ID = id;
 	}
 
 	/** Returns the moon phase with the given name */
 	public static MoonPhase from(String name) {
+		final String lower = name.toLowerCase();
+
 		for (final MoonPhase phase : values()) {
-			if (phase.getName() == name) {
-				return phase;
-			}
+			if (phase.getName().equals(lower)) return phase;
 		}
 
 		return NONE;
 	}
 
-	/** Returns the value's inner phase identifier */
-	public int getId() {
-		return this.ID;
-	}
-
 	/** Returns the phase's name */
 	public String getName() {
 		return this.toString().toLowerCase();
+	}
+
+	/** Returns the value's inner phase identifier */
+	public int getId() {
+		return this.ID;
 	}
 
 	/** Returns whether the phase is the current world's moon phase */
