@@ -12,10 +12,10 @@ public enum ScaleOperation {
 
 	/** Returns the scale operation with the given name */
 	public static ScaleOperation from(String name) {
+		final String lower = name.toLowerCase();
+
 		for (final ScaleOperation operation : values()) {
-			if (operation.getName() == name.toLowerCase()) {
-				return operation;
-			}
+			if (operation.getName().equals(lower)) return operation;
 		}
 
 		return MULTIPLICATIVE;
@@ -26,17 +26,17 @@ public enum ScaleOperation {
 		return this.toString().toLowerCase();
 	}
 
+	/** Sets the scale of the given data */
+	public void setScale(ScaleData data, float value) {
+		data.setScale(this.getTarget(value));
+	}
+
 	/** Returns the target scale for the given data */
-	public float getTarget(ScaleData data, float value) {
+	public float getTarget(float value) {
 		return switch (this) {
 			case ADDITIVE -> 1F + value;
 			case MULTIPLICATIVE -> value;
 		};
-	}
-
-	/** Sets the scale of the given data */
-	public void setScale(ScaleData data, float value) {
-		data.setScale(this.getTarget(data, value));
 	}
 
 	/** Sets the scale of the given data */

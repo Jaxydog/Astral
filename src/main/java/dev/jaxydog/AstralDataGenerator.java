@@ -9,7 +9,7 @@ public final class AstralDataGenerator implements DataGeneratorEntrypoint {
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {
-		CustomContent.INSTANCE.registerDatagen(generator.createPack());
+		CustomContent.INSTANCE.registerDataGen(generator.createPack());
 	}
 
 }

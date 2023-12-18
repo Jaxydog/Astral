@@ -10,4 +10,5 @@ public final class AstralServer implements DedicatedServerModInitializer {
 	public void onInitializeServer() {
 		CustomContent.INSTANCE.registerServer();
 	}
+
 }

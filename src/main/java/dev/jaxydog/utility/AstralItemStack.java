@@ -5,9 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public interface AstralItemStack {
 
-	public default void astral$setItem(Item item) {}
-
-	public default ItemStack astral$copyWithItem(Item item) {
+	default ItemStack astral$copyWithItem(Item item) {
 		if (((ItemStack) this).isEmpty()) {
 			return ItemStack.EMPTY;
 		}
@@ -18,5 +16,7 @@ public interface AstralItemStack {
 
 		return copy;
 	}
+
+	default void astral$setItem(Item item) {}
 
 }

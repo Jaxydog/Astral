@@ -2,11 +2,7 @@ package dev.jaxydog.content.block.custom;
 
 import dev.jaxydog.utility.register.Registerable;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
+import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -44,31 +40,17 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Regis
 		super(rawId, settings);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return switch (state.get(DyedAmethystClusterBlock.FACING)) {
-			case UP -> this.UP_SHAPE;
-			case DOWN -> this.DOWN_SHAPE;
-			case NORTH -> this.NORTH_SHAPE;
-			case SOUTH -> this.SOUTH_SHAPE;
-			case EAST -> this.EAST_SHAPE;
-			case WEST -> this.WEST_SHAPE;
-			default -> this.UP_SHAPE;
-		};
-	}
-
-	@Override
-	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		final Direction direction = state.get(FACING);
-		final BlockPos blockPos = pos.offset(direction.getOpposite());
-
-		return world.getBlockState(blockPos).isSideSolidFullSquare(world, blockPos, direction);
-	}
-
-	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
-		WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		if (state.get(WATERLOGGED).booleanValue()) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		Direction direction,
+		BlockState neighborState,
+		WorldAccess world,
+		BlockPos pos,
+		BlockPos neighborPos
+	) {
+		if (state.get(WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 
@@ -79,6 +61,50 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Regis
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		if (state.get(WATERLOGGED)) {
+			return Fluids.WATER.getStill(false);
+		} else {
+			return Fluids.EMPTY.getDefaultState();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(FACING, rotation.rotate(state.get(FACING)));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.rotate(mirror.getRotation(state.get(FACING)));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+		final Direction direction = state.get(FACING);
+		final BlockPos blockPos = pos.offset(direction.getOpposite());
+
+		return world.getBlockState(blockPos).isSideSolidFullSquare(world, blockPos, direction);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return switch (state.get(DyedAmethystClusterBlock.FACING)) {
+			case UP -> this.UP_SHAPE;
+			case DOWN -> this.DOWN_SHAPE;
+			case NORTH -> this.NORTH_SHAPE;
+			case SOUTH -> this.SOUTH_SHAPE;
+			case EAST -> this.EAST_SHAPE;
+			case WEST -> this.WEST_SHAPE;
+		};
+	}
+
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		final World world = ctx.getWorld();
@@ -86,25 +112,6 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Regis
 		final boolean waterlogged = world.getFluidState(blockPos).getFluid() == Fluids.WATER;
 
 		return this.getDefaultState().with(WATERLOGGED, waterlogged).with(FACING, ctx.getSide());
-	}
-
-	@Override
-	public BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(FACING, rotation.rotate(state.get(FACING)));
-	}
-
-	@Override
-	public BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.rotate(mirror.getRotation(state.get(FACING)));
-	}
-
-	@Override
-	public FluidState getFluidState(BlockState state) {
-		if (state.get(WATERLOGGED).booleanValue()) {
-			return Fluids.WATER.getStill(false);
-		} else {
-			return Fluids.EMPTY.getDefaultState();
-		}
 	}
 
 	@Override

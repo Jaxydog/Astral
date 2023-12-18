@@ -1,12 +1,5 @@
 package dev.jaxydog.mixin.challenge;
 
-import java.util.Map;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -21,30 +14,37 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Map;
 
 @Mixin(SonicBoomTask.class)
 public abstract class SonicBoomTaskMixin extends MultiTickTask<WardenEntity> {
 
+	@Unique
+	private static final double DAMAGE = 10D;
 	@Shadow
 	@Final
 	private static int RUN_TIME;
-
 	@Shadow
 	@Final
 	private static int SOUND_DELAY;
 
-	private static final double DAMAGE = 10D;
-
-	public SonicBoomTaskMixin(Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState, int minRunTime,
-		int maxRunTime) {
+	public SonicBoomTaskMixin(
+		Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState, int minRunTime, int maxRunTime
+	) {
 		super(requiredMemoryState, minRunTime, maxRunTime);
 	}
 
 	@Inject(method = "keepRunning", at = @At("HEAD"), cancellable = true)
 	private void keepRunningInject(ServerWorld serverWorld, WardenEntity entity, long l, CallbackInfo callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(entity)) {
-			return;
-		}
+		if (!MobChallengeUtil.shouldScale(entity)) return;
 
 		final Brain<WardenEntity> brain = entity.getBrain();
 
@@ -54,12 +54,9 @@ public abstract class SonicBoomTaskMixin extends MultiTickTask<WardenEntity> {
 		final boolean hasSoundDelay = brain.hasMemoryModule(MemoryModuleType.SONIC_BOOM_SOUND_DELAY);
 		final boolean hasSoundCooldown = brain.hasMemoryModule(MemoryModuleType.SONIC_BOOM_SOUND_COOLDOWN);
 
-		if (hasSoundDelay || hasSoundCooldown) {
-			return;
-		}
+		if (hasSoundDelay || hasSoundCooldown) return;
 
 		brain.remember(MemoryModuleType.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, RUN_TIME - SOUND_DELAY);
-
 		brain.getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET)
 			.filter(entity::isValidTarget)
 			.filter(target -> entity.isInRange(target, 15.0, 20.0))

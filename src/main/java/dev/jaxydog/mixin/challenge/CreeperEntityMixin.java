@@ -7,6 +7,7 @@ import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
@@ -14,12 +15,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(CreeperEntity.class)
 public abstract class CreeperEntityMixin extends HostileEntity implements SkinOverlayOwner {
 
+	/** The maximum allowed explosion power. */
+	@Unique
+	private static final double MAX_POWER = 50D;
+
 	protected CreeperEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
 		super(entityType, world);
 	}
-
-	/** The maximum allowed explosion power. */
-	private static final double MAX_POWER = 50D;
 
 	/** Modifies the creeper's explosion strength to account for mob challenge scaling */
 	@ModifyVariable(method = "explode", at = @At("STORE"), ordinal = 0)

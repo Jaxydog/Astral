@@ -13,12 +13,12 @@ public abstract class ColoredArmorItem extends CustomArmorItem implements Regist
 		super(rawId, material, type, settings);
 	}
 
-	/** Returns the color that the item stack should render at the given index */
-	public abstract int getColor(ItemStack stack, int index);
-
 	@Override
 	public void registerClient() {
 		ColorProviderRegistry.ITEM.register(this::getColor, this);
 	}
+
+	/** Returns the color that the item stack should render at the given index */
+	public abstract int getColor(ItemStack stack, int index);
 
 }

@@ -18,27 +18,27 @@ public abstract class CustomCommand implements Registerable.Main {
 		this.RAW_ID = rawId;
 	}
 
-	/** Executes the command */
-	public abstract int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException;
-
-	/** A predicate that determines if a source can use the command */
-	public abstract boolean requires(ServerCommandSource source);
-
-	/** Returns the command's builder */
-	public LiteralArgumentBuilder<ServerCommandSource> getCommand() {
-		return CommandManager.literal(this.getRawId()).requires(this::requires);
-	}
-
-	@Override
-	public String getRawId() {
-		return this.RAW_ID;
-	}
-
 	@Override
 	public void registerMain() {
 		CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> {
 			dispatcher.register(this.getCommand().executes(this::execute));
 		});
 	}
+
+	/** Returns the command's builder */
+	public LiteralArgumentBuilder<ServerCommandSource> getCommand() {
+		return CommandManager.literal(this.getRawId()).requires(this::requires);
+	}
+
+	/** Executes the command */
+	public abstract int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException;
+
+	@Override
+	public String getRawId() {
+		return this.RAW_ID;
+	}
+
+	/** A predicate that determines if a source can use the command */
+	public abstract boolean requires(ServerCommandSource source);
 
 }

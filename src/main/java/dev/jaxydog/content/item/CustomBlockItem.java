@@ -2,7 +2,6 @@ package dev.jaxydog.content.item;
 
 import dev.jaxydog.Astral;
 import dev.jaxydog.utility.register.Registerable;
-import java.util.List;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
@@ -14,6 +13,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 /** An extension of a regular block item that provides additional functionality */
 public class CustomBlockItem extends BlockItem implements Registerable.Main {
@@ -34,6 +35,7 @@ public class CustomBlockItem extends BlockItem implements Registerable.Main {
 
 		while (I18n.hasTranslation(key + index)) {
 			tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
+
 			index += 1;
 		}
 
@@ -45,11 +47,11 @@ public class CustomBlockItem extends BlockItem implements Registerable.Main {
 		return this.RAW_ID;
 	}
 
+	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Override
 	public void registerMain() {
 		Registry.register(Registries.ITEM, this.getId(), this);
-		ItemGroupEvents
-			.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
+		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
 			.register(g -> g.add(this));
 	}
 

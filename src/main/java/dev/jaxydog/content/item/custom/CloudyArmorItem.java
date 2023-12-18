@@ -1,7 +1,5 @@
 package dev.jaxydog.content.item.custom;
 
-import java.util.List;
-
 import dev.jaxydog.content.item.color.ColoredArmorItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
@@ -9,6 +7,8 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class CloudyArmorItem extends ColoredArmorItem implements Cloudy {
 
@@ -20,13 +20,6 @@ public class CloudyArmorItem extends ColoredArmorItem implements Cloudy {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(this.getStorminessText(stack));
-
-		super.appendTooltip(stack, world, tooltip, context);
-	}
-
-	@Override
 	public int getColor(ItemStack stack, int index) {
 		return index == 0 ? this.getStorminessColor(stack) : 0xFF_FF_FF;
 	}
@@ -34,6 +27,13 @@ public class CloudyArmorItem extends ColoredArmorItem implements Cloudy {
 	@Override
 	public int getTextureLayers() {
 		return 3;
+	}
+
+	@Override
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(this.getStorminessText(stack));
+
+		super.appendTooltip(stack, world, tooltip, context);
 	}
 
 	@Override

@@ -1,10 +1,5 @@
 package dev.jaxydog.mixin.challenge;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -18,6 +13,11 @@ import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PufferfishEntity.class)
 public abstract class PufferfishEntityMixin extends FishEntity {
@@ -26,14 +26,9 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 		super(entityType, world);
 	}
 
-	@Shadow
-	public abstract int getPuffState();
-
 	@Inject(method = "sting", at = @At("HEAD"), cancellable = true)
 	private void stingInject(MobEntity mob, CallbackInfo callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(this)) {
-			return;
-		}
+		if (!MobChallengeUtil.shouldScale(this)) return;
 
 		final int puff = this.getPuffState();
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
@@ -44,13 +39,16 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 			mob.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * puff, 0), this);
 			this.playSound(SoundEvents.ENTITY_PUFFER_FISH_STING, 1.0f, 1.0f);
 		}
+
+		callbackInfo.cancel();
 	}
+
+	@Shadow
+	public abstract int getPuffState();
 
 	@Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
 	private void onPlayerCollisionInject(PlayerEntity player, CallbackInfo callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(this)) {
-			return;
-		}
+		if (!MobChallengeUtil.shouldScale(this)) return;
 
 		final int puff = this.getPuffState();
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
@@ -65,7 +63,8 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 
 			if (!this.isSilent()) {
 				server.networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PUFFERFISH_STING,
-					GameStateChangeS2CPacket.DEMO_OPEN_SCREEN));
+					GameStateChangeS2CPacket.DEMO_OPEN_SCREEN
+				));
 			}
 
 			player.addStatusEffect(status, this);

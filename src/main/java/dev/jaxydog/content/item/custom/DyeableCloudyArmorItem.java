@@ -1,6 +1,5 @@
 package dev.jaxydog.content.item.custom;
 
-import java.util.ArrayList;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -11,6 +10,8 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableItem {
 
@@ -31,15 +32,6 @@ public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableIt
 	}
 
 	@Override
-	public ItemStack getDefaultStack() {
-		final ItemStack stack = super.getDefaultStack();
-
-		this.setColor(stack, DyeableItem.DEFAULT_COLOR);
-
-		return stack;
-	}
-
-	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		this.updateStorminess(stack, entity, INCREASE_DELTA, DECREASE_DELTA);
 
@@ -47,13 +39,22 @@ public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableIt
 		final boolean cloudy = armor.stream().allMatch(s -> s.getItem() instanceof DyeableCloudyArmorItem);
 
 		if (armor.size() == 4 && cloudy && entity instanceof final LivingEntity living) {
-			final double level = armor.stream().map(this::getStorminess).reduce(0D, (a, b) -> a + b) / 4D;
+			final double level = armor.stream().map(this::getStorminess).reduce(0D, Double::sum) / 4D;
 			final StatusEffect type = level < 0.5D ? StatusEffects.JUMP_BOOST : StatusEffects.SLOWNESS;
 
 			living.addStatusEffect(new StatusEffectInstance(type, 20, 0, false, false));
 		}
 
 		super.inventoryTick(stack, world, entity, slot, selected);
+	}
+
+	@Override
+	public ItemStack getDefaultStack() {
+		final ItemStack stack = super.getDefaultStack();
+
+		this.setColor(stack, DyeableItem.DEFAULT_COLOR);
+
+		return stack;
 	}
 
 }

@@ -18,12 +18,6 @@ public abstract class CustomAction<T> implements Registerable.Main {
 	/** Executes the action */
 	public abstract void execute(Instance data, T value);
 
-	/** Returns the action's factory */
-	public abstract CustomActionFactory<T> factory();
-
-	/** Returns the action's registry */
-	public abstract Registry<ActionFactory<T>> registry();
-
 	@Override
 	public String getRawId() {
 		return this.RAW_ID;
@@ -33,5 +27,11 @@ public abstract class CustomAction<T> implements Registerable.Main {
 	public void registerMain() {
 		this.factory().register(this.registry());
 	}
+
+	/** Returns the action's factory */
+	public abstract CustomActionFactory<T> factory();
+
+	/** Returns the action's registry */
+	public abstract Registry<ActionFactory<T>> registry();
 
 }

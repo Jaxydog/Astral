@@ -1,6 +1,5 @@
 package dev.jaxydog.content.power.custom;
 
-import java.util.List;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.power.CustomCondition;
 import dev.jaxydog.content.power.CustomConditionFactory;
@@ -9,11 +8,13 @@ import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import io.github.apace100.apoli.util.Comparison;
 import io.github.apace100.calio.data.SerializableData;
-import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.apace100.calio.data.SerializableData.Instance;
+import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.List;
 
 public class DistanceCondition extends CustomCondition<Entity> {
 
@@ -39,8 +40,7 @@ public class DistanceCondition extends CustomCondition<Entity> {
 
 	@Override
 	public CustomConditionFactory<Entity> factory() {
-		final SerializableData data = new SerializableData()
-			.add("position", SerializableDataTypes.DOUBLES)
+		final SerializableData data = new SerializableData().add("position", SerializableDataTypes.DOUBLES)
 			.add("comparison", ApoliDataTypes.COMPARISON)
 			.add("compare_to", SerializableDataTypes.DOUBLE);
 

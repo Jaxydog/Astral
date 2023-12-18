@@ -1,11 +1,5 @@
 package dev.jaxydog.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import blue.endless.jankson.annotation.Nullable;
 import dev.jaxydog.content.item.CustomArmorItem;
 import dev.jaxydog.content.item.color.ColoredArmorItem;
@@ -22,32 +16,36 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.trim.ArmorTrim;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 /** Implements multiple texture layers and coloring for custom armor items */
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 @Mixin(ArmorFeatureRenderer.class)
 public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extends BipedEntityModel<T>, A extends BipedEntityModel<T>> {
 
-	@Invoker("renderArmorParts")
-	public abstract void renderArmorPartsInvoker(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-		int light, ArmorItem item, A model, boolean inner, float red, float green, float blue,
-		@Nullable String overlay);
-
-	@Invoker("renderGlint")
-	public abstract void renderGlintInvoker(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
-		A model);
-
-	@Invoker("renderTrim")
-	public abstract void renderTrimInvoker(ArmorMaterial material, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers, int light, ArmorTrim trim, A model, boolean leggings);
-
-	@Invoker("usesInnerModel")
-	public abstract boolean usesInnerModelInvoker(EquipmentSlot slot);
-
-	@Inject(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;usesInnerModel(Lnet/minecraft/entity/EquipmentSlot;)Z"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-	private void newRenderArmorInject(MatrixStack matrix, VertexConsumerProvider vertex, T entity,
-		EquipmentSlot slot, int light, A model, CallbackInfo callbackInfo, ItemStack stack,
-		ArmorItem item) {
+	@Inject(
+		method = "renderArmor", at = @At(
+		value = "INVOKE",
+		target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;usesInnerModel(Lnet/minecraft/entity/EquipmentSlot;)Z"
+	), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true
+	)
+	private void newRenderArmorInject(
+		MatrixStack matrix,
+		VertexConsumerProvider vertex,
+		T entity,
+		EquipmentSlot slot,
+		int light,
+		A model,
+		CallbackInfo callbackInfo,
+		ItemStack stack,
+		ArmorItem item
+	) {
 		if (!(item instanceof final CustomArmorItem custom)) {
 			return;
 		}
@@ -86,5 +84,38 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
 		callbackInfo.cancel();
 	}
+
+	@Invoker("usesInnerModel")
+	public abstract boolean usesInnerModelInvoker(EquipmentSlot slot);
+
+	@Invoker("renderArmorParts")
+	public abstract void renderArmorPartsInvoker(
+		MatrixStack matrices,
+		VertexConsumerProvider vertexConsumers,
+		int light,
+		ArmorItem item,
+		A model,
+		boolean inner,
+		float red,
+		float green,
+		float blue,
+		@Nullable String overlay
+	);
+
+	@Invoker("renderTrim")
+	public abstract void renderTrimInvoker(
+		ArmorMaterial material,
+		MatrixStack matrices,
+		VertexConsumerProvider vertexConsumers,
+		int light,
+		ArmorTrim trim,
+		A model,
+		boolean leggings
+	);
+
+	@Invoker("renderGlint")
+	public abstract void renderGlintInvoker(
+		MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, A model
+	);
 
 }

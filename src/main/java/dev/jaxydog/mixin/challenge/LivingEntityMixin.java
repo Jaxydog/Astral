@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,57 +28,44 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 	@Final
 	private static TrackedData<Float> HEALTH;
 
+	/** Stores whether this entity ignores challenge scaling rules. */
+	@Unique
+	private boolean ignoreChallengeScaling = false;
+	/**
+	 * Stores whether the entity needs to reset its health; should only be true if the gamerules are updated or when the
+	 * entity is first spawned
+	 */
+	@Unique
+	private boolean shouldResetHealth = true;
+	/**
+	 * Stores whether mob challenge was previously enabled to determine whether the entity's health should be updated
+	 */
+	@Unique
+	private boolean lastEnableState = MobChallengeUtil.isEnabled(this.self().getWorld());
+	/**
+	 * Stores the previously used health additive value to check whether the entity's health should be updated
+	 */
+	@Unique
+	private double lastHealthAdditive = MobChallengeUtil.getHealthAdditive(this.self().getWorld());
+	/**
+	 * Stores the previously used chunk step value to check whether the entity's health should be updated
+	 */
+	@Unique
+	private double lastChunkStep = MobChallengeUtil.getChunkStep(this.self().getWorld());
+
 	public LivingEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
 	}
 
-	/** Stores whether this entity ignores challenge scaling rules. */
-	private boolean ignoreChallengeScaling = false;
-	/**
-	 * Stores whether or not the entity needs to reset its health; should only be true if the
-	 * gamerules are updated or when the entity is first spawned
-	 */
-	private boolean shouldResetHealth = true;
-	/**
-	 * Stores whether mob challenge was previously enabled to determine whether the entity's health
-	 * should be updated
-	 */
-	private boolean lastEnableState = MobChallengeUtil.isEnabled(this.self().getWorld());
-	/**
-	 * Stores the previously used health additive value to check whether the entity's health should be
-	 * updated
-	 */
-	private double lastHealthAdditive = MobChallengeUtil.getHealthAdditive(this.self().getWorld());
-	/**
-	 * Stores the previously used chunk step value to check whether the entity's health should be
-	 * updated
-	 */
-	private double lastChunkStep = MobChallengeUtil.getChunkStep(this.self().getWorld());
-
-	/** Returns the mixin's 'this' instance */
-	private final LivingEntity self() {
-		return (LivingEntity) (Object) this;
-	}
-
 	@Override
-	public boolean ignoresChallengeScaling() {
+	public boolean astral$ignoresChallengeScaling() {
 		return this.ignoreChallengeScaling;
-	}
-
-	/**
-	 * Convenience method to sent the entity's current health to the given value without calling
-	 * `getMaxHealth()`
-	 */
-	private final void setHealthData(float health) {
-		this.getDataTracker().set(HEALTH, Math.max(0, health));
 	}
 
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
 	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
 	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) {
-			return;
-		}
+		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) return;
 
 		final double additive = MobChallengeUtil.getHealthAdditive(this.getWorld());
 
@@ -99,12 +87,16 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 		callbackInfo.setReturnValue((float) (base + scaled));
 	}
 
+	/** Returns the mixin's 'this' instance */
+	@Unique
+	private LivingEntity self() {
+		return (LivingEntity) (Object) this;
+	}
+
 	/** Automatically updates an entity's maximum health if necessary */
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickInject(CallbackInfo callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) {
-			return;
-		}
+		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) return;
 
 		final boolean enabled = MobChallengeUtil.isEnabled(this.getWorld());
 		final float maxHealth = this.self().getMaxHealth();
@@ -120,6 +112,14 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 		}
 	}
 
+	/**
+	 * Convenience method to set the entity's current health to the given value without calling `getMaxHealth()`
+	 */
+	@Unique
+	private void setHealthData(float health) {
+		this.getDataTracker().set(HEALTH, Math.max(0, health));
+	}
+
 	/** Deserializes the `ignoreChallengeScaling` field. */
 	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
 	private void readCustomDataFromNbtInject(NbtCompound nbt, CallbackInfo callbackInfo) {
@@ -132,7 +132,8 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeCustomDataToNbtInject(NbtCompound nbt, CallbackInfo callbackInfo) {
 		if (this.ignoreChallengeScaling) {
-			nbt.putBoolean(MobChallengeUtil.IGNORE_KEY, this.ignoreChallengeScaling);
+			nbt.putBoolean(MobChallengeUtil.IGNORE_KEY, true);
 		}
 	}
+
 }

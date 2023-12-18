@@ -10,4 +10,5 @@ public final class AstralClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		CustomContent.INSTANCE.registerClient();
 	}
+
 }

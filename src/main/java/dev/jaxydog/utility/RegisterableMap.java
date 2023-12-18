@@ -1,11 +1,12 @@
 package dev.jaxydog.utility;
 
+import dev.jaxydog.utility.register.Registerable;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.BiFunction;
-import dev.jaxydog.utility.register.Registerable;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 
 public abstract class RegisterableMap<K, V extends Registerable> implements Registerable.All {
 
@@ -18,13 +19,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.CONSTRUCTOR = constructor;
 	}
 
-	public abstract String getRawId(K key);
-
 	protected abstract int compareKeys(K a, K b);
-
-	public Set<K> keys() {
-		return Set.of();
-	}
 
 	public Collection<V> values() {
 		this.constructIfEmpty();
@@ -33,12 +28,10 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 	}
 
 	protected final void constructIfEmpty() {
-		if (this.INNER.isEmpty()) {
-			this.construct();
-		}
+		if (this.INNER.isEmpty()) this.construct();
 	}
 
-	private final void construct() {
+	private void construct() {
 		for (final K key : this.keys()) {
 			final String id = this.getRawId(key);
 			final V value = this.CONSTRUCTOR.apply(id, key);
@@ -46,6 +39,12 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 			this.INNER.put(key, value);
 		}
 	}
+
+	public Set<K> keys() {
+		return Set.of();
+	}
+
+	public abstract String getRawId(K key);
 
 	public final V get(K key) {
 		this.constructIfEmpty();
@@ -63,9 +62,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Main main) {
-				main.registerMain();
-			}
+			if (this.get(key) instanceof final Main main) main.registerMain();
 		});
 	}
 
@@ -74,9 +71,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Client client) {
-				client.registerClient();
-			}
+			if (this.get(key) instanceof final Client client) client.registerClient();
 		});
 	}
 
@@ -85,20 +80,16 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Server server) {
-				server.registerServer();
-			}
+			if (this.get(key) instanceof final Server server) server.registerServer();
 		});
 	}
 
 	@Override
-	public void registerDatagen(Pack pack) {
+	public void registerDataGen(Pack pack) {
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Datagen datagen) {
-				datagen.registerDatagen(pack);
-			}
+			if (this.get(key) instanceof final DataGen datagen) datagen.registerDataGen(pack);
 		});
 	}
 

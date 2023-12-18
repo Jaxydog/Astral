@@ -17,10 +17,7 @@ public class DyedAmethystBlock extends CustomBlock {
 		super(rawId, settings);
 	}
 
-	private void playChimeSound(World world, BlockPos pos, SoundEvent sound) {
-		world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0f, 0.5f + world.random.nextFloat() * 1.2f);
-	}
-
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
 		if (!world.isClient) {
@@ -29,6 +26,10 @@ public class DyedAmethystBlock extends CustomBlock {
 			this.playChimeSound(world, position, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT);
 			this.playChimeSound(world, position, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME);
 		}
+	}
+
+	private void playChimeSound(World world, BlockPos pos, SoundEvent sound) {
+		world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0f, 0.5f + world.random.nextFloat() * 1.2f);
 	}
 
 }

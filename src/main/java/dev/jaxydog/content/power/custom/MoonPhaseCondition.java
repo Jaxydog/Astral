@@ -1,7 +1,5 @@
 package dev.jaxydog.content.power.custom;
 
-import java.util.ArrayList;
-import java.util.List;
 import dev.jaxydog.content.data.CustomData;
 import dev.jaxydog.content.data.MoonPhase;
 import dev.jaxydog.content.power.CustomCondition;
@@ -13,6 +11,9 @@ import io.github.apace100.calio.data.SerializableData.Instance;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** The moon phase condition */
 public class MoonPhaseCondition extends CustomCondition<Entity> {
@@ -31,12 +32,12 @@ public class MoonPhaseCondition extends CustomCondition<Entity> {
 		} else {
 			return data.<List<MoonPhase>>get("phases").stream().anyMatch(e -> e.isCurrent(world));
 		}
+
 	}
 
 	@Override
 	public CustomConditionFactory<Entity> factory() {
-		final SerializableData data = new SerializableData()
-			.add("phase", CustomData.MOON_PHASE, MoonPhase.NONE)
+		final SerializableData data = new SerializableData().add("phase", CustomData.MOON_PHASE, MoonPhase.NONE)
 			.add("phases", CustomData.MOON_PHASES, new ArrayList<>());
 
 		return new CustomConditionFactory<>(this.getRawId(), data, this::check);

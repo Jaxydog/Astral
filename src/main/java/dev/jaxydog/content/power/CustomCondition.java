@@ -18,12 +18,6 @@ public abstract class CustomCondition<T> implements Registerable.Main {
 	/** Checks the condition */
 	public abstract boolean check(Instance data, T value);
 
-	/** Returns the condition's factory */
-	public abstract CustomConditionFactory<T> factory();
-
-	/** Returns the action's registry */
-	public abstract Registry<ConditionFactory<T>> registry();
-
 	@Override
 	public String getRawId() {
 		return this.RAW_ID;
@@ -33,5 +27,11 @@ public abstract class CustomCondition<T> implements Registerable.Main {
 	public void registerMain() {
 		this.factory().register(this.registry());
 	}
+
+	/** Returns the condition's factory */
+	public abstract CustomConditionFactory<T> factory();
+
+	/** Returns the action's registry */
+	public abstract Registry<ConditionFactory<T>> registry();
 
 }

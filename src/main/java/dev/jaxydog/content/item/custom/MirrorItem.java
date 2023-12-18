@@ -19,21 +19,6 @@ public class MirrorItem extends CustomItem implements Registerable.Client {
 		super(rawId, settings);
 	}
 
-	/** Returns the mirror item's model predicate value */
-	public float getBrokenModel(ItemStack stack, World world, LivingEntity entity, int seed) {
-		return this.isBroken(stack) ? 1F : 0F;
-	}
-
-	/** Returns whether the mirror is broken */
-	public boolean isBroken(ItemStack stack) {
-		return NbtUtil.getBoolean(stack, BROKEN_KEY);
-	}
-
-	/** Sets whether the provided item stack is broken */
-	public void setBroken(ItemStack stack, boolean broken) {
-		stack.getOrCreateNbt().putBoolean(BROKEN_KEY, broken);
-	}
-
 	@Override
 	public ItemStack getDefaultStack() {
 		final ItemStack stack = super.getDefaultStack();
@@ -43,9 +28,24 @@ public class MirrorItem extends CustomItem implements Registerable.Client {
 		return stack;
 	}
 
+	/** Sets whether the provided item stack is broken */
+	public void setBroken(ItemStack stack, boolean broken) {
+		stack.getOrCreateNbt().putBoolean(BROKEN_KEY, broken);
+	}
+
 	@Override
 	public void registerClient() {
 		ModelPredicateProviderRegistry.register(this, new Identifier("broken"), this::getBrokenModel);
+	}
+
+	/** Returns the mirror item's model predicate value */
+	public float getBrokenModel(ItemStack stack, World world, LivingEntity entity, int seed) {
+		return this.isBroken(stack) ? 1F : 0F;
+	}
+
+	/** Returns whether the mirror is broken */
+	public boolean isBroken(ItemStack stack) {
+		return NbtUtil.getBoolean(stack, BROKEN_KEY);
 	}
 
 }

@@ -2,7 +2,6 @@ package dev.jaxydog.content.item;
 
 import dev.jaxydog.Astral;
 import dev.jaxydog.utility.register.Registerable;
-import java.util.List;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
@@ -14,6 +13,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 /** An extension of a regular armor item that provides additional functionality */
 public class CustomArmorItem extends ArmorItem implements Registerable.Main {
@@ -28,24 +29,23 @@ public class CustomArmorItem extends ArmorItem implements Registerable.Main {
 	}
 
 	/** Returns the total number of texture layers that the armor item expects to have */
-	public int getTextureLayers(ItemStack stack) {
-		return 1;
-	}
-
-	/** Returns the total number of texture layers that the armor item expects to have */
 	public int getTextureLayers() {
 		return this.getTextureLayers(this.getDefaultStack());
 	}
 
+	/** Returns the total number of texture layers that the armor item expects to have */
+	public int getTextureLayers(ItemStack stack) {
+		return 1;
+	}
+
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		// This will automatically add item tooltips as long as there's a consecutive listing for
-		// each lang file entry starting at 0
 		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
 		int index = 0;
 
 		while (I18n.hasTranslation(key + index)) {
 			tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
+
 			index += 1;
 		}
 
@@ -57,11 +57,11 @@ public class CustomArmorItem extends ArmorItem implements Registerable.Main {
 		return this.RAW_ID;
 	}
 
+	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Override
 	public void registerMain() {
 		Registry.register(Registries.ITEM, this.getId(), this);
-		ItemGroupEvents
-			.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
+		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
 			.register(g -> g.add(this));
 	}
 

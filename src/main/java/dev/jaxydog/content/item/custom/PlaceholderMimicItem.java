@@ -1,9 +1,5 @@
 package dev.jaxydog.content.item.custom;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Supplier;
 import com.google.common.collect.Multimap;
 import dev.jaxydog.content.item.Customized;
 import dev.jaxydog.utility.RegisterableMap;
@@ -19,25 +15,21 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
-import net.minecraft.item.Equipment;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ClickType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Supplier;
 
 public class PlaceholderMimicItem extends PlaceholderItem {
 
@@ -49,14 +41,6 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 		this.ITEM = item;
 	}
 
-	public Item getItem() {
-		return this.ITEM.get();
-	}
-
-	public Item getItem(ItemStack stack) {
-		return this.getItem();
-	}
-
 	@Override
 	public EquipmentSlot getSlotType() {
 		if (this.getItem() instanceof final Equipment equipment) {
@@ -66,9 +50,17 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 		}
 	}
 
+	public Item getItem() {
+		return this.ITEM.get();
+	}
+
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		this.getItem(stack).usageTick(world, user, stack, remainingUseTicks);
+	}
+
+	public Item getItem(ItemStack ignoredStack) {
+		return this.getItem();
 	}
 
 	@Override
@@ -132,8 +124,9 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public boolean onClicked(ItemStack stack, ItemStack held, Slot slot, ClickType type, PlayerEntity player,
-		StackReference cursor) {
+	public boolean onClicked(
+		ItemStack stack, ItemStack held, Slot slot, ClickType type, PlayerEntity player, StackReference cursor
+	) {
 		return this.getItem(stack).onClicked(stack, held, slot, type, player, cursor);
 	}
 
@@ -195,11 +188,6 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	@Override
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		this.getItem(stack).onStoppedUsing(stack, world, user, remainingUseTicks);
-	}
-
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		this.getItem(stack).appendTooltip(stack, world, tooltip, context);
 	}
 
 	@Override
@@ -292,6 +280,11 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		this.getItem(stack).appendTooltip(stack, world, tooltip, context);
+	}
+
+	@Override
 	public boolean isEnabled(FeatureSet enabledFeatures) {
 		return this.getItem().isEnabled(enabledFeatures);
 	}
@@ -307,8 +300,9 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack,
-		EquipmentSlot slot) {
+	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(
+		ItemStack stack, EquipmentSlot slot
+	) {
 		return this.getItem(stack).getAttributeModifiers(stack, slot);
 	}
 
@@ -323,20 +317,20 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> equipAndSwap(Item item, World world, PlayerEntity user, Hand hand) {
-		if (this.getItem(user.getStackInHand(hand)) instanceof final Equipment equipment) {
-			return equipment.equipAndSwap(item, world, user, hand);
-		} else {
-			return super.equipAndSwap(item, world, user, hand);
-		}
-	}
-
-	@Override
 	public SoundEvent getEquipSound() {
 		if (this.getItem() instanceof final Equipment equipment) {
 			return equipment.getEquipSound();
 		} else {
 			return super.getEquipSound();
+		}
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> equipAndSwap(Item item, World world, PlayerEntity user, Hand hand) {
+		if (this.getItem(user.getStackInHand(hand)) instanceof final Equipment equipment) {
+			return equipment.equipAndSwap(item, world, user, hand);
+		} else {
+			return super.equipAndSwap(item, world, user, hand);
 		}
 	}
 
@@ -369,6 +363,11 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 		}
 
 		@Override
+		protected int compareKeys(Item a, Item b) {
+			return Integer.compare(Item.getRawId(a), Item.getRawId(b));
+		}
+
+		@Override
 		public Set<Item> keys() {
 			return this.ITEMS;
 		}
@@ -378,11 +377,6 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 			final String id = Registries.ITEM.getId(item).getPath();
 
 			return String.format("%s_%s", super.getRawId(), id);
-		}
-
-		@Override
-		protected int compareKeys(Item a, Item b) {
-			return Integer.compare(Item.getRawId(a), Item.getRawId(b));
 		}
 
 	}

@@ -11,15 +11,15 @@ import java.lang.annotation.Target;
 public @interface Skip {
 
 	/** Whether to skip on the client and the server */
-	public boolean main() default true;
+	boolean main() default true;
 
 	/** Whether to skip on the client */
-	public boolean client() default true;
+	boolean client() default true;
 
 	/** Whether to skip on the server */
-	public boolean server() default true;
+	boolean server() default true;
 
-	/** Whether to skip on the datagen client */
-	public boolean datagen() default true;
+	/** Whether to skip on the data generation client */
+	boolean dataGen() default true;
 
 }

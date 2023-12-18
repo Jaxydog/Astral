@@ -1,13 +1,14 @@
 package dev.jaxydog.content.item;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorItem.Type;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /** Implements the `ArmorMaterial` interface as a buildable class */
 public final class CustomArmorMaterial implements ArmorMaterial {
@@ -22,8 +23,16 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 	private final float TOUGHNESS;
 	private final float KNOCKBACK_RESISTANCE;
 
-	private CustomArmorMaterial(Map<Type, Integer> durability, Map<Type, Integer> protection, int enchantability,
-		SoundEvent equipSound, Ingredient repairIngredient, String name, float toughness, float knockbackResistance) {
+	private CustomArmorMaterial(
+		Map<Type, Integer> durability,
+		Map<Type, Integer> protection,
+		int enchantability,
+		SoundEvent equipSound,
+		Ingredient repairIngredient,
+		String name,
+		float toughness,
+		float knockbackResistance
+	) {
 		this.DURABILITY = durability;
 		this.PROTECTION = protection;
 		this.ENCHANTABILITY = enchantability;
@@ -34,7 +43,7 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 		this.KNOCKBACK_RESISTANCE = knockbackResistance;
 	}
 
-	public static final Builder builder(String name) {
+	public static Builder builder(String name) {
 		return new Builder(name);
 	}
 
@@ -83,8 +92,8 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 
 		// Stores the material's properties
 		private final String NAME;
-		private HashMap<Type, Integer> durability = new HashMap<>(Type.values().length);
-		private HashMap<Type, Integer> protection = new HashMap<>(Type.values().length);
+		private final HashMap<Type, Integer> durability = new HashMap<>(Type.values().length);
+		private final HashMap<Type, Integer> protection = new HashMap<>(Type.values().length);
 		private int enchantability = 0;
 		private SoundEvent equipSound = SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
 		private Ingredient repairIngredient = Ingredient.empty();
@@ -95,73 +104,71 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 			this.NAME = name;
 		}
 
-		public final Builder setDurability(ArmorItem.Type type, int durability) {
-			this.durability.put(type, Math.max(1, durability));
-
-			return this;
+		public Builder setDurability(int durability) {
+			return this.setDurability(durability, durability, durability, durability);
 		}
 
-		public final Builder setDurability(int helmet, int chestplate, int leggings, int boots) {
-			return this
-				.setDurability(Type.HELMET, helmet)
+		public Builder setDurability(int helmet, int chestplate, int leggings, int boots) {
+			return this.setDurability(Type.HELMET, helmet)
 				.setDurability(Type.CHESTPLATE, chestplate)
 				.setDurability(Type.LEGGINGS, leggings)
 				.setDurability(Type.BOOTS, boots);
 		}
 
-		public final Builder setDurability(int durability) {
-			return this.setDurability(durability, durability, durability, durability);
-		}
-
-		public final Builder setProtectionAmount(ArmorItem.Type type, int protection) {
-			this.protection.put(type, protection);
+		public Builder setDurability(ArmorItem.Type type, int durability) {
+			this.durability.put(type, Math.max(1, durability));
 
 			return this;
 		}
 
-		public final Builder setProtectionAmount(int helmet, int chestplate, int leggings, int boots) {
-			return this
-				.setProtectionAmount(Type.HELMET, helmet)
+		public Builder setProtectionAmount(int protection) {
+			return this.setProtectionAmount(protection, protection, protection, protection);
+		}
+
+		public Builder setProtectionAmount(int helmet, int chestplate, int leggings, int boots) {
+			return this.setProtectionAmount(Type.HELMET, helmet)
 				.setProtectionAmount(Type.CHESTPLATE, chestplate)
 				.setProtectionAmount(Type.LEGGINGS, leggings)
 				.setProtectionAmount(Type.BOOTS, boots);
 		}
 
-		public final Builder setProtectionAmount(int protection) {
-			return this.setProtectionAmount(protection, protection, protection, protection);
+		public Builder setProtectionAmount(ArmorItem.Type type, int protection) {
+			this.protection.put(type, protection);
+
+			return this;
 		}
 
-		public final Builder setEnchantability(int enchantability) {
+		public Builder setEnchantability(int enchantability) {
 			this.enchantability = enchantability;
 
 			return this;
 		}
 
-		public final Builder setEquipSound(SoundEvent equipSound) {
+		public Builder setEquipSound(SoundEvent equipSound) {
 			this.equipSound = equipSound;
 
 			return this;
 		}
 
-		public final Builder setRepairIngredient(Ingredient repairIngredient) {
+		public Builder setRepairIngredient(Ingredient repairIngredient) {
 			this.repairIngredient = repairIngredient;
 
 			return this;
 		}
 
-		public final Builder setToughness(float toughness) {
+		public Builder setToughness(float toughness) {
 			this.toughness = toughness;
 
 			return this;
 		}
 
-		public final Builder setKnockbackResistance(float knockbackResistance) {
+		public Builder setKnockbackResistance(float knockbackResistance) {
 			this.knockbackResistance = knockbackResistance;
 
 			return this;
 		}
 
-		public final CustomArmorMaterial build() {
+		public CustomArmorMaterial build() {
 			return new CustomArmorMaterial(
 				this.durability,
 				this.protection,
@@ -170,7 +177,8 @@ public final class CustomArmorMaterial implements ArmorMaterial {
 				this.repairIngredient,
 				this.NAME,
 				this.toughness,
-				this.knockbackResistance);
+				this.knockbackResistance
+			);
 		}
 
 	}

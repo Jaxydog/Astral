@@ -12,12 +12,12 @@ public abstract class ColoredItem extends CustomItem implements Registerable.Cli
 		super(rawId, settings);
 	}
 
-	/** Returns the color that the item stack should render as at the given index */
-	public abstract int getColor(ItemStack stack, int index);
-
 	@Override
 	public void registerClient() {
 		ColorProviderRegistry.ITEM.register(this::getColor, this);
 	}
+
+	/** Returns the color that the item stack should render as at the given index */
+	public abstract int getColor(ItemStack stack, int index);
 
 }

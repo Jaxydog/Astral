@@ -22,33 +22,34 @@ public final class Astral implements ModInitializer {
 	/** The mod's identifier */
 	public static final String MOD_ID = "astral";
 	/** The mod logger instance */
-	public static final Logger LOGGER = LoggerFactory.getLogger(Astral.MOD_ID);
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	/** The mod's default item group */
 	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
-		.displayName(Text.translatable(Astral.getId("default").toTranslationKey("itemGroup")))
-		.icon(() -> Items.NETHER_STAR.getDefaultStack()).build();
-
-	/** Returns an identifier using the mod's namespace */
-	public static final Identifier getId(String path) {
-		return Identifier.of(Astral.MOD_ID, path);
-	}
+		.displayName(Text.translatable(getId("default").toTranslationKey("itemGroup")))
+		.icon(Items.NETHER_STAR::getDefaultStack)
+		.build();
 
 	@Override
 	public void onInitialize() {
-		Registry.register(Registries.ITEM_GROUP, Astral.getId("default"), Astral.ITEM_GROUP);
+		Registry.register(Registries.ITEM_GROUP, getId("default"), ITEM_GROUP);
 
 		CustomContent.INSTANCE.registerMain();
 		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new CurrencyUtil.Loader());
 
-		FabricLoader.getInstance().getModContainer(Astral.MOD_ID).ifPresentOrElse(mod -> {
+		FabricLoader.getInstance().getModContainer(MOD_ID).ifPresentOrElse(mod -> {
 			final String version = mod.getMetadata().getVersion().getFriendlyString();
 
-			Astral.LOGGER.info(String.format("Astral v%s has loaded!", version));
+			LOGGER.info(String.format("Astral v%s has loaded!", version));
 		}, () -> {
-			Astral.LOGGER.info("Astral has loaded!");
+			LOGGER.info("Astral has loaded!");
 		});
 
-		Astral.LOGGER.info("Thank you for playing with us <3");
+		LOGGER.info("Thank you for playing with us <3");
+	}
+
+	/** Returns an identifier using the mod's namespace */
+	public static Identifier getId(String path) {
+		return Identifier.of(MOD_ID, path);
 	}
 
 }

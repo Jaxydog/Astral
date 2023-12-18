@@ -1,18 +1,6 @@
 package dev.jaxydog.utility;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import org.jetbrains.annotations.ApiStatus.NonExtendable;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.CustomGamerules;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -20,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
@@ -29,22 +18,20 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.profiler.Profiler;
+import org.jetbrains.annotations.ApiStatus.NonExtendable;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /** Provides implementations and resource loading for the currency system */
 @NonExtendable
 public interface CurrencyUtil {
 
-	public static final String EXCHANGE_KEY = "Exchange";
-
-	/** Returns whether the given stack may be exchanged */
-	public static boolean canExchange(ItemStack stack) {
-		return !stack.hasNbt()
-			|| !stack.getNbt().contains(EXCHANGE_KEY)
-			|| stack.getNbt().getBoolean(EXCHANGE_KEY);
-	}
+	String EXCHANGE_KEY = "Exchange";
 
 	/** Automatically exchanges currency items within the inventory */
-	public static void tryExchange(PlayerEntity entity, PlayerInventory inventory) {
+	static void tryExchange(PlayerEntity entity, PlayerInventory inventory) {
 		if (entity.getWorld().isClient()) {
 			return;
 		}
@@ -77,17 +64,16 @@ public interface CurrencyUtil {
 	}
 
 	/** Automatically exchanges currency items within the inventory */
-	public static void tryExchangeUnits(PlayerEntity entity, PlayerInventory inventory,
-		List<Pair<ItemStack, Unit>> items) {
+	static void tryExchangeUnits(
+		PlayerEntity entity, PlayerInventory inventory, List<Pair<ItemStack, Unit>> items
+	) {
 		final HashMap<Unit, Integer> units = new HashMap<>();
 
 		for (final Pair<ItemStack, Unit> pair : items) {
 			final ItemStack stack = pair.getLeft();
 			final Unit unit = pair.getRight();
 
-			if (canExchange(stack)) {
-				units.merge(unit, stack.getCount(), (a, b) -> a + b);
-			}
+			if (canExchange(stack)) units.merge(unit, stack.getCount(), Integer::sum);
 		}
 
 		for (final Entry<Unit, Integer> entry : units.entrySet()) {
@@ -95,33 +81,30 @@ public interface CurrencyUtil {
 			final int count = entry.getValue();
 			final Optional<Unit> optionalNext = unit.nextMultiple();
 
-			if (optionalNext.isEmpty()) {
-				continue;
-			}
+			if (optionalNext.isEmpty()) continue;
 
 			final Unit next = optionalNext.get();
+			final ItemStack stack = next.getItem().getDefaultStack();
 			final int price = next.value() / unit.value();
 			final int crafted = count / price;
-			final int removed = crafted * price;
-			final ItemStack stack = next.getItem().getDefaultStack();
 
 			inventory.remove(
 				s -> s.getItem() == unit.getItem() && canExchange(s),
-				removed,
-				entity.playerScreenHandler.getCraftingInput());
+				crafted * price,
+				entity.playerScreenHandler.getCraftingInput()
+			);
 
 			stack.setCount(crafted);
 			inventory.offerOrDrop(stack);
 
-			if (next.drops()) {
-				dropRewards(entity, inventory, crafted);
-			}
+			if (next.drops()) dropRewards(entity, inventory, crafted);
 		}
 	}
 
 	/** Automatically exchanges currency items within the inventory */
-	public static void tryExchangeRewards(PlayerEntity entity, PlayerInventory inventory,
-		List<Pair<ItemStack, Reward>> items) {
+	static void tryExchangeRewards(
+		PlayerEntity entity, PlayerInventory inventory, List<Pair<ItemStack, Reward>> items
+	) {
 		final HashMap<Reward, Integer> rewards = new HashMap<>(items.size());
 		final HashMap<Reward, Integer> removed = new HashMap<>(items.size());
 		final ArrayList<Skeleton> exchanged = new ArrayList<>();
@@ -131,42 +114,43 @@ public interface CurrencyUtil {
 			final Reward reward = pair.getRight();
 
 			if (canExchange(stack)) {
-				rewards.merge(reward, stack.getCount(), (a, b) -> a + b);
+				rewards.merge(reward, stack.getCount(), Integer::sum);
 			}
 		}
 
 		for (final Skeleton skeleton : Skeleton.MAP.values()) {
-			final Map<Reward, Integer> price = skeleton.getPrice().stream()
-				.collect(Collectors.toMap(s -> s, s -> 1, (a, b) -> a + b));
+			final Map<Reward, Integer> price = skeleton.getPrice()
+				.stream()
+				.collect(Collectors.toMap(s -> s, s -> 1, Integer::sum));
 
-			if (price.isEmpty()) {
-				continue;
-			}
-			if (!price.entrySet().stream().allMatch(e -> rewards.containsKey(e.getKey())
-				&& rewards.get(e.getKey()) >= e.getValue())) {
+			if (price.isEmpty() || !price.entrySet()
+				.stream()
+				.allMatch(e -> rewards.containsKey(e.getKey()) && rewards.get(e.getKey()) >= e.getValue())) {
 				continue;
 			}
 
 			exchanged.add(skeleton);
-			price.entrySet().stream().forEach(e -> removed.merge(e.getKey(), e.getValue(), (a, b) -> a + b));
+			price.forEach((key, value) -> removed.merge(key, value, Integer::sum));
 		}
 
-		removed.forEach((reward, count) -> {
-			inventory.remove(
-				s -> s.getItem() == reward.getItem() && canExchange(s),
-				count,
-				entity.playerScreenHandler.getCraftingInput());
-		});
-		exchanged.forEach(skeleton -> {
-			inventory.offerOrDrop(skeleton.getItem().getDefaultStack());
-		});
+		removed.forEach((reward, count) -> inventory.remove(
+			s -> s.getItem() == reward.getItem() && canExchange(s),
+			count,
+			entity.playerScreenHandler.getCraftingInput()
+		));
+		exchanged.forEach(skeleton -> inventory.offerOrDrop(skeleton.getItem().getDefaultStack()));
+	}
+
+	/** Returns whether the given stack may be exchanged */
+	static boolean canExchange(ItemStack stack) {
+		final NbtCompound nbt = stack.getNbt();
+
+		return nbt == null || !nbt.contains(EXCHANGE_KEY) || nbt.getBoolean(EXCHANGE_KEY);
 	}
 
 	/** Drops rewards */
-	public static void dropRewards(PlayerEntity entity, PlayerInventory inventory, int rolls) {
-		if (Reward.isEmpty()) {
-			return;
-		}
+	static void dropRewards(PlayerEntity entity, PlayerInventory inventory, int rolls) {
+		if (Reward.isEmpty()) return;
 
 		final Random random = entity.getRandom();
 		final double rewardChance = entity.getWorld().getGameRules().get(CustomGamerules.CURRENCY_REWARD_CHANCE).get();
@@ -175,28 +159,23 @@ public interface CurrencyUtil {
 		for (int iteration = 0; iteration < rolls; iteration += 1) {
 			final double generated = random.nextDouble();
 
-			if (generated < rewardChance) {
-				total += 1;
-			}
+			if (generated < rewardChance) total += 1;
 		}
 
 		for (int remaining = total; remaining > 0; remaining -= 1) {
-			final Reward reward = Reward.random().get();
-			final ItemStack stack = reward.getItem().getDefaultStack();
-
-			inventory.offerOrDrop(stack);
+			Reward.random().ifPresent(reward -> inventory.offerOrDrop(reward.getItem().getDefaultStack()));
 		}
 	}
 
 	/** A currency unit */
-	public static final record Unit(Identifier item, int value, boolean drops) {
+	record Unit(Identifier item, int value, boolean drops) {
 
 		/** The inner map */
 		private static final HashMap<Identifier, Unit> MAP = new HashMap<>(0);
 
-		/** Returns the currency unit associated with the item's identifier */
-		public static Optional<Unit> find(Identifier item) {
-			return MAP.values().stream().filter(u -> u.item().equals(item)).findFirst();
+		/** Returns the currency unit associated with the item */
+		public static Optional<Unit> find(ItemStack item) {
+			return find(item.getItem());
 		}
 
 		/** Returns the currency unit associated with the item */
@@ -204,9 +183,9 @@ public interface CurrencyUtil {
 			return find(Registries.ITEM.getId(item));
 		}
 
-		/** Returns the currency unit associated with the item */
-		public static Optional<Unit> find(ItemStack item) {
-			return find(item.getItem());
+		/** Returns the currency unit associated with the item's identifier */
+		public static Optional<Unit> find(Identifier item) {
+			return MAP.values().stream().filter(u -> u.item().equals(item)).findFirst();
 		}
 
 		/** Loads the given currency units into the internal map */
@@ -218,42 +197,46 @@ public interface CurrencyUtil {
 
 		/** Returns whether the unit map is empty */
 		public static boolean isEmpty() {
-			return MAP.size() == 0;
+			return MAP.isEmpty();
 		}
 
 		/** Returns the associated item */
-		public final Item getItem() {
+		public Item getItem() {
 			return Registries.ITEM.get(this.item());
 		}
 
 		/** Returns the unit with the next highest value */
-		public final Optional<Unit> next() {
-			return MAP.values().stream()
-				.sorted((a, b) -> Integer.compare(a.value(), b.value()))
+		public Optional<Unit> next() {
+			return MAP.values()
+				.stream()
+				.sorted(Comparator.comparingInt(Unit::value))
 				.filter(u -> u.value() > this.value())
 				.findFirst();
 		}
 
 		/** Returns the unit with the next highest value */
-		public final Optional<Unit> nextMultiple() {
-			return MAP.values().stream()
-				.sorted((a, b) -> Integer.compare(a.value(), b.value()))
+		public Optional<Unit> nextMultiple() {
+			return MAP.values()
+				.stream()
+				.sorted(Comparator.comparingInt(Unit::value))
 				.filter(u -> u.value() > this.value())
 				.filter(u -> u.value() % this.value() == 0)
 				.findFirst();
 		}
 
 		/** Returns the unit with the previous highest value */
-		public final Optional<Unit> last() {
-			return MAP.values().stream()
+		public Optional<Unit> last() {
+			return MAP.values()
+				.stream()
 				.sorted((a, b) -> Integer.compare(b.value(), a.value()))
 				.filter(u -> u.value() < this.value())
 				.findFirst();
 		}
 
 		/** Returns the unit with the previous highest value */
-		public final Optional<Unit> lastMultiple() {
-			return MAP.values().stream()
+		public Optional<Unit> lastMultiple() {
+			return MAP.values()
+				.stream()
 				.sorted((a, b) -> Integer.compare(b.value(), a.value()))
 				.filter(u -> u.value() < this.value())
 				.filter(u -> this.value() % u.value() == 0)
@@ -263,14 +246,14 @@ public interface CurrencyUtil {
 	}
 
 	/** A currency reward */
-	public static final record Reward(Identifier item, int weight) {
+	record Reward(Identifier item, int weight) {
 
 		/** The inner map */
 		private static final HashMap<Identifier, Reward> MAP = new HashMap<>(0);
 
-		/** Returns the currency reward associated with the item's identifier */
-		public static Optional<Reward> find(Identifier item) {
-			return MAP.values().stream().filter(r -> r.item().equals(item)).findFirst();
+		/** Returns the currency reward associated with the item */
+		public static Optional<Reward> find(ItemStack item) {
+			return find(item.getItem());
 		}
 
 		/** Returns the currency reward associated with the item */
@@ -278,16 +261,16 @@ public interface CurrencyUtil {
 			return find(Registries.ITEM.getId(item));
 		}
 
-		/** Returns the currency reward associated with the item */
-		public static Optional<Reward> find(ItemStack item) {
-			return find(item.getItem());
+		/** Returns the currency reward associated with the item's identifier */
+		public static Optional<Reward> find(Identifier item) {
+			return MAP.values().stream().filter(r -> r.item().equals(item)).findFirst();
 		}
 
 		/** Returns a random reward */
 		public static Optional<Reward> random() {
 			final WeightedList<Reward> rewards = new WeightedList<>();
 
-			MAP.values().stream().forEach(r -> rewards.add(r, r.weight()));
+			MAP.values().forEach(r -> rewards.add(r, r.weight()));
 
 			return rewards.shuffle().stream().findFirst();
 		}
@@ -301,25 +284,25 @@ public interface CurrencyUtil {
 
 		/** Returns whether the reward map is empty */
 		public static boolean isEmpty() {
-			return MAP.size() == 0;
+			return MAP.isEmpty();
 		}
 
 		/** Returns the associated item */
-		public final Item getItem() {
+		public Item getItem() {
 			return Registries.ITEM.get(this.item());
 		}
 
 	}
 
 	/** A currency skeleton */
-	public static final record Skeleton(Identifier item, List<Identifier> price) {
+	record Skeleton(Identifier item, List<Identifier> price) {
 
 		/** The inner map */
 		private static final HashMap<Identifier, Skeleton> MAP = new HashMap<>(0);
 
-		/** Returns the currency skeleton associated with the item's identifier */
-		public static Optional<Skeleton> find(Identifier item) {
-			return MAP.values().stream().filter(s -> s.item().equals(item)).findFirst();
+		/** Returns the currency skeleton associated with the item */
+		public static Optional<Skeleton> find(ItemStack item) {
+			return find(item.getItem());
 		}
 
 		/** Returns the currency skeleton associated with the item */
@@ -327,14 +310,23 @@ public interface CurrencyUtil {
 			return find(Registries.ITEM.getId(item));
 		}
 
-		/** Returns the currency skeleton associated with the item */
-		public static Optional<Skeleton> find(ItemStack item) {
-			return find(item.getItem());
+		/** Returns the currency skeleton associated with the item's identifier */
+		public static Optional<Skeleton> find(Identifier item) {
+			return MAP.values().stream().filter(s -> s.item().equals(item)).findFirst();
 		}
 
 		/** Returns a list of skeletons that use the given reward as a component. */
 		public static List<Skeleton> findFromPrice(Reward reward) {
-			return MAP.values().stream().filter(s -> s.getPrice().contains(reward))
+			return MAP.values().stream().filter(s -> s.getPrice().contains(reward)).toList();
+		}
+
+		/** Returns the list of rewards for this skeleton */
+		public List<Reward> getPrice() {
+			return this.price()
+				.stream()
+				.map(id -> Optional.ofNullable(Reward.MAP.get(id)))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
 				.toList();
 		}
 
@@ -347,25 +339,16 @@ public interface CurrencyUtil {
 
 		/** Returns whether the skeleton map is empty */
 		public static boolean isEmpty() {
-			return MAP.size() == 0;
+			return MAP.isEmpty();
 		}
 
 		/** Returns the associated item */
-		public final Item getItem() {
+		public Item getItem() {
 			return Registries.ITEM.get(this.item());
 		}
 
-		/** Returns the list of rewards for this skeleton */
-		public final List<Reward> getPrice() {
-			return this.price().stream()
-				.map(id -> Optional.ofNullable(Reward.MAP.get(id)))
-				.filter(o -> o.isPresent())
-				.map(Optional::get)
-				.toList();
-		}
-
 		/** Returns whether the given item map contains the price of this skeleton */
-		public final boolean hasPrice(HashMap<Reward, Integer> items) {
+		public boolean hasPrice(HashMap<Reward, Integer> items) {
 			final List<Reward> price = this.getPrice();
 			final HashMap<Reward, Integer> required = new HashMap<>(price.size());
 
@@ -383,7 +366,7 @@ public interface CurrencyUtil {
 	}
 
 	/** Loads currency data on reload */
-	public static final class Loader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+	final class Loader extends JsonDataLoader implements IdentifiableResourceReloadListener {
 
 		/** This loader's GSON configuration */
 		private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -432,9 +415,8 @@ public interface CurrencyUtil {
 
 				final int value = JsonHelper.getInt(object, "value", 0);
 				final boolean drops = JsonHelper.getBoolean(object, "drops", false);
-				final Identifier item = Optional
-					.ofNullable(Identifier.tryParse(JsonHelper.getString(object, "item")))
-					.orElseGet(() -> Registries.ITEM.getDefaultId());
+				final Identifier item = Optional.ofNullable(Identifier.tryParse(JsonHelper.getString(object, "item")))
+					.orElseGet(Registries.ITEM::getDefaultId);
 
 				map.put(id, new Unit(item, value, drops));
 			});
@@ -459,9 +441,8 @@ public interface CurrencyUtil {
 				}
 
 				final int weight = JsonHelper.getInt(object, "weight", 1);
-				final Identifier item = Optional
-					.ofNullable(Identifier.tryParse(JsonHelper.getString(object, "item")))
-					.orElseGet(() -> Registries.ITEM.getDefaultId());
+				final Identifier item = Optional.ofNullable(Identifier.tryParse(JsonHelper.getString(object, "item")))
+					.orElseGet(Registries.ITEM::getDefaultId);
 
 				map.put(id, new Reward(item, weight));
 			});
@@ -503,9 +484,8 @@ public interface CurrencyUtil {
 					}
 				}
 
-				final Identifier item = Optional
-					.ofNullable(Identifier.tryParse(JsonHelper.getString(object, "item")))
-					.orElseGet(() -> Registries.ITEM.getDefaultId());
+				final Identifier item = Optional.ofNullable(Identifier.tryParse(JsonHelper.getString(object, "item")))
+					.orElseGet(Registries.ITEM::getDefaultId);
 
 				map.put(id, new Skeleton(item, cost));
 			});
