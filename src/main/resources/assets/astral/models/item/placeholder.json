@@ -22,6 +22,10 @@
 		{
 			"predicate": { "custom_model_data": 5 },
 			"model": "astral:item/placeholder/coil_head"
+		},
+		{
+			"predicate": { "custom_model_data": 6 },
+			"model": "astral:item/placeholder/biblically_accurate_spiral_plush"
 		}
 	]
 }
