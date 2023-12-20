@@ -2,7 +2,7 @@
 
 ### Internal changes
 
-- The mod's license has been updated to GPL-3.0 or higher.
+- The mod's license has been updated to AGPL-3.0 or higher.
 - The formatting of all files has been updated and normalized.
 - Simplified the logic of some code, such as removing an extra variable assignment within `RamImpactTaskMixin`'s
   injection method.

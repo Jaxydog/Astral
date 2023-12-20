@@ -9,7 +9,7 @@
 		"sources": "https://github.com/Jaxydog/Astral",
 		"issues": "https://github.com/Jaxydog/Astral/issues"
 	},
-	"license": "GPL-3.0-or-later",
+	"license": "AGPL-3.0-or-later",
 	"icon": "assets/astral/icon.png",
 	"environment": "*",
 	"entrypoints": {
