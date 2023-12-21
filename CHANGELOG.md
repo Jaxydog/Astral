@@ -42,6 +42,7 @@
     - Added a "Hatsune Miku Pop! Figurine" model.
     - Added a "Coil Head Plush" model.
     - Added a "Biblically-Accurate Spiral Plush" model.
+- Added a "Sylvian Knife" model for Farmer's Delight's netherite knives.
 - Created `PlaceholderMimicItem`, which nearly perfectly imitates another already-defined item, while *also*
   extending `PlaceholderItem`.
 - Updated cloudy items
