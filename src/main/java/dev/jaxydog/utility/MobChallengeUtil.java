@@ -53,7 +53,7 @@ public interface MobChallengeUtil {
 		final double modifier = Math.max(0D, additive) * ((distance / 16D) / step);
 		final boolean overworld = entity.getWorld().getRegistryKey().equals(World.OVERWORLD);
 
-		return overworld ? modifier : modifier / 2.0;
+		return overworld ? modifier : modifier / 2D;
 	}
 
 	/** Returns the world's configured chunk step size. */
