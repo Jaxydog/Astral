@@ -61,6 +61,7 @@
     - Textures have been modified.
     - Turns red in "boolean mode" as a more apparent visual indicator.
     - Must be harvested using a stone pickaxe or higher.
+- Lightning bolt entities now support the `{PreserveItems:1b}` NBT tag, which prevents hit items from being discarded.
 
 # Release 1.3.0
 
