@@ -64,6 +64,10 @@
     - Must be harvested using a stone pickaxe or higher.
 - Lightning bolt entities now support the `{PreserveItems:1b}` NBT tag, which prevents hit items from being discarded.
 
+## Patch 1.4.1
+
+- Fixed the "Sylvian Knife", which was not properly overwritten in the previous version.
+
 # Release 1.3.0
 
 ### Internal Changes
