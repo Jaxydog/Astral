@@ -1,7 +1,7 @@
 {
 	"textures": {
-		"0": "astral:item/placeholder/sylvian_knife",
-		"particle": "astral:item/placeholder/sylvian_knife"
+		"0": "farmersdelight:item/placeholder/sylvian_knife",
+		"particle": "farmersdelight:item/placeholder/sylvian_knife"
 	},
 	"elements": [
 		{

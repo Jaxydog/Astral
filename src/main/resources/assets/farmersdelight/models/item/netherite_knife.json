@@ -5,7 +5,7 @@
 	"overrides": [
 		{
 			"predicate": { "custom_model_data": 1 },
-			"model": "astral:item/placeholder/sylvian_knife"
+			"model": "farmersdelight:item/placeholder/sylvian_knife"
 		}
 	]
 }
