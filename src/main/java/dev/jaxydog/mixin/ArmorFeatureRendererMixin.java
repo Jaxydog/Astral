@@ -46,9 +46,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 		ItemStack stack,
 		ArmorItem item
 	) {
-		if (!(item instanceof final CustomArmorItem custom)) {
-			return;
-		}
+		if (!(item instanceof final CustomArmorItem custom)) return;
 
 		final boolean inner = this.usesInnerModelInvoker(slot);
 		final int layers = custom.getTextureLayers();
@@ -78,9 +76,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 			this.renderTrimInvoker(material, matrix, vertex, light, trim, model, inner);
 		});
 
-		if (stack.hasGlint()) {
-			this.renderGlintInvoker(matrix, vertex, light, model);
-		}
+		if (stack.hasGlint()) this.renderGlintInvoker(matrix, vertex, light, model);
 
 		callbackInfo.cancel();
 	}
