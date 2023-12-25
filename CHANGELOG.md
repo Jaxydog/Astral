@@ -72,6 +72,7 @@
 
 - Removed the "Sylvian Knife" model, as it's still not displaying properly.
 - Seeds used to feed damaged parrots are now specified within `#astral:parrot_feed`.
+- Simplified parrot mixin sound playing.
 - Removed excess mixin hooks from `PlayerInventoryMixin`.
 
 # Release 1.3.0
