@@ -27,9 +27,7 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SkinOv
 	@SuppressWarnings("InvalidInjectorMethodSignature")
 	@ModifyVariable(method = "explode", at = @At("STORE"), ordinal = 0)
 	private float powerVarInject(float power) {
-		if (!MobChallengeUtil.shouldScale(this)) {
-			return power;
-		}
+		if (!MobChallengeUtil.shouldScale(this)) return power;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);

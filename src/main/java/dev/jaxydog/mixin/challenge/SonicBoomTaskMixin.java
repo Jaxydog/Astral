@@ -63,27 +63,28 @@ public abstract class SonicBoomTaskMixin extends MultiTickTask<WardenEntity> {
 		brain.remember(MemoryModuleType.SONIC_BOOM_SOUND_COOLDOWN, Unit.INSTANCE, RUN_TIME - SOUND_DELAY);
 		brain.getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET)
 			.filter(entity::isValidTarget)
-			.filter(target -> entity.isInRange(target, 15.0, 20.0))
+			.filter(target -> entity.isInRange(target, 15D, 20D))
 			.ifPresent(target -> {
-				final Vec3d head = entity.getPos().add(0.0, 1.6f, 0.0);
+				final Vec3d head = entity.getPos().add(0D, 1.6F, 0D);
 				final Vec3d feet = target.getEyePos().subtract(head);
 				final Vec3d normal = feet.normalize();
 
-				for (int i = 1; i < MathHelper.floor(feet.length()) + 7; ++i) {
-					final Vec3d pos = head.add(normal.multiply(i));
+				for (int multiplier = 1; multiplier < MathHelper.floor(feet.length()) + 7; ++multiplier) {
+					final Vec3d pos = head.add(normal.multiply(multiplier));
 
-					serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0.0, 0.0, 0.0, 0.0);
+					serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0D, 0D, 0D, 0D);
 				}
 
 				final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
 				final double scaled = MobChallengeUtil.getScaledAdditive(entity, additive);
 				final float damage = (float) (DAMAGE + scaled);
 
-				entity.playSound(SoundEvents.ENTITY_WARDEN_SONIC_BOOM, 3.0f, 1.0f);
+				entity.playSound(SoundEvents.ENTITY_WARDEN_SONIC_BOOM, 3F, 1F);
 				target.damage(serverWorld.getDamageSources().sonicBoom(entity), damage);
 
-				final double xz = 2.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-				final double y = 0.5 * (1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+				final double resistance = target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE);
+				final double xz = 2.5D * (1D - resistance);
+				final double y = 0.5D * (1D - resistance);
 
 				target.addVelocity(normal.getX() * xz, normal.getY() * y, normal.getZ() * xz);
 			});

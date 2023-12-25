@@ -37,7 +37,7 @@ public abstract class PufferfishEntityMixin extends FishEntity {
 
 		if (mob.damage(this.getDamageSources().mobAttack(this), (float) damage)) {
 			mob.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * puff, 0), this);
-			this.playSound(SoundEvents.ENTITY_PUFFER_FISH_STING, 1.0f, 1.0f);
+			this.playSound(SoundEvents.ENTITY_PUFFER_FISH_STING, 1F, 1F);
 		}
 
 		callbackInfo.cancel();
