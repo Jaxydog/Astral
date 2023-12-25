@@ -38,16 +38,7 @@ public abstract class ParrotEntityMixin {
 		if (!self.isSilent()) {
 			final float pitchModifier = self.getRandom().nextFloat() - self.getRandom().nextFloat();
 
-			self.getWorld().playSound(
-				null,
-				self.getX(),
-				self.getY(),
-				self.getZ(),
-				SoundEvents.ENTITY_PARROT_EAT,
-				self.getSoundCategory(),
-				1.0f,
-				1.0f + pitchModifier * 0.2f
-			);
+			self.playSound(SoundEvents.ENTITY_PARROT_EAT, 1F, 1F + (pitchModifier * 0.2F));
 		}
 
 		if (!player.getAbilities().creativeMode) stack.decrement(1);
