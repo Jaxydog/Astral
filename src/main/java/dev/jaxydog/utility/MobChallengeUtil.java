@@ -5,6 +5,7 @@ import dev.jaxydog.content.CustomGamerules;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
@@ -25,8 +26,12 @@ public interface MobChallengeUtil {
 	/** Determines whether a given entity should have scaling applied */
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	static boolean shouldScale(Entity entity) {
-		return entity instanceof final LivingEntity living && isEnabled(living.getWorld()) && living.getType()
-			.isIn(SCALED_ENTITIES) && !((LivingEntityMixinAccess) living).astral$ignoresChallengeScaling();
+		return entity instanceof final LivingEntity living
+			&& isEnabled(living.getWorld())
+			&& living.getType()
+			.isIn(SCALED_ENTITIES)
+			&& !((LivingEntityMixinAccess) living).astral$ignoresChallengeScaling()
+			&& (!(living instanceof final TameableEntity tamable) || !tamable.isTamed());
 	}
 
 	/** Returns whether mob challenge scaling is enabled. */

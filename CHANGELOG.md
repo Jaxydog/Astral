@@ -78,6 +78,7 @@
 ## Patch 1.4.3
 
 - Fixes a potential memory leak caused by the goat's ram impact task mixin.
+- Stop scaling tamed entities.
 
 # Release 1.3.0
 
