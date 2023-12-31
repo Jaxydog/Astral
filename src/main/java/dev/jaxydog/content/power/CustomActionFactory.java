@@ -1,7 +1,7 @@
 package dev.jaxydog.content.power;
 
 import dev.jaxydog.Astral;
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.calio.data.SerializableData;
 import net.minecraft.registry.Registry;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import java.util.function.BiConsumer;
 
 /** An extension of a regular action factory that provides additional functionality */
-public class CustomActionFactory<T> extends ActionFactory<T> implements Registerable {
+public class CustomActionFactory<T> extends ActionFactory<T> implements Registered {
 
 	/** The custom action factory's inner raw identifier */
 	private final String RAW_ID;
@@ -32,7 +32,7 @@ public class CustomActionFactory<T> extends ActionFactory<T> implements Register
 	}
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 

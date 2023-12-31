@@ -37,7 +37,7 @@ public final class Astral implements ModInitializer {
 	public void onInitialize() {
 		Registry.register(Registries.ITEM_GROUP, getId("default"), ITEM_GROUP);
 
-		CustomContent.INSTANCE.registerMain();
+		CustomContent.INSTANCE.register();
 		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new CurrencyUtil.Loader());
 
 		getMetadata().ifPresent(metadata -> {

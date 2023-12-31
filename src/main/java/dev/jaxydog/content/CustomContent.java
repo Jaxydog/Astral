@@ -8,14 +8,14 @@ import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.content.power.CustomActions;
 import dev.jaxydog.content.power.CustomConditions;
 import dev.jaxydog.content.power.CustomPowers;
-import dev.jaxydog.utility.register.ContentContainer;
-import dev.jaxydog.utility.register.Skip;
+import dev.jaxydog.register.ContentRegistrar;
+import dev.jaxydog.register.IgnoreRegistration;
 
 /** Contains all instances of defined content container classes */
-public final class CustomContent extends ContentContainer {
+public final class CustomContent extends ContentRegistrar {
 
 	/** Stores the custom content container instance */
-	@Skip
+	@IgnoreRegistration
 	public static final CustomContent INSTANCE = new CustomContent();
 
 	// Defined custom content classes

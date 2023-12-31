@@ -1,20 +1,19 @@
 package dev.jaxydog.utility;
 
-import dev.jaxydog.utility.register.Registerable;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
+import dev.jaxydog.register.Registered;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public abstract class RegisterableMap<K, V extends Registerable> implements Registerable.All {
+public abstract class RegisteredMap<K, V extends Registered> implements Registered.All {
 
 	private final String RAW_ID;
 	private final BiFunction<String, K, V> CONSTRUCTOR;
 	private final HashMap<K, V> INNER = new HashMap<>();
 
-	public RegisterableMap(String rawId, BiFunction<String, K, V> constructor) {
+	public RegisteredMap(String rawId, BiFunction<String, K, V> constructor) {
 		this.RAW_ID = rawId;
 		this.CONSTRUCTOR = constructor;
 	}
@@ -33,7 +32,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 	private void construct() {
 		for (final K key : this.keys()) {
-			final String id = this.getRawId(key);
+			final String id = this.getIdPath(key);
 			final V value = this.CONSTRUCTOR.apply(id, key);
 
 			this.INNER.put(key, value);
@@ -44,7 +43,7 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 		return Set.of();
 	}
 
-	public abstract String getRawId(K key);
+	public abstract String getIdPath(K key);
 
 	public final V get(K key) {
 		this.constructIfEmpty();
@@ -53,16 +52,16 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 	}
 
 	@Override
-	public final String getRawId() {
+	public final String getIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
-	public void registerMain() {
+	public void register() {
 		this.constructIfEmpty();
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final Main main) main.registerMain();
+			if (this.get(key) instanceof final Common common) common.register();
 		});
 	}
 
@@ -81,15 +80,6 @@ public abstract class RegisterableMap<K, V extends Registerable> implements Regi
 
 		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
 			if (this.get(key) instanceof final Server server) server.registerServer();
-		});
-	}
-
-	@Override
-	public void registerDataGen(Pack pack) {
-		this.constructIfEmpty();
-
-		this.keys().stream().sorted(this::compareKeys).forEach(key -> {
-			if (this.get(key) instanceof final DataGen datagen) datagen.registerDataGen(pack);
 		});
 	}
 

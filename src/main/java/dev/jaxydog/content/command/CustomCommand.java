@@ -3,13 +3,13 @@ package dev.jaxydog.content.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
 /** Allows the creation of commands using the auto-registration system */
-public abstract class CustomCommand implements Registerable.Main {
+public abstract class CustomCommand implements Registered.Common {
 
 	/** The custom command's inner raw identifier */
 	private final String RAW_ID;
@@ -19,14 +19,14 @@ public abstract class CustomCommand implements Registerable.Main {
 	}
 
 	@Override
-	public void registerMain() {
+	public void register() {
 		CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> dispatcher.register(this.getCommand()
 			.executes(this::execute)));
 	}
 
 	/** Returns the command's builder */
 	public LiteralArgumentBuilder<ServerCommandSource> getCommand() {
-		return CommandManager.literal(this.getRawId()).requires(this::requires);
+		return CommandManager.literal(this.getIdPath()).requires(this::requires);
 	}
 
 	/** Executes the command */
@@ -34,7 +34,7 @@ public abstract class CustomCommand implements Registerable.Main {
 	public abstract int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException;
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 

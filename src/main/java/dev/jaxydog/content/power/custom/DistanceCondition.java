@@ -44,7 +44,7 @@ public class DistanceCondition extends CustomCondition<Entity> {
 			.add("comparison", ApoliDataTypes.COMPARISON)
 			.add("compare_to", SerializableDataTypes.DOUBLE);
 
-		return new CustomConditionFactory<>(this.getRawId(), data, this::check);
+		return new CustomConditionFactory<>(this.getIdPath(), data, this::check);
 	}
 
 	@Override

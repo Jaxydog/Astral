@@ -5,9 +5,9 @@ import dev.jaxydog.content.item.custom.CloudyItem;
 import dev.jaxydog.content.item.custom.DyeableCloudyArmorItem;
 import dev.jaxydog.content.item.custom.MirrorItem;
 import dev.jaxydog.content.item.custom.PlaceholderItem;
+import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.utility.ArmorMap;
 import dev.jaxydog.utility.DyeableMap;
-import dev.jaxydog.utility.register.ContentContainer;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
@@ -17,7 +17,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Rarity;
 
 /** Contains definitions for all custom items */
-public final class CustomItems extends ContentContainer {
+public final class CustomItems extends ContentRegistrar {
 
 	public static final CloudyItem CLOUDY_CANDY = new CloudyItem("cloudy_candy",
 		new Settings().food(FoodComponents.CLOUDY_CANDY_FOOD).rarity(Rarity.UNCOMMON)

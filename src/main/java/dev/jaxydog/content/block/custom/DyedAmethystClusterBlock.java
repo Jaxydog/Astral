@@ -1,6 +1,6 @@
 package dev.jaxydog.content.block.custom;
 
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Registerable.Client, Waterloggable {
+public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Registered.Client, Waterloggable {
 
 	/** Whether the block is waterlogged */
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;

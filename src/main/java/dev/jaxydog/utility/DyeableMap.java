@@ -1,11 +1,12 @@
 package dev.jaxydog.utility;
 
-import java.util.Set;
-import java.util.function.BiFunction;
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import net.minecraft.util.DyeColor;
 
-public class DyeableMap<T extends Registerable> extends RegisterableMap<DyeColor, T> {
+import java.util.Set;
+import java.util.function.BiFunction;
+
+public class DyeableMap<T extends Registered> extends RegisteredMap<DyeColor, T> {
 
 	public DyeableMap(String rawId, BiFunction<String, DyeColor, T> constructor) {
 		super(rawId, constructor);
@@ -17,8 +18,8 @@ public class DyeableMap<T extends Registerable> extends RegisterableMap<DyeColor
 	}
 
 	@Override
-	public final String getRawId(DyeColor key) {
-		return String.format("%s_%s", key.asString(), this.getRawId());
+	public final String getIdPath(DyeColor key) {
+		return String.format("%s_%s", key.asString(), this.getIdPath());
 	}
 
 	@Override

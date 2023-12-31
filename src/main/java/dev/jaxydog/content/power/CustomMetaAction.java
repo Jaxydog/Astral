@@ -1,6 +1,6 @@
 package dev.jaxydog.content.power;
 
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
@@ -8,7 +8,7 @@ import io.github.apace100.calio.data.SerializableData.Instance;
 import io.github.apace100.calio.data.SerializableDataType;
 
 /** Abstract class for implementing actions with multiple data types */
-public abstract class CustomMetaAction implements Registerable.Main {
+public abstract class CustomMetaAction implements Registered.Common {
 
 	/** The custom meta action's inner identifier */
 	private final String RAW_ID;
@@ -21,12 +21,12 @@ public abstract class CustomMetaAction implements Registerable.Main {
 	public abstract <T> void execute(Instance data, T value);
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
-	public void registerMain() {
+	public void register() {
 		this.factory(ApoliDataTypes.BIENTITY_ACTION).register(ApoliRegistries.BIENTITY_ACTION);
 		this.factory(ApoliDataTypes.BLOCK_ACTION).register(ApoliRegistries.BLOCK_ACTION);
 		this.factory(ApoliDataTypes.ENTITY_ACTION).register(ApoliRegistries.ENTITY_ACTION);

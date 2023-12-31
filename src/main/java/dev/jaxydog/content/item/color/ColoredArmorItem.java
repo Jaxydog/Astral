@@ -1,13 +1,13 @@
 package dev.jaxydog.content.item.color;
 
 import dev.jaxydog.content.item.CustomArmorItem;
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 
 /** An extension of a regular custom armor item that provides color support */
-public abstract class ColoredArmorItem extends CustomArmorItem implements Registerable.Client {
+public abstract class ColoredArmorItem extends CustomArmorItem implements Registered.Client {
 
 	public ColoredArmorItem(String rawId, ArmorMaterial material, Type type, Settings settings) {
 		super(rawId, material, type, settings);

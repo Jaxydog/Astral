@@ -1,7 +1,7 @@
 package dev.jaxydog.content.item;
 
 import dev.jaxydog.Astral;
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /** An extension of a regular item that provides additional functionality */
-public class CustomItem extends Item implements Registerable.Main {
+public class CustomItem extends Item implements Registered.Common {
 
 	/** The custom item's inner raw identifier */
 	private final String RAW_ID;
@@ -42,13 +42,13 @@ public class CustomItem extends Item implements Registerable.Main {
 	}
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Override
-	public void registerMain() {
+	public void register() {
 		Registry.register(Registries.ITEM, this.getId(), this);
 		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
 			.register(g -> g.add(this));

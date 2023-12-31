@@ -3,13 +3,13 @@ package dev.jaxydog.content.block;
 import dev.jaxydog.content.block.custom.DyedAmethystBlock;
 import dev.jaxydog.content.block.custom.DyedAmethystClusterBlock;
 import dev.jaxydog.content.block.custom.RandomizerBlock;
+import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.utility.DyeableMap;
-import dev.jaxydog.utility.register.ContentContainer;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Blocks;
 
 /** Contains definitions for all custom blocks */
-public final class CustomBlocks extends ContentContainer {
+public final class CustomBlocks extends ContentRegistrar {
 
 	public static final DyeableMap<DyedAmethystBlock> DYED_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
 		(rawId, color) -> new DyedAmethystBlock(rawId, Settings.copy(Blocks.AMETHYST_BLOCK))

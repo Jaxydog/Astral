@@ -1,7 +1,7 @@
 package dev.jaxydog.content.power;
 
 import dev.jaxydog.Astral;
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
@@ -15,7 +15,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /** An extension of a regular power factory that provides additional functionality */
-public class CustomPowerFactory<P extends Power> extends PowerFactory<P> implements Registerable.Main {
+public class CustomPowerFactory<P extends Power> extends PowerFactory<P> implements Registered.Common {
 
 	/** The custom power factory's inner raw identifier */
 	private final String RAW_ID;
@@ -31,7 +31,7 @@ public class CustomPowerFactory<P extends Power> extends PowerFactory<P> impleme
 	}
 
 	@Override
-	public void registerMain() {
+	public void register() {
 		Registry.register(ApoliRegistries.POWER_FACTORY, this.getId(), this);
 	}
 
@@ -41,7 +41,7 @@ public class CustomPowerFactory<P extends Power> extends PowerFactory<P> impleme
 	}
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 

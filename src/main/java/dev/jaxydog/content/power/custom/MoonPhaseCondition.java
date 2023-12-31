@@ -40,7 +40,7 @@ public class MoonPhaseCondition extends CustomCondition<Entity> {
 		final SerializableData data = new SerializableData().add("phase", CustomData.MOON_PHASE, MoonPhase.NONE)
 			.add("phases", CustomData.MOON_PHASES, new ArrayList<>());
 
-		return new CustomConditionFactory<>(this.getRawId(), data, this::check);
+		return new CustomConditionFactory<>(this.getIdPath(), data, this::check);
 	}
 
 	@Override

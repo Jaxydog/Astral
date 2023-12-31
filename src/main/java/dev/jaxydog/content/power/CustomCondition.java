@@ -1,12 +1,12 @@
 package dev.jaxydog.content.power;
 
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.calio.data.SerializableData.Instance;
 import net.minecraft.registry.Registry;
 
 /** Abstract class for implementing conditions */
-public abstract class CustomCondition<T> implements Registerable.Main {
+public abstract class CustomCondition<T> implements Registered.Common {
 
 	/** The custom condition's inner raw identifier */
 	private final String RAW_ID;
@@ -19,12 +19,12 @@ public abstract class CustomCondition<T> implements Registerable.Main {
 	public abstract boolean check(Instance data, T value);
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
-	public void registerMain() {
+	public void register() {
 		this.factory().register(this.registry());
 	}
 

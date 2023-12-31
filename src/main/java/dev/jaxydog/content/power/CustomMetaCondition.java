@@ -1,6 +1,6 @@
 package dev.jaxydog.content.power;
 
-import dev.jaxydog.utility.register.Registerable;
+import dev.jaxydog.register.Registered;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
@@ -8,7 +8,7 @@ import io.github.apace100.calio.data.SerializableData.Instance;
 import io.github.apace100.calio.data.SerializableDataType;
 
 /** Abstract class for implementing conditions with multiple data types */
-public abstract class CustomMetaCondition implements Registerable.Main {
+public abstract class CustomMetaCondition implements Registered.Common {
 
 	/** The custom meta condition's inner raw identifier */
 	private final String RAW_ID;
@@ -21,12 +21,12 @@ public abstract class CustomMetaCondition implements Registerable.Main {
 	public abstract <T> boolean check(Instance data, T value);
 
 	@Override
-	public String getRawId() {
+	public String getIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
-	public void registerMain() {
+	public void register() {
 		this.factory(ApoliDataTypes.BIENTITY_CONDITION).register(ApoliRegistries.BIENTITY_CONDITION);
 		this.factory(ApoliDataTypes.BLOCK_CONDITION).register(ApoliRegistries.BLOCK_CONDITION);
 		this.factory(ApoliDataTypes.ENTITY_CONDITION).register(ApoliRegistries.ENTITY_CONDITION);

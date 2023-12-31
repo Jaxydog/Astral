@@ -2,7 +2,7 @@ package dev.jaxydog.content.item.custom;
 
 import com.google.common.collect.Multimap;
 import dev.jaxydog.content.item.Customized;
-import dev.jaxydog.utility.RegisterableMap;
+import dev.jaxydog.utility.RegisteredMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.item.TooltipData;
@@ -352,7 +352,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 		}
 	}
 
-	public static class Group extends RegisterableMap<Item, PlaceholderMimicItem> {
+	public static class Group extends RegisteredMap<Item, PlaceholderMimicItem> {
 
 		private final Set<Item> ITEMS;
 
@@ -373,10 +373,10 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 		}
 
 		@Override
-		public String getRawId(Item item) {
+		public String getIdPath(Item item) {
 			final String id = Registries.ITEM.getId(item).getPath();
 
-			return String.format("%s_%s", super.getRawId(), id);
+			return String.format("%s_%s", super.getIdPath(), id);
 		}
 
 	}

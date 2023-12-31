@@ -3,6 +3,17 @@
 ### Internal changes
 
 - Improved how colors are handled and transitioned.
+- Overhauled content registration.
+    - Package has been moved out of `utility`.
+    - `Registerable` has been renamed to `Registered`.
+    - `Registerable.Main` has been renamed to `Common`.
+    - `Registerable::getRawId` has been renamed to `getIdPath`.
+    - `ContentContainer` has been renamed to `ContentRegistrar`.
+    - `Skip` has been renamed to `IgnoreRegistration`.
+    - `Registerable.Env` has been renamed and moved to `RegistrationEnvironment`.
+    - Removed data generation from the auto-registration system.
+    - Reimplemented and simplified the field registration method.
+    - Updated all pre-existing `Registerable` classes to implement the new interface.
 
 # Release 1.4.0
 

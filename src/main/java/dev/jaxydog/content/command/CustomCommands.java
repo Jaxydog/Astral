@@ -1,8 +1,8 @@
 package dev.jaxydog.content.command;
 
-import dev.jaxydog.utility.register.ContentContainer;
+import dev.jaxydog.register.ContentRegistrar;
 
 /** Contains definitions for all custom commands */
-public final class CustomCommands extends ContentContainer {
+public final class CustomCommands extends ContentRegistrar {
 
 }

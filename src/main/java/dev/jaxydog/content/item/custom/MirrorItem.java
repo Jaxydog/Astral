@@ -1,8 +1,8 @@
 package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.content.item.CustomItem;
+import dev.jaxydog.register.Registered;
 import dev.jaxydog.utility.NbtUtil;
-import dev.jaxydog.utility.register.Registerable;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 /** Implements the fluxling's mirror item */
-public class MirrorItem extends CustomItem implements Registerable.Client {
+public class MirrorItem extends CustomItem implements Registered.Client {
 
 	/** The NBT key that determines whether a mirror is considered to be broken */
 	public static final String BROKEN_KEY = "Broken";
