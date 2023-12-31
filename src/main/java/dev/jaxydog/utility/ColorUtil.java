@@ -9,144 +9,58 @@ import java.util.function.Function;
 @NonExtendable
 public interface ColorUtil {
 
-	/** Scales the given `min` color upwards towards `max` based on the given `scale` */
-	static int scaleUp(int min, int max, double scale) {
-		return scaleUp(RGB.from(min), RGB.from(max), scale).getInt();
+	/** Performs a linear transition between two colors */
+	static Rgb transition(Rgb start, Rgb end, double delta) {
+		final int r = (int) ((end.r() - start.r()) * delta);
+		final int g = (int) ((end.g() - start.g()) * delta);
+		final int b = (int) ((end.b() - start.b()) * delta);
+
+		return new Rgb(start.r() + r, start.g() + g, start.b() + b);
 	}
 
-	/** Scales the given `min` color upwards towards `max` based on the given `scale` */
-	static RGB scaleUp(RGB min, RGB max, double scale) {
-		final double clamped = Math.max(0D, Math.min(1D, scale));
-		final RGB difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
-		final RGB scaled = difference.apply(n -> (short) (n * clamped));
-
-		return min.apply(scaled, (n, s) -> (short) (n + s));
+	/** Performs a linear transition between two colors */
+	static int transition(int start, int end, double delta) {
+		return transition(new Rgb(start), new Rgb(end), delta).asInt();
 	}
 
-	/** Scales the given `max` color downwards towards `min` based on the given `scale` */
-	static RGB scaleDown(RGB min, RGB max, double scale) {
-		final double clamped = Math.max(0D, Math.min(1D, scale));
-		final RGB difference = max.apply(min, (mx, mn) -> (short) (mx - mn));
-		final RGB scaled = difference.apply(n -> (short) (n * clamped));
+	/** Stores an RGB color value. */
+	record Rgb(int asInt) {
 
-		return max.apply(scaled, (n, s) -> (short) (n - s));
-	}
-
-	/** Scales the given `max` color downwards towards `min` based on the given `scale` */
-	static int scaleDown(int min, int max, double scale) {
-		return scaleUp(RGB.from(min), RGB.from(max), scale).getInt();
-	}
-
-	/** Stores an RGB color value */
-	final class RGB {
-
-		// The RGB value's color components
-		private final short R;
-		private final short G;
-		private final short B;
-
-		public RGB(short r, short g, short b) {
-			this.R = RGB.clamp(r);
-			this.G = RGB.clamp(g);
-			this.B = RGB.clamp(b);
-		}
-
-		/** Clamps the given short to a valid byte value (0-255) */
-		private static short clamp(short n) {
-			return (short) Math.max(0, Math.min(255, n));
-		}
-
-		/** Creates an RGB color value from the provided integer */
-		public static RGB from(int color) {
-			final short r = (short) (color >> 16 & 0xFF);
-			final short g = (short) (color >> 8 & 0xFF);
-			final short b = (short) (color & 0xFF);
-
-			return new RGB(r, g, b);
-		}
-
-		/** Returns the RGB color's integer representation */
-		public int getInt() {
-			final int r = ((int) this.getR()) << 16;
-			final int g = ((int) this.getG()) << 8;
-			final int b = this.getB();
-
-			return r | g | b;
+		public Rgb(int r, int g, int b) {
+			this(((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF));
 		}
 
 		/** Returns the color's red component */
-		public short getR() {
-			return this.R;
+		public int r() {
+			return (this.asInt() >> 16) & 0xFF;
 		}
 
 		/** Returns the color's green component */
-		public short getG() {
-			return this.G;
+		public int g() {
+			return (this.asInt() >> 8) & 0xFF;
 		}
 
 		/** Returns the color's blue component */
-		public short getB() {
-			return this.B;
+		public int b() {
+			return this.asInt() & 0xFF;
 		}
 
-		/** Applies the given function to the RGB color's color components */
-		public RGB apply(Function<Short, Short> f) {
-			final short r = f.apply(this.getR());
-			final short g = f.apply(this.getG());
-			final short b = f.apply(this.getB());
+		/** Maps each component using the given closure. */
+		public Rgb map(Function<Integer, Integer> f) {
+			final int r = f.apply(this.r());
+			final int g = f.apply(this.g());
+			final int b = f.apply(this.b());
 
-			return new RGB(r, g, b);
+			return new Rgb(r, g, b);
 		}
 
-		/** Applies the given function to the RGB colors' color components */
-		public RGB apply(RGB other, BiFunction<Short, Short, Short> f) {
-			final short r = f.apply(this.getR(), other.getR());
-			final short g = f.apply(this.getG(), other.getG());
-			final short b = f.apply(this.getB(), other.getB());
+		/** Mixes each component using the given closure. */
+		public Rgb mix(Rgb other, BiFunction<Integer, Integer, Integer> f) {
+			final int r = f.apply(this.r(), other.r());
+			final int g = f.apply(this.g(), other.g());
+			final int b = f.apply(this.b(), other.b());
 
-			return new RGB(r, g, b);
-		}
-
-		/** Applies the given function to the RGB color's R color component */
-		public RGB applyR(Function<Short, Short> f) {
-			final short r = f.apply(this.getR());
-
-			return new RGB(r, this.getG(), this.getB());
-		}
-
-		/** Applies the given function to the RGB color's R color component */
-		public RGB applyG(Function<Short, Short> f) {
-			final short g = f.apply(this.getG());
-
-			return new RGB(this.getR(), g, this.getB());
-		}
-
-		/** Applies the given function to the RGB color's R color component */
-		public RGB applyB(Function<Short, Short> f) {
-			final short b = f.apply(this.getB());
-
-			return new RGB(this.getR(), this.getG(), b);
-		}
-
-		/** Applies the given function to the RGB colors' R color component */
-		public RGB applyR(short other, BiFunction<Short, Short, Short> f) {
-			final short r = f.apply(this.getR(), other);
-
-			return new RGB(r, this.getG(), this.getB());
-		}
-
-		/** Applies the given function to the RGB colors' R color component */
-		public RGB applyG(short other, BiFunction<Short, Short, Short> f) {
-			final short g = f.apply(this.getG(), other);
-
-			return new RGB(this.getR(), g, this.getB());
-		}
-
-		/** Applies the given function to the RGB colors' R color component */
-		public RGB applyB(short other, BiFunction<Short, Short, Short> f) {
-			final short b = f.apply(this.getB(), other);
-
-			return new RGB(this.getR(), this.getG(), b);
+			return new Rgb(r, g, b);
 		}
 
 	}

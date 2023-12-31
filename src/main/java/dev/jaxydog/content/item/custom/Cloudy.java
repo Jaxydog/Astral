@@ -2,6 +2,7 @@ package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.Astral;
 import dev.jaxydog.utility.ColorUtil;
+import dev.jaxydog.utility.ColorUtil.Rgb;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -18,9 +19,9 @@ public interface Cloudy {
 	String STORMINESS_LABEL_KEY = Astral.getId(STORMINESS_KEY.toLowerCase()).toTranslationKey("text");
 
 	/** The minimum possible item color value. */
-	ColorUtil.RGB COLOR_MIN = ColorUtil.RGB.from(0x66_66_66);
+	Rgb COLOR_MIN = new Rgb(0x66_66_66);
 	/** The maximum possible item color value. */
-	ColorUtil.RGB COLOR_MAX = ColorUtil.RGB.from(0xEE_EE_EE);
+	Rgb COLOR_MAX = new Rgb(0xEE_EE_EE);
 
 	/** Sets the given item stack's storminess value. */
 	default void setStorminess(ItemStack stack, double storminess) {
@@ -42,7 +43,7 @@ public interface Cloudy {
 		final double max = this.getMaxStorminess(stack);
 		final double percentage = (storminess - min) / (max - min);
 
-		return ColorUtil.scaleDown(COLOR_MIN, COLOR_MAX, percentage).getInt();
+		return ColorUtil.transition(COLOR_MIN, COLOR_MAX, 1D - percentage).asInt();
 	}
 
 	/** Returns the given item stack's storminess value. */

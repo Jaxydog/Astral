@@ -3,7 +3,7 @@ package dev.jaxydog.mixin;
 import blue.endless.jankson.annotation.Nullable;
 import dev.jaxydog.content.item.CustomArmorItem;
 import dev.jaxydog.content.item.color.ColoredArmorItem;
-import dev.jaxydog.utility.ColorUtil.RGB;
+import dev.jaxydog.utility.ColorUtil.Rgb;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -56,11 +56,11 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 			final float r, g, b;
 
 			if (custom instanceof final ColoredArmorItem colored) {
-				final RGB color = RGB.from(colored.getColor(stack, index));
+				final Rgb color = new Rgb(colored.getColor(stack, index));
 
-				r = ((float) color.getR()) / 255F;
-				g = ((float) color.getG()) / 255F;
-				b = ((float) color.getB()) / 255F;
+				r = ((float) color.r()) / 255F;
+				g = ((float) color.g()) / 255F;
+				b = ((float) color.b()) / 255F;
 			} else {
 				r = 1F;
 				g = 1F;

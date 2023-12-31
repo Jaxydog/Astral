@@ -1,3 +1,9 @@
+# Release 1.5.0
+
+### Internal changes
+
+- Improved how colors are handled and transitioned.
+
 # Release 1.4.0
 
 ### Internal changes
