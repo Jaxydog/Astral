@@ -51,9 +51,12 @@ public abstract class RamImpactTaskMixin extends MultiTickTask<GoatEntity> {
 		final double additive = MobChallengeUtil.getAttackAdditive(this.entity.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this.entity, additive);
 
-		this.entity = null; // make sure we don't hold this forever
-
 		return damage + (float) scaled;
+	}
+
+	@Inject(method = "finishRam", at = @At("HEAD"))
+	private void finishRamInject(CallbackInfo callbackInfo) {
+		this.entity = null; // make sure we don't hold this forever
 	}
 
 }
