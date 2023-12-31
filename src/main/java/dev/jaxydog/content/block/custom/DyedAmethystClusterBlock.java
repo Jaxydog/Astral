@@ -1,18 +1,23 @@
 package dev.jaxydog.content.block.custom;
 
+import dev.jaxydog.Astral;
 import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -22,6 +27,10 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Registered.Client, Waterloggable {
+
+	public static final TagKey<Item> AMETHYST_CLUSTERS = TagKey.of(Registries.ITEM.getKey(),
+		Astral.getId("amethyst_blocks")
+	);
 
 	/** Whether the block is waterlogged */
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
@@ -36,8 +45,8 @@ public class DyedAmethystClusterBlock extends DyedAmethystBlock implements Regis
 	private final VoxelShape EAST_SHAPE = Block.createCuboidShape(0F, 3D, 3D, 7D, 13D, 13D);
 	private final VoxelShape WEST_SHAPE = Block.createCuboidShape(9D, 3D, 3D, 16D, 13D, 13D);
 
-	public DyedAmethystClusterBlock(String rawId, Settings settings) {
-		super(rawId, settings);
+	public DyedAmethystClusterBlock(String rawId, DyeColor color, Settings settings) {
+		super(rawId, color, settings);
 	}
 
 	@SuppressWarnings("deprecation")

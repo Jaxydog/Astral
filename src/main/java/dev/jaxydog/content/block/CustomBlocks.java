@@ -12,11 +12,11 @@ import net.minecraft.block.Blocks;
 public final class CustomBlocks extends ContentRegistrar {
 
 	public static final DyeableMap<DyedAmethystBlock> DYED_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
-		(rawId, color) -> new DyedAmethystBlock(rawId, Settings.copy(Blocks.AMETHYST_BLOCK))
+		(rawId, color) -> new DyedAmethystBlock(rawId, color, Settings.copy(Blocks.AMETHYST_BLOCK))
 	);
 	public static final DyeableMap<DyedAmethystClusterBlock> DYED_AMETHYST_CLUSTER_BLOCKS = new DyeableMap<>(
 		"amethyst_cluster",
-		(rawId, _color) -> new DyedAmethystClusterBlock(rawId, Settings.copy(Blocks.AMETHYST_CLUSTER))
+		(rawId, color) -> new DyedAmethystClusterBlock(rawId, color, Settings.copy(Blocks.AMETHYST_CLUSTER))
 	);
 
 	public static final RandomizerBlock RANDOMIZER = new RandomizerBlock("randomizer",
