@@ -3,6 +3,7 @@
 ### Internal changes
 
 - Improved how colors are handled and transitioned.
+- Improved support for data generation.
 - Overhauled content registration.
     - Package has been moved out of `utility`.
     - `Registerable` has been renamed to `Registered`.
@@ -14,6 +15,7 @@
     - Removed data generation from the auto-registration system.
     - Reimplemented and simplified the field registration method.
     - Updated all pre-existing `Registerable` classes to implement the new interface.
+- Dyed amethyst blocks and clusters now retain their `DyeColor` information.
 
 # Release 1.4.0
 
