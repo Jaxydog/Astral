@@ -19,4 +19,7 @@ public @interface IgnoreRegistration {
 	/** Whether registration in the server environment should be ignored. */
 	boolean server() default true;
 
+	/** Whether registration in the data generation environment should be ignored. */
+	boolean dataGen() default true;
+
 }

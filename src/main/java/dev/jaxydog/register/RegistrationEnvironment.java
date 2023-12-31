@@ -13,7 +13,10 @@ public enum RegistrationEnvironment {
 	CLIENT(Registered.Client.class, r -> ((Registered.Client) r).registerClient()),
 
 	/** The server. */
-	SERVER(Registered.Server.class, r -> ((Registered.Server) r).registerServer());
+	SERVER(Registered.Server.class, r -> ((Registered.Server) r).registerServer()),
+
+	/** The data generator. */
+	DATA_GEN(Generated.class, r -> ((Generated) r).generate());
 
 	/** The interface class. */
 	private final Class<? extends Registered> registered;
@@ -45,6 +48,7 @@ public enum RegistrationEnvironment {
 			case COMMON -> annotation.common();
 			case CLIENT -> annotation.client();
 			case SERVER -> annotation.server();
+			case DATA_GEN -> annotation.dataGen();
 		};
 	}
 

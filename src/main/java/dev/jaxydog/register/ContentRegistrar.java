@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import static java.lang.reflect.Modifier.*;
 
 /** Provides field auto-registration for the implementing class. */
-public abstract class ContentRegistrar implements Registered.All {
+public abstract class ContentRegistrar implements Registered.All, Generated {
 
 	private void registerFields(RegistrationEnvironment environment) {
 		for (final Field field : this.getClass().getFields()) {
@@ -50,6 +50,11 @@ public abstract class ContentRegistrar implements Registered.All {
 	@Override
 	public final void registerServer() {
 		this.registerFields(RegistrationEnvironment.SERVER);
+	}
+
+	@Override
+	public void generate() {
+		this.registerFields(RegistrationEnvironment.DATA_GEN);
 	}
 
 }
