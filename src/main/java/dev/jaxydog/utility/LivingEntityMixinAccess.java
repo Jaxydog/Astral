@@ -4,4 +4,6 @@ public interface LivingEntityMixinAccess {
 
 	boolean astral$ignoresChallengeScaling();
 
+	boolean astral$forcesChallengeScaling();
+
 }

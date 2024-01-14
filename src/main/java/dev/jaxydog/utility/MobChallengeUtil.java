@@ -20,6 +20,8 @@ public interface MobChallengeUtil {
 	BlockPos ORIGIN = new BlockPos(0, 63, 0);
 	/** An NBT key that tells an entity to ignore challenge scaling. */
 	String IGNORE_KEY = "IgnoreChallengeScaling";
+	/** An NBT key that tells an entity to force challenge scaling. */
+	String FORCE_KEY = "ForceChallengeScaling";
 	/** A tag that determines which entities are scaled. */
 	TagKey<EntityType<?>> SCALED_ENTITIES = TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("challenge"));
 
@@ -27,11 +29,10 @@ public interface MobChallengeUtil {
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	static boolean shouldScale(Entity entity) {
 		return entity instanceof final LivingEntity living
-			&& isEnabled(living.getWorld())
-			&& living.getType()
-			.isIn(SCALED_ENTITIES)
+			&& (((LivingEntityMixinAccess) living).astral$forcesChallengeScaling() || (isEnabled(living.getWorld())
+			&& living.getType().isIn(SCALED_ENTITIES)
 			&& !((LivingEntityMixinAccess) living).astral$ignoresChallengeScaling()
-			&& (!(living instanceof final TameableEntity tamable) || !tamable.isTamed());
+			&& (!(living instanceof final TameableEntity tamable) || !tamable.isTamed())));
 	}
 
 	/** Returns whether mob challenge scaling is enabled. */

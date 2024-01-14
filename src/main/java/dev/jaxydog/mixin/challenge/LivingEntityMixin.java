@@ -28,6 +28,10 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 	@Final
 	private static TrackedData<Float> HEALTH;
 
+	/** If true, the mob will *always* scale. */
+	@Unique
+	private boolean forceChallengeScaling = false;
+
 	/** Stores whether this entity ignores challenge scaling rules. */
 	@Unique
 	private boolean ignoreChallengeScaling = false;
@@ -60,6 +64,11 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 	@Override
 	public boolean astral$ignoresChallengeScaling() {
 		return this.ignoreChallengeScaling;
+	}
+
+	@Override
+	public boolean astral$forcesChallengeScaling() {
+		return this.forceChallengeScaling;
 	}
 
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
@@ -126,12 +135,18 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 		if (nbt.contains(MobChallengeUtil.IGNORE_KEY, NbtElement.BYTE_TYPE)) {
 			this.ignoreChallengeScaling = nbt.getBoolean(MobChallengeUtil.IGNORE_KEY);
 		}
+		if (nbt.contains(MobChallengeUtil.FORCE_KEY, NbtElement.BYTE_TYPE)) {
+			this.forceChallengeScaling = nbt.getBoolean(MobChallengeUtil.IGNORE_KEY);
+		}
 	}
 
 	/** Serializes the `ignoreChallengeScaling` field. */
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeCustomDataToNbtInject(NbtCompound nbt, CallbackInfo callbackInfo) {
 		if (this.ignoreChallengeScaling) {
+			nbt.putBoolean(MobChallengeUtil.IGNORE_KEY, true);
+		}
+		if (this.forceChallengeScaling) {
 			nbt.putBoolean(MobChallengeUtil.IGNORE_KEY, true);
 		}
 	}
