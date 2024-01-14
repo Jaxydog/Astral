@@ -16,6 +16,16 @@
     - Reimplemented and simplified the field registration method.
     - Updated all pre-existing `Registerable` classes to implement the new interface.
 - Dyed amethyst blocks and clusters now retain their `DyeColor` information.
+- Added the NBT tag `ForceChallengeScaling` that force-enables mob challenge scaling for an entity.
+
+### Content changes
+
+- Added items for St4rM0N3Y's lore (Featuring sprites by the all/any themselves).
+    - Added `astral:rotten_chorus_fruit`
+    - Added `astral:living_sculk`
+    - Added `astral:pig_card`
+    - Added `astral:appy_sauce`
+    - Added `astral:void_essence`
 
 # Release 1.4.0
 
