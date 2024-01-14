@@ -50,6 +50,16 @@ public final class CustomItems extends ContentRegistrar {
 		new Settings().rarity(Rarity.UNCOMMON)
 	);
 
+	// Items for star monkey
+	public static final CustomItem ROTTEN_CHORUS_FRUIT = new CustomItem("rotten_chorus_fruit",
+		new Settings().food(FoodComponents.ROTTEN_CHORUS_FRUIT)
+	);
+	public static final CustomItem LIVING_SCULK = new CustomItem("living_sculk", new Settings().rarity(Rarity.RARE));
+	public static final CustomItem PIG_CARD = new CustomItem("pig_card", new Settings());
+	@SuppressWarnings("SpellCheckingInspection")
+	public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce", new Settings());
+	public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence", new Settings().rarity(Rarity.EPIC));
+
 	private static final class FoodComponents {
 
 		public static final FoodComponent CLOUDY_CANDY_FOOD = new FoodComponent.Builder().alwaysEdible()
@@ -57,6 +67,13 @@ public final class CustomItems extends ContentRegistrar {
 			.saturationModifier(0.45F)
 			.snack()
 			.statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 100, 0, false, true, true), 0.25F)
+			.build();
+
+		public static final FoodComponent ROTTEN_CHORUS_FRUIT = new FoodComponent.Builder().alwaysEdible()
+			.hunger(1)
+			.saturationModifier(0.5F)
+			.statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 400, 0), 1F)
+			.statusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 400, 0), 1F)
 			.build();
 
 		private FoodComponents() {}

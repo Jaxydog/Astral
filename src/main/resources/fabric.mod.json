@@ -5,6 +5,7 @@
 	"name": "Astral",
 	"description": "An addon mod for Astral SMP that provides tons of custom content!",
 	"authors": [ "Jaxydog", "Rat Throttleman" ],
+	"contributors": [ "St4rM0N3Y" ],
 	"contact": {
 		"sources": "https://github.com/Jaxydog/Astral",
 		"issues": "https://github.com/Jaxydog/Astral/issues"

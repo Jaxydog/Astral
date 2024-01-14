@@ -23,7 +23,7 @@ public abstract class ContentRegistrar implements Registered.All, Generated {
 			try {
 				final Object registerable = field.get(null);
 
-				if (!environment.getInterface().isInstance(registerable)) {
+				if (environment.getInterface().isInstance(registerable)) {
 					environment.register((Registered) registerable);
 				}
 			} catch (final IllegalAccessException | InvalidClassException exception) {

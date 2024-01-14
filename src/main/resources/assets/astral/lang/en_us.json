@@ -71,6 +71,8 @@
 	"gamerule.challengeUseWorldspawn": "Scaling uses worldspawn",
 	"gamerule.currencyRewardChance": "Currency reward chance",
 
+	"item.astral.appy_sauce.lore_0": "So far past its expiration date.",
+	"item.astral.appy_sauce": "Appy Sauce",
 	"item.astral.cloudy_boots.lore_0": "You feel light and fluffy!",
 	"item.astral.cloudy_boots": "Cloudy Leather Boots",
 	"item.astral.cloudy_candy": "Cloudy Candy",
@@ -82,7 +84,10 @@
 	"item.astral.cloudy_leggings.lore_0": "You feel light and fluffy!",
 	"item.astral.cloudy_leggings": "Cloudy Leather Pants",
 	"item.astral.cloudy_mane": "Cloudy Mane",
+	"item.astral.living_sculk.lore_0": "The souls scream for death...",
+	"item.astral.living_sculk": "Living Sculk",
 	"item.astral.mirror": "Mirror",
+	"item.astral.pig_card": "Pig Card",
 	"item.astral.placeholder": "Placeholder",
 	"item.astral.placeholder.1.lore_0": "It's just sitting there, mouth agape.",
 	"item.astral.placeholder.1.lore_1": "Perhaps one day, maybe, just maybe,",
@@ -102,6 +107,9 @@
 	"item.astral.placeholder.6.lore_0": "Be not afraid...",
 	"item.astral.placeholder.6.lore_1": "Engage the world as a confident spider.",
 	"item.astral.placeholder.6": "Biblically-Accurate Spiral Plush",
+	"item.astral.rotten_chorus_fruit": "Rotten Chorus Fruit",
+	"item.astral.void_essence.lore_0": "Something stares back.",
+	"item.astral.void_essence": "Void Essence",
 
 	"itemGroup.astral.default": "Astral",
 
