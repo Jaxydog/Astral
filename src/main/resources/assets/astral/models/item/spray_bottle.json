@@ -1,0 +1,10 @@
+{
+	"parent": "minecraft:item/handheld",
+	"textures": { "layer0": "astral:item/spray_bottle" },
+	"overrides": [
+		{
+			"predicate": { "empty": 1 },
+			"model": "astral:item/spray_bottle_empty"
+		}
+	]
+}

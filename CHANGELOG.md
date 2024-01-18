@@ -1,3 +1,23 @@
+# Release 1.6.0
+
+### Internal changes
+
+- Access-widened the SoundEvent class to allow extension.
+- Added `CustomSoundEvents`.
+- Created the `SprayableEntity` interface.
+    - Implemented for `CatEntity`.
+
+### Content changes
+
+- Added `astral:spray_bottle`, which allows a player or dispenser to modify blocks or cause behaviors in entities.
+    - Has 48 uses before becoming emptied. Using a water source block or filled cauldron refills the bottle.
+    - Using any oxidizable block will progress its oxidation stage once.
+    - Using any campfire will put it out.
+    - Using any fire block will extinguish it.
+    - Using any farmland block will saturate it.
+    - Using any sponge will moisten it.
+    - Using any entity that implements the `SprayableEntity` interface will scare it.
+
 # Release 1.5.0
 
 ### Internal changes

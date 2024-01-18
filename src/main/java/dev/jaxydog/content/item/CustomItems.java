@@ -1,10 +1,7 @@
 package dev.jaxydog.content.item;
 
 import dev.jaxydog.content.block.CustomBlocks;
-import dev.jaxydog.content.item.custom.CloudyItem;
-import dev.jaxydog.content.item.custom.DyeableCloudyArmorItem;
-import dev.jaxydog.content.item.custom.MirrorItem;
-import dev.jaxydog.content.item.custom.PlaceholderItem;
+import dev.jaxydog.content.item.custom.*;
 import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.utility.ArmorMap;
 import dev.jaxydog.utility.DyeableMap;
@@ -45,6 +42,9 @@ public final class CustomItems extends ContentRegistrar {
 		)
 	);
 
+	public static final SprayBottleItem SPRAY_BOTTLE = new SprayBottleItem("spray_bottle",
+		new Settings().maxDamage(SprayBottleItem.SPRAY_USES)
+	);
 	public static final CustomBlockItem RANDOMIZER_BLOCK = new CustomBlockItem("randomizer",
 		CustomBlocks.RANDOMIZER,
 		new Settings().rarity(Rarity.UNCOMMON)

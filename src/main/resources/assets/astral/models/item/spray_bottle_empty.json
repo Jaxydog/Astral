@@ -1,0 +1,4 @@
+{
+	"parent": "minecraft:item/handheld",
+	"textures": { "layer0": "astral:item/spray_bottle_empty" }
+}

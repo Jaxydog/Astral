@@ -24,6 +24,7 @@ repositories {
 }
 
 loom {
+	accessWidenerPath = file("src/main/resources/astral.accesswidener")
 	runs {
 		datagen {
 			inherit server

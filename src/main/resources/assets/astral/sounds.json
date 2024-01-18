@@ -1,0 +1,6 @@
+{
+	"spray_bottle_use": {
+		"subtitle": "subtitles.astral.spray_bottle_use",
+		"sounds": [ "astral:spray_bottle_use" ]
+	}
+}
