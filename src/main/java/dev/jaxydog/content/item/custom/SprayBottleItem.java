@@ -107,9 +107,16 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-		if (!this.isEmpty(stack) && entity instanceof final SprayableEntity sprayable) {
-			if (sprayable.astral$canSpray()) {
+		if (this.isEmpty(stack)) return super.useOnEntity(stack, user, entity, hand);
 
+		if (entity.isOnFire()) {
+			this.onSpray(user.getWorld(), stack, user);
+
+			entity.extinguishWithSound();
+
+			return ActionResult.SUCCESS;
+		} else if (entity instanceof final SprayableEntity sprayable) {
+			if (sprayable.astral$canSpray()) {
 				this.onSpray(user.getWorld(), stack, user);
 
 				sprayable.astral$setSprayDuration(user, SPRAY_DURATION);
