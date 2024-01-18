@@ -18,6 +18,10 @@ public interface SprayableEntity {
 
 	int astral$getSprayDuration();
 
+	default boolean astral$canSpray() {
+		return this.astral$getSprayDuration() <= 0;
+	}
+
 	class EscapeSprayGoal<T extends PathAwareEntity & SprayableEntity> extends Goal {
 
 		public static final int RANGE_Y = 1;
