@@ -166,13 +166,14 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 	}
 
 	protected void onSpray(World world, ItemStack stack, @Nullable PlayerEntity player) {
+		if (player == null || !player.isCreative()) {
+			stack.damage(1, world.getRandom(), null);
+		}
+
 		if (player != null) {
 			player.getItemCooldownManager().set(this, SPRAY_INTERVAL);
 			player.incrementStat(Stats.USED.getOrCreateStat(this));
 
-			if (!player.isCreative()) {
-				stack.damage(1, world.getRandom(), null);
-			}
 			if (!player.isSilent()) {
 				final float pitchVariation = (player.getRandom().nextFloat() - 0.5F) * 0.125F;
 
