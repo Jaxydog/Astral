@@ -6,6 +6,7 @@
 - Added `CustomSoundEvents`.
 - Created the `SprayableEntity` interface.
     - Implemented for `CatEntity`.
+    - Implemented for `FoxEntity`.
 
 ### Content changes
 
