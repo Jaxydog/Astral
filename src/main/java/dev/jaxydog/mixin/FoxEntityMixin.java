@@ -10,6 +10,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -18,6 +19,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FoxEntity.class)
 public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEntity, VariantHolder<FoxEntity.Type> {
+
+	@Shadow
+	public abstract boolean isSitting();
 
 	@Unique
 	private @Nullable LivingEntity spraySource;
@@ -36,6 +40,11 @@ public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEn
 
 		this.jump();
 		this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
+	}
+
+	@Override
+	public boolean astral$canSpray() {
+		return SprayableEntity.super.astral$canSpray() && !this.isSitting();
 	}
 
 	@Override

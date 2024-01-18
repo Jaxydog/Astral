@@ -34,6 +34,11 @@ public abstract class CatEntityMixin extends TameableEntity implements Sprayable
 	}
 
 	@Override
+	public boolean astral$canSpray() {
+		return SprayableEntity.super.astral$canSpray() && !this.isSitting();
+	}
+
+	@Override
 	public void astral$setSprayDuration(LivingEntity source, int ticks) {
 		this.spraySource = source;
 		this.sprayDuration = Math.max(0, ticks);
