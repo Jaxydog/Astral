@@ -1,0 +1,15 @@
+{
+	"criteria": {
+		"block": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{ "items": [ "minecraft:glass_bottle" ] }
+				]
+			}
+		}
+	},
+	"rewards": {
+		"recipes": [ "astral:spray_bottle" ]
+	}
+}

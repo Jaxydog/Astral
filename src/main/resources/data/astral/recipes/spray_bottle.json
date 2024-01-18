@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [ "NP ", "GIG", "GGG" ],
+	"key": {
+		"N": { "item": "minecraft:iron_nugget" },
+		"P": { "item": "minecraft:piston" },
+		"G": { "item": "minecraft:glass" },
+		"I": { "item": "minecraft:iron_ingot" }
+	},
+	"result": { "item": "astral:spray_bottle" }
+}

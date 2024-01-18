@@ -11,6 +11,7 @@
 ### Content changes
 
 - Added `astral:spray_bottle`, which allows a player or dispenser to modify blocks or cause behaviors in entities.
+    - Crafted using 5 glass blocks, 1 iron ingot, 1 piston, and 1 iron nugget.
     - Has 48 uses before becoming emptied. Using a water source block or filled cauldron refills the bottle.
     - Using any oxidizable block will progress its oxidation stage once.
     - Using any campfire will put it out.

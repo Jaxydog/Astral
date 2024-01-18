@@ -147,6 +147,13 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 		}
 	}
 
+	@Override
+	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+		stack.setDamage(stack.getMaxDamage());
+
+		super.onCraft(stack, world, player);
+	}
+
 	protected void fill(PlayerEntity player, World world, BlockPos blockPos, ItemStack stack) {
 		final double x = player.getX();
 		final double y = player.getY();
