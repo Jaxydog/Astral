@@ -10,6 +10,7 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -19,15 +20,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CatEntity.class)
 public abstract class CatEntityMixin extends TameableEntity implements SprayableEntity, VariantHolder<CatVariant> {
 
+	@Shadow
+	public abstract void hiss();
+
 	@Unique
 	private @Nullable LivingEntity spraySource;
 
 	@Unique
 	private int sprayDuration = 0;
 
-	protected CatEntityMixin(
-		EntityType<? extends TameableEntity> entityType, World world
-	) {
+	protected CatEntityMixin(EntityType<? extends TameableEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
@@ -35,6 +37,10 @@ public abstract class CatEntityMixin extends TameableEntity implements Sprayable
 	public void astral$setSprayDuration(LivingEntity source, int ticks) {
 		this.spraySource = source;
 		this.sprayDuration = Math.max(0, ticks);
+
+		this.jump();
+
+		if (this.getWorld().isClient()) this.hiss();
 	}
 
 	@Override
