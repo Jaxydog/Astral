@@ -28,6 +28,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult.Type;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.World;
@@ -165,7 +166,6 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 	}
 
 	protected void onSpray(World world, ItemStack stack, @Nullable PlayerEntity player) {
-
 		if (player != null) {
 			player.getItemCooldownManager().set(this, SPRAY_INTERVAL);
 			player.incrementStat(Stats.USED.getOrCreateStat(this));
@@ -179,6 +179,13 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 				player.playSound(CustomSoundEvents.SPRAY_BOTTLE_USE, 1F, 1F + pitchVariation);
 			}
 		}
+	}
+
+	protected void extinguish(World world, BlockPos pos) {
+		final Random random = world.getRandom();
+		final float pitch = 2.6f + (random.nextFloat() - random.nextFloat()) * 0.8f;
+
+		world.playSoundAtBlockCenter(pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, pitch, false);
 	}
 
 	protected ActionResult sprayBlock(World world, BlockPos blockPos, ItemStack stack, @Nullable PlayerEntity player) {
@@ -196,7 +203,8 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 			});
 
 			result = ActionResult.SUCCESS;
-		} else if (block instanceof final FarmlandBlock farmland && blockState.get(FarmlandBlock.MOISTURE) == 0) {
+		} else if (block instanceof final FarmlandBlock farmland
+			&& blockState.get(FarmlandBlock.MOISTURE) < FarmlandBlock.MAX_MOISTURE) {
 			changedState.set(blockState.with(FarmlandBlock.MOISTURE, FarmlandBlock.MAX_MOISTURE));
 			world.setBlockState(blockPos, changedState.get(), Block.NOTIFY_LISTENERS);
 
@@ -205,6 +213,7 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 
 			changedState.set(blockState.with(CampfireBlock.LIT, false));
 			world.setBlockState(blockPos, changedState.get());
+			this.extinguish(world, blockPos);
 
 			CampfireBlock.extinguish(player, world, blockPos, blockState);
 
@@ -215,6 +224,8 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 			} else {
 				world.breakBlock(blockPos, false, player);
 			}
+
+			this.extinguish(world, blockPos);
 
 			result = ActionResult.SUCCESS;
 		} else if (block instanceof final SpongeBlock sponge) {
