@@ -39,8 +39,7 @@ public abstract class CatEntityMixin extends TameableEntity implements Sprayable
 		this.sprayDuration = Math.max(0, ticks);
 
 		this.jump();
-
-		if (this.getWorld().isClient()) this.hiss();
+		this.hiss();
 	}
 
 	@Override

@@ -35,10 +35,7 @@ public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEn
 		this.sprayDuration = Math.max(0, ticks);
 
 		this.jump();
-
-		if (this.getWorld().isClient()) {
-			this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
-		}
+		this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
 	}
 
 	@Override
