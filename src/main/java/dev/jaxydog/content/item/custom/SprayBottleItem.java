@@ -2,9 +2,11 @@ package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.item.CustomItem;
+import dev.jaxydog.content.power.custom.ActionOnSprayPower;
 import dev.jaxydog.content.sound.CustomSoundEvents;
 import dev.jaxydog.register.Registered;
 import dev.jaxydog.utility.SprayableEntity;
+import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -35,6 +37,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -109,22 +112,35 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
 		if (this.isEmpty(stack)) return super.useOnEntity(stack, user, entity, hand);
 
-		if (entity.isOnFire()) {
-			this.onSpray(user.getWorld(), stack, user);
+		boolean activated = false;
 
+		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(user, ActionOnSprayPower.class);
+
+		if (!powers.isEmpty()) {
+			powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+
+			for (final ActionOnSprayPower power : powers) {
+				if (!power.canSprayEntity(stack, entity)) continue;
+
+				activated |= power.onSprayEntity(stack, entity);
+			}
+		}
+
+		if (entity.isOnFire()) {
 			entity.extinguishWithSound();
 
+			activated = true;
+		}
+		if (entity instanceof final SprayableEntity sprayable && sprayable.astral$canSpray()) {
+			sprayable.astral$setSprayDuration(user, SPRAY_DURATION);
+
+			activated = true;
+		}
+
+		if (activated) {
+			this.onSpray(user.getWorld(), stack, user);
+
 			return ActionResult.SUCCESS;
-		} else if (entity instanceof final SprayableEntity sprayable) {
-			if (sprayable.astral$canSpray()) {
-				this.onSpray(user.getWorld(), stack, user);
-
-				sprayable.astral$setSprayDuration(user, SPRAY_DURATION);
-
-				return ActionResult.SUCCESS;
-			} else {
-				return ActionResult.PASS;
-			}
 		} else {
 			return super.useOnEntity(stack, user, entity, hand);
 		}
@@ -148,8 +164,29 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 
 			return ActionResult.success(world.isClient());
 		}
+
+		boolean activated = false;
+
+		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+
+		if (!powers.isEmpty()) {
+			final Direction blockSide = context.getSide();
+
+			powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+
+			for (final ActionOnSprayPower power : powers) {
+				if (!power.canSprayBlock(stack, world, blockPos, blockSide)) continue;
+
+				activated |= power.onSprayBlock(stack, world, blockPos, blockSide);
+			}
+		}
+
 		if (blockState.isIn(SPRAYABLE)) {
 			return this.sprayBlock(world, context.getBlockPos(), stack, player);
+		} else if (activated) {
+			this.onSpray(world, stack, player);
+
+			return ActionResult.success(world.isClient());
 		} else {
 			return super.useOnBlock(context);
 		}
