@@ -134,7 +134,7 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 			activated = true;
 		}
 		if (entity instanceof final SprayableEntity sprayable && sprayable.astral$canSpray()) {
-			sprayable.astral$setSprayDuration(user, SPRAY_DURATION);
+			sprayable.astral$setSprayed(user, SPRAY_DURATION);
 
 			activated = true;
 		}

@@ -4,24 +4,29 @@ import dev.jaxydog.utility.SprayableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.VariantHolder;
+import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Mixin(FoxEntity.class)
 public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEntity, VariantHolder<FoxEntity.Type> {
 
 	@Shadow
-	public abstract boolean isSitting();
+	@Final
+	private static TrackedData<Optional<UUID>> OWNER;
 
 	@Unique
 	private @Nullable LivingEntity spraySource;
@@ -33,18 +38,19 @@ public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEn
 		super(entityType, world);
 	}
 
+	@Shadow
+	public abstract boolean isSitting();
+
 	@Override
-	public void astral$setSprayDuration(LivingEntity source, int ticks) {
+	public void astral$setSprayed(LivingEntity source, int ticks, boolean initialSpray) {
 		this.spraySource = source;
 		this.sprayDuration = Math.max(0, ticks);
 
-		this.jump();
-		this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
-	}
+		if (initialSpray && this.astral$isSprayed()) {
+			this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
 
-	@Override
-	public boolean astral$canSpray() {
-		return SprayableEntity.super.astral$canSpray() && !this.isSitting();
+			if (this.isOnGround()) this.jump();
+		}
 	}
 
 	@Override
@@ -53,24 +59,18 @@ public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEn
 	}
 
 	@Override
-	public int astral$getSprayDuration() {
+	public int astral$getSprayTicks() {
 		return this.sprayDuration;
+	}
+
+	@Override
+	public boolean astral$canSpray() {
+		return !this.astral$isSprayed() && (this.dataTracker.get(OWNER).isEmpty() || !this.isSitting());
 	}
 
 	@Inject(method = "initGoals", at = @At("HEAD"))
 	private void initGoalsInject(CallbackInfo callbackInfo) {
 		this.goalSelector.add(1, new EscapeSprayGoal<>(this, 1.5));
-	}
-
-	@Inject(method = "tick", at = @At(value = "TAIL", shift = Shift.BEFORE))
-	private void tickInject(CallbackInfo callbackInfo) {
-		if (this.getWorld().isClient()) return;
-
-		if (this.sprayDuration > 0) {
-			this.sprayDuration -= 1;
-		} else if (this.spraySource != null) {
-			this.spraySource = null;
-		}
 	}
 
 }

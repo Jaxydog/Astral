@@ -12,14 +12,36 @@ import java.util.EnumSet;
 
 public interface SprayableEntity {
 
-	void astral$setSprayDuration(LivingEntity source, int ticks);
+	void astral$setSprayed(@Nullable LivingEntity source, int ticks, boolean initialSpray);
+
+	default void astral$setSprayed(@Nullable LivingEntity source, int ticks) {
+		this.astral$setSprayed(source, ticks, true);
+	}
+
+	default void astral$setUnsprayed() {
+		this.astral$setSprayed(null, 0, false);
+	}
 
 	@Nullable LivingEntity astral$getSpraySource();
 
-	int astral$getSprayDuration();
+	int astral$getSprayTicks();
+
+	default boolean astral$isSprayed() {
+		return this.astral$getSprayTicks() > 0;
+	}
 
 	default boolean astral$canSpray() {
-		return this.astral$getSprayDuration() <= 0;
+		return !this.astral$isSprayed();
+	}
+
+	default void astral$sprayTick() {
+		if (this.astral$isSprayed()) {
+			final int ticks = this.astral$getSprayTicks() - 1;
+
+			this.astral$setSprayed(this.astral$getSpraySource(), ticks, false);
+		} else {
+			this.astral$setUnsprayed();
+		}
 	}
 
 	class EscapeSprayGoal<T extends PathAwareEntity & SprayableEntity> extends Goal {
@@ -58,11 +80,7 @@ public interface SprayableEntity {
 
 		@Override
 		public boolean canStart() {
-			if (this.entity.astral$getSprayDuration() <= 0) {
-				return false;
-			} else {
-				return this.findTarget();
-			}
+			return this.entity.astral$isSprayed() && this.findTarget();
 		}
 
 		@Override
@@ -72,7 +90,7 @@ public interface SprayableEntity {
 
 		@Override
 		public boolean shouldContinue() {
-			return this.entity.astral$getSprayDuration() > 0 && !this.entity.getNavigation().isIdle();
+			return this.entity.astral$isSprayed() && !this.entity.getNavigation().isIdle();
 		}
 
 		@Override
