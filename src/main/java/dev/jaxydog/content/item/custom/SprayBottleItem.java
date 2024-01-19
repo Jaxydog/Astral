@@ -336,9 +336,9 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 			@Override
 			protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
 				if (stack.getItem() instanceof final SprayBottleItem item) {
-					if (!item.isEmpty(stack)) return stack;
-
 					this.setSuccess(false);
+
+					if (item.isEmpty(stack)) return stack;
 				} else {
 					return super.dispenseSilently(pointer, stack);
 				}
