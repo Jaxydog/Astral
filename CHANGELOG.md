@@ -19,6 +19,12 @@
     - Using any farmland block will saturate it.
     - Using any sponge will moisten it.
     - Using any entity that implements the `SprayableEntity` interface will scare it.
+    - Using any burning entity will extinguish it.
+- Added a `astral:action_on_spray` Origins power.
+    - Can be prioritized over other `action_on_spray` powers by increasing the `priority` field to be above zero.
+    - Supports an `item_action` and `item_condition`
+    - Supports a `bientity_action` and `bientity_condition`
+    - Supports a `block_action` and `block_condition`
 
 # Release 1.5.0
 
