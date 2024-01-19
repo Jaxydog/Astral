@@ -2,6 +2,13 @@
 
 ### Internal changes
 
+- Increased Fabric loader version to 0.15.5
+- Increased Fabric API version to 0.91.0
+- Increased Fabric-Loom version to 1.5-SNAPSHOT
+- Increased Gradle version to 8.5
+- Added dependency to the Trinkets mod.
+- Cleaned up several mixins.
+- Dolphins now have challenge scaling applied.
 - Access-widened the SoundEvent class to allow extension.
 - Added `CustomSoundEvents`.
 - Created the `SprayableEntity` interface.
@@ -10,6 +17,7 @@
 
 ### Content changes
 
+- Added a new cosmetic helmet slot.
 - Added `astral:spray_bottle`, which allows a player or dispenser to modify blocks or cause behaviors in entities.
     - Crafted using 5 glass blocks, 1 iron ingot, 1 piston, and 1 iron nugget.
     - Has 48 uses before becoming emptied. Using a water source block or filled cauldron refills the bottle.

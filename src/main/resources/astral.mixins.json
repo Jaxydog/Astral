@@ -42,7 +42,7 @@
 		"challenge.WitherSkullEntityMixin",
 		"challenge.WolfEntityMixin"
 	],
-	"client": [ "ArmorFeatureRendererMixin" ],
+	"client": [ "ArmorFeatureRendererMixin", "HeadFeatureRendererMixin" ],
 	"server": [ ],
 	"injectors": { "defaultRequire": 1 }
 }

@@ -1,0 +1,6 @@
+{
+	"icon": "astral:gui/slots/cosmetic_helmet",
+	"validator_predicates": [ "astral:cosmetic_helmet" ],
+	"quick_move_predicates": [ "trinkets:none" ],
+	"tooltip_predicates": [ "trinkets:none" ]
+}

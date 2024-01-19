@@ -9,6 +9,7 @@ import dev.jaxydog.content.power.CustomActions;
 import dev.jaxydog.content.power.CustomConditions;
 import dev.jaxydog.content.power.CustomPowers;
 import dev.jaxydog.content.sound.CustomSoundEvents;
+import dev.jaxydog.content.trinket.CustomTrinketPredicates;
 import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.register.IgnoreRegistration;
 
@@ -30,5 +31,6 @@ public final class CustomContent extends ContentRegistrar {
 	public static final CustomConditions CONDITIONS = new CustomConditions();
 	public static final CustomPowers POWERS = new CustomPowers();
 	public static final CustomSoundEvents SOUND_EVENTS = new CustomSoundEvents();
+	public static final CustomTrinketPredicates TRINKET_SLOTS = new CustomTrinketPredicates();
 
 }
