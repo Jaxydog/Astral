@@ -29,9 +29,8 @@ public abstract class EvokerFangsEntityMixin extends Entity implements Ownable {
 		if (!MobChallengeUtil.shouldScale(entity)) return damage;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
-		final double scaled = MobChallengeUtil.getScaledAdditive(entity, additive);
 
-		return damage + (float) scaled;
+		return damage + (float) MobChallengeUtil.getScaledAdditive(entity, additive);
 	}
 
 }

@@ -25,12 +25,11 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
 	), index = 1
 	)
 	private float onEntityHitArgsInject(float damage) {
-		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) return damage;
+		if (this.getOwner() == null || !MobChallengeUtil.shouldScale(this.getOwner())) return damage;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
-		final double scaled = MobChallengeUtil.getScaledAdditive(this.getOwner(), additive);
 
-		return damage + (float) scaled;
+		return damage + (float) MobChallengeUtil.getScaledAdditive(this.getOwner(), additive);
 	}
 
 }

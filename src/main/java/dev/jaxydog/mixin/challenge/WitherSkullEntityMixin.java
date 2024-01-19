@@ -35,7 +35,7 @@ public abstract class WitherSkullEntityMixin extends ExplosiveProjectileEntity {
 	), index = 4
 	)
 	private float onCollisionArgsInject(float power) {
-		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) return power;
+		if (this.getOwner() == null || !MobChallengeUtil.shouldScale(this.getOwner())) return power;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
 		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
@@ -49,12 +49,11 @@ public abstract class WitherSkullEntityMixin extends ExplosiveProjectileEntity {
 	), index = 1
 	)
 	private float onEntityHitArgsInject(float damage) {
-		if (this.getOwner() != null && !MobChallengeUtil.shouldScale(this.getOwner())) return damage;
+		if (this.getOwner() == null || !MobChallengeUtil.shouldScale(this.getOwner())) return damage;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
-		final double scaled = MobChallengeUtil.getScaledAdditive(this.getOwner(), additive);
 
-		return damage + (float) scaled;
+		return damage + (float) MobChallengeUtil.getScaledAdditive(this.getOwner(), additive);
 	}
 
 }

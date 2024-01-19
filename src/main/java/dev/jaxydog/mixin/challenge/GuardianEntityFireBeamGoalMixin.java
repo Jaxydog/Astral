@@ -26,9 +26,8 @@ public abstract class GuardianEntityFireBeamGoalMixin extends Goal {
 		if (!MobChallengeUtil.shouldScale(this.guardian)) return damage;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.guardian.getWorld());
-		final double scaled = MobChallengeUtil.getScaledAdditive(this.guardian, additive);
 
-		return damage + (float) scaled;
+		return damage + (float) MobChallengeUtil.getScaledAdditive(this.guardian, additive);
 	}
 
 }

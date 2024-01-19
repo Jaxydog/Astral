@@ -26,9 +26,8 @@ public abstract class GuardianEntityMixin extends HostileEntity {
 		if (!MobChallengeUtil.shouldScale(this)) return damage;
 
 		final double additive = MobChallengeUtil.getAttackAdditive(this.getWorld());
-		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
 
-		return damage + (float) scaled;
+		return damage + (float) MobChallengeUtil.getScaledAdditive(this, additive);
 	}
 
 }

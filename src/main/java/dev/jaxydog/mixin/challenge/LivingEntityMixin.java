@@ -1,12 +1,12 @@
 package dev.jaxydog.mixin.challenge;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.jaxydog.utility.LivingEntityMixinAccess;
 import dev.jaxydog.utility.MobChallengeUtil;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Implements the mob challenge system's health changes */
 @Mixin(LivingEntity.class)
@@ -72,28 +71,26 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Li
 	}
 
 	/** Provides a scaled maximum health value if mob challenge scaling is enabled */
-	@Inject(method = "getMaxHealth", at = @At("HEAD"), cancellable = true)
-	private void getMaxHealthInject(CallbackInfoReturnable<Float> callbackInfo) {
-		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) return;
+	@ModifyReturnValue(method = "getMaxHealth", at = @At("RETURN"))
+	private float scaleHealth(float health) {
+		if (!MobChallengeUtil.shouldScale(this) || this.getWorld().isClient()) return health;
 
-		final double additive = MobChallengeUtil.getHealthAdditive(this.getWorld());
+		final World world = this.getWorld();
+		final double additive = MobChallengeUtil.getHealthAdditive(world);
 
 		if (this.lastHealthAdditive != additive) {
-			this.shouldResetHealth = true;
 			this.lastHealthAdditive = additive;
+			this.shouldResetHealth = true;
 		}
 
-		final int chunkStep = MobChallengeUtil.getChunkStep(this.getWorld());
+		final int chunkStep = MobChallengeUtil.getChunkStep(world);
 
 		if (this.lastChunkStep != chunkStep) {
 			this.shouldResetHealth = true;
 			this.lastChunkStep = chunkStep;
 		}
 
-		final double base = this.self().getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
-		final double scaled = MobChallengeUtil.getScaledAdditive(this, additive);
-
-		callbackInfo.setReturnValue((float) (base + scaled));
+		return health + (float) MobChallengeUtil.getScaledAdditive(this, additive);
 	}
 
 	/** Returns the mixin's 'this' instance */
