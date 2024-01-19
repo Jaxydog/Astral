@@ -30,13 +30,13 @@ public class CustomArmorItem extends ArmorItem implements Registered.Common {
 
 	/** Returns the total number of texture layers that the armor item expects to have */
 	public int getTextureLayers() {
-		return this.getTextureLayers(this.getDefaultStack());
+		return 1;
 	}
 
 	/** Returns the total number of texture layers that the armor item expects to have */
 	@SuppressWarnings("SameReturnValue")
 	public int getTextureLayers(ItemStack stack) {
-		return 1;
+		return this.getTextureLayers();
 	}
 
 	@Override
