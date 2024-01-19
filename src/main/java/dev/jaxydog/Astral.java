@@ -44,7 +44,7 @@ public final class Astral implements ModInitializer {
 			final String name = metadata.getName();
 			final String version = metadata.getVersion().getFriendlyString();
 
-			LOGGER.info(String.format("%s v%s has loaded! Thank you for playing with us <3", name, version));
+			LOGGER.info("{} v{} has loaded! Thank you for playing with us <3", name, version);
 		});
 	}
 
