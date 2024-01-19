@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.2-SNAPSHOT'
+	id 'fabric-loom' version '1.5-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -53,6 +53,7 @@ dependencies {
 	modImplementation "com.github.apace100:origins-fabric:v${project.origins_version}"
 	modImplementation include("com.github.apace100:apoli:v${project.apoli_version}")
 	modImplementation include("com.github.apace100:calio:v${project.calio_version}")
+	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 	modApi(
 		"com.github.Virtuoel:Pehkui:${project.pehkui_version}",
 		{exclude group: "net.fabricmc.fabric-api"}
