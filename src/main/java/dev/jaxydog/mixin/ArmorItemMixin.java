@@ -41,9 +41,7 @@ public abstract class ArmorItemMixin {
 	private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
 	@Inject(method = "<init>", at = @At("RETURN"))
-	private void constructor(
-		ArmorMaterial material, Type type, Settings settings, CallbackInfo info
-	) {
+	private void constructor(ArmorMaterial material, Type type, Settings settings, CallbackInfo info) {
 		if (!(material instanceof CustomArmorMaterial)) return;
 
 		final UUID uuid = MODIFIERS.get(type);

@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 /** Implements multiple texture layers and coloring for custom armor items */
 @SuppressWarnings("unused")
@@ -77,7 +76,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 	protected abstract void setVisible(A bipedModel, EquipmentSlot slot);
 
 	@ModifyVariable(method = "renderArmor", at = @At("STORE"))
-	private ItemStack renderArmorInject(ItemStack equippedStack, @Local T entity) {
+	private ItemStack cosmeticReplacer(ItemStack equippedStack, @Local T entity) {
 		final ItemStack cosmeticStack = CustomTrinketPredicates.getCosmeticHelmet(entity);
 
 		if (cosmeticStack.isEmpty() || equippedStack.isIn(CustomTrinketPredicates.COSMETIC_HELMET_UNHIDEABLE)) {
@@ -92,61 +91,60 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 		method = "renderArmor", at = @At(
 		value = "INVOKE",
 		target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;usesInnerModel(Lnet/minecraft/entity/EquipmentSlot;)Z"
-	), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true
+	), cancellable = true
 	)
-	private void newRenderArmorInject(
-		MatrixStack matrix,
-		VertexConsumerProvider vertex,
+	private void customOverwrite(
+		MatrixStack matrices,
+		VertexConsumerProvider vertexConsumers,
 		T entity,
-		EquipmentSlot slot,
+		EquipmentSlot armorSlot,
 		int light,
 		A model,
 		CallbackInfo callbackInfo,
-		ItemStack stack,
-		ArmorItem item
+		@Local ItemStack stack,
+		@Local ArmorItem baseArmorItem
 	) {
-		if (!(item instanceof final CustomArmorItem custom)) return;
+		if (!(baseArmorItem instanceof final CustomArmorItem armorItem)) return;
 
-		final ArmorRenderer renderer = ArmorRendererRegistryImpl.get(stack.getItem());
+		final ArmorRenderer renderer = ArmorRendererRegistryImpl.get(armorItem);
 
 		if (renderer != null) {
-			final BipedEntityModel<LivingEntity> rendererModel = (BipedEntityModel<LivingEntity>) this.getContextModel();
+			final BipedEntityModel<LivingEntity> customModel = (BipedEntityModel<LivingEntity>) this.getContextModel();
 
-			renderer.render(matrix, vertex, stack, entity, slot, light, rendererModel);
+			renderer.render(matrices, vertexConsumers, stack, entity, armorSlot, light, customModel);
 			callbackInfo.cancel();
 
 			return;
 		}
 
-		final boolean inner = this.usesInnerModel(slot);
-		final int layers = custom.getTextureLayers();
+		final boolean useInner = this.usesInnerModel(armorSlot);
+		final int layers = armorItem.getTextureLayers(stack);
 
-		for (int index = 0; index < layers; index += 1) {
-			final String id = String.valueOf(index);
-			final float r, g, b;
+		for (int layer = 0; layer < layers; layer += 1) {
+			final String overlay = String.valueOf(layer);
 
-			if (custom instanceof final ColoredArmorItem colored) {
-				final Rgb color = new Rgb(colored.getColor(stack, index));
+			if (armorItem instanceof final ColoredArmorItem coloredArmorItem) {
+				final Rgb color = new Rgb(coloredArmorItem.getColor(stack, layer));
 
-				r = ((float) color.r()) / 255F;
-				g = ((float) color.g()) / 255F;
-				b = ((float) color.b()) / 255F;
+				final float r = ((float) color.r()) / 255F;
+				final float g = ((float) color.g()) / 255F;
+				final float b = ((float) color.b()) / 255F;
+
+				this.renderArmorParts(matrices, vertexConsumers, light, armorItem, model, useInner, r, g, b, overlay);
 			} else {
-				r = 1F;
-				g = 1F;
-				b = 1F;
+				this.renderArmorParts(matrices, vertexConsumers, light, armorItem, model, useInner, 1, 1, 1, overlay);
 			}
-
-			this.renderArmorParts(matrix, vertex, light, custom, model, inner, r, g, b, id);
 		}
 
-		ArmorTrim.getTrim(entity.getWorld().getRegistryManager(), stack).ifPresent(trim -> {
-			final ArmorMaterial material = custom.getMaterial();
+		ArmorTrim.getTrim(entity.getWorld().getRegistryManager(), stack).ifPresent(armorTrim -> {
+			final ArmorMaterial material = armorItem.getMaterial();
 
-			this.renderTrim(material, matrix, vertex, light, trim, model, inner);
+			this.renderTrim(material, matrices, vertexConsumers, light, armorTrim, model, useInner);
 		});
 
-		if (stack.hasGlint()) this.renderGlint(matrix, vertex, light, model);
+		if (stack.hasGlint()) {
+			this.renderGlint(matrices, vertexConsumers, light, model);
+		}
 
 		callbackInfo.cancel();
 	}
