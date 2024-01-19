@@ -7,7 +7,10 @@
 - Increased Fabric-Loom version to 1.5-SNAPSHOT
 - Increased Gradle version to 8.5
 - Added dependency to the Trinkets mod.
-- Cleaned up several mixins.
+- Cleaned up most mixins. Notable changes include:
+    - *Drastically* improved `SonicBoomTaskMixin`.
+    - Improved `RamImpactTaskMixin`.
+    - Improved `PufferfishEntityMixin`.
 - Dolphins now have challenge scaling applied.
 - Access-widened the SoundEvent class to allow extension.
 - Added `CustomSoundEvents`.
