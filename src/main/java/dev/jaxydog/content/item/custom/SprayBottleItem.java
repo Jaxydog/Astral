@@ -338,16 +338,14 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 				final BlockPos blockPos = pointer.getPos().offset(direction);
 
 				if (stack.getItem() instanceof final SprayBottleItem item) {
-					if (!item.isEmpty(stack)) {
-						final BlockState state = world.getBlockState(blockPos);
+					if (!item.isEmpty(stack)) return stack;
 
-						if (state.isIn(SPRAYABLE) && item.sprayBlock(world, blockPos, stack, null).isAccepted()) {
-							item.onSpray(world, stack, null);
+					final BlockState state = world.getBlockState(blockPos);
 
-							this.setSuccess(true);
-						} else {
-							this.setSuccess(false);
-						}
+					if (state.isIn(SPRAYABLE) && item.sprayBlock(world, blockPos, stack, null).isAccepted()) {
+						item.onSpray(world, stack, null);
+
+						this.setSuccess(true);
 					} else {
 						this.setSuccess(false);
 					}
