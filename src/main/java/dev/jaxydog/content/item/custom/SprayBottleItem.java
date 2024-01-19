@@ -13,10 +13,12 @@ import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.registry.tag.TagKey;
@@ -333,27 +335,37 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 
 			@Override
 			protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-				final ServerWorld world = pointer.getWorld();
-				final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
-				final BlockPos blockPos = pointer.getPos().offset(direction);
-
 				if (stack.getItem() instanceof final SprayBottleItem item) {
 					if (!item.isEmpty(stack)) return stack;
 
-					final BlockState state = world.getBlockState(blockPos);
-
-					if (state.isIn(SPRAYABLE) && item.sprayBlock(world, blockPos, stack, null).isAccepted()) {
-						item.onSpray(world, stack, null);
-
-						this.setSuccess(true);
-					} else {
-						this.setSuccess(false);
-					}
-
-					return stack;
+					this.setSuccess(false);
+				} else {
+					return super.dispenseSilently(pointer, stack);
 				}
 
-				return super.dispenseSilently(pointer, stack);
+				final ServerWorld world = pointer.getWorld();
+				final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
+				final BlockPos blockPos = pointer.getPos().offset(direction);
+				final BlockState blockState = world.getBlockState(blockPos);
+
+				if (blockState.isIn(SPRAYABLE) && item.sprayBlock(world, blockPos, stack, null).isAccepted()) {
+					this.setSuccess(true);
+				}
+
+				final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
+					new Box(blockPos),
+					EntityPredicates.EXCEPT_SPECTATOR.and(Entity::isOnFire)
+				);
+
+				for (final LivingEntity entity : entities) {
+					entity.extinguishWithSound();
+
+					this.setSuccess(true);
+				}
+
+				if (this.isSuccess()) item.onSpray(world, stack, null);
+
+				return stack;
 			}
 
 		});
