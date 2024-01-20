@@ -64,6 +64,8 @@
 	"block.astral.yellow_amethyst_block": "Block of Yellow Amethyst",
 	"block.astral.yellow_amethyst_cluster": "Yellow Amethyst Cluster",
 
+	"effect.astral.sinister": "Sinister",
+
 	"gamerule.challengeAttackAdditive": "Scaling attack additive",
 	"gamerule.challengeChunkStep": "Scaling chunk step",
 	"gamerule.challengeEnabled": "Challenge scaling enabled",
@@ -108,10 +110,21 @@
 	"item.astral.placeholder.6.lore_1": "Engage the world as a confident spider.",
 	"item.astral.placeholder.6": "Biblically-Accurate Spiral Plush",
 	"item.astral.rotten_chorus_fruit": "Rotten Chorus Fruit",
+	"item.astral.slime_card.lore_0": "Hmph",
+	"item.astral.slime_card": "Slime Card",
 	"item.astral.spray_bottle.empty": "Seems like it needs a refill.",
 	"item.astral.spray_bottle": "Spray Bottle",
 	"item.astral.void_essence.lore_0": "Something stares back.",
 	"item.astral.void_essence": "Void Essence",
+	"item.minecraft.potion.effect.sinister_potion": "Sinister Potion",
+	"item.minecraft.potion.effect.long_sinister_potion": "Sinister Potion",
+	"item.minecraft.potion.effect.strong_sinister_potion": "Sinister Potion",
+	"item.minecraft.splash_potion.effect.sinister_potion": "Splash Potion of Sinister",
+	"item.minecraft.splash_potion.effect.long_sinister_potion": "Splash Potion of Sinister",
+	"item.minecraft.splash_potion.effect.strong_sinister_potion": "Splash Potion of Sinister",
+	"item.minecraft.lingering_potion.effect.sinister_potion": "Lingering Potion of Sinister",
+	"item.minecraft.lingering_potion.effect.long_sinister_potion": "Lingering Potion of Sinister",
+	"item.minecraft.lingering_potion.effect.strong_sinister_potion": "Lingering Potion of Sinister",
 
 	"itemGroup.astral.default": "Astral",
 
