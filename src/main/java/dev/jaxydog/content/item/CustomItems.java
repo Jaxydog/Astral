@@ -50,6 +50,9 @@ public final class CustomItems extends ContentRegistrar {
 		new Settings().rarity(Rarity.UNCOMMON)
 	);
 
+	public static final ChocolateMilkItem CHOCOLATE_MILK = new ChocolateMilkItem("chocolate_milk",
+		new Settings().food(FoodComponents.CHOCOLATE_MILK).maxCount(16));
+
 	// Items for star monkey
 	public static final CustomItem ROTTEN_CHORUS_FRUIT = new CustomItem("rotten_chorus_fruit",
 		new Settings().food(FoodComponents.ROTTEN_CHORUS_FRUIT)
@@ -61,6 +64,11 @@ public final class CustomItems extends ContentRegistrar {
 	public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence", new Settings().rarity(Rarity.EPIC));
 
 	private static final class FoodComponents {
+
+		public static final FoodComponent CHOCOLATE_MILK = new FoodComponent.Builder().alwaysEdible()
+			.hunger(6)
+			.saturationModifier(0.25F)
+			.build();
 
 		public static final FoodComponent CLOUDY_CANDY_FOOD = new FoodComponent.Builder().alwaysEdible()
 			.hunger(2)

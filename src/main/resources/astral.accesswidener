@@ -1,2 +1,4 @@
 accessWidener v2 named
 accessible method net/minecraft/sound/SoundEvent <init> (Lnet/minecraft/util/Identifier;FZ)V
+accessible class net/minecraft/entity/passive/MooshroomEntity$Type
+accessible method net/minecraft/item/SuspiciousStewItem forEachEffect (Lnet/minecraft/item/ItemStack;Ljava/util/function/Consumer;)V
