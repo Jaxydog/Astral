@@ -59,6 +59,7 @@ public final class CustomItems extends ContentRegistrar {
 	);
 	public static final CustomItem LIVING_SCULK = new CustomItem("living_sculk", new Settings().rarity(Rarity.RARE));
 	public static final CustomItem PIG_CARD = new CustomItem("pig_card", new Settings());
+	public static final CustomItem SLIME_CARD = new CustomItem("slime_card", new Settings());
 	@SuppressWarnings("SpellCheckingInspection")
 	public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce", new Settings());
 	public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence", new Settings().rarity(Rarity.EPIC));

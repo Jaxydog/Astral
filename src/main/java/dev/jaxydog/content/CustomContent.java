@@ -4,6 +4,8 @@ import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.command.CustomArgumentTypes;
 import dev.jaxydog.content.command.CustomCommands;
 import dev.jaxydog.content.data.CustomData;
+import dev.jaxydog.content.effect.CustomPotions;
+import dev.jaxydog.content.effect.CustomStatusEffects;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.content.power.CustomActions;
 import dev.jaxydog.content.power.CustomConditions;
@@ -29,8 +31,10 @@ public final class CustomContent extends ContentRegistrar {
 	public static final CustomArgumentTypes ARGUMENT_TYPES = new CustomArgumentTypes();
 	public static final CustomActions ACTIONS = new CustomActions();
 	public static final CustomConditions CONDITIONS = new CustomConditions();
+	public static final CustomPotions POTIONS = new CustomPotions();
 	public static final CustomPowers POWERS = new CustomPowers();
 	public static final CustomSoundEvents SOUND_EVENTS = new CustomSoundEvents();
+	public static final CustomStatusEffects STATUS_EFFECTS = new CustomStatusEffects();
 	public static final CustomTrinketPredicates TRINKET_SLOTS = new CustomTrinketPredicates();
 
 }
