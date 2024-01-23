@@ -1,6 +1,6 @@
 {
-	"spray_bottle_use": {
-		"subtitle": "subtitles.astral.spray_bottle_use",
-		"sounds": [ "astral:spray_bottle_use" ]
+	"item.spray_bottle.use": {
+		"subtitle": "subtitles.astral.item.spray_bottle.use",
+		"sounds": [ "astral:item/spray_bottle/use" ]
 	}
 }
