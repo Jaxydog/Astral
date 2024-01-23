@@ -8,7 +8,6 @@ import net.minecraft.item.Items;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-import java.util.Objects;
 
 import static net.minecraft.item.SuspiciousStewItem.forEachEffect;
 
