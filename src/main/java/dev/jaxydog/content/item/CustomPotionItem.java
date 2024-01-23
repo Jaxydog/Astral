@@ -51,8 +51,8 @@ public class CustomPotionItem extends PotionItem implements Registered.Common {
 	public void register() {
 		Registry.register(Registries.ITEM, this.getId(), this);
 		BrewingRecipeRegistry.registerPotionType(this);
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(group -> {
-			Registries.POTION.forEach(potion -> {
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK)
+			.register(group -> Registries.POTION.forEach(potion -> {
 				if (potion.equals(Potions.EMPTY)) return;
 
 				final ItemStack stack = this.getDefaultStack();
@@ -60,8 +60,7 @@ public class CustomPotionItem extends PotionItem implements Registered.Common {
 				PotionUtil.setPotion(stack, potion);
 
 				group.add(stack);
-			});
-		});
+			}));
 	}
 
 }
