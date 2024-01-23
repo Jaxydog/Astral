@@ -3,10 +3,12 @@
 ### Internal changes
 
 - Added support for status effects.
+- Added basic support for entities.
 
 ### Content changes
 
 - Added the sinister effect, as well as corresponding potions.
+- Added chocolate milk (thank you, Ice :])
 
 # Release 1.6.0
 
