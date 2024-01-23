@@ -2,6 +2,7 @@
 
 ### Internal changes
 
+- Added dependency to ETF.
 - Added support for status effects.
 - Added basic support for entities.
 - Improved support for potions.

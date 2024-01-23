@@ -21,6 +21,12 @@ repositories {
 	maven {url "https://jitpack.io"}
 	maven {url "https://maven.shedaniel.me/"}
 	maven {url "https://maven.terraformersmc.com/"}
+	exclusiveContent {
+		forRepository {
+			maven {url "https://api.modrinth.com/maven"}
+		}
+		filter {includeGroup "maven.modrinth"}
+	}
 }
 
 loom {
@@ -54,6 +60,7 @@ dependencies {
 	modImplementation include("com.github.apace100:apoli:v${project.apoli_version}")
 	modImplementation include("com.github.apace100:calio:v${project.calio_version}")
 	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+	modImplementation "maven.modrinth:entitytexturefeatures:${project.etf_version}"
 	modApi(
 		"com.github.Virtuoel:Pehkui:${project.pehkui_version}",
 		{exclude group: "net.fabricmc.fabric-api"}
