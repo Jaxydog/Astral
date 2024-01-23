@@ -1,3 +1,13 @@
+# Release 1.7.0
+
+### Internal changes
+
+- Added support for status effects.
+
+### Content changes
+
+- Added the sinister effect, as well as corresponding potions.
+
 # Release 1.6.0
 
 ### Internal changes
