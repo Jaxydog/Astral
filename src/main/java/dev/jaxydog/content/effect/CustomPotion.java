@@ -26,13 +26,13 @@ public class CustomPotion extends Potion implements Registered.Common {
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
 	public void register() {
-		Registry.register(Registries.POTION, this.getId(), this);
+		Registry.register(Registries.POTION, this.getRegistryId(), this);
 
 		if (this.RECIPE != null) {
 			FabricBrewingRecipeRegistry.registerPotionRecipe(this.RECIPE.base(), this.RECIPE.item(), this);

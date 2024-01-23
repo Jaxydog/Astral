@@ -22,13 +22,13 @@ public abstract class CustomArgumentType<T> implements ArgumentType<T>, Register
 	public abstract T parse(StringReader reader) throws CommandSyntaxException;
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
 	public void register() {
-		ArgumentTypeRegistry.registerArgumentType(this.getId(),
+		ArgumentTypeRegistry.registerArgumentType(this.getRegistryId(),
 			this.getClass(),
 			ConstantArgumentSerializer.of(() -> this)
 		);

@@ -52,7 +52,7 @@ public abstract class RegisteredMap<K, V extends Registered> implements Register
 	}
 
 	@Override
-	public final String getIdPath() {
+	public final String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

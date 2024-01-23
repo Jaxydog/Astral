@@ -25,7 +25,7 @@ public class CustomSoundEvent extends SoundEvent implements Registered.Common {
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

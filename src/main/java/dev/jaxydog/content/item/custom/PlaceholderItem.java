@@ -38,7 +38,7 @@ public class PlaceholderItem extends CustomItem implements Customized, Equipment
 
 	@Override
 	public void register() {
-		Registry.register(Registries.ITEM, this.getId(), this);
+		Registry.register(Registries.ITEM, this.getRegistryId(), this);
 	}
 
 }

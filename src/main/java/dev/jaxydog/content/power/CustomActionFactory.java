@@ -23,16 +23,16 @@ public class CustomActionFactory<T> extends ActionFactory<T> implements Register
 
 	/** Registers the factory in the given registry */
 	public void register(Registry<ActionFactory<T>> registry) {
-		Registry.register(registry, this.getId(), this);
+		Registry.register(registry, this.getRegistryId(), this);
 	}
 
 	@Override
-	public Identifier getId() {
+	public Identifier getRegistryId() {
 		return this.getSerializerId();
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

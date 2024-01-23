@@ -19,13 +19,13 @@ public class CustomTrinketPredicate implements Registered.Common {
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
 	public void register() {
-		TrinketsApi.registerTrinketPredicate(this.getId(), this.SUPPLIER);
+		TrinketsApi.registerTrinketPredicate(this.getRegistryId(), this.SUPPLIER);
 	}
 
 }

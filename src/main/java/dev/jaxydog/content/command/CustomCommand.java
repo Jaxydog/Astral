@@ -26,7 +26,7 @@ public abstract class CustomCommand implements Registered.Common {
 
 	/** Returns the command's builder */
 	public LiteralArgumentBuilder<ServerCommandSource> getCommand() {
-		return CommandManager.literal(this.getIdPath()).requires(this::requires);
+		return CommandManager.literal(this.getRegistryIdPath()).requires(this::requires);
 	}
 
 	/** Executes the command */
@@ -34,7 +34,7 @@ public abstract class CustomCommand implements Registered.Common {
 	public abstract int execute(CommandContext<ServerCommandSource> context) throws CommandSyntaxException;
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

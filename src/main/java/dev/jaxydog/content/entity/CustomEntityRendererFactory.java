@@ -32,7 +32,7 @@ public abstract class CustomEntityRendererFactory<T extends Entity> implements R
 	public abstract EntityRenderer<T> create(Context context);
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.rawId;
 	}
 

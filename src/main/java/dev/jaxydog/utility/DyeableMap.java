@@ -19,7 +19,7 @@ public class DyeableMap<T extends Registered> extends RegisteredMap<DyeColor, T>
 
 	@Override
 	public final String getIdPath(DyeColor key) {
-		return String.format("%s_%s", key.asString(), this.getIdPath());
+		return String.format("%s_%s", key.asString(), this.getRegistryIdPath());
 	}
 
 	@Override

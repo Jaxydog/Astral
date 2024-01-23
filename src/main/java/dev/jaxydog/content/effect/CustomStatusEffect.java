@@ -17,13 +17,13 @@ public class CustomStatusEffect extends StatusEffect implements Registered.Commo
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
 	public void register() {
-		Registry.register(Registries.STATUS_EFFECT, this.getId(), this);
+		Registry.register(Registries.STATUS_EFFECT, this.getRegistryId(), this);
 	}
 
 }

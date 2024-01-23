@@ -48,13 +48,13 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.rawId;
 	}
 
 	@Override
 	public void register() {
-		Registry.register(Registries.ENTITY_TYPE, this.getId(), this);
+		Registry.register(Registries.ENTITY_TYPE, this.getRegistryId(), this);
 	}
 
 	public static class Builder<T extends Entity> {

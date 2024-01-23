@@ -28,7 +28,7 @@ public class RepeatAction extends CustomMetaAction {
 		final SerializableData data = new SerializableData().add("repeat", SerializableDataTypes.INT)
 			.add("action", type);
 
-		return new CustomActionFactory<>(this.getIdPath(), data, this::execute);
+		return new CustomActionFactory<>(this.getRegistryIdPath(), data, this::execute);
 	}
 
 }

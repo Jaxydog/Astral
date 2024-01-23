@@ -25,16 +25,16 @@ public class CustomConditionFactory<T> extends ConditionFactory<T> implements Re
 
 	/** Registers the factory in the given registry */
 	public void register(Registry<ConditionFactory<T>> registry) {
-		Registry.register(registry, this.getId(), this);
+		Registry.register(registry, this.getRegistryId(), this);
 	}
 
 	@Override
-	public Identifier getId() {
+	public Identifier getRegistryId() {
 		return this.getSerializerId();
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

@@ -21,7 +21,7 @@ public abstract class CustomMetaAction implements Registered.Common {
 	public abstract <T> void execute(Instance data, T value);
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

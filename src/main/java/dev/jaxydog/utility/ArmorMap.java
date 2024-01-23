@@ -24,7 +24,7 @@ public class ArmorMap<T extends Registered> extends RegisteredMap<Type, T> {
 
 	@Override
 	public final String getIdPath(Type key) {
-		return String.format("%s_%s", this.getIdPath(), key.getName());
+		return String.format("%s_%s", this.getRegistryIdPath(), key.getName());
 	}
 
 }

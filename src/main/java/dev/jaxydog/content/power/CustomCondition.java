@@ -19,7 +19,7 @@ public abstract class CustomCondition<T> implements Registered.Common {
 	public abstract boolean check(Instance data, T value);
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 

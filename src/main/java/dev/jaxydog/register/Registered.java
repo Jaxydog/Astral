@@ -7,11 +7,11 @@ import net.minecraft.util.Identifier;
 public interface Registered {
 
 	/** Returns the value's associated registry identifier path. */
-	String getIdPath();
+	String getRegistryIdPath();
 
 	/** Returns the value's associated registry identifier. */
-	default Identifier getId() {
-		return Astral.getId(this.getIdPath());
+	default Identifier getRegistryId() {
+		return Astral.getId(this.getRegistryIdPath());
 	}
 
 	/** A value registered on the client *and* the server. */

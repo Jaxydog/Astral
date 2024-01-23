@@ -33,7 +33,7 @@ public abstract class ContentRegistrar implements Registered.All, Generated {
 	}
 
 	@Override
-	public final String getIdPath() {
+	public final String getRegistryIdPath() {
 		throw new UnsupportedOperationException();
 	}
 

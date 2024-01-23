@@ -43,13 +43,13 @@ public class CustomPotionItem extends PotionItem implements Registered.Common {
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
 	public void register() {
-		Registry.register(Registries.ITEM, this.getId(), this);
+		Registry.register(Registries.ITEM, this.getRegistryId(), this);
 		BrewingRecipeRegistry.registerPotionType(this);
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK)
 			.register(group -> Registries.POTION.forEach(potion -> {

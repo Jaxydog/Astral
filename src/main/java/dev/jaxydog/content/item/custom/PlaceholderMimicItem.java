@@ -376,7 +376,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 		public String getIdPath(Item item) {
 			final String id = Registries.ITEM.getId(item).getPath();
 
-			return String.format("%s_%s", super.getIdPath(), id);
+			return String.format("%s_%s", super.getRegistryIdPath(), id);
 		}
 
 	}

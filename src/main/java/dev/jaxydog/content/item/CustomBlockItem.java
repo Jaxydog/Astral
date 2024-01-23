@@ -43,14 +43,14 @@ public class CustomBlockItem extends BlockItem implements Registered.Common {
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Override
 	public void register() {
-		Registry.register(Registries.ITEM, this.getId(), this);
+		Registry.register(Registries.ITEM, this.getRegistryId(), this);
 		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
 			.register(g -> g.add(this));
 	}

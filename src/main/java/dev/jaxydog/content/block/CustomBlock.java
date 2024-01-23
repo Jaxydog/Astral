@@ -18,13 +18,13 @@ public class CustomBlock extends Block implements Registered.Common {
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
 	@Override
 	public void register() {
-		Registry.register(Registries.BLOCK, this.getId(), this);
+		Registry.register(Registries.BLOCK, this.getRegistryId(), this);
 	}
 
 }

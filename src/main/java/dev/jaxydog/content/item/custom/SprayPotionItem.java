@@ -2,21 +2,31 @@ package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.content.item.CustomPotionItem;
+import dev.jaxydog.content.power.custom.ActionOnSprayPower;
+import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.recipe.BrewingRecipeRegistry;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class SprayPotionItem extends CustomPotionItem implements Sprayable {
@@ -67,7 +77,20 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
+		int charges = 0;
 		boolean added = false;
+
+		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+
+		powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+
+		for (final ActionOnSprayPower power : powers) {
+			if (!power.canSprayEntity(stack, entity)) continue;
+
+			if (power.onSprayEntity(stack, entity)) {
+				charges = Math.max(charges, power.getCharges());
+			}
+		}
 
 		for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(stack)) {
 			if (effect.getEffectType().isInstant()) {
@@ -80,12 +103,61 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 		}
 
 		if (added) {
-			this.spray(stack, player.getWorld(), player, 1);
+			this.spray(stack, player.getWorld(), player, Math.max(1, charges));
 
 			if (this.isEmptied(stack)) {
 				player.getInventory().removeOne(stack);
 				player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
 			}
+
+			return ActionResult.success(player.getWorld().isClient());
+		} else {
+			return ActionResult.PASS;
+		}
+	}
+
+	@Override
+	public ActionResult useOnBlock(ItemUsageContext context) {
+		final ItemStack stack = context.getStack();
+		final PlayerEntity player = context.getPlayer();
+		final World world = context.getWorld();
+		final BlockPos blockPos = context.getBlockPos();
+		final Direction side = context.getSide();
+		final BlockState oldState = world.getBlockState(blockPos);
+		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+
+		int charges = 0;
+
+		powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+
+		for (final ActionOnSprayPower power : powers) {
+			if (!power.canSprayBlock(stack, world, blockPos, side)) continue;
+
+			if (power.onSprayBlock(stack, world, blockPos, side)) {
+				charges = Math.max(charges, power.getCharges());
+			}
+		}
+
+		if (charges > 0) {
+			final BlockState newState = world.getBlockState(blockPos);
+
+			if (!oldState.equals(newState)) {
+				final GameEvent.Emitter emitter;
+
+				if (player == null) {
+					emitter = GameEvent.Emitter.of(newState);
+				} else {
+					emitter = GameEvent.Emitter.of(player, newState);
+				}
+
+				world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+			}
+
+			if (player instanceof final ServerPlayerEntity serverPlayer) {
+				Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
+			}
+
+			this.spray(stack, world, player, charges);
 
 			return ActionResult.success(player.getWorld().isClient());
 		} else {

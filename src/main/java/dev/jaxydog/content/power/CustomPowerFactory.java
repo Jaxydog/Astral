@@ -32,16 +32,16 @@ public class CustomPowerFactory<P extends Power> extends PowerFactory<P> impleme
 
 	@Override
 	public void register() {
-		Registry.register(ApoliRegistries.POWER_FACTORY, this.getId(), this);
+		Registry.register(ApoliRegistries.POWER_FACTORY, this.getRegistryId(), this);
 	}
 
 	@Override
-	public Identifier getId() {
+	public Identifier getRegistryId() {
 		return this.getSerializerId();
 	}
 
 	@Override
-	public String getIdPath() {
+	public String getRegistryIdPath() {
 		return this.RAW_ID;
 	}
 
