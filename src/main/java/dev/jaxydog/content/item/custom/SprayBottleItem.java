@@ -1,10 +1,7 @@
 package dev.jaxydog.content.item.custom;
 
-import dev.jaxydog.Astral;
 import dev.jaxydog.content.item.CustomItem;
 import dev.jaxydog.content.power.custom.ActionOnSprayPower;
-import dev.jaxydog.content.sound.CustomSoundEvents;
-import dev.jaxydog.register.Registered;
 import dev.jaxydog.utility.SprayableEntity;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.advancement.criterion.Criteria;
@@ -13,15 +10,12 @@ import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -31,9 +25,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult.Type;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPointer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -41,42 +37,144 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Optional;
 
-public class SprayBottleItem extends CustomItem implements Registered.Client {
+public class SprayBottleItem extends CustomItem implements Sprayable {
 
-	public static final TagKey<Block> SPRAYABLE = TagKey.of(Registries.BLOCK.getKey(), Astral.getId("sprayable"));
-
-	public static final int SPRAY_USES = 48;
-	public static final int SPRAY_INTERVAL = 8;
+	public static final int MAX_USES = 48;
 	public static final int SPRAY_DURATION = 40;
 
 	public SprayBottleItem(String rawId, Settings settings) {
 		super(rawId, settings);
 	}
 
-	protected static BlockHitResult raycast(World world, PlayerEntity player, RaycastContext.FluidHandling handling) {
-		final float toRad = (float) Math.PI / 180F;
-		final float pitch = player.getPitch() * toRad;
-		final float yaw = player.getYaw() * toRad - (float) Math.PI;
+	protected void playExtinguishSound(World world, BlockPos pos) {
+		final Random random = world.getRandom();
+		final float pitch = 2.6F + (random.nextFloat() - random.nextFloat()) * 0.8F;
 
-		final float xr = MathHelper.sin(-yaw);
-		final float zr = MathHelper.cos(-yaw);
-		final float xzr = -MathHelper.cos(-pitch);
+		world.playSoundAtBlockCenter(pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, pitch, false);
+	}
 
-		final float x = xr * xzr * 5F;
-		final float y = MathHelper.sin(-pitch) * 5F;
-		final float z = zr * xzr * 5F;
+	protected int sprayEntity(ItemStack stack, @Nullable PlayerEntity player, LivingEntity entity) {
+		int charges = 0;
 
-		final Vec3d start = player.getEyePos();
-		final Vec3d end = start.add(x, y, z);
+		if (this.isEmptied(stack)) return charges;
 
-		return world.raycast(new RaycastContext(start, end, RaycastContext.ShapeType.OUTLINE, handling, player));
+		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+
+		powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+
+		for (final ActionOnSprayPower power : powers) {
+			if (!power.canSprayEntity(stack, entity)) continue;
+
+			if (power.onSprayEntity(stack, entity)) {
+				charges = Math.max(charges, power.getCharges());
+			}
+		}
+
+		if (entity.isOnFire()) {
+			entity.extinguishWithSound();
+
+			charges = Math.max(charges, 2);
+		}
+
+		if (!entity.getWorld().isClient()
+			&& entity instanceof final SprayableEntity sprayable
+			&& sprayable.astral$canSpray()) {
+			sprayable.astral$setSprayed(player, SPRAY_DURATION, true);
+
+			charges = Math.max(charges, sprayable.astral$getSprayCharges());
+		}
+
+		return charges;
+	}
+
+	protected int sprayBlock(
+		ItemStack stack, @Nullable PlayerEntity player, World world, BlockPos blockPos, Direction side
+	) {
+		int charges = 0;
+
+		if ((player != null && !world.canPlayerModifyAt(player, blockPos)) || this.isEmptied(stack)) {
+			return charges;
+		}
+
+		final BlockState blockState = world.getBlockState(blockPos);
+
+		if (stack.isDamaged() && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
+			this.fill(stack, world, blockPos, player, this.getMaxDamage());
+
+			return charges;
+		}
+
+		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+
+		powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+
+		for (final ActionOnSprayPower power : powers) {
+			if (!power.canSprayBlock(stack, world, blockPos, side)) continue;
+
+			if (power.onSprayBlock(stack, world, blockPos, side)) {
+				charges = Math.max(charges, power.getCharges());
+			}
+		}
+
+		final Block block = blockState.getBlock();
+
+		if (block instanceof final Oxidizable oxidizable) {
+			final Optional<Block> increased = Oxidizable.getIncreasedOxidationBlock(block);
+
+			if (increased.isPresent()) {
+				world.setBlockState(blockPos, increased.get().getDefaultState());
+
+				charges = Math.max(charges, 1);
+			}
+		}
+
+		if (block instanceof final FarmlandBlock farmland) {
+			final int moisture = blockState.get(FarmlandBlock.MOISTURE);
+
+			if (moisture < FarmlandBlock.MAX_MOISTURE) {
+				world.setBlockState(blockPos, blockState.with(FarmlandBlock.MOISTURE, FarmlandBlock.MAX_MOISTURE));
+
+				charges = Math.max(charges, 4);
+			}
+		}
+
+		if (block instanceof final CampfireBlock campfire) {
+			final boolean lit = blockState.get(CampfireBlock.LIT);
+
+			if (lit) {
+				world.setBlockState(blockPos, blockState.with(CampfireBlock.LIT, false));
+				this.playExtinguishSound(world, blockPos);
+
+				charges = Math.max(charges, 2);
+			}
+		}
+
+		if (block instanceof final AbstractFireBlock fire) {
+			if (player == null) {
+				world.breakBlock(blockPos, false);
+			} else {
+				world.breakBlock(blockPos, false, player);
+			}
+
+			this.playExtinguishSound(world, blockPos);
+
+			charges = Math.max(charges, 2);
+		}
+
+		if (blockState.isOf(Blocks.SPONGE)) {
+			world.setBlockState(blockPos, Blocks.WET_SPONGE.getDefaultState());
+
+			charges = Math.max(charges, 4);
+		}
+
+		return charges;
 	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		if (this.isEmpty(stack)) {
+		if (this.isEmptied(stack)) {
 			final String key = stack.getItem().getTranslationKey(stack) + ".empty";
 
 			tooltip.add(Text.translatable(key).formatted(Formatting.GRAY));
@@ -89,246 +187,94 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		final ItemStack stack = player.getStackInHand(hand);
 
-		if (!stack.isDamaged()) {
-			return TypedActionResult.pass(stack);
-		}
+		if (!stack.isDamaged()) return TypedActionResult.pass(stack);
 
 		final BlockHitResult result = raycast(world, player, FluidHandling.SOURCE_ONLY);
 
-		if (result.getType() != Type.BLOCK) {
-			return TypedActionResult.pass(stack);
-		}
+		if (result.getType() != Type.BLOCK) return TypedActionResult.pass(stack);
 
 		final BlockPos blockPos = result.getBlockPos();
 
 		if (world.canPlayerModifyAt(player, blockPos) && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
-			this.fill(player, world, blockPos, stack);
+			this.fill(stack, world, blockPos, player, this.getMaxDamage());
 
-			return TypedActionResult.success(stack);
+			return TypedActionResult.success(stack, world.isClient());
 		} else {
 			return TypedActionResult.pass(stack);
 		}
 	}
 
 	@Override
-	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-		if (this.isEmpty(stack)) return super.useOnEntity(stack, user, entity, hand);
+	public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
+		final int charges = this.sprayEntity(stack, player, entity);
 
-		boolean activated = false;
+		if (charges > 0) {
+			this.spray(stack, player.getWorld(), player, charges);
 
-		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(user, ActionOnSprayPower.class);
-
-		if (!powers.isEmpty()) {
-			powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
-
-			for (final ActionOnSprayPower power : powers) {
-				if (!power.canSprayEntity(stack, entity)) continue;
-
-				activated |= power.onSprayEntity(stack, entity);
-			}
-		}
-
-		if (entity.isOnFire()) {
-			entity.extinguishWithSound();
-
-			activated = true;
-		}
-		if (entity instanceof final SprayableEntity sprayable && sprayable.astral$canSpray()) {
-			if (!user.getWorld().isClient()) {
-				sprayable.astral$setSprayed(user, SPRAY_DURATION);
-
-				activated = true;
-			}
-		}
-
-		if (activated) {
-			this.onSpray(user.getWorld(), stack, user);
-
-			return ActionResult.SUCCESS;
+			return ActionResult.success(player.getWorld().isClient());
 		} else {
-			return super.useOnEntity(stack, user, entity, hand);
+			return ActionResult.PASS;
 		}
 	}
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		final World world = context.getWorld();
-		final PlayerEntity player = context.getPlayer();
 		final ItemStack stack = context.getStack();
+		final PlayerEntity player = context.getPlayer();
+		final World world = context.getWorld();
 		final BlockPos blockPos = context.getBlockPos();
+		final Direction side = context.getSide();
+		final BlockState oldState = world.getBlockState(blockPos);
 
-		if (player == null || !world.canPlayerModifyAt(player, blockPos) || this.isEmpty(stack)) {
-			return super.useOnBlock(context);
-		}
+		final int charges = this.sprayBlock(stack, player, world, blockPos, side);
 
-		final BlockState blockState = world.getBlockState(blockPos);
+		if (charges > 0) {
+			final BlockState newState = world.getBlockState(blockPos);
 
-		if (stack.isDamaged() && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
-			this.fill(player, world, blockPos, stack);
-
-			return ActionResult.success(world.isClient());
-		}
-
-		boolean activated = false;
-
-		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
-
-		if (!powers.isEmpty()) {
-			final Direction blockSide = context.getSide();
-
-			powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
-
-			for (final ActionOnSprayPower power : powers) {
-				if (!power.canSprayBlock(stack, world, blockPos, blockSide)) continue;
-
-				activated |= power.onSprayBlock(stack, world, blockPos, blockSide);
-			}
-		}
-
-		if (blockState.isIn(SPRAYABLE)) {
-			return this.sprayBlock(world, context.getBlockPos(), stack, player);
-		} else if (activated) {
-			this.onSpray(world, stack, player);
-
-			return ActionResult.success(world.isClient());
-		} else {
-			return super.useOnBlock(context);
-		}
-	}
-
-	@Override
-	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-		stack.setDamage(stack.getMaxDamage());
-
-		super.onCraft(stack, world, player);
-	}
-
-	protected void fill(PlayerEntity player, World world, BlockPos blockPos, ItemStack stack) {
-		final double x = player.getX();
-		final double y = player.getY();
-		final double z = player.getZ();
-
-		world.playSound(null, x, y, z, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1F, 1F);
-		world.emitGameEvent(player, GameEvent.FLUID_PICKUP, blockPos);
-		stack.setDamage(0);
-	}
-
-	protected void onSpray(World world, ItemStack stack, @Nullable PlayerEntity player) {
-		if (player == null || !player.isCreative()) {
-			stack.damage(1, world.getRandom(), null);
-		}
-
-		if (player != null) {
-			player.getItemCooldownManager().set(this, SPRAY_INTERVAL);
-			player.incrementStat(Stats.USED.getOrCreateStat(this));
-
-			if (!player.isSilent()) {
-				final float pitchVariation = (player.getRandom().nextFloat() - 0.5F) * 0.125F;
-
-				player.playSound(CustomSoundEvents.SPRAY_BOTTLE_USE, 1F, 1F + pitchVariation);
-			}
-		}
-	}
-
-	protected void extinguish(World world, BlockPos pos) {
-		final Random random = world.getRandom();
-		final float pitch = 2.6f + (random.nextFloat() - random.nextFloat()) * 0.8f;
-
-		world.playSoundAtBlockCenter(pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, pitch, false);
-	}
-
-	protected ActionResult sprayBlock(World world, BlockPos blockPos, ItemStack stack, @Nullable PlayerEntity player) {
-		final BlockState blockState = world.getBlockState(blockPos);
-		final Block block = blockState.getBlock();
-
-		final AtomicReference<BlockState> changedState = new AtomicReference<>();
-		ActionResult result = ActionResult.PASS;
-
-		if (block instanceof final Oxidizable oxidizable) {
-			Oxidizable.getIncreasedOxidationBlock(block).ifPresent(oxidized -> {
-				changedState.set(oxidized.getDefaultState());
-
-				world.setBlockState(blockPos, changedState.get());
-			});
-
-			result = ActionResult.SUCCESS;
-		} else if (block instanceof final FarmlandBlock farmland
-			&& blockState.get(FarmlandBlock.MOISTURE) < FarmlandBlock.MAX_MOISTURE) {
-			changedState.set(blockState.with(FarmlandBlock.MOISTURE, FarmlandBlock.MAX_MOISTURE));
-			world.setBlockState(blockPos, changedState.get(), Block.NOTIFY_LISTENERS);
-
-			result = ActionResult.SUCCESS;
-		} else if (block instanceof final CampfireBlock campfire && blockState.get(CampfireBlock.LIT)) {
-
-			changedState.set(blockState.with(CampfireBlock.LIT, false));
-			world.setBlockState(blockPos, changedState.get());
-			this.extinguish(world, blockPos);
-
-			CampfireBlock.extinguish(player, world, blockPos, blockState);
-
-			result = ActionResult.SUCCESS;
-		} else if (block instanceof final AbstractFireBlock fire) {
-			if (player == null) {
-				world.breakBlock(blockPos, false);
-			} else {
-				world.breakBlock(blockPos, false, player);
-			}
-
-			this.extinguish(world, blockPos);
-
-			result = ActionResult.SUCCESS;
-		} else if (block instanceof final SpongeBlock sponge) {
-			changedState.set(Blocks.WET_SPONGE.getDefaultState());
-			world.setBlockState(blockPos, changedState.get(), Block.NOTIFY_LISTENERS);
-
-			result = ActionResult.SUCCESS;
-		}
-
-		if (result.isAccepted()) {
-			final BlockState state = changedState.get();
-
-			if (state != null) {
+			if (!oldState.equals(newState)) {
 				final GameEvent.Emitter emitter;
 
 				if (player == null) {
-					emitter = GameEvent.Emitter.of(state);
+					emitter = GameEvent.Emitter.of(newState);
 				} else {
-					emitter = GameEvent.Emitter.of(player, state);
+					emitter = GameEvent.Emitter.of(player, newState);
 				}
 
 				world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
 			}
 
-			if (player instanceof final ServerPlayerEntity entity) {
-				Criteria.ITEM_USED_ON_BLOCK.trigger(entity, blockPos, stack);
+			if (player instanceof final ServerPlayerEntity serverPlayer) {
+				Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
 			}
 
-			this.onSpray(world, stack, player);
+			this.spray(stack, world, player, charges);
+
+			return ActionResult.success(player.getWorld().isClient());
+		} else {
+			return ActionResult.PASS;
 		}
-
-		return result;
-	}
-
-	public boolean isEmpty(ItemStack stack) {
-		return stack.getItem() instanceof SprayBottleItem && stack.getDamage() >= stack.getMaxDamage();
-	}
-
-	public float getEmptyModel(ItemStack stack, World world, LivingEntity entity, int seed) {
-		return this.isEmpty(stack) ? 1F : 0F;
 	}
 
 	@Override
-	public void registerClient() {
-		ModelPredicateProviderRegistry.register(this, new Identifier("empty"), this::getEmptyModel);
+	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+		super.onCraft(stack, world, player);
 
-		CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(this, (state, world, pos, player, hand, stack) -> {
+		stack.setDamage(stack.getMaxDamage());
+	}
+
+	@Override
+	public void register() {
+		super.register();
+
+		CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(this, (blockState, world, blockPos, player, hand, stack) -> {
 			if (!stack.isDamaged()) return ActionResult.PASS;
 
 			if (!world.isClient()) {
-				this.fill(player, world, pos, stack);
+				this.fill(stack, world, blockPos, player, stack.getMaxDamage());
+
 				player.incrementStat(Stats.USE_CAULDRON);
 
-				LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
+				LeveledCauldronBlock.decrementFluidLevel(blockState, world, blockPos);
 			}
 
 			return ActionResult.success(world.isClient());
@@ -340,7 +286,7 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 				if (stack.getItem() instanceof final SprayBottleItem item) {
 					this.setSuccess(false);
 
-					if (item.isEmpty(stack)) return stack;
+					if (item.isEmptied(stack)) return stack;
 				} else {
 					return super.dispenseSilently(pointer, stack);
 				}
@@ -348,29 +294,46 @@ public class SprayBottleItem extends CustomItem implements Registered.Client {
 				final ServerWorld world = pointer.getWorld();
 				final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
 				final BlockPos blockPos = pointer.getPos().offset(direction);
-				final BlockState blockState = world.getBlockState(blockPos);
 
-				if (blockState.isIn(SPRAYABLE) && item.sprayBlock(world, blockPos, stack, null).isAccepted()) {
-					this.setSuccess(true);
-				}
+				int charges = 0;
 
 				final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
 					new Box(blockPos),
-					EntityPredicates.EXCEPT_SPECTATOR.and(Entity::isOnFire)
+					EntityPredicates.EXCEPT_SPECTATOR
 				);
 
 				for (final LivingEntity entity : entities) {
-					entity.extinguishWithSound();
-
-					this.setSuccess(true);
+					charges = Math.max(charges, item.sprayEntity(stack, null, entity));
 				}
 
-				if (this.isSuccess()) item.onSpray(world, stack, null);
+				final BlockState blockState = world.getBlockState(blockPos);
+				final Direction side = direction.getOpposite();
+
+				charges = Math.max(charges, item.sprayBlock(stack, null, world, blockPos, side));
+
+				if (charges > 0) {
+					item.spray(stack, world, null, charges);
+
+					this.setSuccess(true);
+
+					final BlockState newState = world.getBlockState(blockPos);
+
+					if (!blockState.equals(newState)) {
+						final GameEvent.Emitter emitter = GameEvent.Emitter.of(newState);
+
+						world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+					}
+				}
 
 				return stack;
 			}
 
 		});
+	}
+
+	@Override
+	public void registerClient() {
+		ModelPredicateProviderRegistry.register(this, new Identifier("empty"), this::getEmptyModel);
 	}
 
 }

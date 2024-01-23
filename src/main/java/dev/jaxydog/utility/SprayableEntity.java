@@ -26,6 +26,10 @@ public interface SprayableEntity {
 
 	int astral$getSprayTicks();
 
+	default int astral$getSprayCharges() {
+		return 1;
+	}
+
 	default boolean astral$isSprayed() {
 		return this.astral$getSprayTicks() > 0;
 	}

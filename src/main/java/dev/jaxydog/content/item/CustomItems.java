@@ -43,7 +43,10 @@ public final class CustomItems extends ContentRegistrar {
 	);
 
 	public static final SprayBottleItem SPRAY_BOTTLE = new SprayBottleItem("spray_bottle",
-		new Settings().maxDamage(SprayBottleItem.SPRAY_USES)
+		new Settings().maxDamage(SprayBottleItem.MAX_USES)
+	);
+	public static final SprayPotionItem SPRAY_POTION = new SprayPotionItem("spray_potion",
+		new Settings().maxDamage(SprayPotionItem.MAX_USES)
 	);
 	public static final CustomBlockItem RANDOMIZER_BLOCK = new CustomBlockItem("randomizer",
 		CustomBlocks.RANDOMIZER,
@@ -51,7 +54,8 @@ public final class CustomItems extends ContentRegistrar {
 	);
 
 	public static final ChocolateMilkItem CHOCOLATE_MILK = new ChocolateMilkItem("chocolate_milk",
-		new Settings().food(FoodComponents.CHOCOLATE_MILK).maxCount(16));
+		new Settings().food(FoodComponents.CHOCOLATE_MILK).maxCount(16)
+	);
 
 	// Items for star monkey
 	public static final CustomItem ROTTEN_CHORUS_FRUIT = new CustomItem("rotten_chorus_fruit",
@@ -60,7 +64,6 @@ public final class CustomItems extends ContentRegistrar {
 	public static final CustomItem LIVING_SCULK = new CustomItem("living_sculk", new Settings().rarity(Rarity.RARE));
 	public static final CustomItem PIG_CARD = new CustomItem("pig_card", new Settings());
 	public static final CustomItem SLIME_CARD = new CustomItem("slime_card", new Settings());
-	@SuppressWarnings("SpellCheckingInspection")
 	public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce", new Settings());
 	public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence", new Settings().rarity(Rarity.EPIC));
 

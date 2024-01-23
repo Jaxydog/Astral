@@ -37,6 +37,7 @@ public final class CustomPowers extends ContentRegistrar {
 	public static final CustomPowerFactory<ActionOnSprayPower> ACTION_ON_SPRAY = new CustomPowerFactory<ActionOnSprayPower>(
 		"action_on_spray",
 		new SerializableData().add("priority", SerializableDataTypes.INT, 0)
+			.add("charges", SerializableDataTypes.INT, 1)
 			.add("item_action", ApoliDataTypes.ITEM_ACTION, null)
 			.add("item_condition", ApoliDataTypes.ITEM_CONDITION, null)
 			.add("bientity_action", ApoliDataTypes.BIENTITY_ACTION, null)
@@ -47,6 +48,7 @@ public final class CustomPowers extends ContentRegistrar {
 			type,
 			entity,
 			data.getInt("priority"),
+			data.getInt("charges"),
 			data.get("item_action"),
 			data.get("item_condition"),
 			data.get("bientity_action"),

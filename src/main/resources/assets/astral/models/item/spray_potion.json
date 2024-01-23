@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "astral:item/spray_potion_liquid",
+		"layer1": "astral:item/spray_potion_bottle"
+	}
+}

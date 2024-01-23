@@ -34,6 +34,8 @@ public abstract class CatEntityMixin extends TameableEntity implements Sprayable
 
 	@Override
 	public void astral$setSprayed(@Nullable LivingEntity source, int ticks, boolean initialSpray) {
+		if (source == null) return;
+
 		this.spraySource = source;
 		this.sprayDuration = Math.max(0, ticks);
 
@@ -56,7 +58,7 @@ public abstract class CatEntityMixin extends TameableEntity implements Sprayable
 
 	@Override
 	public boolean astral$canSpray() {
-		return !this.astral$isSprayed() && (!this.isTamed() || !this.isSitting());
+		return !this.astral$isSprayed() && !(this.isTamed() && this.isSitting());
 	}
 
 	@Inject(method = "initGoals", at = @At("HEAD"))

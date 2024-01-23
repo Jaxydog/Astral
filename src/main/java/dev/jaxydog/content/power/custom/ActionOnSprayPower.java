@@ -20,6 +20,7 @@ import java.util.function.Predicate;
 public class ActionOnSprayPower extends CustomPower {
 
 	private final int priority;
+	private final int charges;
 	private final @Nullable Consumer<Pair<World, ItemStack>> itemAction;
 	private final @Nullable Predicate<ItemStack> itemCondition;
 	private final @Nullable Consumer<Pair<Entity, Entity>> bientityAction;
@@ -31,6 +32,7 @@ public class ActionOnSprayPower extends CustomPower {
 		PowerType<?> type,
 		LivingEntity entity,
 		int priority,
+		int charges,
 		@Nullable Consumer<Pair<World, ItemStack>> itemAction,
 		@Nullable Predicate<ItemStack> itemCondition,
 		@Nullable Consumer<Pair<Entity, Entity>> bientityAction,
@@ -41,6 +43,7 @@ public class ActionOnSprayPower extends CustomPower {
 		super(type, entity);
 
 		this.priority = priority;
+		this.charges = charges;
 		this.itemAction = itemAction;
 		this.itemCondition = itemCondition;
 		this.bientityAction = bientityAction;
@@ -53,17 +56,23 @@ public class ActionOnSprayPower extends CustomPower {
 		return this.priority;
 	}
 
+	public int getCharges() {
+		return this.charges;
+	}
+
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	public boolean canUseItem(ItemStack stack) {
 		return this.itemCondition == null || this.itemCondition.test(stack);
 	}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	public boolean canSprayEntity(ItemStack stack, Entity target) {
 		if (!this.canUseItem(stack) || this.bientityAction == null) return false;
 
 		return this.bientityCondition == null || this.bientityCondition.test(new Pair<>(this.entity, target));
 	}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	public boolean canSprayBlock(ItemStack stack, World world, BlockPos pos, Direction direction) {
 		if (!this.canUseItem(stack) || this.blockAction == null) return false;
 

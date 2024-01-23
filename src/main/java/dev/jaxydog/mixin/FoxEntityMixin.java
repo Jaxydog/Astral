@@ -43,6 +43,8 @@ public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEn
 
 	@Override
 	public void astral$setSprayed(LivingEntity source, int ticks, boolean initialSpray) {
+		if (source == null) return;
+
 		this.spraySource = source;
 		this.sprayDuration = Math.max(0, ticks);
 
@@ -65,7 +67,7 @@ public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEn
 
 	@Override
 	public boolean astral$canSpray() {
-		return !this.astral$isSprayed() && (this.dataTracker.get(OWNER).isEmpty() || !this.isSitting());
+		return !this.astral$isSprayed() && !(this.dataTracker.get(OWNER).isPresent() && this.isSitting());
 	}
 
 	@Inject(method = "initGoals", at = @At("HEAD"))
