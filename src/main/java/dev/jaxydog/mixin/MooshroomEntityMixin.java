@@ -25,7 +25,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MooshroomEntity.class)
-public abstract class MooshroomEntityMixin extends PassiveEntity implements Shearable, VariantHolder<MooshroomEntity.Type> {
+public abstract class MooshroomEntityMixin extends PassiveEntity
+	implements Shearable, VariantHolder<MooshroomEntity.Type> {
 
 	@Shadow
 	private @Nullable StatusEffect stewEffect;
@@ -36,34 +37,34 @@ public abstract class MooshroomEntityMixin extends PassiveEntity implements Shea
 	public MooshroomEntityMixin(EntityType<? extends PassiveEntity> entityType, World world) {
 		super(entityType, world);
 	}
-	
+
 	@Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-	private void milking(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> callbackInfo){
+	private void milking(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> callbackInfo) {
 		final ItemStack stack = player.getStackInHand(hand);
-		if (stack.isOf(Items.GLASS_BOTTLE) && !this.isBaby()) {
-			boolean bl = false;
-			ItemStack itemStack2;
-			if (this.stewEffect != null) {
-				bl = true;
-				itemStack2 = new ItemStack(CustomItems.CHOCOLATE_MILK);
-				SuspiciousStewItem.addEffectToStew(itemStack2, this.stewEffect, this.stewEffectDuration);
-				this.stewEffect = null;
-				this.stewEffectDuration = 0;
-			} else {
-				itemStack2 = new ItemStack(CustomItems.CHOCOLATE_MILK);
-			}
 
-			ItemStack itemStack3 = ItemUsage.exchangeStack(stack, player, itemStack2, false);
-			player.setStackInHand(hand, itemStack3);
-			SoundEvent soundEvent;
-			if (bl) {
-				soundEvent = SoundEvents.ENTITY_MOOSHROOM_SUSPICIOUS_MILK;
-			} else {
-				soundEvent = SoundEvents.ENTITY_MOOSHROOM_MILK;
-			}
+		if (!stack.isOf(Items.GLASS_BOTTLE) || this.isBaby()) return;
 
-			this.playSound(soundEvent, 1.0F, 1.0F);
-			callbackInfo.setReturnValue(ActionResult.success(player.getWorld().isClient()));
+		final ItemStack result = CustomItems.CHOCOLATE_MILK.getDefaultStack();
+		final SoundEvent soundEvent;
+
+		if (this.stewEffect != null) {
+			SuspiciousStewItem.addEffectToStew(result, this.stewEffect, this.stewEffectDuration);
+
+			this.stewEffect = null;
+			this.stewEffectDuration = 0;
+
+			soundEvent = SoundEvents.ENTITY_MOOSHROOM_SUSPICIOUS_MILK;
+		} else {
+			soundEvent = SoundEvents.ENTITY_MOOSHROOM_MILK;
 		}
+
+		final ItemStack exchanged = ItemUsage.exchangeStack(stack, player, result, false);
+
+		player.setStackInHand(hand, exchanged);
+
+		this.playSound(soundEvent, 1F, 1F);
+
+		callbackInfo.setReturnValue(ActionResult.success(player.getWorld().isClient()));
 	}
+
 }
