@@ -9,20 +9,13 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
-import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -33,27 +26,6 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 
 	public SprayPotionItem(String rawId, Settings settings) {
 		super(rawId, settings);
-	}
-
-	public Potion getPotion(ItemStack stack) {
-		final NbtCompound compound = stack.getNbt();
-
-		if (compound != null && compound.contains(PotionUtil.POTION_KEY, NbtElement.STRING_TYPE)) {
-			return Potion.byId(compound.getString(PotionUtil.POTION_KEY));
-		} else {
-			return Potions.EMPTY;
-		}
-	}
-
-	public void setPotion(ItemStack stack, @Nullable Potion potion) {
-		if (potion == null || potion.equals(Potions.EMPTY)) {
-			stack.removeSubNbt(PotionUtil.POTION_KEY);
-		} else {
-			final Identifier identifier = Registries.POTION.getId(potion);
-			final NbtCompound compound = stack.getOrCreateNbt();
-
-			compound.putString(PotionUtil.POTION_KEY, identifier.toString());
-		}
 	}
 
 	public int getColor(ItemStack stack, int index) {
@@ -95,11 +67,9 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
-		final Potion potion = this.getPotion(stack);
-
 		boolean added = false;
 
-		for (final StatusEffectInstance effect : potion.getEffects()) {
+		for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(stack)) {
 			if (effect.getEffectType().isInstant()) {
 				effect.getEffectType().applyInstantEffect(player, player, entity, effect.getAmplifier(), 1D);
 

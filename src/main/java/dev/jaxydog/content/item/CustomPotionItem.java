@@ -1,10 +1,14 @@
 package dev.jaxydog.content.item;
 
 import dev.jaxydog.register.Registered;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -47,6 +51,17 @@ public class CustomPotionItem extends PotionItem implements Registered.Common {
 	public void register() {
 		Registry.register(Registries.ITEM, this.getId(), this);
 		BrewingRecipeRegistry.registerPotionType(this);
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(group -> {
+			Registries.POTION.forEach(potion -> {
+				if (potion.equals(Potions.EMPTY)) return;
+
+				final ItemStack stack = this.getDefaultStack();
+
+				PotionUtil.setPotion(stack, potion);
+
+				group.add(stack);
+			});
+		});
 	}
 
 }

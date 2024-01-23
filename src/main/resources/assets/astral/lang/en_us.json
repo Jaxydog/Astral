@@ -116,7 +116,7 @@
 	"item.astral.spray_bottle.empty": "Seems like it needs a refill.",
 	"item.astral.spray_bottle": "Spray Bottle",
 	"item.astral.spray_potion.effect.awkward": "Awkward Spray Potion",
-	"item.astral.spray_potion.effect.empty": "Spray Potion",
+	"item.astral.spray_potion.effect.empty": "Uncraftable Spray Potion",
 	"item.astral.spray_potion.effect.fire_resistance": "Spray Potion of Fire Resistance",
 	"item.astral.spray_potion.effect.harming": "Spray Potion of Harming",
 	"item.astral.spray_potion.effect.healing": "Spray Potion of Healing",
