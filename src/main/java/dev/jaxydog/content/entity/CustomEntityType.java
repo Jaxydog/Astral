@@ -10,10 +10,14 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
+import org.jetbrains.annotations.Nullable;
 
-public class CustomEntityType<T extends Entity> extends EntityType<T> implements Registered.Common {
+public class CustomEntityType<T extends Entity> extends EntityType<T> implements Registered.All {
 
 	private final String rawId;
+	private final @Nullable Runnable register;
+	private final @Nullable Runnable registerClient;
+	private final @Nullable Runnable registerServer;
 
 	// this is awful.
 	public CustomEntityType(
@@ -28,7 +32,10 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 		EntityDimensions dimensions,
 		int maxTrackDistance,
 		int trackTickInterval,
-		FeatureSet requiredFeatures
+		FeatureSet requiredFeatures,
+		@Nullable Runnable register,
+		@Nullable Runnable registerClient,
+		@Nullable Runnable registerServer
 	) {
 		super(
 			factory,
@@ -45,6 +52,9 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 		);
 
 		this.rawId = rawId;
+		this.register = register;
+		this.registerClient = registerClient;
+		this.registerServer = registerServer;
 	}
 
 	@Override
@@ -55,6 +65,18 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 	@Override
 	public void register() {
 		Registry.register(Registries.ENTITY_TYPE, this.getRegistryId(), this);
+
+		if (this.register != null) this.register.run();
+	}
+
+	@Override
+	public void registerClient() {
+		if (this.registerClient != null) this.registerClient.run();
+	}
+
+	@Override
+	public void registerServer() {
+		if (this.registerServer != null) this.registerServer.run();
 	}
 
 	public static class Builder<T extends Entity> {
@@ -71,6 +93,9 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 		private int maxTrackDistance;
 		private int trackTickInterval;
 		private FeatureSet requiredFeatures;
+		private @Nullable Runnable register;
+		private @Nullable Runnable registerClient;
+		private @Nullable Runnable registerServer;
 
 		protected Builder(String rawId, SpawnGroup spawnGroup, EntityFactory<T> entityFactory) {
 			assert spawnGroup != null;
@@ -140,7 +165,22 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 			return this;
 		}
 
-		public CustomEntityType<T> createCustomEntityType() {
+		public Builder<T> setRegister(Runnable register) {
+			this.register = register;
+			return this;
+		}
+
+		public Builder<T> setRegisterClient(Runnable register) {
+			this.registerClient = register;
+			return this;
+		}
+
+		public Builder<T> setRegisterServer(Runnable register) {
+			this.registerServer = register;
+			return this;
+		}
+
+		public CustomEntityType<T> build() {
 			return new CustomEntityType<>(
 				this.rawId,
 				this.entityFactory,
@@ -153,7 +193,10 @@ public class CustomEntityType<T extends Entity> extends EntityType<T> implements
 				this.dimensions,
 				this.maxTrackDistance,
 				this.trackTickInterval,
-				this.requiredFeatures
+				this.requiredFeatures,
+				this.register,
+				this.registerClient,
+				this.registerServer
 			);
 		}
 
