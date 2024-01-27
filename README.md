@@ -4,4 +4,4 @@ An [Origins](https://github.com/apace100/origins-fabric) addon mod for Astral SM
 
 ## License
 
-Astral is licensed under GNU Affero General Public License. See [COPYING.md](./COPYING.md) for more details.
+Astral is licensed under the GNU Affero General Public License. See [COPYING.md](./COPYING.md) for more details.
