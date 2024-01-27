@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [ "MMM", "MGM", "MMM" ],
+	"key": {
+		"M": [
+			{ "item": "minecraft:nether_wart_block" },
+			{ "item": "minecraft:warped_wart_block" }
+		],
+		"G": { "item": "minecraft:glowstone" }
+	},
+	"result": { "item": "minecraft:shroomlight" }
+}
