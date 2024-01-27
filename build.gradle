@@ -57,8 +57,8 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "com.github.apace100:origins-fabric:v${project.origins_version}"
-	modImplementation include("com.github.apace100:apoli:v${project.apoli_version}")
-	modImplementation include("com.github.apace100:calio:v${project.calio_version}")
+	modImplementation "com.github.apace100:apoli:v${project.apoli_version}"
+	modImplementation "com.github.apace100:calio:v${project.calio_version}"
 	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 	modImplementation "maven.modrinth:entitytexturefeatures:${project.etf_version}"
 	modApi(
