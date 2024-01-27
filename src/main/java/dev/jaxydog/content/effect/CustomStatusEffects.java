@@ -64,6 +64,8 @@ public final class CustomStatusEffects extends ContentRegistrar {
 			}
 			if (amplifier >= 3) {
 				effects.add(() -> {
+					if (entity.getWorld().isClient()) return;
+
 					final LightningEntity lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, entity.getWorld());
 
 					lightning.setPosition(entity.getPos());
