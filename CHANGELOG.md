@@ -13,6 +13,7 @@
 - Added the sinister effect, as well as corresponding potions.
 - Added chocolate milk (thank you, Ice :]).
 - Added spray potions.
+- Added a recipe for crafting shroomlight.
 
 # Release 1.6.0
 
