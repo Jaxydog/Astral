@@ -53,8 +53,12 @@ public final class CustomItems extends ContentRegistrar {
 		new Settings().rarity(Rarity.UNCOMMON)
 	);
 
+	// Milk Items by Ice(The Woman)
 	public static final ChocolateMilkItem CHOCOLATE_MILK = new ChocolateMilkItem("chocolate_milk",
 		new Settings().food(FoodComponents.CHOCOLATE_MILK).maxCount(16)
+	);
+	public static final StrawberryMilkItem STRAWBERRY_MILK = new StrawberryMilkItem("strawberry_milk",
+		new Settings().food(FoodComponents.STRAWBERRY_MILK).maxCount(16)
 	);
 
 	// Items for star monkey
@@ -86,6 +90,11 @@ public final class CustomItems extends ContentRegistrar {
 			.saturationModifier(0.5F)
 			.statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 400, 0), 1F)
 			.statusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 400, 0), 1F)
+			.build();
+
+		public static final FoodComponent STRAWBERRY_MILK = new FoodComponent.Builder().alwaysEdible()
+			.hunger(7)
+			.saturationModifier(0.25F)
 			.build();
 
 		private FoodComponents() {}
