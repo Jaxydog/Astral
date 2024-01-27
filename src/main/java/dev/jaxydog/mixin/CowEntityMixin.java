@@ -29,7 +29,7 @@ public abstract class CowEntityMixin extends PassiveEntityMixin {
 	public abstract @Nullable PassiveEntity createChild(ServerWorld world, PassiveEntity entity);
 
 	// spiders 🕷️ 🕸️
-  protected CowEntityMixin(EntityType<? extends PathAwareEntity> entityType, World world) {
+	protected CowEntityMixin(EntityType<? extends PathAwareEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
