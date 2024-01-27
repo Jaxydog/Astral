@@ -5,6 +5,7 @@
 	"mixins": [
 		"ArmorItemMixin",
 		"CatEntityMixin",
+		"CowEntityMixin",
 		"EntityMixin",
 		"FoxEntityMixin",
 		"ItemEntityMixin",
@@ -13,6 +14,7 @@
 		"LightningEntityMixin",
 		"MooshroomEntityMixin",
 		"ParrotEntityMixin",
+		"PassiveEntityMixin",
 		"PlayerInventoryMixin",
 		"ShapelessRecipeMixin",
 		"bonemeal.CactusBlockMixin",
@@ -43,7 +45,7 @@
 		"challenge.WitherSkullEntityMixin",
 		"challenge.WolfEntityMixin"
 	],
-	"client": [ "ArmorFeatureRendererMixin", "HeadFeatureRendererMixin" ],
+	"client": [ "ArmorFeatureRendererMixin", "CowEntityRendererMixin", "HeadFeatureRendererMixin" ],
 	"server": [ ],
 	"injectors": { "defaultRequire": 1 }
 }
