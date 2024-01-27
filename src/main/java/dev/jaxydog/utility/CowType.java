@@ -12,6 +12,7 @@ public enum CowType implements StringIdentifiable {
 
 	PINK("pink");
 
+	@SuppressWarnings("deprecation") // this sucks
 	public static final Codec<CowType> CODEC = StringIdentifiable.createCodec(CowType::values);
 	public static final TrackedData<String> COW_TYPE = DataTracker.registerData(CowEntity.class,
 		TrackedDataHandlerRegistry.STRING

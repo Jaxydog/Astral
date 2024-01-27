@@ -39,6 +39,7 @@ public abstract class CowEntityMixin extends PassiveEntityMixin {
 		return entity.getDataTracker().get(CowType.COW_TYPE).equals(type.asString());
 	}
 
+	@SuppressWarnings("SameParameterValue") // in case.
 	@Unique
 	private boolean isCowType(CowType type) {
 		return this.isCowType(this, type);
