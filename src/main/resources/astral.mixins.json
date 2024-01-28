@@ -3,6 +3,7 @@
 	"package": "dev.jaxydog.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"AnimalEntityMixin",
 		"ArmorItemMixin",
 		"CatEntityMixin",
 		"CowEntityMixin",

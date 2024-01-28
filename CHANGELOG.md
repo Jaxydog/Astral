@@ -11,7 +11,8 @@
 ### Content changes
 
 - Added the sinister effect, as well as corresponding potions.
-- Added chocolate milk (thank you, Ice :]).
+- Added chocolate & strawberry milk (thank you, Ice :]).
+- Added a pink cow variant (it's where pink milk comes from).
 - Added spray potions.
 - Added a recipe for crafting shroomlight.
 

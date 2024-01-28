@@ -6,12 +6,14 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.CowEntity;
+import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,12 +27,14 @@ public abstract class PassiveEntityMixin extends PathAwareEntity {
 		super(entityType, world);
 	}
 
+	@Shadow
+	public abstract boolean isBaby();
+
 	@Unique
-	protected void cowOverride(CowEntity cow) {
-	}
+	protected void pinkCowRng(CowEntity cow) {}
 
 	@Inject(method = "initialize", at = @At("TAIL"))
-	private void pain(
+	private void randomizeCowType(
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
@@ -38,8 +42,10 @@ public abstract class PassiveEntityMixin extends PathAwareEntity {
 		NbtCompound entityNbt,
 		CallbackInfoReturnable<EntityData> callbackInfo
 	) {
-		if ((PassiveEntity) (Object) this instanceof final CowEntity cow) {
-			this.cowOverride(cow);
+		final PassiveEntity self = (PassiveEntity) (Object) this;
+
+		if (self instanceof final CowEntity cow && !(self instanceof MooshroomEntity)) {
+			this.pinkCowRng(cow);
 		}
 	}
 

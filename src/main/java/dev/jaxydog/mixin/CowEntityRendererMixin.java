@@ -22,7 +22,7 @@ public class CowEntityRendererMixin {
 		at = @At("HEAD"),
 		cancellable = true
 	)
-	private void getTextures(CowEntity cowEntity, CallbackInfoReturnable<Identifier> callbackInfo) {
+	private void maybePinkTexture(CowEntity cowEntity, CallbackInfoReturnable<Identifier> callbackInfo) {
 		if (cowEntity.getDataTracker().get(CowType.COW_TYPE).equals(CowType.PINK.asString())) {
 			callbackInfo.setReturnValue(PINK_TEXTURE);
 		}

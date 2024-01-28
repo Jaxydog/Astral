@@ -7,13 +7,16 @@ import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.util.StringIdentifiable;
 
 public enum CowType implements StringIdentifiable {
-	BROWN("brown"), PINK("pink");
 
-	public static final TrackedData<String> COW_TYPE = DataTracker.registerData(
-		CowEntity.class,
+	BROWN("brown"),
+
+	PINK("pink");
+
+	@SuppressWarnings("deprecation") // this sucks
+	public static final Codec<CowType> CODEC = StringIdentifiable.createCodec(CowType::values);
+	public static final TrackedData<String> COW_TYPE = DataTracker.registerData(CowEntity.class,
 		TrackedDataHandlerRegistry.STRING
 	);
-	public static final StringIdentifiable.Codec<CowType> CODEC = StringIdentifiable.createCodec(dev.jaxydog.utility.CowType::values);
 
 	private final String name;
 

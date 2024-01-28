@@ -57,7 +57,7 @@ public final class CustomItems extends ContentRegistrar {
 	public static final ChocolateMilkItem CHOCOLATE_MILK = new ChocolateMilkItem("chocolate_milk",
 		new Settings().food(FoodComponents.CHOCOLATE_MILK).maxCount(16)
 	);
-	public static final StrawberryMilkItem STRAWBERRY_MILK = new StrawberryMilkItem("strawberry_milk",
+	public static final BottleItem STRAWBERRY_MILK = new BottleItem("strawberry_milk",
 		new Settings().food(FoodComponents.STRAWBERRY_MILK).maxCount(16)
 	);
 
