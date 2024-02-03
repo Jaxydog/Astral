@@ -12,6 +12,7 @@ import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 
 /** Contains definitions for all custom powers */
+@SuppressWarnings("unused")
 public final class CustomPowers extends ContentRegistrar {
 
     public static final CustomPowerFactory<ConditionedCooldownPower> CONDITIONED_COOLDOWN = ConditionedCooldownPower.createConditionedCooldownFactory();
