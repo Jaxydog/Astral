@@ -7,6 +7,7 @@
 - Added basic support for entities.
 - Improved support for potions.
 - Made sprayable items more generic.
+- Adjusted the range for sound pitches from `0.5-2.0` to `0.01-255.0`
 
 ### Content changes
 
@@ -15,6 +16,7 @@
 - Added a pink cow variant (it's where pink milk comes from).
 - Added spray potions.
 - Added a recipe for crafting shroomlight.
+- The `playsound` command now supports any pitch from `0.01-255.0`
 
 # Release 1.6.0
 
