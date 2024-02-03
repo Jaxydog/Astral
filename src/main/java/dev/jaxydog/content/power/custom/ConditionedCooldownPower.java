@@ -66,10 +66,6 @@ public class ConditionedCooldownPower extends CustomPower implements HudRendered
         PowerHolderComponent.syncPower(this.entity, this.type);
     }
 
-    public float getProgress() {
-        return this.getFill();
-    }
-
     public int getRemainingTicks() {
         return this.duration - this.progress;
     }
