@@ -38,195 +38,197 @@ import java.util.List;
 
 public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 
-	public static final int MAX_USES = 6;
-	public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
+    public static final int MAX_USES = 6;
+    public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
 
-	public SprayPotionItem(String rawId, Settings settings) {
-		super(rawId, settings);
-	}
+    public SprayPotionItem(String rawId, Settings settings) {
+        super(rawId, settings);
+    }
 
-	public int getColor(ItemStack stack, int index) {
-		return index == 0 ? PotionUtil.getColor(stack) : 0xFFFFFF;
-	}
+    public int getColor(ItemStack stack, int index) {
+        return index == 0 ? PotionUtil.getColor(stack) : 0xFFFFFF;
+    }
 
-	private StatusEffectInstance shortened(StatusEffectInstance instance) {
-		return new StatusEffectInstance(instance.getEffectType(),
-			Math.round(instance.getDuration() * DURATION_MULTIPLIER),
-			instance.getAmplifier(),
-			instance.isAmbient(),
-			instance.shouldShowParticles(),
-			instance.shouldShowIcon(),
-			null,
-			instance.getFactorCalculationData()
-		);
-	}
+    private StatusEffectInstance shortened(StatusEffectInstance instance) {
+        return new StatusEffectInstance(instance.getEffectType(),
+            Math.round(instance.getDuration() * DURATION_MULTIPLIER),
+            instance.getAmplifier(),
+            instance.isAmbient(),
+            instance.shouldShowParticles(),
+            instance.shouldShowIcon(),
+            null,
+            instance.getFactorCalculationData()
+        );
+    }
 
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		PotionUtil.buildTooltip(stack, tooltip, DURATION_MULTIPLIER);
-	}
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        PotionUtil.buildTooltip(stack, tooltip, DURATION_MULTIPLIER);
+    }
 
-	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-		return TypedActionResult.pass(player.getStackInHand(hand));
-	}
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        return TypedActionResult.pass(player.getStackInHand(hand));
+    }
 
-	@Override
-	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-		return stack;
-	}
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        return stack;
+    }
 
-	@Override
-	public int getMaxUseTime(ItemStack stack) {
-		return 0;
-	}
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return 0;
+    }
 
-	private int sprayEntity(ItemStack stack, @Nullable PlayerEntity player, LivingEntity entity) {
-		int charges = 0;
+    private int sprayEntity(ItemStack stack, @Nullable PlayerEntity player, LivingEntity entity) {
+        int charges = 0;
 
-		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+        final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
 
-		powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+        powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
 
-		for (final ActionOnSprayPower power : powers) {
-			if (!power.canSprayEntity(stack, entity)) continue;
+        for (final ActionOnSprayPower power : powers) {
+            if (!power.canSprayEntity(stack, entity)) continue;
 
-			if (power.onSprayEntity(stack, entity)) {
-				charges = Math.max(charges, power.getCharges());
-			}
-		}
+            if (power.onSprayEntity(stack, entity)) {
+                charges = Math.max(charges, power.getCharges());
+            }
+        }
 
-		for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(stack)) {
-			if (effect.getEffectType().isInstant()) {
-				effect.getEffectType().applyInstantEffect(player, player, entity, effect.getAmplifier(), 1D);
+        for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(stack)) {
+            if (effect.getEffectType().isInstant()) {
+                effect.getEffectType().applyInstantEffect(player, player, entity, effect.getAmplifier(), 1D);
 
-				charges = Math.max(charges, 1);
-			} else if (entity.addStatusEffect(this.shortened(effect), player)) {
-				charges = Math.max(charges, 1);
-			}
-		}
+                charges = Math.max(charges, 1);
+            } else if (entity.addStatusEffect(this.shortened(effect), player)) {
+                charges = Math.max(charges, 1);
+            }
+        }
 
-		return charges;
-	}
+        return charges;
+    }
 
-	@Override
-	public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
-		final int charges = this.sprayEntity(stack, player, entity);
+    @Override
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
+        if (player.getItemCooldownManager().isCoolingDown(this)) return ActionResult.PASS;
 
-		if (charges == 0) return ActionResult.PASS;
+        final int charges = this.sprayEntity(stack, player, entity);
 
-		this.spray(stack, player.getWorld(), player, charges);
+        if (charges == 0) return ActionResult.PASS;
 
-		if (this.isEmptied(stack)) {
-			player.getInventory().removeOne(stack);
-			player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
-		}
+        this.spray(stack, player.getWorld(), player, charges);
 
-		return ActionResult.success(player.getWorld().isClient());
-	}
+        if (this.isEmptied(stack)) {
+            player.getInventory().removeOne(stack);
+            player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
+        }
 
-	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		final ItemStack stack = context.getStack();
-		final PlayerEntity player = context.getPlayer();
-		final World world = context.getWorld();
-		final BlockPos blockPos = context.getBlockPos();
-		final Direction side = context.getSide();
-		final BlockState oldState = world.getBlockState(blockPos);
-		final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+        return ActionResult.success(player.getWorld().isClient());
+    }
 
-		int charges = 0;
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        final ItemStack stack = context.getStack();
+        final PlayerEntity player = context.getPlayer();
+        final World world = context.getWorld();
+        final BlockPos blockPos = context.getBlockPos();
+        final Direction side = context.getSide();
+        final BlockState oldState = world.getBlockState(blockPos);
+        final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
 
-		powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+        int charges = 0;
 
-		for (final ActionOnSprayPower power : powers) {
-			if (!power.canSprayBlock(stack, world, blockPos, side)) continue;
+        powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
 
-			if (power.onSprayBlock(stack, world, blockPos, side)) {
-				charges = Math.max(charges, power.getCharges());
-			}
-		}
+        for (final ActionOnSprayPower power : powers) {
+            if (!power.canSprayBlock(stack, world, blockPos, side)) continue;
 
-		if (charges == 0) return ActionResult.PASS;
+            if (power.onSprayBlock(stack, world, blockPos, side)) {
+                charges = Math.max(charges, power.getCharges());
+            }
+        }
 
-		final BlockState newState = world.getBlockState(blockPos);
+        if (charges == 0) return ActionResult.PASS;
 
-		if (!oldState.equals(newState)) {
-			final GameEvent.Emitter emitter;
+        final BlockState newState = world.getBlockState(blockPos);
 
-			if (player == null) {
-				emitter = GameEvent.Emitter.of(newState);
-			} else {
-				emitter = GameEvent.Emitter.of(player, newState);
-			}
+        if (!oldState.equals(newState)) {
+            final GameEvent.Emitter emitter;
 
-			world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
-		}
+            if (player == null) {
+                emitter = GameEvent.Emitter.of(newState);
+            } else {
+                emitter = GameEvent.Emitter.of(player, newState);
+            }
 
-		if (player instanceof final ServerPlayerEntity serverPlayer) {
-			Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
-		}
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+        }
 
-		this.spray(stack, world, player, charges);
+        if (player instanceof final ServerPlayerEntity serverPlayer) {
+            Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
+        }
 
-		return ActionResult.success(player.getWorld().isClient());
-	}
+        this.spray(stack, world, player, charges);
 
-	@Override
-	public void register() {
-		super.register();
+        return ActionResult.success(player.getWorld().isClient());
+    }
 
-		BrewingRecipeRegistry.registerPotionType(this);
-		BrewingRecipeRegistry.registerItemRecipe(Items.POTION, CustomItems.CLOUDY_MANE, this);
+    @Override
+    public void register() {
+        super.register();
 
-		DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
+        BrewingRecipeRegistry.registerPotionType(this);
+        BrewingRecipeRegistry.registerItemRecipe(Items.POTION, CustomItems.CLOUDY_MANE, this);
 
-			@Override
-			protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-				if (stack.getItem() instanceof final SprayPotionItem item) {
-					this.setSuccess(false);
-				} else {
-					return super.dispenseSilently(pointer, stack);
-				}
+        DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
 
-				final ServerWorld world = pointer.getWorld();
-				final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
-				final BlockPos blockPos = pointer.getPos().offset(direction);
+            @Override
+            protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+                if (stack.getItem() instanceof final SprayPotionItem item) {
+                    this.setSuccess(false);
+                } else {
+                    return super.dispenseSilently(pointer, stack);
+                }
 
-				int charges = 0;
+                final ServerWorld world = pointer.getWorld();
+                final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
+                final BlockPos blockPos = pointer.getPos().offset(direction);
 
-				final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
-					new Box(blockPos),
-					EntityPredicates.EXCEPT_SPECTATOR
-				);
+                int charges = 0;
 
-				for (final LivingEntity entity : entities) {
-					charges = Math.max(charges, item.sprayEntity(stack, null, entity));
+                final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
+                    new Box(blockPos),
+                    EntityPredicates.EXCEPT_SPECTATOR
+                );
 
-					if (charges >= stack.getMaxDamage()) break;
-				}
+                for (final LivingEntity entity : entities) {
+                    charges = Math.max(charges, item.sprayEntity(stack, null, entity));
 
-				if (charges > 0) {
-					item.spray(stack, world, null, charges);
+                    if (charges >= stack.getMaxDamage()) break;
+                }
 
-					this.setSuccess(true);
+                if (charges > 0) {
+                    item.spray(stack, world, null, charges);
 
-					if (stack.getDamage() >= stack.getMaxDamage()) {
-						return Items.GLASS_BOTTLE.getDefaultStack();
-					} else {
-						return stack;
-					}
-				}
+                    this.setSuccess(true);
 
-				return stack;
-			}
+                    if (stack.getDamage() >= stack.getMaxDamage()) {
+                        return Items.GLASS_BOTTLE.getDefaultStack();
+                    } else {
+                        return stack;
+                    }
+                }
 
-		});
-	}
+                return stack;
+            }
 
-	@Override
-	public void registerClient() {
-		ColorProviderRegistry.ITEM.register(this::getColor, this);
-	}
+        });
+    }
+
+    @Override
+    public void registerClient() {
+        ColorProviderRegistry.ITEM.register(this::getColor, this);
+    }
 
 }
