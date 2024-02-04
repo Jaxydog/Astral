@@ -17,7 +17,7 @@
 - Added spray potions.
 - Added a recipe for crafting shroomlight.
 - The `playsound` command now supports any pitch from `0.01-255.0`
-- Added the `astral:conditioned_cooldown` and `astral:action_on_key` powers.
+- Added the `astral:ticking_cooldown` and `astral:action_on_key` powers.
 
 # Release 1.6.0
 

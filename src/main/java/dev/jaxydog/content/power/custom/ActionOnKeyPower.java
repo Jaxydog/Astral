@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class ActionOnKeyPower extends ConditionedCooldownPower implements Active {
+public class ActionOnKeyPower extends TickingCooldownPower implements Active {
 
     private final Consumer<Entity> activeFunction;
 
@@ -26,9 +26,12 @@ public class ActionOnKeyPower extends ConditionedCooldownPower implements Active
         int duration,
         HudRender hudRender,
         @Nullable Predicate<Entity> tickCondition,
+        @Nullable Consumer<Entity> minAction,
+        @Nullable Consumer<Entity> setAction,
+        @Nullable Consumer<Entity> maxAction,
         Consumer<Entity> activeFunction
     ) {
-        super(type, entity, duration, hudRender, tickCondition);
+        super(type, entity, duration, hudRender, tickCondition, minAction, setAction, maxAction);
 
         this.activeFunction = activeFunction;
     }
@@ -39,6 +42,9 @@ public class ActionOnKeyPower extends ConditionedCooldownPower implements Active
             new SerializableData().add("cooldown", SerializableDataTypes.INT)
                 .add("hud_render", ApoliDataTypes.HUD_RENDER, HudRender.DONT_RENDER)
                 .add("tick_condition", ApoliDataTypes.ENTITY_CONDITION, null)
+                .add("min_action", ApoliDataTypes.ENTITY_ACTION, null)
+                .add("set_action", ApoliDataTypes.ENTITY_ACTION, null)
+                .add("max_action", ApoliDataTypes.ENTITY_ACTION, null)
                 .add("entity_action", ApoliDataTypes.ENTITY_ACTION)
                 .add("key", ApoliDataTypes.KEY, new Key()),
             data -> (type, player) -> {
@@ -48,6 +54,9 @@ public class ActionOnKeyPower extends ConditionedCooldownPower implements Active
                     data.getInt("cooldown"),
                     data.get("hud_render"),
                     data.get("tick_condition"),
+                    data.get("min_action"),
+                    data.get("set_action"),
+                    data.get("max_action"),
                     data.get("entity_action")
                 );
 

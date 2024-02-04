@@ -6,7 +6,7 @@ import net.minecraft.server.command.PlaySoundCommand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(PlaySoundCommand.class)
+@Mixin(value = PlaySoundCommand.class, remap = false)
 public class PlaySoundCommandMixin {
 
     @ModifyExpressionValue(

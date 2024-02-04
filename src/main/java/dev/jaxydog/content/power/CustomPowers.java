@@ -4,8 +4,8 @@ import dev.jaxydog.content.data.CustomData;
 import dev.jaxydog.content.data.ScaleOperation;
 import dev.jaxydog.content.power.custom.ActionOnKeyPower;
 import dev.jaxydog.content.power.custom.ActionOnSprayPower;
-import dev.jaxydog.content.power.custom.ConditionedCooldownPower;
 import dev.jaxydog.content.power.custom.ScalePower;
+import dev.jaxydog.content.power.custom.TickingCooldownPower;
 import dev.jaxydog.register.ContentRegistrar;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.calio.data.SerializableData;
@@ -15,7 +15,7 @@ import io.github.apace100.calio.data.SerializableDataTypes;
 @SuppressWarnings("unused")
 public final class CustomPowers extends ContentRegistrar {
 
-    public static final CustomPowerFactory<ConditionedCooldownPower> CONDITIONED_COOLDOWN = ConditionedCooldownPower.createConditionedCooldownFactory();
+    public static final CustomPowerFactory<TickingCooldownPower> TICKING_COOLDOWN = TickingCooldownPower.createTickingCooldownFactory();
 
     public static final CustomPowerFactory<ActionOnKeyPower> ACTION_ON_KEY = ActionOnKeyPower.createActionOnKeyFactory();
 
