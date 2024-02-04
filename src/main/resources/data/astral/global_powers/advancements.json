@@ -1,0 +1,4 @@
+{
+    "entity_types": [ "minecraft:player" ],
+    "powers": [ "astral:advancements" ]
+}
