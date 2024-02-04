@@ -38,7 +38,7 @@ import java.util.List;
 
 public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 
-    public static final int MAX_USES = 6;
+    public static final int MAX_USES = 3;
     public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
 
     public SprayPotionItem(String rawId, Settings settings) {
