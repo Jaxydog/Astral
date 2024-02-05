@@ -8,6 +8,7 @@
 - Improved support for potions.
 - Made sprayable items more generic.
 - Adjusted the range for sound pitches from `0.5-2.0` to `0.01-255.0`
+- Refactored and cleaned up the currency system implementation.
 
 ### Content changes
 
@@ -19,7 +20,7 @@
 - The `playsound` command now supports any pitch from `0.01-255.0`
 - Added the `astral:ticking_cooldown` and `astral:action_on_key` powers.
 - The `astral:advancements` power is now added to all players globally.
-- Many, many things are now documented! See [CONTENT.md](CONTENT.md).
+- Many, many things are now documented! See [CONTENT.md](CONTENT.md) and the `docs` directory.
 
 # Release 1.6.0
 

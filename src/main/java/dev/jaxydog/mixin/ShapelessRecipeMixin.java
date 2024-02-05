@@ -13,18 +13,18 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ShapelessRecipe.class)
 public abstract class ShapelessRecipeMixin {
 
-	@ModifyReturnValue(
-		method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",
-		at = @At("RETURN")
-	)
-	private ItemStack preventExchange(ItemStack stack) {
-		final Item item = stack.getItem();
+    @ModifyReturnValue(
+        method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",
+        at = @At("RETURN")
+    )
+    private ItemStack preventExchange(ItemStack stack) {
+        final Item item = stack.getItem();
 
-		if (Unit.find(item).isPresent() || Reward.find(item).isPresent()) {
-			stack.getOrCreateNbt().putBoolean(CurrencyUtil.EXCHANGE_KEY, false);
-		}
+        if (Unit.UNITS.findByItem(item).isPresent() || Reward.REWARDS.findByItem(item).isPresent()) {
+            stack.getOrCreateNbt().putBoolean(CurrencyUtil.EXCHANGE_KEY, false);
+        }
 
-		return stack;
-	}
+        return stack;
+    }
 
 }

@@ -15,13 +15,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerInventory.class)
 public abstract class PlayerInventoryMixin implements Inventory, Nameable {
 
-	@Shadow
-	@Final
-	public PlayerEntity player;
+    @Shadow
+    @Final
+    public PlayerEntity player;
 
-	@Inject(method = "updateItems", at = @At("TAIL"))
-	private void updateItemsInject(CallbackInfo callbackInfo) {
-		CurrencyUtil.tryExchange(this.player, (PlayerInventory) (Object) this);
-	}
+    @Inject(method = "updateItems", at = @At("TAIL"))
+    private void updateItemsInject(CallbackInfo callbackInfo) {
+        CurrencyUtil.tryExchange(this.player, (PlayerInventory) (Object) this);
+    }
 
 }
