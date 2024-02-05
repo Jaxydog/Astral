@@ -4,7 +4,9 @@ The standard copyright notice is as follows:
 /*
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Copyright (C) 2024-2025 Name A, Name B, Name C
+ * Copyright © 2023–2025 Name A
+ * Copyright © 2024–2025 Name B
+ *
  *
  * This file is part of Astral.
  *
@@ -21,7 +23,11 @@ If you are using IntelliJ, or any other editor that supports Velocity template h
 ```text
 SPDX-License-Identifier: AGPL-3.0-or-later
 
-Copyright (C) $originalComment.match("Copyright \(C\) (\d+)", 1, "-", "$today.year")$today.year $originalComment.match("Copyright \(C\) \d+(?:-\d+)? ([\w\d, ]+)")
+#if( $originalComment.match("((?:Copyright © \d+(?:–\d+)? [\w\d ]+\n)+)", 1, "", "") != "" )
+$originalComment.match("((?:Copyright © \d+(?:–\d+)? [\w\d ]+\n)+)", 1, "", "")
+#else
+Copyright © 2024 Name
+#end
 
 This file is part of $project.name.
 
