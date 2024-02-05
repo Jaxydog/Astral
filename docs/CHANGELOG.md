@@ -19,6 +19,7 @@
 - The `playsound` command now supports any pitch from `0.01-255.0`
 - Added the `astral:ticking_cooldown` and `astral:action_on_key` powers.
 - The `astral:advancements` power is now added to all players globally.
+- Many, many things are now documented! See [CONTENT.md](CONTENT.md).
 
 # Release 1.6.0
 
