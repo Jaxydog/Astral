@@ -46,6 +46,9 @@ import java.util.function.Predicate;
  */
 public class UnobstructedBlockInRadiusCondition extends CustomCondition<Entity> {
 
+    // Should be reasonably accurate while not being too small.
+    private static final double DEFAULT_STEP_SIZE = 0.125D;
+
     public UnobstructedBlockInRadiusCondition(String rawId) {
         super(rawId);
     }
@@ -108,6 +111,7 @@ public class UnobstructedBlockInRadiusCondition extends CustomCondition<Entity> 
         final Comparison comparison = data.get("comparison");
         final int compareTo = data.getInt("compare_to");
 
+        final double actualStepSize = stepSize <= 0D ? DEFAULT_STEP_SIZE : stepSize;
         final World world = entity.getWorld();
         final BlockPos entityPos = entity.getBlockPos();
         // Exits early if there are more blocks than expected, or if the count quota is reached.
@@ -123,7 +127,7 @@ public class UnobstructedBlockInRadiusCondition extends CustomCondition<Entity> 
             final CachedBlockPosition cached = new CachedBlockPosition(world, blockPos, true);
 
             // Skip if the block condition fails or if there is a block in the way.
-            if (!blockCondition.test(cached) || simpleRaycast(world, entityPos, blockPos, stepSize)) continue;
+            if (!blockCondition.test(cached) || simpleRaycast(world, entityPos, blockPos, actualStepSize)) continue;
 
             count += 1;
 
@@ -140,7 +144,7 @@ public class UnobstructedBlockInRadiusCondition extends CustomCondition<Entity> 
             new SerializableData().add("block_condition", ApoliDataTypes.BLOCK_CONDITION)
                 .add("shape", SerializableDataType.enumValue(Shape.class), Shape.CUBE)
                 .add("radius", SerializableDataTypes.INT)
-                .add("step_size", SerializableDataTypes.DOUBLE, 0.125D) // Should be reasonably accurate.
+                .add("step_size", SerializableDataTypes.DOUBLE, DEFAULT_STEP_SIZE)
                 .add("comparison", ApoliDataTypes.COMPARISON, Comparison.GREATER_THAN_OR_EQUAL)
                 .add("compare_to", SerializableDataTypes.INT, 1),
             this::check
