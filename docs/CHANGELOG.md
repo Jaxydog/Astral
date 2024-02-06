@@ -9,6 +9,7 @@
 - Made sprayable items more generic.
 - Adjusted the range for sound pitches from `0.5-2.0` to `0.01-255.0`
 - Refactored and cleaned up the currency system implementation.
+- Reorganized custom power file locations.
 
 ### Content changes
 
@@ -19,6 +20,7 @@
 - Added a recipe for crafting shroomlight.
 - The `playsound` command now supports any pitch from `0.01-255.0`
 - Added the `astral:ticking_cooldown` and `astral:action_on_key` powers.
+- Added the `astral:unobstructed_block_in_radius` power.
 - The `astral:advancements` power is now added to all players globally.
 - Many, many things are now documented! See [CONTENT.md](CONTENT.md) and the `docs` directory.
 

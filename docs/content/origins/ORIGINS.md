@@ -30,3 +30,4 @@
 
 - [Distance](condition/entity/DISTANCE.md)
 - [Moon Phase](condition/entity/MOON_PHASE.md)
+- [Unobstructed Block in Radius](condition/entity/UNOBSTRUCTED_BLOCK_IN_RADIUS.md)
