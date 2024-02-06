@@ -172,7 +172,6 @@ public interface CurrencyUtil {
             final String thisNamespace = Unit.UNITS.getId(unit).map(Identifier::getNamespace).orElse(Astral.MOD_ID);
             final String nextNamespace = maybeNext.get().getKey().getNamespace();
             final Unit next = maybeNext.get().getValue();
-            final ItemStack stack = next.getItem().getDefaultStack();
             // Calculate the "price" (conversion rate) and total allowed stack instances.
             final int price;
 
@@ -195,6 +194,8 @@ public interface CurrencyUtil {
                 total * price,
                 player.playerScreenHandler.getCraftingInput()
             );
+
+            final ItemStack stack = next.getItem().getDefaultStack();
 
             stack.setCount(total);
             inventory.offerOrDrop(stack);
