@@ -22,7 +22,7 @@
 - Added the `astral:ticking_cooldown` and `astral:action_on_key` powers.
 - Added the `astral:unobstructed_block_in_radius` power.
 - The `astral:advancements` power is now added to all players globally.
-- Many, many things are now documented! See [CONTENT.md](CONTENT.md) and the `docs` directory.
+- Many, many things are now documented! See [our new documentation page](https://astral-smp.readthedocs.io/en/latest/).
 
 # Release 1.6.0
 
