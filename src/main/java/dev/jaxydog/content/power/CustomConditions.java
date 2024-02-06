@@ -6,6 +6,7 @@ import dev.jaxydog.content.power.condition.UnobstructedBlockInRadiusCondition;
 import dev.jaxydog.register.ContentRegistrar;
 
 /** Contains definitions for all custom conditions */
+@SuppressWarnings("unused")
 public final class CustomConditions extends ContentRegistrar {
 
     public static final DistanceCondition DISTANCE = new DistanceCondition("distance");
