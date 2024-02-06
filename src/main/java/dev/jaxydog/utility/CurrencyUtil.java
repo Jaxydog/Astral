@@ -17,6 +17,7 @@ package dev.jaxydog.utility;
 import com.google.gson.*;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.CustomGamerules;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -39,6 +40,7 @@ import org.jetbrains.annotations.ApiStatus.NonExtendable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -162,14 +164,28 @@ public interface CurrencyUtil {
         }
 
         unitCounts.forEach((unit, count) -> {
-            final Optional<Unit> maybeNext = unit.next(true);
+            final Optional<Entry<Identifier, Unit>> maybeNext = unit.next(true);
 
             if (maybeNext.isEmpty()) return;
 
-            final Unit next = maybeNext.get();
+            // Default to using the mod's default namespace in case the unit isn't registered.
+            final String thisNamespace = Unit.UNITS.getId(unit).map(Identifier::getNamespace).orElse(Astral.MOD_ID);
+            final String nextNamespace = maybeNext.get().getKey().getNamespace();
+            final Unit next = maybeNext.get().getValue();
             final ItemStack stack = next.getItem().getDefaultStack();
             // Calculate the "price" (conversion rate) and total allowed stack instances.
-            final int price = next.value() / unit.value();
+            final int price;
+
+            // Make sure we use the converted value if this is from a different namespace.
+            if (thisNamespace.equals(nextNamespace)) {
+                price = next.value() / unit.value();
+            } else {
+                price = next.value() / unit.exchanges().get(nextNamespace);
+            }
+
+            // Should never happen, but it's better to add a safeguard in case I do something stupid.
+            if (price == 0) return;
+
             final int total = count / price;
 
             if (total == 0) return;
@@ -351,6 +367,17 @@ public interface CurrencyUtil {
         }
 
         /**
+         * Finds and returns the identifier of the provided value.
+         *
+         * @param value The value to get the identifier of.
+         *
+         * @return The identifier associated with the value.
+         */
+        public Optional<Identifier> getId(T value) {
+            return this.map.entrySet().stream().filter(e -> e.getValue().equals(value)).map(Entry::getKey).findFirst();
+        }
+
+        /**
          * Returns the total number of registered values within the inner map.
          *
          * @return The total number of registered values.
@@ -366,6 +393,15 @@ public interface CurrencyUtil {
          */
         public boolean isEmpty() {
             return this.map.isEmpty();
+        }
+
+        /**
+         * Returns a set containing the registered values and their identifiers.
+         *
+         * @return The registered entries.
+         */
+        public Set<Entry<Identifier, T>> entrySet() {
+            return this.map.entrySet();
         }
 
         /**
@@ -388,7 +424,8 @@ public interface CurrencyUtil {
      *
      * @author Jaxydog
      */
-    record Unit(Identifier itemIdentifier, int value, boolean hasDrops) implements ItemRepresenting, Comparable<Unit> {
+    record Unit(Identifier itemIdentifier, int value, boolean hasDrops, Map<String, Integer> exchanges)
+        implements ItemRepresenting, Comparable<Unit> {
 
         public static final ItemMap<Unit> UNITS = new ItemMap<>();
         private static final Comparator<Unit> COMPARATOR = Comparator.comparingInt(Unit::value);
@@ -403,9 +440,35 @@ public interface CurrencyUtil {
          */
         public static Unit parse(Identifier itemIdentifier, JsonObject object) {
             final int value = JsonHelper.getInt(object, "value");
-            final boolean hasDrops = JsonHelper.getBoolean(object, "drops", false);
 
-            return new Unit(itemIdentifier, value, hasDrops);
+            if (value <= 0) {
+                throw new JsonParseException("Expected a positive non-zero value");
+            }
+
+            final boolean hasDrops = JsonHelper.getBoolean(object, "drops", false);
+            final Map<String, Integer> exchanges;
+
+            if (object.has("exchanges")) {
+                final JsonObject exchangesObject = JsonHelper.getObject(object, "exchanges");
+
+                exchanges = new Object2IntOpenHashMap<>(exchangesObject.size());
+
+                for (final Entry<String, JsonElement> entry : exchangesObject.entrySet()) {
+                    if (!entry.getValue().isJsonPrimitive()) continue;
+
+                    final int effectiveValue = entry.getValue().getAsJsonPrimitive().getAsInt();
+
+                    if (effectiveValue <= 0) {
+                        throw new JsonParseException("Expected a positive non-zero exchange value");
+                    }
+
+                    exchanges.put(entry.getKey(), effectiveValue);
+                }
+            } else {
+                exchanges = Map.of();
+            }
+
+            return new Unit(itemIdentifier, value, hasDrops, exchanges);
         }
 
         /**
@@ -415,14 +478,41 @@ public interface CurrencyUtil {
          *
          * @return The next unit determined by value.
          */
-        public Optional<Unit> next(boolean exactMultiple) {
-            final Stream<Unit> stream = UNITS.values().stream().sorted().filter(u -> u.value() > this.value());
+        public Optional<Entry<Identifier, Unit>> next(boolean exactMultiple) {
+            // Default to using the mod's default namespace in case the unit isn't registered.
+            final String thisNamespace = UNITS.getId(this).map(Identifier::getNamespace).orElse(Astral.MOD_ID);
 
-            if (exactMultiple) {
-                return stream.filter(u -> u.value() % this.value() == 0).findFirst();
-            } else {
-                return stream.findFirst();
-            }
+            final Stream<Entry<Identifier, Unit>> stream = UNITS.entrySet()
+                .stream()
+                .filter(e -> !e.getValue().equals(this))
+                .flatMap(entry -> {
+                    final String namespace = entry.getKey().getNamespace();
+
+                    // Make sure we use the converted value if this is from a different namespace.
+                    if (this.exchanges().containsKey(namespace)) {
+                        final int value = this.exchanges().get(namespace);
+
+                        return Stream.of(entry).filter(e -> e.getValue().value() % value == 0);
+                    } else if (namespace.equals(thisNamespace)) {
+                        return Stream.of(entry).filter(e -> e.getValue().value() % this.value() == 0);
+                    } else {
+                        return Stream.empty();
+                    }
+                });
+
+            if (!exactMultiple) return stream.min(Comparator.comparingInt(e -> e.getValue().value()));
+
+            // Make sure we use the converted value if this is from a different namespace.
+            return stream.filter(entry -> {
+                // Make sure we use the converted value if this is from a different namespace.
+                if (entry.getKey().getNamespace().equals(thisNamespace)) {
+                    return entry.getValue().value() % this.value() == 0;
+                } else {
+                    final int value = this.exchanges().get(entry.getKey().getNamespace());
+
+                    return entry.getValue().value() % value == 0;
+                }
+            }).min(Comparator.comparingInt(e -> e.getValue().value()));
         }
 
         @Override
@@ -463,6 +553,10 @@ public interface CurrencyUtil {
          */
         public static Reward parse(Identifier itemIdentifier, JsonObject object) {
             final int weight = JsonHelper.getInt(object, "weight");
+
+            if (weight <= 0) {
+                throw new JsonParseException("Expected a positive non-zero weight");
+            }
 
             return new Reward(itemIdentifier, weight);
         }
