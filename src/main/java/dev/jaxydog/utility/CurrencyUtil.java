@@ -630,6 +630,10 @@ public interface CurrencyUtil {
                 }
             }
 
+            if (requirements.isEmpty()) {
+                throw new JsonParseException("Expected a non-empty cost array");
+            }
+
             return new Skeleton(itemIdentifier, requirements);
         }
 
