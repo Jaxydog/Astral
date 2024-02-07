@@ -2,10 +2,7 @@ package dev.jaxydog.content.power;
 
 import dev.jaxydog.content.data.CustomData;
 import dev.jaxydog.content.data.ScaleOperation;
-import dev.jaxydog.content.power.custom.ActionOnKeyPower;
-import dev.jaxydog.content.power.custom.ActionOnSprayPower;
-import dev.jaxydog.content.power.custom.ScalePower;
-import dev.jaxydog.content.power.custom.TickingCooldownPower;
+import dev.jaxydog.content.power.custom.*;
 import dev.jaxydog.register.ContentRegistrar;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.calio.data.SerializableData;
@@ -19,6 +16,10 @@ public final class CustomPowers extends ContentRegistrar {
 
     public static final CustomPowerFactory<ActionOnKeyPower> ACTION_ON_KEY = ActionOnKeyPower.createActionOnKeyFactory();
 
+    public static final CustomPowerFactory<ModifyScalePower> MODIFY_SCALE = ModifyScalePower.getFactory();
+
+    @SuppressWarnings("removal") // To be removed in tandem.
+    @Deprecated(since = "1.7.0", forRemoval = true)
     public static final CustomPowerFactory<ScalePower> SCALE = new CustomPowerFactory<ScalePower>(
         "scale",
         new SerializableData().add("width", SerializableDataTypes.FLOAT, 1F)

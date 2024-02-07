@@ -10,6 +10,7 @@
 - Adjusted the range for sound pitches from `0.5-2.0` to `0.01-255.0`
 - Refactored and cleaned up the currency system implementation.
 - Reorganized custom power file locations.
+- Deprecated `astral:scale`
 
 ### Content changes
 
@@ -21,6 +22,7 @@
 - The `playsound` command now supports any pitch from `0.01-255.0`
 - Added the `astral:ticking_cooldown` and `astral:action_on_key` powers.
 - Added the `astral:unobstructed_block_in_radius` power.
+- Added the `astral:modify_scale` power, intended to replace `astral:scale`.
 - The `astral:advancements` power is now added to all players globally.
 - Many, many things are now documented! See [our new documentation page](https://astral-smp.readthedocs.io/en/latest/).
 
