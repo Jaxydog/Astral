@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "astral:block/orange_small_amethyst_bud"
+  }
+}

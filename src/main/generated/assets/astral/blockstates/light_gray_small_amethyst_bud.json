@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "astral:block/light_gray_small_amethyst_bud",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "astral:block/light_gray_small_amethyst_bud",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "astral:block/light_gray_small_amethyst_bud",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "astral:block/light_gray_small_amethyst_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "astral:block/light_gray_small_amethyst_bud"
+    },
+    "facing=west": {
+      "model": "astral:block/light_gray_small_amethyst_bud",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

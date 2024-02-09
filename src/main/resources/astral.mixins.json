@@ -13,6 +13,7 @@
         "ItemMixin",
         "ItemStackMixin",
         "LightningEntityMixin",
+        "ModelMixin",
         "MooshroomEntityMixin",
         "ParrotEntityMixin",
         "PassiveEntityMixin",

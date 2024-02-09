@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "astral:block/yellow_amethyst_cluster",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "astral:block/yellow_amethyst_cluster",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "astral:block/yellow_amethyst_cluster",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "astral:block/yellow_amethyst_cluster",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "astral:block/yellow_amethyst_cluster"
+    },
+    "facing=west": {
+      "model": "astral:block/yellow_amethyst_cluster",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

@@ -1,4 +1,0 @@
-{
-    "parent": "block/cross",
-    "textures": { "cross": "astral:block/magenta_amethyst_cluster" }
-}

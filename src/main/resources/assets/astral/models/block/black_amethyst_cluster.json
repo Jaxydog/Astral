@@ -1,4 +1,0 @@
-{
-    "parent": "minecraft:block/cross",
-    "textures": { "cross": "astral:block/black_amethyst_cluster" }
-}
