@@ -47,6 +47,21 @@ public interface ColorUtil {
             return this.asInt() & 0xFF;
         }
 
+        /** Returns the color's hue */
+        public float hue() {
+            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null)[0];
+        }
+
+        /** Returns the color's saturation */
+        public float saturation() {
+            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null)[1];
+        }
+
+        /** Returns the color's brightness */
+        public float brightness() {
+            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null)[2];
+        }
+
         /** Maps each component using the given closure. */
         public Rgb map(Function<Integer, Integer> f) {
             final int r = f.apply(this.r());
