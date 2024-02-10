@@ -15,6 +15,7 @@
 package dev.jaxydog.datagen;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -27,6 +28,7 @@ import net.minecraft.registry.tag.TagKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -96,7 +98,7 @@ public class TagGenerator implements DataProvider {
      */
     private static class Instance<T> extends FabricTagProvider<T> {
 
-        private final Map<TagKey<T>, Consumer<FabricTagBuilder>> builders = new Object2ObjectOpenHashMap<>();
+        private final Map<TagKey<T>, List<Consumer<FabricTagBuilder>>> builders = new Object2ObjectOpenHashMap<>();
 
         private Instance(
             FabricDataOutput output,
@@ -117,12 +119,16 @@ public class TagGenerator implements DataProvider {
          * @param builder The builder consumer.
          */
         public void generate(TagKey<T> tagKey, Consumer<FabricTagBuilder> builder) {
-            this.builders.put(tagKey, builder);
+            this.builders.computeIfAbsent(tagKey, key -> new ObjectArrayList<>()).add(builder);
         }
 
         @Override
         public void configure(WrapperLookup lookup) {
-            this.builders.forEach((key, builder) -> builder.accept(this.getOrCreateTagBuilder(key)));
+            this.builders.forEach((key, builders) -> {
+                final FabricTagBuilder builder = this.getOrCreateTagBuilder(key);
+
+                builders.forEach(consumer -> consumer.accept(builder));
+            });
         }
 
     }
