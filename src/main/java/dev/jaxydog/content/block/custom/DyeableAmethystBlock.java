@@ -32,6 +32,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -110,6 +111,31 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         }
     }
 
+    protected static void generateTexture(
+        TextureGenerator.Instance<Block> instance, String baseTexture, DyeColor color, Identifier identifier
+    ) {
+        final Optional<BufferedImage> maybeSource = instance.getImage(baseTexture);
+
+        if (maybeSource.isEmpty()) return;
+
+        final BufferedImage source = maybeSource.get();
+        final BufferedImage generated = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+
+        for (int y = 0; y < source.getHeight(); y += 1) {
+            for (int x = 0; x < source.getWidth(); x += 1) {
+                final int argb = source.getRGB(x, y);
+
+                if ((argb & 0xFF000000) == 0) continue;
+
+                generated.setRGB(x, y, convertColor(new Rgb(argb), color));
+            }
+        }
+
+        finalColorPass(generated, color);
+
+        instance.generate(identifier, generated);
+    }
+
     /**
      * Returns this block's associated item.
      *
@@ -150,29 +176,9 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         ModelGenerator.getInstance().generateBlock(g -> g.registerSimpleCubeAll(this));
         TagGenerator.getInstance().generate(AMETHYST_BLOCKS, b -> b.add(this));
         TagGenerator.getInstance().generate(AMETHYST_BLOCK_ITEMS, b -> b.add(this.getItem()));
-        TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(), instance -> {
-            final Optional<BufferedImage> maybeImage = instance.getImage("amethyst_block");
-
-            if (maybeImage.isEmpty()) return;
-
-            final BufferedImage image = maybeImage.get();
-            final BufferedImage generated = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
-            final DyeColor color = this.getColor();
-
-            for (int y = 0; y < image.getHeight(); y += 1) {
-                for (int x = 0; x < image.getWidth(); x += 1) {
-                    final int argb = image.getRGB(x, y);
-
-                    if ((argb & 0xFF000000) == 0) continue;
-
-                    generated.setRGB(x, y, convertColor(new Rgb(argb), color));
-                }
-            }
-
-            finalColorPass(generated, color);
-
-            instance.generate(this.getRegistryId(), generated);
-        });
+        TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
+            i -> generateTexture(i, "amethyst_block", this.getColor(), this.getRegistryId())
+        );
     }
 
 }

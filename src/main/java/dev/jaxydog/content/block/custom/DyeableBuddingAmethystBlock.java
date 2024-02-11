@@ -20,7 +20,6 @@ import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.ModelGenerator;
 import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.datagen.TextureGenerator;
-import dev.jaxydog.utility.ColorUtil.Rgb;
 import net.minecraft.block.AmethystClusterBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -34,9 +33,6 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-
-import java.awt.image.BufferedImage;
-import java.util.Optional;
 
 /**
  * Implements dyeable budding amethyst blocks.
@@ -115,29 +111,9 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
         ModelGenerator.getInstance().generateBlock(g -> g.registerSimpleCubeAll(this));
         TagGenerator.getInstance().generate(BUDDING_AMETHYST_BLOCKS, b -> b.add(this));
         TagGenerator.getInstance().generate(BUDDING_AMETHYST_BLOCK_ITEMS, b -> b.add(this.getItem()));
-        TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(), instance -> {
-            final Optional<BufferedImage> maybeImage = instance.getImage("budding_amethyst");
-
-            if (maybeImage.isEmpty()) return;
-
-            final BufferedImage image = maybeImage.get();
-            final BufferedImage generated = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
-            final DyeColor color = this.getColor();
-
-            for (int y = 0; y < image.getHeight(); y += 1) {
-                for (int x = 0; x < image.getWidth(); x += 1) {
-                    final int argb = image.getRGB(x, y);
-
-                    if ((argb & 0xFF000000) == 0) continue;
-
-                    generated.setRGB(x, y, convertColor(new Rgb(argb), color));
-                }
-            }
-
-            finalColorPass(generated, color);
-
-            instance.generate(this.getRegistryId(), generated);
-        });
+        TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
+            i -> generateTexture(i, "budding_amethyst", this.getColor(), this.getRegistryId())
+        );
     }
 
 }
