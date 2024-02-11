@@ -20,8 +20,10 @@ import dev.jaxydog.Astral;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.ModelGenerator;
 import dev.jaxydog.datagen.TagGenerator;
+import dev.jaxydog.datagen.TextureGenerator;
 import dev.jaxydog.register.Registered.Client;
 import dev.jaxydog.utility.AstralModel;
+import dev.jaxydog.utility.ColorUtil.Rgb;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -53,6 +55,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+
+import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 /**
  * Implements dyed amethyst blocks.
@@ -120,6 +125,10 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
         object.add("head", head);
 
         return object;
+    }
+
+    public Variant getVariant() {
+        return this.variant;
     }
 
     /**
@@ -233,24 +242,53 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
 
         TagGenerator.getInstance().generate(AMETHYST_CLUSTERS, b -> b.add(this));
         TagGenerator.getInstance().generate(AMETHYST_CLUSTER_ITEMS, b -> b.add(this.getItem()));
+        TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(), instance -> {
+            final Optional<BufferedImage> maybeImage = instance.getImage(this.getVariant().getBaseId());
+
+            if (maybeImage.isEmpty()) return;
+
+            final BufferedImage image = maybeImage.get();
+            final BufferedImage generated = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+            final DyeColor color = this.getColor();
+
+            for (int y = 0; y < image.getHeight(); y += 1) {
+                for (int x = 0; x < image.getWidth(); x += 1) {
+                    final int argb = image.getRGB(x, y);
+
+                    if ((argb & 0xFF000000) == 0) continue;
+
+                    generated.setRGB(x, y, convertColor(new Rgb(argb), color));
+                }
+            }
+
+            finalColorPass(generated, color);
+
+            instance.generate(this.getRegistryId(), generated);
+        });
     }
 
     public enum Variant {
 
-        CLUSTER(7, 3),
+        CLUSTER("amethyst_cluster", 7, 3),
 
-        LARGE_BUD(5, 3),
+        LARGE_BUD("large_amethyst_bud", 5, 3),
 
-        MEDIUM_BUD(4, 3),
+        MEDIUM_BUD("medium_amethyst_bud", 4, 3),
 
-        SMALL_BUD(3, 4);
+        SMALL_BUD("small_amethyst_bud", 3, 4);
 
+        private final String baseId;
         private final int height;
         private final int size;
 
-        Variant(int height, int size) {
+        Variant(String baseId, int height, int size) {
+            this.baseId = baseId;
             this.height = height;
             this.size = size;
+        }
+
+        public String getBaseId() {
+            return this.baseId;
         }
 
         public int getHeight() {

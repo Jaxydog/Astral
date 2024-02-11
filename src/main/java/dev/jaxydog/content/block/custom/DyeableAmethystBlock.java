@@ -19,7 +19,9 @@ import dev.jaxydog.content.block.CustomBlock;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.ModelGenerator;
 import dev.jaxydog.datagen.TagGenerator;
+import dev.jaxydog.datagen.TextureGenerator;
 import dev.jaxydog.register.Generated;
+import dev.jaxydog.utility.ColorUtil.Rgb;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -33,6 +35,10 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+import java.util.Optional;
 
 /**
  * Implements dyed amethyst blocks.
@@ -57,6 +63,51 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         super(rawId, settings);
 
         this.color = color;
+    }
+
+    protected static int convertColor(Rgb rgb, DyeColor color) {
+        final int alphaMask = 0xFF000000;
+        final float s = rgb.saturation();
+        final float b = rgb.brightness();
+
+        return (switch (color) {
+            case WHITE -> rgb.withSaturation(0F);
+            case LIGHT_GRAY -> rgb.withSaturation(0F).withBrightness(b - 0.225F);
+            case GRAY -> rgb.withSaturation(0F).withBrightness(b - 0.45F);
+            case BLACK -> rgb.withSaturation(0F).withBrightness(b - 0.6F);
+            default -> {
+                final float[] components = color.getColorComponents();
+                final Rgb target = new Rgb(components[0], components[1], components[2]);
+                final Rgb rotated = rgb.withHue(target.hue());
+
+                yield switch (color) {
+                    case BROWN -> rotated.withBrightness(b - 0.25F);
+                    case GREEN -> rotated.withSaturation(s + 0.375F).withBrightness(b - 0.325F);
+                    case PINK -> rotated.withSaturation(s - 0.1875F).withBrightness(b + 0.125F);
+                    default -> rotated.withSaturation(s + 0.25F);
+                };
+            }
+        }).asInt() | alphaMask;
+    }
+
+    protected static void finalColorPass(BufferedImage image, DyeColor color) {
+        switch (color) {
+            case GRAY -> {
+                final RescaleOp contrast = new RescaleOp(0.625F, 15, null);
+
+                contrast.filter(image, image);
+            }
+            case BLACK -> {
+                final RescaleOp contrast = new RescaleOp(0.5F, 15, null);
+
+                contrast.filter(image, image);
+            }
+            case GREEN -> {
+                final RescaleOp contrast = new RescaleOp(0.875F, 15, null);
+
+                contrast.filter(image, image);
+            }
+        }
     }
 
     /**
@@ -99,6 +150,29 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         ModelGenerator.getInstance().generateBlock(g -> g.registerSimpleCubeAll(this));
         TagGenerator.getInstance().generate(AMETHYST_BLOCKS, b -> b.add(this));
         TagGenerator.getInstance().generate(AMETHYST_BLOCK_ITEMS, b -> b.add(this.getItem()));
+        TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(), instance -> {
+            final Optional<BufferedImage> maybeImage = instance.getImage("amethyst_block");
+
+            if (maybeImage.isEmpty()) return;
+
+            final BufferedImage image = maybeImage.get();
+            final BufferedImage generated = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+            final DyeColor color = this.getColor();
+
+            for (int y = 0; y < image.getHeight(); y += 1) {
+                for (int x = 0; x < image.getWidth(); x += 1) {
+                    final int argb = image.getRGB(x, y);
+
+                    if ((argb & 0xFF000000) == 0) continue;
+
+                    generated.setRGB(x, y, convertColor(new Rgb(argb), color));
+                }
+            }
+
+            finalColorPass(generated, color);
+
+            instance.generate(this.getRegistryId(), generated);
+        });
     }
 
 }
