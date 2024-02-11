@@ -17,6 +17,7 @@ package dev.jaxydog.content.block.custom;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.block.CustomBlock;
 import dev.jaxydog.content.item.CustomItems;
+import dev.jaxydog.datagen.LootTableGenerator;
 import dev.jaxydog.datagen.ModelGenerator;
 import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.datagen.TextureGenerator;
@@ -26,6 +27,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable.Builder;
+import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
+import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundCategory;
@@ -178,6 +185,14 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         TagGenerator.getInstance().generate(AMETHYST_BLOCK_ITEMS, b -> b.add(this.getItem()));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, "amethyst_block", this.getColor(), this.getRegistryId())
+        );
+        LootTableGenerator.getInstance(LootContextTypes.BLOCK).generate(this.lootTableId,
+            new Builder().type(LootContextTypes.BLOCK)
+                .pool(LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .with(ItemEntry.builder(this::getItem))
+                    .conditionally(SurvivesExplosionLootCondition.builder().build())
+                    .build())
         );
     }
 

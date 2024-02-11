@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.item.CustomItems;
+import dev.jaxydog.datagen.LootTableGenerator;
 import dev.jaxydog.datagen.ModelGenerator;
 import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.datagen.TextureGenerator;
@@ -37,6 +38,12 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
+import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager.Builder;
@@ -235,11 +242,19 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
 
             itemModel.upload(identifier, TextureMap.layer0(this), g.writer);
         });
-
         TagGenerator.getInstance().generate(AMETHYST_CLUSTERS, b -> b.add(this));
         TagGenerator.getInstance().generate(AMETHYST_CLUSTER_ITEMS, b -> b.add(this.getItem()));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, this.getVariant().getBaseId(), this.getColor(), this.getRegistryId())
+        );
+        // This intentionally doesn't align with vanilla's cluster/bud loot tables.
+        LootTableGenerator.getInstance(LootContextTypes.BLOCK).generate(this.lootTableId,
+            new LootTable.Builder().type(LootContextTypes.BLOCK)
+                .pool(LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .with(ItemEntry.builder(this::getItem))
+                    .conditionally(SurvivesExplosionLootCondition.builder().build())
+                    .build())
         );
     }
 
