@@ -4,6 +4,7 @@ import dev.jaxydog.content.block.custom.DyeableAmethystBlock;
 import dev.jaxydog.content.block.custom.DyeableAmethystClusterBlock;
 import dev.jaxydog.content.block.custom.DyeableAmethystClusterBlock.Variant;
 import dev.jaxydog.content.block.custom.RandomizerBlock;
+import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.utility.DyeableMap;
 import net.minecraft.block.AbstractBlock.Settings;
@@ -47,5 +48,18 @@ public final class CustomBlocks extends ContentRegistrar {
     public static final RandomizerBlock RANDOMIZER = new RandomizerBlock("randomizer",
         Settings.copy(Blocks.IRON_BLOCK)
     );
+
+    @Override
+    public void generate() {
+        super.generate();
+
+        TagGenerator.getInstance().generate(DyeableAmethystBlock.AMETHYST_BLOCKS, b -> b.add(Blocks.AMETHYST_BLOCK));
+        TagGenerator.getInstance().generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTERS, builder -> {
+            builder.add(Blocks.AMETHYST_CLUSTER);
+            builder.add(Blocks.LARGE_AMETHYST_BUD);
+            builder.add(Blocks.MEDIUM_AMETHYST_BUD);
+            builder.add(Blocks.SMALL_AMETHYST_BUD);
+        });
+    }
 
 }

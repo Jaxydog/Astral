@@ -1,7 +1,10 @@
 package dev.jaxydog.content.item;
 
 import dev.jaxydog.content.block.CustomBlocks;
+import dev.jaxydog.content.block.custom.DyeableAmethystBlock;
+import dev.jaxydog.content.block.custom.DyeableAmethystClusterBlock;
 import dev.jaxydog.content.item.custom.*;
+import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.utility.ArmorMap;
 import dev.jaxydog.utility.DyeableMap;
@@ -9,6 +12,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item.Settings;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Rarity;
@@ -86,6 +90,20 @@ public final class CustomItems extends ContentRegistrar {
     public static final CustomItem SLIME_CARD = new CustomItem("slime_card", new Settings());
     public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce", new Settings());
     public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence", new Settings().rarity(Rarity.EPIC));
+
+    @Override
+    public void generate() {
+        super.generate();
+
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystBlock.AMETHYST_BLOCK_ITEMS, b -> b.add(Items.AMETHYST_BLOCK));
+        TagGenerator.getInstance().generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTER_ITEMS, builder -> {
+            builder.add(Items.AMETHYST_CLUSTER);
+            builder.add(Items.LARGE_AMETHYST_BUD);
+            builder.add(Items.MEDIUM_AMETHYST_BUD);
+            builder.add(Items.SMALL_AMETHYST_BUD);
+        });
+    }
 
     private static final class FoodComponents {
 

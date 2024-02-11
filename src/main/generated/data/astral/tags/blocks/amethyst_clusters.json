@@ -64,6 +64,10 @@
     "astral:brown_small_amethyst_bud",
     "astral:green_small_amethyst_bud",
     "astral:red_small_amethyst_bud",
-    "astral:black_small_amethyst_bud"
+    "astral:black_small_amethyst_bud",
+    "minecraft:amethyst_cluster",
+    "minecraft:large_amethyst_bud",
+    "minecraft:medium_amethyst_bud",
+    "minecraft:small_amethyst_bud"
   ]
 }

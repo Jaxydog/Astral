@@ -16,6 +16,7 @@
     "astral:brown_amethyst_block",
     "astral:green_amethyst_block",
     "astral:red_amethyst_block",
-    "astral:black_amethyst_block"
+    "astral:black_amethyst_block",
+    "minecraft:amethyst_block"
   ]
 }
