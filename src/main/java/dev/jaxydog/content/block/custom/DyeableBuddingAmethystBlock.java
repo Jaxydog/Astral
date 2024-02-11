@@ -16,6 +16,7 @@ package dev.jaxydog.content.block.custom;
 
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.block.CustomBlocks;
+import dev.jaxydog.content.item.CustomBlockItem;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -27,7 +28,6 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
@@ -51,11 +51,11 @@ import net.minecraft.util.math.random.Random;
 public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
 
     /** A block tag containing all amethyst blocks. */
-    public static final TagKey<Block> BUDDING_AMETHYST_BLOCKS = TagKey.of(Registries.BLOCK.getKey(),
+    public static final TagKey<Block> BUDDING_AMETHYSTS = TagKey.of(Registries.BLOCK.getKey(),
         Astral.getId("budding_amethyst_blocks")
     );
     /** An item tag containing all amethyst blocks. */
-    public static final TagKey<Item> BUDDING_AMETHYST_BLOCK_ITEMS = TagKey.of(Registries.ITEM.getKey(),
+    public static final TagKey<Item> BUDDING_AMETHYST_ITEMS = TagKey.of(Registries.ITEM.getKey(),
         Astral.getId("budding_amethyst_blocks")
     );
 
@@ -80,7 +80,7 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
     }
 
     @Override
-    public Item getItem() {
+    public CustomBlockItem getItem() {
         return CustomItems.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(this.getColor());
     }
 
@@ -118,8 +118,8 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
     @Override
     public void generate() {
         ModelGenerator.getInstance().generateBlock(g -> g.registerSimpleCubeAll(this));
-        TagGenerator.getInstance().generate(BUDDING_AMETHYST_BLOCKS, b -> b.add(this));
-        TagGenerator.getInstance().generate(BUDDING_AMETHYST_BLOCK_ITEMS, b -> b.add(this.getItem()));
+        TagGenerator.getInstance().generate(BUDDING_AMETHYSTS, b -> b.add(this));
+        TagGenerator.getInstance().generate(BUDDING_AMETHYST_ITEMS, b -> b.add(this.getItem()));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, "budding_amethyst", this.getColor(), this.getRegistryId())
         );
@@ -131,12 +131,12 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
                     .conditionally(SurvivesExplosionLootCondition.builder().build())
                     .build())
         );
-        RecipeGenerator.getInstance().generate(this.getRegistryId(),
+        RecipeGenerator.getInstance().generate(this.getItem().getRegistryId(),
             ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this.getItem())
                 .group("dyeable_budding_amethysts")
-                .input(BUDDING_AMETHYST_BLOCK_ITEMS)
+                .input(BUDDING_AMETHYST_ITEMS)
                 .input(DyeItem.byColor(this.getColor()))
-                .criterion("block", FabricRecipeProvider.conditionsFromItem(Items.BUDDING_AMETHYST))
+                .criterion("block", FabricRecipeProvider.conditionsFromTag(BUDDING_AMETHYST_ITEMS))
         );
     }
 

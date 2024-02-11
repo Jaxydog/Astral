@@ -16,6 +16,7 @@ package dev.jaxydog.content.block.custom;
 
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.block.CustomBlock;
+import dev.jaxydog.content.item.CustomBlockItem;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.*;
 import dev.jaxydog.register.Generated;
@@ -27,7 +28,6 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
@@ -93,7 +93,8 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
                 yield switch (color) {
                     case BROWN -> rotated.withBrightness(b - 0.25F);
                     case GREEN -> rotated.withSaturation(s + 0.375F).withBrightness(b - 0.325F);
-                    case PINK -> rotated.withSaturation(s - 0.1875F).withBrightness(b + 0.125F);
+                    case PINK -> rotated.withSaturation(s - 0.1F).withBrightness(b + 0.1F);
+                    case CYAN -> rotated.withSaturation(s + 0.25F).withBrightness(b - 0.25F);
                     default -> rotated.withSaturation(s + 0.25F);
                 };
             }
@@ -150,7 +151,7 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
      *
      * @return The associated item.
      */
-    public Item getItem() {
+    public CustomBlockItem getItem() {
         return CustomItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor());
     }
 
@@ -196,12 +197,12 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
                     .conditionally(SurvivesExplosionLootCondition.builder().build())
                     .build())
         );
-        RecipeGenerator.getInstance().generate(this.getRegistryId(),
+        RecipeGenerator.getInstance().generate(this.getItem().getRegistryId(),
             ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this.getItem())
                 .group("dyeable_amethyst_blocks")
                 .input(AMETHYST_BLOCK_ITEMS)
                 .input(DyeItem.byColor(this.getColor()))
-                .criterion("block", FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_BLOCK))
+                .criterion("block", FabricRecipeProvider.conditionsFromTag(AMETHYST_BLOCK_ITEMS))
         );
     }
 

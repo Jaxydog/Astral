@@ -17,6 +17,7 @@ package dev.jaxydog.content.block.custom;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.jaxydog.Astral;
+import dev.jaxydog.content.item.CustomBlockItem;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.*;
 import dev.jaxydog.register.Registered.Client;
@@ -164,7 +165,7 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
      *
      * @return The associated item.
      */
-    public Item getItem() {
+    public CustomBlockItem getItem() {
         return switch (this.variant) {
             case CLUSTER -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor());
             case LARGE_BUD -> CustomItems.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor());
@@ -286,7 +287,7 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
                 .group("dyeable_" + this.getVariant().getBaseId() + "s")
                 .input(this.getVariant().getItemTag())
                 .input(DyeItem.byColor(this.getColor()))
-                .criterion("block", FabricRecipeProvider.conditionsFromItem(this.getVariant().getBaseItem()))
+                .criterion("block", FabricRecipeProvider.conditionsFromTag(this.getVariant().getItemTag()))
         );
     }
 
@@ -316,10 +317,6 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
 
         public String getBaseId() {
             return this.baseId;
-        }
-
-        public Item getBaseItem() {
-            return Registries.ITEM.get(Identifier.of(Identifier.DEFAULT_NAMESPACE, this.getBaseId()));
         }
 
         public int getHeight() {

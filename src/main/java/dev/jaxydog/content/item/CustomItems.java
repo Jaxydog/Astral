@@ -105,7 +105,7 @@ public final class CustomItems extends ContentRegistrar {
         TagGenerator.getInstance()
             .generate(DyeableAmethystBlock.AMETHYST_BLOCK_ITEMS, b -> b.add(Items.AMETHYST_BLOCK));
         TagGenerator.getInstance()
-            .generate(DyeableBuddingAmethystBlock.BUDDING_AMETHYST_BLOCK_ITEMS, b -> b.add(Items.BUDDING_AMETHYST));
+            .generate(DyeableBuddingAmethystBlock.BUDDING_AMETHYST_ITEMS, b -> b.add(Items.BUDDING_AMETHYST));
         TagGenerator.getInstance()
             .generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTER_ITEMS, b -> b.add(Items.AMETHYST_CLUSTER));
         TagGenerator.getInstance()

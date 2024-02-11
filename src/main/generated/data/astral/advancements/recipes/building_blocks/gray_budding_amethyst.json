@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:budding_amethyst"
-            ]
+            "tag": "astral:budding_amethyst_blocks"
           }
         ]
       },
