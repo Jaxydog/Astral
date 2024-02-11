@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "dyeable_budding_amethysts",
+  "ingredients": [
+    {
+      "tag": "astral:budding_amethyst_blocks"
+    },
+    {
+      "item": "minecraft:light_gray_dye"
+    }
+  ],
+  "result": {
+    "item": "astral:light_gray_budding_amethyst"
+  }
+}

@@ -1,9 +1,0 @@
-{
-    "type": "minecraft:crafting_shapeless",
-    "group": "dyed_amethyst_block",
-    "ingredients": [
-        { "tag": "astral:amethyst_blocks" },
-        { "item": "minecraft:magenta_dye" }
-    ],
-    "result": { "item": "astral:magenta_amethyst_block" }
-}

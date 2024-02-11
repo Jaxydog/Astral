@@ -17,22 +17,24 @@ package dev.jaxydog.content.block.custom;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.datagen.LootTableGenerator;
-import dev.jaxydog.datagen.ModelGenerator;
-import dev.jaxydog.datagen.TagGenerator;
-import dev.jaxydog.datagen.TextureGenerator;
+import dev.jaxydog.datagen.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.AmethystClusterBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BuddingAmethystBlock;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
@@ -128,6 +130,13 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
                     .with(ItemEntry.builder(this::getItem))
                     .conditionally(SurvivesExplosionLootCondition.builder().build())
                     .build())
+        );
+        RecipeGenerator.getInstance().generate(this.getRegistryId(),
+            ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this.getItem())
+                .group("dyeable_budding_amethysts")
+                .input(BUDDING_AMETHYST_BLOCK_ITEMS)
+                .input(DyeItem.byColor(this.getColor()))
+                .criterion("block", FabricRecipeProvider.conditionsFromItem(Items.BUDDING_AMETHYST))
         );
     }
 

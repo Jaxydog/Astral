@@ -59,12 +59,16 @@ public final class CustomBlocks extends ContentRegistrar {
         super.generate();
 
         TagGenerator.getInstance().generate(DyeableAmethystBlock.AMETHYST_BLOCKS, b -> b.add(Blocks.AMETHYST_BLOCK));
-        TagGenerator.getInstance().generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTERS, builder -> {
-            builder.add(Blocks.AMETHYST_CLUSTER);
-            builder.add(Blocks.LARGE_AMETHYST_BUD);
-            builder.add(Blocks.MEDIUM_AMETHYST_BUD);
-            builder.add(Blocks.SMALL_AMETHYST_BUD);
-        });
+        TagGenerator.getInstance()
+            .generate(DyeableBuddingAmethystBlock.BUDDING_AMETHYST_BLOCKS, b -> b.add(Blocks.BUDDING_AMETHYST));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTERS, b -> b.add(Blocks.AMETHYST_CLUSTER));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.LARGE_AMETHYST_BUDS, b -> b.add(Blocks.LARGE_AMETHYST_BUD));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.MEDIUM_AMETHYST_BUDS, b -> b.add(Blocks.MEDIUM_AMETHYST_BUD));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.SMALL_AMETHYST_BUDS, b -> b.add(Blocks.SMALL_AMETHYST_BUD));
     }
 
 }

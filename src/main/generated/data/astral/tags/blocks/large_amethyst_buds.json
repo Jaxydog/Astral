@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "astral:white_large_amethyst_bud",
+    "astral:orange_large_amethyst_bud",
+    "astral:magenta_large_amethyst_bud",
+    "astral:light_blue_large_amethyst_bud",
+    "astral:yellow_large_amethyst_bud",
+    "astral:lime_large_amethyst_bud",
+    "astral:pink_large_amethyst_bud",
+    "astral:gray_large_amethyst_bud",
+    "astral:light_gray_large_amethyst_bud",
+    "astral:cyan_large_amethyst_bud",
+    "astral:purple_large_amethyst_bud",
+    "astral:blue_large_amethyst_bud",
+    "astral:brown_large_amethyst_bud",
+    "astral:green_large_amethyst_bud",
+    "astral:red_large_amethyst_bud",
+    "astral:black_large_amethyst_bud",
+    "minecraft:large_amethyst_bud"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "dyeable_small_amethyst_buds",
+  "ingredients": [
+    {
+      "tag": "astral:small_amethyst_buds"
+    },
+    {
+      "item": "minecraft:orange_dye"
+    }
+  ],
+  "result": {
+    "item": "astral:orange_small_amethyst_bud"
+  }
+}

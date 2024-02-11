@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "astral:white_medium_amethyst_bud",
+    "astral:orange_medium_amethyst_bud",
+    "astral:magenta_medium_amethyst_bud",
+    "astral:light_blue_medium_amethyst_bud",
+    "astral:yellow_medium_amethyst_bud",
+    "astral:lime_medium_amethyst_bud",
+    "astral:pink_medium_amethyst_bud",
+    "astral:gray_medium_amethyst_bud",
+    "astral:light_gray_medium_amethyst_bud",
+    "astral:cyan_medium_amethyst_bud",
+    "astral:purple_medium_amethyst_bud",
+    "astral:blue_medium_amethyst_bud",
+    "astral:brown_medium_amethyst_bud",
+    "astral:green_medium_amethyst_bud",
+    "astral:red_medium_amethyst_bud",
+    "astral:black_medium_amethyst_bud",
+    "minecraft:medium_amethyst_bud"
+  ]
+}

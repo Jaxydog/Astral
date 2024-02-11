@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "dyeable_medium_amethyst_buds",
+  "ingredients": [
+    {
+      "tag": "astral:medium_amethyst_buds"
+    },
+    {
+      "item": "minecraft:brown_dye"
+    }
+  ],
+  "result": {
+    "item": "astral:brown_medium_amethyst_bud"
+  }
+}

@@ -18,13 +18,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.jaxydog.Astral;
 import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.datagen.LootTableGenerator;
-import dev.jaxydog.datagen.ModelGenerator;
-import dev.jaxydog.datagen.TagGenerator;
-import dev.jaxydog.datagen.TextureGenerator;
+import dev.jaxydog.datagen.*;
 import dev.jaxydog.register.Registered.Client;
 import dev.jaxydog.utility.AstralModel;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -34,8 +32,10 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.loot.LootPool;
@@ -44,6 +44,7 @@ import net.minecraft.loot.condition.SurvivesExplosionLootCondition;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager.Builder;
@@ -80,6 +81,30 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
     /** An item tag containing all amethyst clusters. */
     public static final TagKey<Item> AMETHYST_CLUSTER_ITEMS = TagKey.of(Registries.ITEM.getKey(),
         Astral.getId("amethyst_clusters")
+    );
+    /** A block tag containing all large amethyst buds. */
+    public static final TagKey<Block> LARGE_AMETHYST_BUDS = TagKey.of(Registries.BLOCK.getKey(),
+        Astral.getId("large_amethyst_buds")
+    );
+    /** An item tag containing all large amethyst buds. */
+    public static final TagKey<Item> LARGE_AMETHYST_BUD_ITEMS = TagKey.of(Registries.ITEM.getKey(),
+        Astral.getId("large_amethyst_buds")
+    );
+    /** A block tag containing all medium amethyst buds. */
+    public static final TagKey<Block> MEDIUM_AMETHYST_BUDS = TagKey.of(Registries.BLOCK.getKey(),
+        Astral.getId("medium_amethyst_buds")
+    );
+    /** An item tag containing all medium amethyst buds. */
+    public static final TagKey<Item> MEDIUM_AMETHYST_BUD_ITEMS = TagKey.of(Registries.ITEM.getKey(),
+        Astral.getId("medium_amethyst_buds")
+    );
+    /** A block tag containing all small amethyst buds. */
+    public static final TagKey<Block> SMALL_AMETHYST_BUDS = TagKey.of(Registries.BLOCK.getKey(),
+        Astral.getId("small_amethyst_buds")
+    );
+    /** An item tag containing all small amethyst buds. */
+    public static final TagKey<Item> SMALL_AMETHYST_BUD_ITEMS = TagKey.of(Registries.ITEM.getKey(),
+        Astral.getId("small_amethyst_buds")
     );
 
     private final VoxelShape upShape;
@@ -242,8 +267,8 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
 
             itemModel.upload(identifier, TextureMap.layer0(this), g.writer);
         });
-        TagGenerator.getInstance().generate(AMETHYST_CLUSTERS, b -> b.add(this));
-        TagGenerator.getInstance().generate(AMETHYST_CLUSTER_ITEMS, b -> b.add(this.getItem()));
+        TagGenerator.getInstance().generate(this.getVariant().getBlockTag(), b -> b.add(this));
+        TagGenerator.getInstance().generate(this.getVariant().getItemTag(), b -> b.add(this.getItem()));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, this.getVariant().getBaseId(), this.getColor(), this.getRegistryId())
         );
@@ -256,30 +281,45 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
                     .conditionally(SurvivesExplosionLootCondition.builder().build())
                     .build())
         );
+        RecipeGenerator.getInstance().generate(this.getRegistryId(),
+            ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this.getItem())
+                .group("dyeable_" + this.getVariant().getBaseId() + "s")
+                .input(this.getVariant().getItemTag())
+                .input(DyeItem.byColor(this.getColor()))
+                .criterion("block", FabricRecipeProvider.conditionsFromItem(this.getVariant().getBaseItem()))
+        );
     }
 
     public enum Variant {
 
-        CLUSTER("amethyst_cluster", 7, 3),
+        CLUSTER("amethyst_cluster", 7, 3, AMETHYST_CLUSTERS, AMETHYST_CLUSTER_ITEMS),
 
-        LARGE_BUD("large_amethyst_bud", 5, 3),
+        LARGE_BUD("large_amethyst_bud", 5, 3, LARGE_AMETHYST_BUDS, LARGE_AMETHYST_BUD_ITEMS),
 
-        MEDIUM_BUD("medium_amethyst_bud", 4, 3),
+        MEDIUM_BUD("medium_amethyst_bud", 4, 3, MEDIUM_AMETHYST_BUDS, MEDIUM_AMETHYST_BUD_ITEMS),
 
-        SMALL_BUD("small_amethyst_bud", 3, 4);
+        SMALL_BUD("small_amethyst_bud", 3, 4, SMALL_AMETHYST_BUDS, SMALL_AMETHYST_BUD_ITEMS);
 
         private final String baseId;
         private final int height;
         private final int size;
+        private final TagKey<Block> blockTag;
+        private final TagKey<Item> itemTag;
 
-        Variant(String baseId, int height, int size) {
+        Variant(String baseId, int height, int size, TagKey<Block> blockTag, TagKey<Item> itemTag) {
             this.baseId = baseId;
             this.height = height;
             this.size = size;
+            this.blockTag = blockTag;
+            this.itemTag = itemTag;
         }
 
         public String getBaseId() {
             return this.baseId;
+        }
+
+        public Item getBaseItem() {
+            return Registries.ITEM.get(Identifier.of(Identifier.DEFAULT_NAMESPACE, this.getBaseId()));
         }
 
         public int getHeight() {
@@ -290,6 +330,13 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
             return this.size;
         }
 
+        public TagKey<Block> getBlockTag() {
+            return this.blockTag;
+        }
+
+        public TagKey<Item> getItemTag() {
+            return this.itemTag;
+        }
     }
 
 }

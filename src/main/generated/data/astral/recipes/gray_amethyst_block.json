@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "dyeable_amethyst_blocks",
+  "ingredients": [
+    {
+      "tag": "astral:amethyst_blocks"
+    },
+    {
+      "item": "minecraft:gray_dye"
+    }
+  ],
+  "result": {
+    "item": "astral:gray_amethyst_block"
+  }
+}

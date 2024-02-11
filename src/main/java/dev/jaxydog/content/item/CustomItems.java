@@ -3,6 +3,7 @@ package dev.jaxydog.content.item;
 import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.block.custom.DyeableAmethystBlock;
 import dev.jaxydog.content.block.custom.DyeableAmethystClusterBlock;
+import dev.jaxydog.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.content.item.custom.*;
 import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.register.ContentRegistrar;
@@ -103,12 +104,16 @@ public final class CustomItems extends ContentRegistrar {
 
         TagGenerator.getInstance()
             .generate(DyeableAmethystBlock.AMETHYST_BLOCK_ITEMS, b -> b.add(Items.AMETHYST_BLOCK));
-        TagGenerator.getInstance().generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTER_ITEMS, builder -> {
-            builder.add(Items.AMETHYST_CLUSTER);
-            builder.add(Items.LARGE_AMETHYST_BUD);
-            builder.add(Items.MEDIUM_AMETHYST_BUD);
-            builder.add(Items.SMALL_AMETHYST_BUD);
-        });
+        TagGenerator.getInstance()
+            .generate(DyeableBuddingAmethystBlock.BUDDING_AMETHYST_BLOCK_ITEMS, b -> b.add(Items.BUDDING_AMETHYST));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.AMETHYST_CLUSTER_ITEMS, b -> b.add(Items.AMETHYST_CLUSTER));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.LARGE_AMETHYST_BUD_ITEMS, b -> b.add(Items.LARGE_AMETHYST_BUD));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.MEDIUM_AMETHYST_BUD_ITEMS, b -> b.add(Items.MEDIUM_AMETHYST_BUD));
+        TagGenerator.getInstance()
+            .generate(DyeableAmethystClusterBlock.SMALL_AMETHYST_BUD_ITEMS, b -> b.add(Items.SMALL_AMETHYST_BUD));
     }
 
     private static final class FoodComponents {
