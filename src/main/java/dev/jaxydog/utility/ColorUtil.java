@@ -1,5 +1,6 @@
 package dev.jaxydog.utility;
 
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.ApiStatus.NonExtendable;
 
 import java.awt.*;
@@ -28,8 +29,16 @@ public interface ColorUtil {
     /** Stores an RGB color value. */
     record Rgb(int asInt) {
 
+        public Rgb {
+            asInt &= 0x00FFFFFF;
+        }
+
         public Rgb(int r, int g, int b) {
             this(((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF));
+        }
+
+        public Rgb(float r, float g, float b) {
+            this((int) (r * 255F), (int) (g * 255F), (int) (b * 255F));
         }
 
         /** Returns the color's red component */
@@ -80,11 +89,25 @@ public interface ColorUtil {
             return new Rgb(r, g, b);
         }
 
-        public Rgb hueRotate(float degrees) {
+        public Rgb withHue(float hue) {
             final float[] hsb = Color.RGBtoHSB(this.r(), this.g(), this.b(), null);
-            final float hue = ((hsb[0] * 360F) + degrees) % 360F;
+            final float clamped = MathHelper.clamp(hue, 0F, 1F);
 
-            return new Rgb(Color.HSBtoRGB(hue, hsb[1], hsb[2]));
+            return new Rgb(Color.HSBtoRGB(clamped, hsb[1], hsb[2]));
+        }
+
+        public Rgb withSaturation(float saturation) {
+            final float[] hsb = Color.RGBtoHSB(this.r(), this.g(), this.b(), null);
+            final float clamped = MathHelper.clamp(saturation, 0F, 1F);
+
+            return new Rgb(Color.HSBtoRGB(hsb[0], clamped, hsb[2]));
+        }
+
+        public Rgb withBrightness(float brightness) {
+            final float[] hsb = Color.RGBtoHSB(this.r(), this.g(), this.b(), null);
+            final float clamped = MathHelper.clamp(brightness, 0F, 1F);
+
+            return new Rgb(Color.HSBtoRGB(hsb[0], hsb[1], clamped));
         }
 
     }
