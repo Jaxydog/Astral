@@ -40,6 +40,12 @@ public final class CustomItems extends ContentRegistrar {
     public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
         (rawId, color) -> new CustomBlockItem(rawId, CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color), new Settings())
     );
+    public static final DyeableMap<CustomBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeableMap<>("budding_amethyst",
+        (rawId, color) -> new CustomBlockItem(rawId,
+            CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color),
+            new Settings()
+        )
+    );
     public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeableMap<>("amethyst_cluster",
         (rawId, color) -> new CustomBlockItem(rawId, CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color), new Settings())
     );
