@@ -31,6 +31,11 @@
 - The `astral:advancements` power is now added to all players globally.
 - Added dyeable amethyst buds and budding amethyst.
 - Added two new item groups.
+- Added block and item tags.
+    - `astral:budding_amethysts`
+    - `astral:large_amethyst_buds`
+    - `astral:medium_amethyst_buds`
+    - `astral:small_amethyst_buds`
 - Many, many things are now documented! See [our new documentation page](https://astral-smp.readthedocs.io/en/latest/).
 
 # Release 1.6.0

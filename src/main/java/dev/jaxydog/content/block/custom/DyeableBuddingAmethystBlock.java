@@ -55,11 +55,11 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
 
     /** A block tag containing all amethyst blocks. */
     public static final TagKey<Block> BUDDING_AMETHYSTS = TagKey.of(Registries.BLOCK.getKey(),
-        Astral.getId("budding_amethyst_blocks")
+        Astral.getId("budding_amethysts")
     );
     /** An item tag containing all amethyst blocks. */
     public static final TagKey<Item> BUDDING_AMETHYST_ITEMS = TagKey.of(Registries.ITEM.getKey(),
-        Astral.getId("budding_amethyst_blocks")
+        Astral.getId("budding_amethysts")
     );
 
     public DyeableBuddingAmethystBlock(String rawId, Settings settings, DyeColor color) {

@@ -68,7 +68,13 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(TranslationBuilder builder) {
-        this.builders.forEach(c -> c.accept(builder));
+        this.builders.forEach(c -> {
+            try {
+                c.accept(builder);
+            } catch (RuntimeException exception) {
+                Astral.LOGGER.warn(exception.getLocalizedMessage());
+            }
+        });
     }
 
 }
