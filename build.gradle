@@ -74,6 +74,8 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {it.options.release = 17}
+tasks.withType(Copy).configureEach {duplicatesStrategy = DuplicatesStrategy.INCLUDE}
+tasks.withType(Jar).configureEach {duplicatesStrategy = DuplicatesStrategy.INCLUDE}
 
 java {
     withSourcesJar()
@@ -84,11 +86,11 @@ java {
 
 jar {
     from("LICENSE") {rename {"${it}_${project.archivesBaseName}"}}
+    exclude '.cache'
 }
 
 publishing {
     publications {
-        //noinspection GroovyAssignabilityCheck
         mavenJava(MavenPublication) {from components.java}
     }
 
