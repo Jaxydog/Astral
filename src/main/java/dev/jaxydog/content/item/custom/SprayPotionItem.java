@@ -188,7 +188,6 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
     public void register() {
         super.register();
 
-        BrewingRecipeRegistry.registerPotionType(this);
         BrewingRecipeRegistry.registerItemRecipe(Items.POTION, CustomItems.CLOUDY_MANE, this);
 
         DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
