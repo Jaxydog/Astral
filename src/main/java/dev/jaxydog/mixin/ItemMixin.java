@@ -13,17 +13,17 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Item.class)
 public abstract class ItemMixin {
 
-	/** The NBT key that corresponds to the modded-in enchantment glint disable tag */
-	@Unique
-	private static final String SET_GLINT_KEY = "SetGlint";
+    /** The NBT key that corresponds to the modded-in enchantment glint disable tag */
+    @Unique
+    private static final String SET_GLINT_KEY = "SetGlint";
 
-	@ModifyReturnValue(method = "hasGlint", at = @At("RETURN"))
-	private boolean forceGlint(boolean result, @Local ItemStack stack) {
-		if (NbtUtil.contains(stack, SET_GLINT_KEY)) {
-			return NbtUtil.getBoolean(stack, SET_GLINT_KEY);
-		} else {
-			return result;
-		}
-	}
+    @ModifyReturnValue(method = "hasGlint", at = @At("RETURN"))
+    private boolean forceGlint(boolean result, @Local(argsOnly = true) ItemStack stack) {
+        if (NbtUtil.contains(stack, SET_GLINT_KEY)) {
+            return NbtUtil.getBoolean(stack, SET_GLINT_KEY);
+        } else {
+            return result;
+        }
+    }
 
 }

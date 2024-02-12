@@ -11,34 +11,35 @@ import org.jetbrains.annotations.Nullable;
 
 public class CustomPotion extends Potion implements Registered.Common {
 
-	private final String RAW_ID;
-	private final @Nullable Recipe RECIPE;
+    private final String RAW_ID;
+    private final @Nullable Recipe RECIPE;
 
-	public CustomPotion(String rawId, @Nullable Recipe recipe, StatusEffectInstance... effects) {
-		super(effects);
+    public CustomPotion(String rawId, @Nullable Recipe recipe, StatusEffectInstance... effects) {
+        super(effects);
 
-		this.RAW_ID = rawId;
-		this.RECIPE = recipe;
-	}
+        this.RAW_ID = rawId;
+        this.RECIPE = recipe;
+    }
 
-	public CustomPotion(String rawId, StatusEffectInstance... effects) {
-		this(rawId, null, effects);
-	}
+    @SuppressWarnings("unused")
+    public CustomPotion(String rawId, StatusEffectInstance... effects) {
+        this(rawId, null, effects);
+    }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryIdPath() {
+        return this.RAW_ID;
+    }
 
-	@Override
-	public void register() {
-		Registry.register(Registries.POTION, this.getRegistryId(), this);
+    @Override
+    public void register() {
+        Registry.register(Registries.POTION, this.getRegistryId(), this);
 
-		if (this.RECIPE != null) {
-			FabricBrewingRecipeRegistry.registerPotionRecipe(this.RECIPE.base(), this.RECIPE.item(), this);
-		}
-	}
+        if (this.RECIPE != null) {
+            FabricBrewingRecipeRegistry.registerPotionRecipe(this.RECIPE.base(), this.RECIPE.item(), this);
+        }
+    }
 
-	public record Recipe(Potion base, Ingredient item) {}
+    public record Recipe(Potion base, Ingredient item) { }
 
 }

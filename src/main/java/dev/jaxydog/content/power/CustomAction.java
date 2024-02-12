@@ -6,32 +6,33 @@ import io.github.apace100.calio.data.SerializableData.Instance;
 import net.minecraft.registry.Registry;
 
 /** Abstract class for implementing actions */
+@SuppressWarnings("unused")
 public abstract class CustomAction<T> implements Registered.Common {
 
-	/** The custom action's inner raw identifier */
-	private final String RAW_ID;
+    /** The custom action's inner raw identifier */
+    private final String RAW_ID;
 
-	public CustomAction(String rawId) {
-		this.RAW_ID = rawId;
-	}
+    public CustomAction(String rawId) {
+        this.RAW_ID = rawId;
+    }
 
-	/** Executes the action */
-	public abstract void execute(Instance data, T value);
+    /** Executes the action */
+    public abstract void execute(Instance data, T value);
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryIdPath() {
+        return this.RAW_ID;
+    }
 
-	@Override
-	public void register() {
-		this.factory().register(this.registry());
-	}
+    @Override
+    public void register() {
+        this.factory().register(this.registry());
+    }
 
-	/** Returns the action's factory */
-	public abstract CustomActionFactory<T> factory();
+    /** Returns the action's factory */
+    public abstract CustomActionFactory<T> factory();
 
-	/** Returns the action's registry */
-	public abstract Registry<ActionFactory<T>> registry();
+    /** Returns the action's registry */
+    public abstract Registry<ActionFactory<T>> registry();
 
 }

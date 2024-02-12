@@ -46,6 +46,7 @@ public class RandomEffectItem extends CustomItem implements Generated {
         this.effect = effect;
     }
 
+    @SuppressWarnings("unused")
     public RandomEffectItem(
         String idPath, Settings settings, float effectChance, StatusEffect effect
     ) {

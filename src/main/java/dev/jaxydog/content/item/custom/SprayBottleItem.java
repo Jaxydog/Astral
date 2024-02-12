@@ -111,7 +111,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
         powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
 
         for (final ActionOnSprayPower power : powers) {
-            if (!power.canSprayBlock(stack, world, blockPos, side)) continue;
+            if (!power.canSprayBlock(stack, world, blockPos)) continue;
 
             if (power.onSprayBlock(stack, world, blockPos, side)) {
                 charges = Math.max(charges, power.getCharges());

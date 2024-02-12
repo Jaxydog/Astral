@@ -11,18 +11,18 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(Hoglin.class)
 public interface HoglinMixin {
 
-	@ModifyArg(
-		method = "tryAttack", at = @At(
-		value = "INVOKE",
-		target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
-	)
-	)
-	private static float tryAttackArgsInject(float damage, @Local(ordinal = 1) LivingEntity entity) {
-		if (!MobChallengeUtil.shouldScale(entity)) return damage;
+    @ModifyArg(
+        method = "tryAttack", at = @At(
+        value = "INVOKE",
+        target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
+    )
+    )
+    private static float tryAttackArgsInject(float damage, @Local(ordinal = 1, argsOnly = true) LivingEntity entity) {
+        if (!MobChallengeUtil.shouldScale(entity)) return damage;
 
-		final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
+        final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
 
-		return damage + (float) MobChallengeUtil.getScaledAdditive(entity, additive);
-	}
+        return damage + (float) MobChallengeUtil.getScaledAdditive(entity, additive);
+    }
 
 }

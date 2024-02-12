@@ -16,25 +16,25 @@ import java.util.Map;
 @Mixin(SonicBoomTask.class)
 public abstract class SonicBoomTaskMixin extends MultiTickTask<WardenEntity> {
 
-	public SonicBoomTaskMixin(
-		Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState, int minRunTime, int maxRunTime
-	) {
-		super(requiredMemoryState, minRunTime, maxRunTime);
-	}
+    public SonicBoomTaskMixin(
+        Map<MemoryModuleType<?>, MemoryModuleState> requiredMemoryState, int minRunTime, int maxRunTime
+    ) {
+        super(requiredMemoryState, minRunTime, maxRunTime);
+    }
 
-	@ModifyArg(
-		method = "method_43265(Lnet/minecraft/entity/mob/WardenEntity;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LivingEntity;)V",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
-		)
-	)
-	private static float scaleDamage(float damage, @Local WardenEntity entity) {
-		if (!MobChallengeUtil.shouldScale(entity)) return damage;
+    @ModifyArg(
+        method = "method_43265(Lnet/minecraft/entity/mob/WardenEntity;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LivingEntity;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
+        )
+    )
+    private static float scaleDamage(float damage, @Local(argsOnly = true) WardenEntity entity) {
+        if (!MobChallengeUtil.shouldScale(entity)) return damage;
 
-		final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
+        final double additive = MobChallengeUtil.getAttackAdditive(entity.getWorld());
 
-		return damage + (float) MobChallengeUtil.getScaledAdditive(entity, additive);
-	}
+        return damage + (float) MobChallengeUtil.getScaledAdditive(entity, additive);
+    }
 
 }
