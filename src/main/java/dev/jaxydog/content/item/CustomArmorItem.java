@@ -42,7 +42,7 @@ public class CustomArmorItem extends ArmorItem implements Registered.Common {
     }
 
     /** Returns the total number of texture layers that the armor item expects to have */
-    @SuppressWarnings("SameReturnValue")
+    @SuppressWarnings({ "SameReturnValue", "unused" })
     public int getTextureLayers(ItemStack stack) {
         return this.getTextureLayers();
     }
