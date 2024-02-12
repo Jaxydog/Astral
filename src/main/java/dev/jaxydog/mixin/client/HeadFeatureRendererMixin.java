@@ -1,4 +1,4 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.jaxydog.content.trinket.CustomTrinketPredicates;
@@ -15,24 +15,24 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(HeadFeatureRenderer.class)
 public abstract class HeadFeatureRendererMixin<T extends LivingEntity, M extends EntityModel<T> & ModelWithHead>
-	extends FeatureRenderer<T, M> {
+    extends FeatureRenderer<T, M> {
 
-	public HeadFeatureRendererMixin(FeatureRendererContext<T, M> context) {
-		super(context);
-	}
+    public HeadFeatureRendererMixin(FeatureRendererContext<T, M> context) {
+        super(context);
+    }
 
-	@ModifyVariable(
-		method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V",
-		at = @At("STORE")
-	)
-	private ItemStack cosmeticReplacer(ItemStack equippedStack, @Local T entity) {
-		final ItemStack cosmeticStack = CustomTrinketPredicates.getCosmeticHelmet(entity);
+    @ModifyVariable(
+        method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V",
+        at = @At("STORE")
+    )
+    private ItemStack cosmeticReplacer(ItemStack equippedStack, @Local T entity) {
+        final ItemStack cosmeticStack = CustomTrinketPredicates.getCosmeticHelmet(entity);
 
-		if (cosmeticStack.isEmpty() || equippedStack.isIn(CustomTrinketPredicates.COSMETIC_HELMET_UNHIDEABLE)) {
-			return equippedStack;
-		} else {
-			return cosmeticStack;
-		}
-	}
+        if (cosmeticStack.isEmpty() || equippedStack.isIn(CustomTrinketPredicates.COSMETIC_HELMET_UNHIDEABLE)) {
+            return equippedStack;
+        } else {
+            return cosmeticStack;
+        }
+    }
 
 }

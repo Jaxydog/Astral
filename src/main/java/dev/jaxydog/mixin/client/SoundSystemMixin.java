@@ -1,4 +1,4 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;

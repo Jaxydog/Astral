@@ -48,7 +48,12 @@
         "challenge.WitherSkullEntityMixin",
         "challenge.WolfEntityMixin"
     ],
-    "client": [ "ArmorFeatureRendererMixin", "CowEntityRendererMixin", "HeadFeatureRendererMixin", "SoundSystemMixin" ],
+    "client": [
+        "client.ArmorFeatureRendererMixin",
+        "client.CowEntityRendererMixin",
+        "client.HeadFeatureRendererMixin",
+        "client.SoundSystemMixin"
+    ],
     "server": [ ],
     "injectors": { "defaultRequire": 1 }
 }
