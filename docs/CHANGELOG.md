@@ -10,7 +10,12 @@
 - Adjusted the range for sound pitches from `0.5-2.0` to `0.01-255.0`
 - Refactored and cleaned up the currency system implementation.
 - Reorganized custom power file locations.
-- Deprecated `astral:scale`
+- Deprecated `astral:scale`.
+- Improved color manipulation support.
+- Reimplemented data generation structures.
+    - Added support for texture and language file generation.
+- Refactor dyeable amethyst implementation.
+- Improve item group support.
 
 ### Content changes
 
@@ -24,6 +29,8 @@
 - Added the `astral:unobstructed_block_in_radius` power.
 - Added the `astral:modify_scale` power, intended to replace `astral:scale`.
 - The `astral:advancements` power is now added to all players globally.
+- Added dyeable amethyst buds and budding amethyst.
+- Added two new item groups.
 - Many, many things are now documented! See [our new documentation page](https://astral-smp.readthedocs.io/en/latest/).
 
 # Release 1.6.0
