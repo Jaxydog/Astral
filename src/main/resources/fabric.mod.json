@@ -35,7 +35,10 @@
         "fabricloader": ">=0.15.6",
         "minecraft": "~1.20.1",
         "java": ">=17",
-        "fabric-api": ">=0.91.0"
+        "fabric-api": ">=0.91.0",
+        "origins": ">=1.10.0",
+        "pehkui": ">=3.7.8",
+        "trinkets": ">=3.7.1"
     },
     "suggests": { "cheese": ">=1.2.0" }
 }
