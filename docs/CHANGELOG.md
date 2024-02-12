@@ -36,6 +36,7 @@
     - `astral:large_amethyst_buds`
     - `astral:medium_amethyst_buds`
     - `astral:small_amethyst_buds`
+- Added several new lore items for Star, textures courtesy of the one and only StarMoney.
 - Many, many things are now documented! See [our new documentation page](https://astral-smp.readthedocs.io/en/latest/).
 
 # Release 1.6.0
