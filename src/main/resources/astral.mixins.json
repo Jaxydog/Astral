@@ -10,6 +10,7 @@
         "EntityMixin",
         "FoxEntityMixin",
         "ItemEntityMixin",
+        "ItemGroupMixin",
         "ItemMixin",
         "ItemStackMixin",
         "LightningEntityMixin",
@@ -51,6 +52,7 @@
     "client": [
         "client.ArmorFeatureRendererMixin",
         "client.CowEntityRendererMixin",
+        "client.CreativeInventoryScreenMixin",
         "client.HeadFeatureRendererMixin",
         "client.SoundSystemMixin"
     ],

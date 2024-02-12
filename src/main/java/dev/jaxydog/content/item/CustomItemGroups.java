@@ -16,6 +16,7 @@ package dev.jaxydog.content.item;
 
 import dev.jaxydog.register.ContentRegistrar;
 import net.minecraft.item.Items;
+import net.minecraft.util.DyeColor;
 
 /**
  * Contains definitions for all custom item groups.
@@ -29,8 +30,14 @@ public final class CustomItemGroups extends ContentRegistrar {
         .icon(Items.NETHER_STAR::getDefaultStack)
         .finish();
 
-    public static final CustomItemGroup DYEABLE_AMETHYST = CustomItemGroup.builder("dyeable_amethyst")
-        .icon(Items.AMETHYST_CLUSTER::getDefaultStack)
+    public static final CustomCycledItemGroup DYEABLE_AMETHYST = CustomCycledItemGroup.builder("dyeable_amethyst")
+        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).getDefaultStack())
+        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).getDefaultStack())
+        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.YELLOW).getDefaultStack())
+        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIME).getDefaultStack())
+        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).getDefaultStack())
+        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).getDefaultStack())
+        .interval(60)
         .finish();
 
     public static final CustomItemGroup STARMONEY_PLAZA = CustomItemGroup.builder("starmoney_plaza")

@@ -15,48 +15,54 @@
 package dev.jaxydog.content.item;
 
 import dev.jaxydog.Astral;
-import dev.jaxydog.register.Registered;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Simple extension to allow automatic registration of item groups.
+ * An extension of a {@link CustomItemGroup} that provides a cycling item icon.
  *
  * @author Jaxydog
  */
-public class CustomItemGroup extends ItemGroup implements Registered.Common {
+public class CustomCycledItemGroup extends CustomItemGroup {
 
-    private final String idPath;
+    private final List<Supplier<ItemStack>> stacks;
+    private final int interval;
 
-    protected CustomItemGroup(
+    private int index = 0;
+    private float progress = 0F;
+
+    private CustomCycledItemGroup(
         String idPath,
         Row row,
         int column,
         Type type,
         Text displayName,
-        Supplier<ItemStack> iconSupplier,
-        EntryCollector entryCollector
+        EntryCollector entryCollector,
+        List<Supplier<ItemStack>> stacks,
+        int interval
     ) {
-        super(row, column, type, displayName, iconSupplier, entryCollector);
+        super(idPath, row, column, type, displayName, () -> ItemStack.EMPTY, entryCollector);
 
-        this.idPath = idPath;
+        this.stacks = stacks;
+        this.interval = interval;
     }
 
-    protected CustomItemGroup(String idPath, ItemGroup group, EntryCollector entryCollector) {
-        this(
-            idPath,
+    protected CustomCycledItemGroup(
+        String idPath, ItemGroup group, EntryCollector entryCollector, List<Supplier<ItemStack>> stacks, int interval
+    ) {
+        this(idPath,
             group.getRow(),
             group.getColumn(),
             group.getType(),
             group.getDisplayName(),
-            group::getIcon,
-            entryCollector
+            entryCollector,
+            stacks,
+            interval
         );
     }
 
@@ -64,41 +70,49 @@ public class CustomItemGroup extends ItemGroup implements Registered.Common {
         return new Builder(idPath);
     }
 
-    public RegistryKey<ItemGroup> getRegistryKey() {
-        return Registries.ITEM_GROUP.getKey(this).orElseThrow();
-    }
-
     @Override
-    public String getRegistryIdPath() {
-        return this.idPath;
+    public ItemStack astral$getIcon(float delta) {
+        this.progress += delta;
+
+        if (this.progress >= this.interval) {
+            this.progress %= this.interval;
+
+            if (!this.stacks.isEmpty()) {
+                this.index += 1;
+                this.index %= this.stacks.size();
+            }
+        }
+
+        if (this.stacks.isEmpty()) {
+            return ItemStack.EMPTY;
+        } else {
+            return this.stacks.get(this.index).get();
+        }
     }
 
-    @Override
-    public void register() {
-        Registry.register(Registries.ITEM_GROUP, this.getRegistryId(), this);
-    }
+    public static class Builder extends CustomItemGroup.Builder {
 
-    public static class Builder extends ItemGroup.Builder {
-
-        protected final String idPath;
-        protected EntryCollector entryCollector = (a, b) -> { };
+        private final List<Supplier<ItemStack>> stacks = new ObjectArrayList<>(1);
+        private int interval = 40;
 
         public Builder(String idPath) {
-            super(null, -1);
-
-            this.idPath = idPath;
+            super(idPath);
         }
 
         @Override
         public Builder icon(Supplier<ItemStack> iconSupplier) {
-            return (Builder) super.icon(iconSupplier);
+            this.stacks.add(iconSupplier);
+            return this;
+        }
+
+        public Builder interval(int ticks) {
+            this.interval = ticks;
+            return this;
         }
 
         @Override
         public Builder entries(EntryCollector entryCollector) {
-            this.entryCollector = entryCollector;
-
-            return this;
+            return (Builder) super.entries(entryCollector);
         }
 
         @Override
@@ -126,10 +140,16 @@ public class CustomItemGroup extends ItemGroup implements Registered.Common {
             return (Builder) super.texture(texture);
         }
 
-        public CustomItemGroup finish() {
+        @Override
+        public CustomCycledItemGroup finish() {
             final Text name = Text.translatable(Astral.getId(this.idPath).toTranslationKey("itemGroup"));
 
-            return new CustomItemGroup(this.idPath, super.displayName(name).build(), this.entryCollector);
+            return new CustomCycledItemGroup(this.idPath,
+                super.displayName(name).build(),
+                this.entryCollector,
+                this.stacks,
+                this.interval
+            );
         }
 
     }
