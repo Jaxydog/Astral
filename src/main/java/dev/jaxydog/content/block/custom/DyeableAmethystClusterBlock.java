@@ -63,6 +63,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * Implements dyed amethyst blocks.
@@ -289,6 +292,22 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
                 .input(DyeItem.byColor(this.getColor()))
                 .criterion("block", FabricRecipeProvider.conditionsFromTag(this.getVariant().getItemTag()))
         );
+        LanguageGenerator.getInstance().generate(builder -> {
+            final String[] parts = this.getColor().getName().split("_");
+            final String value = Arrays.stream(parts)
+                .map(s -> StringUtils.capitalize(s) + " ")
+                .reduce(String::concat)
+                .orElse("Dyed ");
+
+            final String base = switch (this.getVariant()) {
+                case CLUSTER -> "Amethyst Cluster";
+                case LARGE_BUD -> "Large Amethyst Bud";
+                case MEDIUM_BUD -> "Medium Amethyst Bud";
+                case SMALL_BUD -> "Small Amethyst Bud";
+            };
+
+            builder.add(this, value + base);
+        });
     }
 
     public enum Variant {

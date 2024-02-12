@@ -42,6 +42,9 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * Implements dyeable budding amethyst blocks.
@@ -138,6 +141,15 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
                 .input(DyeItem.byColor(this.getColor()))
                 .criterion("block", FabricRecipeProvider.conditionsFromTag(BUDDING_AMETHYST_ITEMS))
         );
+        LanguageGenerator.getInstance().generate(builder -> {
+            final String[] parts = this.getColor().getName().split("_");
+            final String value = Arrays.stream(parts)
+                .map(s -> StringUtils.capitalize(s) + " ")
+                .reduce(String::concat)
+                .orElse("Dyed ");
+
+            builder.add(this, value + "Budding Amethyst");
+        });
     }
 
 }

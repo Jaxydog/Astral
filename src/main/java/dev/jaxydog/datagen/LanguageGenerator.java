@@ -14,12 +14,15 @@
 
 package dev.jaxydog.datagen;
 
+import dev.jaxydog.Astral;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -46,6 +49,17 @@ public class LanguageGenerator extends FabricLanguageProvider {
         assert instance != null;
 
         return instance;
+    }
+
+    public void combine(Path existing) {
+        this.generate(builder -> {
+            try {
+                builder.add(existing);
+            } catch (IOException exception) {
+                Astral.LOGGER.warn("Unable to combine with specified language file '{}'", existing);
+                Astral.LOGGER.warn(exception.getLocalizedMessage());
+            }
+        });
     }
 
     public void generate(Consumer<TranslationBuilder> builder) {

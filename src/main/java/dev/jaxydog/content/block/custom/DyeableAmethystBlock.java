@@ -45,9 +45,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -204,6 +206,15 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
                 .input(DyeItem.byColor(this.getColor()))
                 .criterion("block", FabricRecipeProvider.conditionsFromTag(AMETHYST_BLOCK_ITEMS))
         );
+        LanguageGenerator.getInstance().generate(builder -> {
+            final String[] parts = this.getColor().getName().split("_");
+            final String value = Arrays.stream(parts)
+                .map(s -> StringUtils.capitalize(s) + " ")
+                .reduce(String::concat)
+                .orElse("Dyed ");
+
+            builder.add(this, value + "Amethyst Block");
+        });
     }
 
 }
