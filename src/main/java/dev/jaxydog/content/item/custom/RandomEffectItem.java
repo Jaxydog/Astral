@@ -15,7 +15,6 @@
 package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.content.item.CustomItem;
-import dev.jaxydog.content.item.CustomItemGroup;
 import dev.jaxydog.datagen.ModelGenerator;
 import dev.jaxydog.register.Generated;
 import net.minecraft.data.client.Models;
@@ -23,9 +22,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 /**
  * A custom item that randomly applies the specified effect.
@@ -38,7 +41,11 @@ public class RandomEffectItem extends CustomItem implements Generated {
     private final StatusEffect effect;
 
     public RandomEffectItem(
-        String idPath, Settings settings, @Nullable CustomItemGroup group, float effectChance, StatusEffect effect
+        String idPath,
+        Settings settings,
+        @Nullable Supplier<RegistryKey<ItemGroup>> group,
+        float effectChance,
+        StatusEffect effect
     ) {
         super(idPath, settings, group);
 
@@ -47,9 +54,7 @@ public class RandomEffectItem extends CustomItem implements Generated {
     }
 
     @SuppressWarnings("unused")
-    public RandomEffectItem(
-        String idPath, Settings settings, float effectChance, StatusEffect effect
-    ) {
+    public RandomEffectItem(String idPath, Settings settings, float effectChance, StatusEffect effect) {
         super(idPath, settings);
 
         this.effectChance = effectChance;

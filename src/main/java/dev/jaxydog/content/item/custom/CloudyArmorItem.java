@@ -4,19 +4,34 @@ import dev.jaxydog.content.item.CustomArmorItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CloudyArmorItem extends CustomArmorItem implements Cloudy, Colored {
 
     private static final double INCREASE_DELTA = 1D / 160D;
     private static final double DECREASE_DELTA = 1D / 320D;
 
-    public CloudyArmorItem(String rawId, ArmorMaterial material, Type type, Settings settings) {
-        super(rawId, material, type, settings);
+    @SuppressWarnings("unused")
+    public CloudyArmorItem(
+        String idPath,
+        ArmorMaterial material,
+        Type type,
+        Settings settings,
+        @Nullable Supplier<RegistryKey<ItemGroup>> group
+    ) {
+        super(idPath, material, type, settings, group);
+    }
+
+    public CloudyArmorItem(String idPath, ArmorMaterial material, Type type, Settings settings) {
+        super(idPath, material, type, settings);
     }
 
     @Override

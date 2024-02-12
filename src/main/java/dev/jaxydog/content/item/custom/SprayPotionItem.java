@@ -13,12 +13,14 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.recipe.BrewingRecipeRegistry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -35,11 +37,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SprayPotionItem extends CustomPotionItem implements Sprayable {
 
     public static final int MAX_USES = 3;
     public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
+
+    @SuppressWarnings("unused")
+    public SprayPotionItem(String rawId, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+        super(rawId, settings, group);
+    }
 
     public SprayPotionItem(String rawId, Settings settings) {
         super(rawId, settings);
@@ -64,6 +72,8 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         PotionUtil.buildTooltip(stack, tooltip, DURATION_MULTIPLIER);
+
+        tooltip.addAll(this.getLoreTooltips(stack));
     }
 
     @Override

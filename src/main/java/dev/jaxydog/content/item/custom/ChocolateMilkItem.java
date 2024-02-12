@@ -1,23 +1,33 @@
 package dev.jaxydog.content.item.custom;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SuspiciousStewItem;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class ChocolateMilkItem extends BottleItem {
 
-	public ChocolateMilkItem(String rawId, Settings settings) {
-		super(rawId, settings);
-	}
+    @SuppressWarnings("unused")
+    public ChocolateMilkItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+        super(idPath, settings, group);
+    }
 
-	@Override
-	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entity) {
-		if (entity != null && !world.isClient()) {
-			SuspiciousStewItem.forEachEffect(stack, entity::addStatusEffect);
-		}
+    public ChocolateMilkItem(String idPath, Settings settings) {
+        super(idPath, settings);
+    }
 
-		return super.finishUsing(stack, world, entity);
-	}
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entity) {
+        if (entity != null && !world.isClient()) {
+            SuspiciousStewItem.forEachEffect(stack, entity::addStatusEffect);
+        }
+
+        return super.finishUsing(stack, world, entity);
+    }
 
 }

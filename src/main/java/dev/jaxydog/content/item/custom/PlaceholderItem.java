@@ -1,17 +1,18 @@
 package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.content.item.CustomItem;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Equipment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class PlaceholderItem extends CustomItem implements Customized, Equipment {
 
-    private static final HashMap<Integer, String> TRANSLATION_KEYS = new HashMap<>();
+    private static final Map<Integer, String> TRANSLATION_KEYS = new Object2ObjectOpenHashMap<>();
 
     public PlaceholderItem(String rawId, Settings settings) {
         super(rawId, settings);
@@ -35,6 +36,7 @@ public class PlaceholderItem extends CustomItem implements Customized, Equipment
         return EquipmentSlot.HEAD;
     }
 
+    // Override to prevent this item from appearing within any item groups.
     @Override
     public void register() {
         Registry.register(Registries.ITEM, this.getRegistryId(), this);

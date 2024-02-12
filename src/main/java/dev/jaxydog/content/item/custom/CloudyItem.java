@@ -3,19 +3,28 @@ package dev.jaxydog.content.item.custom;
 import dev.jaxydog.content.item.CustomItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CloudyItem extends CustomItem implements Cloudy, Colored {
 
     private static final double INCREASE_DELTA = 1D / 80D;
     private static final double DECREASE_DELTA = 1D / 160D;
 
-    public CloudyItem(String rawId, Settings settings) {
-        super(rawId, settings);
+    @SuppressWarnings("unused")
+    public CloudyItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+        super(idPath, settings, group);
+    }
+
+    public CloudyItem(String idPath, Settings settings) {
+        super(idPath, settings);
     }
 
     @Override

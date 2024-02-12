@@ -12,9 +12,11 @@ import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -38,14 +40,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class SprayBottleItem extends CustomItem implements Sprayable {
 
     public static final int MAX_USES = 48;
     public static final int SPRAY_DURATION = 40;
 
-    public SprayBottleItem(String rawId, Settings settings) {
-        super(rawId, settings);
+    @SuppressWarnings("unused")
+    public SprayBottleItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+        super(idPath, settings, group);
+    }
+
+    public SprayBottleItem(String idPath, Settings settings) {
+        super(idPath, settings);
     }
 
     protected void playExtinguishSound(World world, BlockPos pos) {

@@ -1,9 +1,8 @@
 package dev.jaxydog.content.item;
 
-import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
@@ -12,19 +11,20 @@ import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-public class CustomPotionItem extends PotionItem implements Registered.Common {
+public class CustomPotionItem extends PotionItem implements Custom {
 
     private final String idPath;
-    private final @Nullable CustomItemGroup group;
+    private final @Nullable Supplier<RegistryKey<ItemGroup>> group;
 
-    public CustomPotionItem(String rawId, Settings settings, @Nullable CustomItemGroup group) {
+    public CustomPotionItem(String rawId, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
         super(settings);
 
         this.idPath = rawId;
@@ -37,16 +37,14 @@ public class CustomPotionItem extends PotionItem implements Registered.Common {
 
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
-        int index = 0;
-
-        while (I18n.hasTranslation(key + index)) {
-            tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
-
-            index += 1;
-        }
+        tooltip.addAll(this.getLoreTooltips(stack));
 
         super.appendTooltip(stack, world, tooltip, context);
+    }
+
+    @Override
+    public RegistryKey<ItemGroup> getItemGroup() {
+        return this.group == null ? ItemGroups.FOOD_AND_DRINK : this.group.get();
     }
 
     @Override
@@ -58,17 +56,15 @@ public class CustomPotionItem extends PotionItem implements Registered.Common {
     public void register() {
         Registry.register(Registries.ITEM, this.getRegistryId(), this);
         BrewingRecipeRegistry.registerPotionType(this);
+        ItemGroupEvents.modifyEntriesEvent(this.getItemGroup()).register(group -> Registries.POTION.forEach(potion -> {
+            if (potion.equals(Potions.EMPTY)) return;
 
-        ItemGroupEvents.modifyEntriesEvent(this.group == null ? ItemGroups.FOOD_AND_DRINK : this.group.getRegistryKey())
-            .register(group -> Registries.POTION.forEach(potion -> {
-                if (potion.equals(Potions.EMPTY)) return;
+            final ItemStack stack = this.getDefaultStack();
 
-                final ItemStack stack = this.getDefaultStack();
+            PotionUtil.setPotion(stack, potion);
 
-                PotionUtil.setPotion(stack, potion);
-
-                group.add(stack);
-            }));
+            group.add(stack);
+        }));
     }
 
 }

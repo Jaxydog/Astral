@@ -5,47 +5,57 @@ import dev.jaxydog.register.Registered;
 import dev.jaxydog.utility.NbtUtil;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 /** Implements the fluxling's mirror item */
 public class MirrorItem extends CustomItem implements Registered.Client {
 
-	/** The NBT key that determines whether a mirror is considered to be broken */
-	public static final String BROKEN_KEY = "Broken";
+    /** The NBT key that determines whether a mirror is considered to be broken */
+    public static final String BROKEN_KEY = "Broken";
 
-	public MirrorItem(String rawId, Settings settings) {
-		super(rawId, settings);
-	}
+    @SuppressWarnings("unused")
+    public MirrorItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+        super(idPath, settings, group);
+    }
 
-	@Override
-	public ItemStack getDefaultStack() {
-		final ItemStack stack = super.getDefaultStack();
+    public MirrorItem(String idPath, Settings settings) {
+        super(idPath, settings);
+    }
 
-		this.setBroken(stack, false);
+    @Override
+    public ItemStack getDefaultStack() {
+        final ItemStack stack = super.getDefaultStack();
 
-		return stack;
-	}
+        this.setBroken(stack, false);
 
-	/** Sets whether the provided item stack is broken */
-	public void setBroken(ItemStack stack, boolean broken) {
-		stack.getOrCreateNbt().putBoolean(BROKEN_KEY, broken);
-	}
+        return stack;
+    }
 
-	@Override
-	public void registerClient() {
-		ModelPredicateProviderRegistry.register(this, new Identifier("broken"), this::getBrokenModel);
-	}
+    /** Sets whether the provided item stack is broken */
+    public void setBroken(ItemStack stack, boolean broken) {
+        stack.getOrCreateNbt().putBoolean(BROKEN_KEY, broken);
+    }
 
-	/** Returns the mirror item's model predicate value */
-	public float getBrokenModel(ItemStack stack, World world, LivingEntity entity, int seed) {
-		return this.isBroken(stack) ? 1F : 0F;
-	}
+    /** Returns the mirror item's model predicate value */
+    public float getBrokenModel(ItemStack stack, World world, LivingEntity entity, int seed) {
+        return this.isBroken(stack) ? 1F : 0F;
+    }
 
-	/** Returns whether the mirror is broken */
-	public boolean isBroken(ItemStack stack) {
-		return NbtUtil.getBoolean(stack, BROKEN_KEY);
-	}
+    /** Returns whether the mirror is broken */
+    public boolean isBroken(ItemStack stack) {
+        return NbtUtil.getBoolean(stack, BROKEN_KEY);
+    }
+
+    @Override
+    public void registerClient() {
+        ModelPredicateProviderRegistry.register(this, new Identifier("broken"), this::getBrokenModel);
+    }
 
 }
