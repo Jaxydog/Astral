@@ -1,7 +1,6 @@
 package dev.jaxydog.content.item.custom;
 
 import com.google.common.collect.Multimap;
-import dev.jaxydog.content.item.Customized;
 import dev.jaxydog.utility.injected.AstralItemStack;
 import dev.jaxydog.utility.register.RegisteredMap;
 import net.minecraft.block.BlockState;

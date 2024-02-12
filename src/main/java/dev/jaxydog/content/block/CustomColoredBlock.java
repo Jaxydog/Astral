@@ -1,6 +1,5 @@
-package dev.jaxydog.content.block.color;
+package dev.jaxydog.content.block;
 
-import dev.jaxydog.content.block.CustomBlock;
 import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.BlockState;
@@ -9,9 +8,9 @@ import net.minecraft.world.BlockRenderView;
 
 /** An extension of a regular custom block that provides color support */
 @SuppressWarnings("unused")
-public abstract class ColoredBlock extends CustomBlock implements Registered.Client {
+public abstract class CustomColoredBlock extends CustomBlock implements Registered.Client {
 
-    public ColoredBlock(String rawId, Settings settings) {
+    public CustomColoredBlock(String rawId, Settings settings) {
         super(rawId, settings);
     }
 
