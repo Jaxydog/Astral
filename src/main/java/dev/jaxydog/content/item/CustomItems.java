@@ -39,33 +39,45 @@ public final class CustomItems extends ContentRegistrar {
     );
 
     public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
-        (rawId, color) -> new CustomBlockItem(rawId, CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color), new Settings())
+        (rawId, color) -> new CustomBlockItem(rawId,
+            CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color),
+            new Settings(),
+            CustomItemGroups.DYEABLE_AMETHYST
+        )
     );
     public static final DyeableMap<CustomBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeableMap<>("budding_amethyst",
         (rawId, color) -> new CustomBlockItem(rawId,
             CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color),
-            new Settings()
+            new Settings(),
+            CustomItemGroups.DYEABLE_AMETHYST
         )
     );
     public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeableMap<>("amethyst_cluster",
-        (rawId, color) -> new CustomBlockItem(rawId, CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color), new Settings())
+        (rawId, color) -> new CustomBlockItem(rawId,
+            CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color),
+            new Settings(),
+            CustomItemGroups.DYEABLE_AMETHYST
+        )
     );
     public static final DyeableMap<CustomBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeableMap<>("large_amethyst_bud",
         (rawId, color) -> new CustomBlockItem(rawId,
             CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(color),
-            new Settings()
+            new Settings(),
+            CustomItemGroups.DYEABLE_AMETHYST
         )
     );
     public static final DyeableMap<CustomBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeableMap<>("medium_amethyst_bud",
         (rawId, color) -> new CustomBlockItem(rawId,
             CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(color),
-            new Settings()
+            new Settings(),
+            CustomItemGroups.DYEABLE_AMETHYST
         )
     );
     public static final DyeableMap<CustomBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeableMap<>("small_amethyst_bud",
         (rawId, color) -> new CustomBlockItem(rawId,
             CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(color),
-            new Settings()
+            new Settings(),
+            CustomItemGroups.DYEABLE_AMETHYST
         )
     );
 
@@ -90,13 +102,29 @@ public final class CustomItems extends ContentRegistrar {
 
     // Items for star monkey
     public static final CustomItem ROTTEN_CHORUS_FRUIT = new CustomItem("rotten_chorus_fruit",
-        new Settings().food(FoodComponents.ROTTEN_CHORUS_FRUIT)
+        new Settings().food(FoodComponents.ROTTEN_CHORUS_FRUIT),
+        CustomItemGroups.STARMONEY_PLAZA
     );
-    public static final CustomItem LIVING_SCULK = new CustomItem("living_sculk", new Settings().rarity(Rarity.RARE));
-    public static final CustomItem PIG_CARD = new CustomItem("pig_card", new Settings());
-    public static final CustomItem SLIME_CARD = new CustomItem("slime_card", new Settings());
-    public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce", new Settings());
-    public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence", new Settings().rarity(Rarity.EPIC));
+    public static final CustomItem LIVING_SCULK = new CustomItem("living_sculk",
+        new Settings().rarity(Rarity.RARE),
+        CustomItemGroups.STARMONEY_PLAZA
+    );
+    public static final CustomItem PIG_CARD = new CustomItem("pig_card",
+        new Settings(),
+        CustomItemGroups.STARMONEY_PLAZA
+    );
+    public static final CustomItem SLIME_CARD = new CustomItem("slime_card",
+        new Settings(),
+        CustomItemGroups.STARMONEY_PLAZA
+    );
+    public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce",
+        new Settings(),
+        CustomItemGroups.STARMONEY_PLAZA
+    );
+    public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence",
+        new Settings().rarity(Rarity.EPIC),
+        CustomItemGroups.STARMONEY_PLAZA
+    );
 
     @Override
     public void generate() {

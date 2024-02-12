@@ -15,52 +15,60 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class CustomPotionItem extends PotionItem implements Registered.Common {
 
-	private final String RAW_ID;
+    private final String idPath;
+    private final @Nullable CustomItemGroup group;
 
-	public CustomPotionItem(String rawId, Settings settings) {
-		super(settings);
+    public CustomPotionItem(String rawId, Settings settings, @Nullable CustomItemGroup group) {
+        super(settings);
 
-		this.RAW_ID = rawId;
-	}
+        this.idPath = rawId;
+        this.group = group;
+    }
 
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
-		int index = 0;
+    public CustomPotionItem(String rawId, Settings settings) {
+        this(rawId, settings, null);
+    }
 
-		while (I18n.hasTranslation(key + index)) {
-			tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
+        int index = 0;
 
-			index += 1;
-		}
+        while (I18n.hasTranslation(key + index)) {
+            tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
 
-		super.appendTooltip(stack, world, tooltip, context);
-	}
+            index += 1;
+        }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+        super.appendTooltip(stack, world, tooltip, context);
+    }
 
-	@Override
-	public void register() {
-		Registry.register(Registries.ITEM, this.getRegistryId(), this);
-		BrewingRecipeRegistry.registerPotionType(this);
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK)
-			.register(group -> Registries.POTION.forEach(potion -> {
-				if (potion.equals(Potions.EMPTY)) return;
+    @Override
+    public String getRegistryIdPath() {
+        return this.idPath;
+    }
 
-				final ItemStack stack = this.getDefaultStack();
+    @Override
+    public void register() {
+        Registry.register(Registries.ITEM, this.getRegistryId(), this);
+        BrewingRecipeRegistry.registerPotionType(this);
 
-				PotionUtil.setPotion(stack, potion);
+        ItemGroupEvents.modifyEntriesEvent(this.group == null ? ItemGroups.FOOD_AND_DRINK : this.group.getRegistryKey())
+            .register(group -> Registries.POTION.forEach(potion -> {
+                if (potion.equals(Potions.EMPTY)) return;
 
-				group.add(stack);
-			}));
-	}
+                final ItemStack stack = this.getDefaultStack();
+
+                PotionUtil.setPotion(stack, potion);
+
+                group.add(stack);
+            }));
+    }
 
 }

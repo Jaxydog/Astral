@@ -33,9 +33,6 @@ loom {
     accessWidenerPath = file('src/main/resources/astral.accesswidener')
     runs {
         datagen {
-            // Remove all pre-existing entries.
-            fileTree('src/main/generated').visit {FileVisitDetails details -> delete details.file}
-
             inherit server
             name 'Data Generation'
             vmArg '-Dfabric-api.datagen'

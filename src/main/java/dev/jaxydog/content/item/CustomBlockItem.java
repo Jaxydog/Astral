@@ -1,6 +1,5 @@
 package dev.jaxydog.content.item;
 
-import dev.jaxydog.Astral;
 import dev.jaxydog.register.Registered;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
@@ -13,46 +12,54 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /** An extension of a regular block item that provides additional functionality */
 public class CustomBlockItem extends BlockItem implements Registered.Common {
 
-	/** The custom item's inner raw identifier */
-	private final String RAW_ID;
+    /** The custom item's inner raw identifier */
+    private final String idPath;
+    private final @Nullable CustomItemGroup group;
 
-	public CustomBlockItem(String rawId, Block block, Settings settings) {
-		super(block, settings);
+    public CustomBlockItem(String idPath, Block block, Settings settings, @Nullable CustomItemGroup group) {
+        super(block, settings);
 
-		this.RAW_ID = rawId;
-	}
+        this.idPath = idPath;
+        this.group = group;
+    }
 
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
-		int index = 0;
+    public CustomBlockItem(String idPath, Block block, Settings settings) {
+        this(idPath, block, settings, null);
+    }
 
-		while (I18n.hasTranslation(key + index)) {
-			tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        final String key = stack.getItem().getTranslationKey(stack) + ".lore_";
+        int index = 0;
 
-			index += 1;
-		}
+        while (I18n.hasTranslation(key + index)) {
+            tooltip.add(Text.translatable(key + index).formatted(Formatting.GRAY));
 
-		super.appendTooltip(stack, world, tooltip, context);
-	}
+            index += 1;
+        }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+        super.appendTooltip(stack, world, tooltip, context);
+    }
 
-	@SuppressWarnings("OptionalGetWithoutIsPresent")
-	@Override
-	public void register() {
-		Registry.register(Registries.ITEM, this.getRegistryId(), this);
-		ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(Astral.ITEM_GROUP).get())
-			.register(g -> g.add(this));
-	}
+    @Override
+    public String getRegistryIdPath() {
+        return this.idPath;
+    }
+
+    @Override
+    public void register() {
+        Registry.register(Registries.ITEM, this.getRegistryId(), this);
+
+        final CustomItemGroup group = this.group == null ? CustomItemGroups.DEFAULT : this.group;
+
+        ItemGroupEvents.modifyEntriesEvent(group.getRegistryKey()).register(g -> g.add(this));
+    }
 
 }
