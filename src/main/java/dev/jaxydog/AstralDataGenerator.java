@@ -17,6 +17,7 @@ public final class AstralDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModelGenerator::new);
         new TagGenerator(pack);
         pack.addProvider(RecipeGenerator::new);
+        pack.addProvider(LanguageGenerator::new);
 
         if (JarAccess.canLoad()) {
             new TextureGenerator(pack);
