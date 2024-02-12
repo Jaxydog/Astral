@@ -1,6 +1,6 @@
 package dev.jaxydog.content.item.custom;
 
-import dev.jaxydog.content.item.CustomColoredItem;
+import dev.jaxydog.content.item.CustomItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class CloudyItem extends CustomColoredItem implements Cloudy {
+public class CloudyItem extends CustomItem implements Cloudy, Colored {
 
     private static final double INCREASE_DELTA = 1D / 80D;
     private static final double DECREASE_DELTA = 1D / 160D;

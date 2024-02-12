@@ -2,7 +2,7 @@ package dev.jaxydog.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.jaxydog.content.item.CustomArmorItem;
-import dev.jaxydog.content.item.CustomColoredArmorItem;
+import dev.jaxydog.content.item.custom.Colored;
 import dev.jaxydog.content.trinket.CustomTrinketPredicates;
 import dev.jaxydog.utility.ColorUtil.Rgb;
 import net.fabricmc.api.EnvType;
@@ -123,8 +123,8 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
         for (int layer = 0; layer < layers; layer += 1) {
             final String overlay = String.valueOf(layer);
 
-            if (armorItem instanceof final CustomColoredArmorItem coloredArmorItem) {
-                final Rgb color = new Rgb(coloredArmorItem.getColor(stack, layer));
+            if (armorItem instanceof final Colored colored) {
+                final Rgb color = new Rgb(colored.getColor(stack, layer));
 
                 final float r = ((float) color.r()) / 255F;
                 final float g = ((float) color.g()) / 255F;

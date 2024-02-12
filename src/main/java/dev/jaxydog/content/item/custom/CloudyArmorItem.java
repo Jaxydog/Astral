@@ -1,6 +1,6 @@
 package dev.jaxydog.content.item.custom;
 
-import dev.jaxydog.content.item.CustomColoredArmorItem;
+import dev.jaxydog.content.item.CustomArmorItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ArmorMaterial;
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class CloudyArmorItem extends CustomColoredArmorItem implements Cloudy {
+public class CloudyArmorItem extends CustomArmorItem implements Cloudy, Colored {
 
     private static final double INCREASE_DELTA = 1D / 160D;
     private static final double DECREASE_DELTA = 1D / 320D;
