@@ -63,7 +63,7 @@ public class RandomEffectItem extends CustomItem implements Generated {
         if (livingEntity.hasStatusEffect(this.effect)) return;
 
         if (world.getRandom().nextFloat() <= this.effectChance) {
-            final StatusEffectInstance instance = new StatusEffectInstance(this.effect, 100, 0, false, false, false);
+            final StatusEffectInstance instance = new StatusEffectInstance(this.effect, 200, 0, false, false, false);
 
             if (livingEntity.canHaveStatusEffect(instance)) livingEntity.addStatusEffect(instance);
         }
