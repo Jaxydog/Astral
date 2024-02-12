@@ -14,81 +14,103 @@
 
 package dev.jaxydog.datagen;
 
-import dev.jaxydog.Astral;
 import dev.jaxydog.utility.IdentifierMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.DataWriter;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.context.LootContextType;
-import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-import static java.lang.reflect.Modifier.*;
+public class LootTableGenerator implements DataProvider {
 
-/**
- * Provides a simple data generation API for advancements.
- *
- * @author Jaxydog
- */
-public class LootTableGenerator extends SimpleFabricLootTableProvider {
+    private static @Nullable LootTableGenerator instance;
 
-    private static final Map<LootContextType, LootTableGenerator> instances = new Object2ObjectOpenHashMap<>();
+    private final Map<LootContextType, Instance> instances = new Object2ObjectOpenHashMap<>();
+    private final Pack pack;
 
-    private final IdentifierMap<Builder> lootTables = new IdentifierMap<>();
+    public LootTableGenerator(Pack pack) {
+        this.pack = pack;
 
-    public LootTableGenerator(FabricDataOutput output, LootContextType type) {
-        super(output, type);
+        assert instance == null;
 
-        assert !instances.containsKey(type);
-
-        instances.put(type, this);
+        instance = this;
     }
 
-    public static void addAllProviders(Pack pack) {
-        for (final Field field : LootContextTypes.class.getFields()) {
-            final int modifiers = field.getModifiers();
-
-            if (!(isPublic(modifiers) && isStatic(modifiers) && isFinal(modifiers))) continue;
-
-            final LootContextType type;
-
-            try {
-                if (!(field.get(null) instanceof final LootContextType lootContextType)) continue;
-
-                type = lootContextType;
-            } catch (IllegalAccessException exception) {
-                Astral.LOGGER.error(exception.getLocalizedMessage());
-
-                continue;
-            }
-
-            pack.addProvider((Pack.Factory<? extends DataProvider>) output -> new LootTableGenerator(output, type));
-        }
-    }
-
-    public static @NotNull LootTableGenerator getInstance(LootContextType type) {
-        final LootTableGenerator instance = instances.get(type);
-
+    public static @NotNull LootTableGenerator getInstance() {
         assert instance != null;
 
         return instance;
     }
 
-    public void generate(Identifier identifier, Builder builder) {
-        this.lootTables.put(identifier, builder.type(this.lootContextType));
+    /**
+     * Creates a new builder for the given loot table.
+     *
+     * @param identifier The loot table's identifier.
+     * @param builder The builder.
+     */
+    public void generate(LootContextType lootContextType, Identifier identifier, Builder builder) {
+        final Instance instance = this.instances.computeIfAbsent(lootContextType,
+            type -> Instance.create(type, this.pack)
+        );
+
+        instance.generate(identifier, builder.type(lootContextType));
     }
 
     @Override
-    public void accept(BiConsumer<Identifier, Builder> exporter) {
-        this.lootTables.forEach(exporter);
+    public String getName() {
+        return "Loot Tables";
+    }
+
+    @Override
+    public CompletableFuture<?> run(DataWriter writer) {
+        return CompletableFuture.allOf((CompletableFuture<?>[]) this.instances.values()
+            .stream()
+            .map(v -> v.run(writer))
+            .toArray());
+    }
+
+    /**
+     * An instance of a loot table generator.
+     *
+     * @author Jaxydog
+     */
+    private static class Instance extends SimpleFabricLootTableProvider {
+
+        private final IdentifierMap<Builder> builders = new IdentifierMap<>();
+
+        public Instance(FabricDataOutput output, LootContextType lootContextType) {
+            super(output, lootContextType);
+        }
+
+        public static Instance create(LootContextType lootContextType, Pack pack) {
+            return pack.addProvider((output, future) -> new Instance(output, lootContextType));
+        }
+
+        /**
+         * Creates a new builder for the given loot table.
+         *
+         * @param identifier The loot table's identifier.
+         * @param builder The builder.
+         */
+        public void generate(Identifier identifier, Builder builder) {
+            this.builders.put(identifier, builder);
+        }
+
+        @Override
+        public void accept(BiConsumer<Identifier, Builder> exporter) {
+            this.builders.forEach(exporter);
+        }
+
     }
 
 }

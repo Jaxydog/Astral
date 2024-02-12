@@ -274,13 +274,13 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
             i -> generateTexture(i, this.getVariant().getBaseId(), this.getColor(), this.getRegistryId())
         );
         // This intentionally doesn't align with vanilla's cluster/bud loot tables.
-        LootTableGenerator.getInstance(LootContextTypes.BLOCK).generate(this.lootTableId,
-            new LootTable.Builder().type(LootContextTypes.BLOCK)
-                .pool(LootPool.builder()
-                    .rolls(ConstantLootNumberProvider.create(1))
-                    .with(ItemEntry.builder(this::getItem))
-                    .conditionally(SurvivesExplosionLootCondition.builder().build())
-                    .build())
+        LootTableGenerator.getInstance().generate(LootContextTypes.BLOCK,
+            this.lootTableId,
+            new LootTable.Builder().pool(LootPool.builder()
+                .rolls(ConstantLootNumberProvider.create(1))
+                .with(ItemEntry.builder(this::getItem))
+                .conditionally(SurvivesExplosionLootCondition.builder().build())
+                .build())
         );
         RecipeGenerator.getInstance().generate(this.getRegistryId(),
             ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this.getItem())

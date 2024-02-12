@@ -123,13 +123,13 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, "budding_amethyst", this.getColor(), this.getRegistryId())
         );
-        LootTableGenerator.getInstance(LootContextTypes.BLOCK).generate(this.lootTableId,
-            new Builder().type(LootContextTypes.BLOCK)
-                .pool(LootPool.builder()
-                    .rolls(ConstantLootNumberProvider.create(1))
-                    .with(ItemEntry.builder(this::getItem))
-                    .conditionally(SurvivesExplosionLootCondition.builder().build())
-                    .build())
+        LootTableGenerator.getInstance().generate(LootContextTypes.BLOCK,
+            this.lootTableId,
+            new Builder().pool(LootPool.builder()
+                .rolls(ConstantLootNumberProvider.create(1))
+                .with(ItemEntry.builder(this::getItem))
+                .conditionally(SurvivesExplosionLootCondition.builder().build())
+                .build())
         );
         RecipeGenerator.getInstance().generate(this.getItem().getRegistryId(),
             ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this.getItem())

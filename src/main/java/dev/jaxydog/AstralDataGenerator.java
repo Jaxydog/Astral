@@ -13,7 +13,7 @@ public final class AstralDataGenerator implements DataGeneratorEntrypoint {
         final FabricDataGenerator.Pack pack = generator.createPack();
 
         pack.addProvider(AdvancementGenerator::new);
-        LootTableGenerator.addAllProviders(pack);
+        new LootTableGenerator(pack);
         pack.addProvider(ModelGenerator::new);
         new TagGenerator(pack);
         pack.addProvider(RecipeGenerator::new);
