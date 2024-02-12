@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class PlaceholderMimicItem extends PlaceholderItem {
 
     private final Supplier<Item> ITEM;

@@ -76,7 +76,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
     protected abstract void setVisible(A bipedModel, EquipmentSlot slot);
 
     @ModifyVariable(method = "renderArmor", at = @At("STORE"))
-    private ItemStack cosmeticReplacer(ItemStack equippedStack, @Local T entity) {
+    private ItemStack cosmeticReplacer(ItemStack equippedStack, @Local(argsOnly = true) T entity) {
         final ItemStack cosmeticStack = CustomTrinketPredicates.getCosmeticHelmet(entity);
 
         if (cosmeticStack.isEmpty() || equippedStack.isIn(CustomTrinketPredicates.COSMETIC_HELMET_UNHIDEABLE)) {

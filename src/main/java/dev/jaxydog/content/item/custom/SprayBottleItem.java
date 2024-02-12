@@ -120,7 +120,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
         final Block block = blockState.getBlock();
 
-        if (block instanceof final Oxidizable oxidizable) {
+        if (block instanceof Oxidizable) {
             final Optional<Block> increased = Oxidizable.getIncreasedOxidationBlock(block);
 
             if (increased.isPresent()) {
@@ -130,7 +130,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
             }
         }
 
-        if (block instanceof final FarmlandBlock farmland) {
+        if (block instanceof FarmlandBlock) {
             final int moisture = blockState.get(FarmlandBlock.MOISTURE);
 
             if (moisture < FarmlandBlock.MAX_MOISTURE) {
@@ -140,7 +140,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
             }
         }
 
-        if (block instanceof final CampfireBlock campfire) {
+        if (block instanceof CampfireBlock) {
             final boolean lit = blockState.get(CampfireBlock.LIT);
 
             if (lit) {
@@ -151,7 +151,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
             }
         }
 
-        if (block instanceof final AbstractFireBlock fire) {
+        if (block instanceof AbstractFireBlock) {
             if (player == null) {
                 world.breakBlock(blockPos, false);
             } else {

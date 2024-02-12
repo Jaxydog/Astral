@@ -27,7 +27,7 @@ public interface MobChallengeUtil {
     TagKey<EntityType<?>> SCALED_ENTITIES = TagKey.of(RegistryKeys.ENTITY_TYPE, Astral.getId("challenge"));
 
     /** Determines whether a given entity should have scaling applied */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    @SuppressWarnings({ "BooleanMethodIsAlwaysInverted", "RedundantCast" })
     static boolean shouldScale(Entity entity) {
         return entity instanceof final LivingEntity living
             && (((AstralLivingEntity) living).astral$forcesChallengeScaling() || (isEnabled(living.getWorld())

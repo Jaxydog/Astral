@@ -1,6 +1,6 @@
 package dev.jaxydog.mixin;
 
-import dev.jaxydog.utility.injected.LightningEntityMixinAccess;
+import dev.jaxydog.utility.injected.AstralLightningEntity;
 import dev.jaxydog.utility.injected.SprayableEntity;
 import dev.onyxstudios.cca.api.v3.component.ComponentAccess;
 import net.minecraft.entity.Entity;
@@ -23,12 +23,11 @@ public abstract class EntityMixin implements Nameable, EntityLike, CommandOutput
     @Shadow
     public abstract World getWorld();
 
+    @SuppressWarnings("RedundantCast")
     @Inject(method = "onStruckByLightning", at = @At("HEAD"), cancellable = true)
-    private void onStruckByLightningInject(ServerWorld world, LightningEntity entity, CallbackInfo callbackInfo) {
-        if (!(((Entity) (Object) this) instanceof final ItemEntity item)) return;
-
-        if (((LightningEntityMixinAccess) entity).astral$preservesItems()) {
-            callbackInfo.cancel();
+    private void onStruckByLightningInject(ServerWorld world, LightningEntity bolt, CallbackInfo callbackInfo) {
+        if (((Entity) (Object) this) instanceof ItemEntity) {
+            if (((AstralLightningEntity) bolt).astral$preservesItems()) callbackInfo.cancel();
         }
     }
 

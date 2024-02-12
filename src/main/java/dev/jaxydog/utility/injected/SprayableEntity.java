@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
+@SuppressWarnings("unused")
 public interface SprayableEntity {
 
     void astral$setSprayed(@Nullable LivingEntity source, int ticks, boolean initialSpray);

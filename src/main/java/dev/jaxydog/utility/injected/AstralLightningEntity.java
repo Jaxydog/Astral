@@ -16,7 +16,7 @@ package dev.jaxydog.utility.injected;
 
 public interface AstralLightningEntity {
 
-    boolean astral$getPreservesItems();
+    boolean astral$preservesItems();
 
     void astral$setPreservesItems(boolean preserve);
 

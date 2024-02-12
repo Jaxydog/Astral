@@ -1,6 +1,6 @@
 package dev.jaxydog.mixin;
 
-import dev.jaxydog.utility.injected.LightningEntityMixinAccess;
+import dev.jaxydog.utility.injected.AstralLightningEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -19,11 +19,12 @@ public abstract class ItemEntityMixin extends Entity {
         super(type, world);
     }
 
+    @SuppressWarnings("RedundantCast")
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void damageInject(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
         if (!(source.getAttacker() instanceof final LightningEntity lightning)) return;
 
-        if (((LightningEntityMixinAccess) lightning).astral$preservesItems()) {
+        if (((AstralLightningEntity) lightning).astral$preservesItems()) {
             callbackInfo.setReturnValue(false);
         }
     }

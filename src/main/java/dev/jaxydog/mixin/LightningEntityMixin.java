@@ -1,7 +1,6 @@
 package dev.jaxydog.mixin;
 
 import dev.jaxydog.utility.injected.AstralLightningEntity;
-import dev.jaxydog.utility.injected.LightningEntityMixinAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
@@ -14,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LightningEntity.class)
-public abstract class LightningEntityMixin extends Entity implements AstralLightningEntity, LightningEntityMixinAccess {
+public abstract class LightningEntityMixin extends Entity implements AstralLightningEntity {
 
     @Unique
     private static final String PRESERVE_ITEMS_KEY = "PreserveItems";
@@ -28,11 +27,6 @@ public abstract class LightningEntityMixin extends Entity implements AstralLight
 
     @Override
     public boolean astral$preservesItems() {
-        return this.preservesItems;
-    }
-
-    @Override
-    public boolean astral$getPreservesItems() {
         return this.preservesItems;
     }
 
