@@ -189,8 +189,10 @@ public class TextureGenerator implements DataProvider {
                     final BufferedImage image = entry.getValue();
                     final Path path = this.pathResolver.resolve(identifier, "png");
 
+                    // Images are typically ~250-350 bytes, so overshooting prevents repeated reallocation.
+                    // 512 bytes should be enough that most images never exceed the buffer size, with a few exceptions.
                     final HashFunction hashFunction = Hashing.goodFastHash(Long.SIZE);
-                    final ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    final ByteArrayOutputStream output = new ByteArrayOutputStream(512);
                     final HashingOutputStream hasher = new HashingOutputStream(hashFunction, output);
 
                     try (final ImageOutputStream stream = ImageIO.createImageOutputStream(hasher)) {
