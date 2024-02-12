@@ -47,6 +47,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
@@ -273,6 +274,7 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
         });
         TagGenerator.getInstance().generate(this.getVariant().getBlockTag(), b -> b.add(this));
         TagGenerator.getInstance().generate(this.getVariant().getItemTag(), b -> b.add(this.getItem()));
+        TagGenerator.getInstance().generate(BlockTags.PICKAXE_MINEABLE, b -> b.add(this));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, this.getVariant().getBaseId(), this.getColor(), this.getRegistryId())
         );

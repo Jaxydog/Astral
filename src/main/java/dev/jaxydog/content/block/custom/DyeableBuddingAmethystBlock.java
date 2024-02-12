@@ -36,6 +36,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DyeColor;
@@ -123,6 +124,7 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
         ModelGenerator.getInstance().generateBlock(g -> g.registerSimpleCubeAll(this));
         TagGenerator.getInstance().generate(BUDDING_AMETHYSTS, b -> b.add(this));
         TagGenerator.getInstance().generate(BUDDING_AMETHYST_ITEMS, b -> b.add(this.getItem()));
+        TagGenerator.getInstance().generate(BlockTags.PICKAXE_MINEABLE, b -> b.add(this));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, "budding_amethyst", this.getColor(), this.getRegistryId())
         );

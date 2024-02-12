@@ -36,6 +36,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -188,6 +189,7 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         ModelGenerator.getInstance().generateBlock(g -> g.registerSimpleCubeAll(this));
         TagGenerator.getInstance().generate(AMETHYST_BLOCKS, b -> b.add(this));
         TagGenerator.getInstance().generate(AMETHYST_BLOCK_ITEMS, b -> b.add(this.getItem()));
+        TagGenerator.getInstance().generate(BlockTags.PICKAXE_MINEABLE, b -> b.add(this));
         TextureGenerator.getInstance().generate(Registries.BLOCK.getKey(),
             i -> generateTexture(i, "amethyst_block", this.getColor(), this.getRegistryId())
         );
