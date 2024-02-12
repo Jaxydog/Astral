@@ -1,4 +1,4 @@
-package dev.jaxydog.utility;
+package dev.jaxydog.utility.injected;
 
 public interface LightningEntityMixinAccess {
 

@@ -1,6 +1,6 @@
 package dev.jaxydog.mixin;
 
-import dev.jaxydog.utility.LightningEntityMixinAccess;
+import dev.jaxydog.utility.injected.LightningEntityMixinAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -15,17 +15,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity {
 
-	public ItemEntityMixin(EntityType<?> type, World world) {
-		super(type, world);
-	}
+    public ItemEntityMixin(EntityType<?> type, World world) {
+        super(type, world);
+    }
 
-	@Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-	private void damageInject(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!(source.getAttacker() instanceof final LightningEntity lightning)) return;
+    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+    private void damageInject(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
+        if (!(source.getAttacker() instanceof final LightningEntity lightning)) return;
 
-		if (((LightningEntityMixinAccess) lightning).astral$preservesItems()) {
-			callbackInfo.setReturnValue(false);
-		}
-	}
+        if (((LightningEntityMixinAccess) lightning).astral$preservesItems()) {
+            callbackInfo.setReturnValue(false);
+        }
+    }
 
 }

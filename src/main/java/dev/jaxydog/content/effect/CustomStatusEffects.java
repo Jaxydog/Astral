@@ -1,7 +1,7 @@
 package dev.jaxydog.content.effect;
 
 import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.utility.AstralLightningEntity;
+import dev.jaxydog.utility.injected.AstralLightningEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;

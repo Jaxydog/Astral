@@ -17,7 +17,7 @@ package dev.jaxydog.mixin;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.utility.AstralModel;
+import dev.jaxydog.utility.injected.AstralModel;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;

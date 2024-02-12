@@ -1,6 +1,6 @@
 package dev.jaxydog.mixin;
 
-import dev.jaxydog.utility.SprayableEntity;
+import dev.jaxydog.utility.injected.SprayableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.VariantHolder;
@@ -24,55 +24,55 @@ import java.util.UUID;
 @Mixin(FoxEntity.class)
 public abstract class FoxEntityMixin extends AnimalEntity implements SprayableEntity, VariantHolder<FoxEntity.Type> {
 
-	@Shadow
-	@Final
-	private static TrackedData<Optional<UUID>> OWNER;
+    @Shadow
+    @Final
+    private static TrackedData<Optional<UUID>> OWNER;
 
-	@Unique
-	private @Nullable LivingEntity spraySource;
+    @Unique
+    private @Nullable LivingEntity spraySource;
 
-	@Unique
-	private int sprayDuration = 0;
+    @Unique
+    private int sprayDuration = 0;
 
-	protected FoxEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
-		super(entityType, world);
-	}
+    protected FoxEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
+        super(entityType, world);
+    }
 
-	@Shadow
-	public abstract boolean isSitting();
+    @Shadow
+    public abstract boolean isSitting();
 
-	@Override
-	public void astral$setSprayed(LivingEntity source, int ticks, boolean initialSpray) {
-		if (source == null) return;
+    @Override
+    public void astral$setSprayed(LivingEntity source, int ticks, boolean initialSpray) {
+        if (source == null) return;
 
-		this.spraySource = source;
-		this.sprayDuration = Math.max(0, ticks);
+        this.spraySource = source;
+        this.sprayDuration = Math.max(0, ticks);
 
-		if (initialSpray && this.astral$isSprayed()) {
-			this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
+        if (initialSpray && this.astral$isSprayed()) {
+            this.playSound(SoundEvents.ENTITY_FOX_SCREECH, 2F, this.getSoundPitch());
 
-			if (this.isOnGround()) this.jump();
-		}
-	}
+            if (this.isOnGround()) this.jump();
+        }
+    }
 
-	@Override
-	public @Nullable LivingEntity astral$getSpraySource() {
-		return this.spraySource;
-	}
+    @Override
+    public @Nullable LivingEntity astral$getSpraySource() {
+        return this.spraySource;
+    }
 
-	@Override
-	public int astral$getSprayTicks() {
-		return this.sprayDuration;
-	}
+    @Override
+    public int astral$getSprayTicks() {
+        return this.sprayDuration;
+    }
 
-	@Override
-	public boolean astral$canSpray() {
-		return !this.astral$isSprayed() && !(this.dataTracker.get(OWNER).isPresent() && this.isSitting());
-	}
+    @Override
+    public boolean astral$canSpray() {
+        return !this.astral$isSprayed() && !(this.dataTracker.get(OWNER).isPresent() && this.isSitting());
+    }
 
-	@Inject(method = "initGoals", at = @At("HEAD"))
-	private void initGoalsInject(CallbackInfo callbackInfo) {
-		this.goalSelector.add(1, new EscapeSprayGoal<>(this, 1.5));
-	}
+    @Inject(method = "initGoals", at = @At("HEAD"))
+    private void initGoalsInject(CallbackInfo callbackInfo) {
+        this.goalSelector.add(1, new EscapeSprayGoal<>(this, 1.5));
+    }
 
 }

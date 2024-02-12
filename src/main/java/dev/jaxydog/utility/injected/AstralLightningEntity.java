@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.utility;
+package dev.jaxydog.utility.injected;
 
 public interface AstralLightningEntity {
 

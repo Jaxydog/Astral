@@ -21,7 +21,7 @@ import dev.jaxydog.content.item.CustomBlockItem;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.datagen.*;
 import dev.jaxydog.register.Registered.Client;
-import dev.jaxydog.utility.AstralModel;
+import dev.jaxydog.utility.injected.AstralModel;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;

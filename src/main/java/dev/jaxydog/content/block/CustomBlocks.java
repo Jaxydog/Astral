@@ -7,7 +7,7 @@ import dev.jaxydog.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.content.block.custom.RandomizerBlock;
 import dev.jaxydog.datagen.TagGenerator;
 import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.utility.DyeableMap;
+import dev.jaxydog.utility.register.DyeableMap;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Blocks;
 

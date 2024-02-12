@@ -1,7 +1,7 @@
 package dev.jaxydog.mixin;
 
-import dev.jaxydog.utility.LightningEntityMixinAccess;
-import dev.jaxydog.utility.SprayableEntity;
+import dev.jaxydog.utility.injected.LightningEntityMixinAccess;
+import dev.jaxydog.utility.injected.SprayableEntity;
 import dev.onyxstudios.cca.api.v3.component.ComponentAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -20,24 +20,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements Nameable, EntityLike, CommandOutput, ComponentAccess {
 
-	@Shadow
-	public abstract World getWorld();
+    @Shadow
+    public abstract World getWorld();
 
-	@Inject(method = "onStruckByLightning", at = @At("HEAD"), cancellable = true)
-	private void onStruckByLightningInject(ServerWorld world, LightningEntity entity, CallbackInfo callbackInfo) {
-		if (!(((Entity) (Object) this) instanceof final ItemEntity item)) return;
+    @Inject(method = "onStruckByLightning", at = @At("HEAD"), cancellable = true)
+    private void onStruckByLightningInject(ServerWorld world, LightningEntity entity, CallbackInfo callbackInfo) {
+        if (!(((Entity) (Object) this) instanceof final ItemEntity item)) return;
 
-		if (((LightningEntityMixinAccess) entity).astral$preservesItems()) {
-			callbackInfo.cancel();
-		}
-	}
+        if (((LightningEntityMixinAccess) entity).astral$preservesItems()) {
+            callbackInfo.cancel();
+        }
+    }
 
-	@Inject(method = "tick", at = @At("HEAD"))
-	private void tickInject(CallbackInfo callbackInfo) {
-		if (this.getWorld().isClient()) return;
-		if (!(this instanceof final SprayableEntity sprayable)) return;
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void tickInject(CallbackInfo callbackInfo) {
+        if (this.getWorld().isClient()) return;
+        if (!(this instanceof final SprayableEntity sprayable)) return;
 
-		sprayable.astral$sprayTick();
-	}
+        sprayable.astral$sprayTick();
+    }
 
 }

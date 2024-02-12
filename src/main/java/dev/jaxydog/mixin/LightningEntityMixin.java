@@ -1,7 +1,7 @@
 package dev.jaxydog.mixin;
 
-import dev.jaxydog.utility.AstralLightningEntity;
-import dev.jaxydog.utility.LightningEntityMixinAccess;
+import dev.jaxydog.utility.injected.AstralLightningEntity;
+import dev.jaxydog.utility.injected.LightningEntityMixinAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;

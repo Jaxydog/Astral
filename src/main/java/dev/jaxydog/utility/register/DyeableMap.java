@@ -1,4 +1,4 @@
-package dev.jaxydog.utility;
+package dev.jaxydog.utility.register;
 
 import dev.jaxydog.register.Registered;
 import net.minecraft.util.DyeColor;
