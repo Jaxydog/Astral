@@ -16,6 +16,11 @@
     - Added support for texture and language file generation.
 - Refactor dyeable amethyst implementation.
 - Improve item group support.
+- Major internal refactoring.
+    - Removed unused command support.
+    - Several classes relocated.
+    - Duplicate logic condensed into interfaces.
+    - Mixin accessors converted into injected interfaces.
 
 ### Content changes
 
