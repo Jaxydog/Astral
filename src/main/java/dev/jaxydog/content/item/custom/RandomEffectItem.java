@@ -65,7 +65,9 @@ public class RandomEffectItem extends CustomItem implements Generated {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
 
+        // Only run on the server for living entities.
         if (world.isClient() || !(entity instanceof final LivingEntity livingEntity)) return;
+        // Don't re-apply when the entity has the target effect.
         if (livingEntity.hasStatusEffect(this.effect)) return;
 
         if (world.getRandom().nextFloat() <= this.effectChance) {

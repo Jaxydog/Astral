@@ -43,6 +43,7 @@ public final class CustomStatusEffects extends ContentRegistrar {
                 this.effects.add(() -> {
                     final Random random = entity.getWorld().getRandom();
 
+                    // Flings the player randomly.
                     entity.setVelocity((random.nextDouble() - 0.5) * 4,
                         amplifier * 0.5,
                         (random.nextDouble() - 0.5) * 4
@@ -55,6 +56,7 @@ public final class CustomStatusEffects extends ContentRegistrar {
                     if (entity.isSubmergedInWater()) {
                         final Random random = entity.getWorld().getRandom();
 
+                        // Attempt to drown the player if they're swimming.
                         entity.setAir(0);
                         entity.setVelocity((random.nextDouble() - 0.5) * 2,
                             amplifier * 0.5,
@@ -62,6 +64,7 @@ public final class CustomStatusEffects extends ContentRegistrar {
                         );
                         entity.velocityModified = true;
                     } else if (!entity.getWorld().isClient()) {
+                        // Otherwise spawn a pufferfish on them.
                         final PufferfishEntity pufferfish = new PufferfishEntity(EntityType.PUFFERFISH,
                             entity.getWorld()
                         );
@@ -76,6 +79,7 @@ public final class CustomStatusEffects extends ContentRegistrar {
                 this.effects.add(() -> {
                     if (entity.getWorld().isClient()) return;
 
+                    // Strike them with lightning.
                     final LightningEntity lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, entity.getWorld());
 
                     lightning.setPosition(entity.getSyncedPos());
@@ -87,7 +91,7 @@ public final class CustomStatusEffects extends ContentRegistrar {
         }
 
         @Override
-        public synchronized void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
             this.effects.shuffle();
             this.effects.stream().findFirst().ifPresent(Runnable::run);
 

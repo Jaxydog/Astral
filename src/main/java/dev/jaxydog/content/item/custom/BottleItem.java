@@ -60,6 +60,7 @@ public class BottleItem extends CustomItem {
             if (!player.isCreative()) stack.decrement(1);
         }
 
+        // Give the player a bottle when drinking, unless they're in creative.
         if (player == null || !player.isCreative()) {
             if (stack.isEmpty()) return Items.GLASS_BOTTLE.getDefaultStack();
 

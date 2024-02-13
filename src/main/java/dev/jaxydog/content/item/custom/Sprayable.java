@@ -71,21 +71,22 @@ public interface Sprayable extends Registered.Client {
         if (!(stack.getItem() instanceof Sprayable)) return;
 
         if (player == null || !player.isCreative()) {
+            // Reduce total charges.
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 stack.damage(charges, world.getRandom(), serverPlayer);
             } else {
                 stack.damage(charges, world.getRandom(), null);
             }
 
-            if (this.isEmptied(stack)) {
-                this.onEmptied(stack, world, player);
-            }
+            // Run callback on empty.
+            if (this.isEmptied(stack)) this.onEmptied(stack, world, player);
         }
 
         if (player != null) {
             player.getItemCooldownManager().set(stack.getItem(), this.getSprayCooldown(stack));
             player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
 
+            // Play the spray sound if the entity is not silent.
             if (!player.isSilent()) {
                 final SoundEvent soundEvent = this.getSpraySoundEvent(stack);
                 final SoundCategory soundCategory = this.getSpraySoundCategory(stack);

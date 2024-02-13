@@ -68,6 +68,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
         if (this.isEmptied(stack)) return charges;
 
+        // Iterate through all spray powers and apply their effects if possible.
         final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
 
         powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
@@ -106,6 +107,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
             return charges;
         }
 
+        // Refill if possible.
         final BlockState blockState = world.getBlockState(blockPos);
 
         if (stack.isDamaged() && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
@@ -114,6 +116,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
             return charges;
         }
 
+        // Iterate through all spray powers and apply their effects if possible.
         final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
 
         powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
@@ -203,6 +206,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
         final BlockPos blockPos = result.getBlockPos();
 
+        // Attempt to refill using a water source.
         if (world.canPlayerModifyAt(player, blockPos) && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
             this.fill(stack, world, blockPos, player, this.getMaxDamage());
 
@@ -236,31 +240,30 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
         final int charges = this.sprayBlock(stack, player, world, blockPos, side);
 
-        if (charges > 0) {
-            final BlockState newState = world.getBlockState(blockPos);
+        if (charges <= 0) return ActionResult.PASS;
 
-            if (!oldState.equals(newState)) {
-                final GameEvent.Emitter emitter;
+        final BlockState newState = world.getBlockState(blockPos);
 
-                if (player == null) {
-                    emitter = GameEvent.Emitter.of(newState);
-                } else {
-                    emitter = GameEvent.Emitter.of(player, newState);
-                }
+        // Emit game events if the state changed.
+        if (!oldState.equals(newState)) {
+            final GameEvent.Emitter emitter;
 
-                world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+            if (player == null) {
+                emitter = GameEvent.Emitter.of(newState);
+            } else {
+                emitter = GameEvent.Emitter.of(player, newState);
             }
 
-            if (player instanceof final ServerPlayerEntity serverPlayer) {
-                Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
-            }
-
-            this.spray(stack, world, player, charges);
-
-            return ActionResult.success(player.getWorld().isClient());
-        } else {
-            return ActionResult.PASS;
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
         }
+
+        if (player instanceof final ServerPlayerEntity serverPlayer) {
+            Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
+        }
+
+        this.spray(stack, world, player, charges);
+
+        return ActionResult.success(player.getWorld().isClient());
     }
 
     @Override
@@ -274,6 +277,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
     public void register() {
         super.register();
 
+        // Allow refill using cauldrons.
         CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(this, (blockState, world, blockPos, player, hand, stack) -> {
             if (!stack.isDamaged()) return ActionResult.PASS;
 
@@ -287,6 +291,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
             return ActionResult.success(world.isClient());
         });
+        // Allow dispensers to use the bottle.
         DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
 
             @Override
@@ -305,6 +310,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
                 int charges = 0;
 
+                // Spray entities in front of the dispenser.
                 final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
                     new Box(blockPos),
                     EntityPredicates.EXCEPT_SPECTATOR
@@ -319,6 +325,7 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
                 charges = Math.max(charges, item.sprayBlock(stack, null, world, blockPos, side));
 
+                // Only spray if charges are > 0.
                 if (charges > 0) {
                     item.spray(stack, world, null, charges);
 

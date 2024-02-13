@@ -128,6 +128,7 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
         final int height = variant.getHeight();
         final int size = variant.getSize();
 
+        // Determines the block hit boxes.
         this.upShape = Block.createCuboidShape(size, 0D, size, (16 - size), height, (16 - size));
         this.downShape = Block.createCuboidShape(size, (16 - height), size, (16 - size), 16, (16 - size));
         this.northShape = Block.createCuboidShape(size, size, (16 - height), (16 - size), (16 - size), 16);

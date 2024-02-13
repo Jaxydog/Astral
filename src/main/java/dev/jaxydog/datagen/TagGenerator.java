@@ -67,6 +67,7 @@ public class TagGenerator implements DataProvider {
      */
     @SuppressWarnings("unchecked")
     public <T> void generate(TagKey<T> tagKey, Consumer<FabricTagProvider<T>.FabricTagBuilder> builder) {
+        // Scary map computation that creates a new instance if one is not yet present before returning it.
         final Instance<T> instance = (Instance<T>) this.instances.computeIfAbsent(tagKey.registry(), (key) -> {
             final RegistryKey<? extends Registry<T>> registryKey = (RegistryKey<? extends Registry<T>>) key;
 

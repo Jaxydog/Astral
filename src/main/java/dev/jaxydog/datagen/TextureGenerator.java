@@ -14,7 +14,6 @@
 
 package dev.jaxydog.datagen;
 
-import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
 import dev.jaxydog.Astral;
@@ -138,6 +137,9 @@ public class TextureGenerator implements DataProvider {
         private static @NotNull BufferedImage copyImage(@NotNull BufferedImage image) {
             final BufferedImage copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
 
+            // FIXME: This currently doesn't actually seem to copy the image.
+            //   Rather, it appears to return a mutable reference to the original image, which is bad.
+            //   For now, the returned image should not be modified directly.
             copy.setData(image.getData());
 
             return image;
@@ -154,9 +156,13 @@ public class TextureGenerator implements DataProvider {
         }
 
         public Optional<BufferedImage> getImage(String path) {
+            // Early return to prevent duplicate file reads.
+            // Intentionally checked *before* checking for Jar access in case any values are still set.
             if (IMAGE_CACHE.containsKey(path)) return Optional.of(copyImage(IMAGE_CACHE.get(path)));
             if (!JarAccess.canLoad()) return Optional.empty();
 
+            // We currently only support loading directly from the Minecraft jar.
+            // As such, we can safely assume all file paths are within `BASE_PATH`.
             final String jarPath = "%s/%s/%s.png".formatted(BASE_PATH, this.registryKey.getValue().getPath(), path);
 
             return JarAccess.getInputStream(jarPath).flatMap(stream -> {
@@ -185,19 +191,19 @@ public class TextureGenerator implements DataProvider {
             return this.lookupFuture.thenCompose(lookup -> CompletableFuture.allOf(this.images.entrySet()
                 .stream()
                 .map(entry -> CompletableFuture.runAsync(() -> {
-                    final Identifier identifier = entry.getKey();
-                    final BufferedImage image = entry.getValue();
-                    final Path path = this.pathResolver.resolve(identifier, "png");
 
                     // Images are typically ~250-350 bytes, so overshooting prevents repeated reallocation.
                     // 512 bytes should be enough that most images never exceed the buffer size, with a few exceptions.
-                    final HashFunction hashFunction = Hashing.goodFastHash(Long.SIZE);
                     final ByteArrayOutputStream output = new ByteArrayOutputStream(512);
-                    final HashingOutputStream hasher = new HashingOutputStream(hashFunction, output);
+                    // For hashing, we don't need anything cryptographic or even consistent between runs.
+                    // For this case, `goodFastHash` works perfectly fine, as it's fast and stupid.
+                    final HashingOutputStream hasher = new HashingOutputStream(Hashing.goodFastHash(Long.SIZE), output);
+                    final Path path = this.pathResolver.resolve(entry.getKey(), "png");
 
                     try (final ImageOutputStream stream = ImageIO.createImageOutputStream(hasher)) {
-                        ImageIO.write(image, "png", stream);
+                        ImageIO.write(entry.getValue(), "png", stream);
 
+                        // Ensure that all bytes are written to the stream before writing the file.
                         stream.flush();
                         writer.write(path, output.toByteArray(), hasher.hash());
                     } catch (IOException exception) {

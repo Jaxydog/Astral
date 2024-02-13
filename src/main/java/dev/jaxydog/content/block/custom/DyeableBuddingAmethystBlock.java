@@ -98,6 +98,7 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
         final BlockState blockState = world.getBlockState(blockPos);
         final Block block;
 
+        // Step through various stages of growth.
         if (BuddingAmethystBlock.canGrowIn(blockState)) {
             block = this.getSmallBud();
         } else if (blockState.isOf(this.getSmallBud()) && blockState.get(AmethystClusterBlock.FACING) == direction) {
@@ -110,13 +111,14 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
             block = null;
         }
 
-        if (block != null) {
-            final BlockState newState = block.getDefaultState()
-                .with(DyeableAmethystClusterBlock.FACING, direction)
-                .with(DyeableAmethystClusterBlock.WATERLOGGED, blockState.getFluidState().getFluid() == Fluids.WATER);
+        if (block == null) return;
 
-            world.setBlockState(blockPos, newState);
-        }
+        // Update the block state if non-null.
+        final BlockState newState = block.getDefaultState()
+            .with(DyeableAmethystClusterBlock.FACING, direction)
+            .with(DyeableAmethystClusterBlock.WATERLOGGED, blockState.getFluidState().getFluid() == Fluids.WATER);
+
+        world.setBlockState(blockPos, newState);
     }
 
     @Override

@@ -8,29 +8,29 @@ import net.minecraft.util.StringIdentifiable;
 
 public enum CowType implements StringIdentifiable {
 
-	BROWN("brown"),
+    BROWN("brown"),
 
-	PINK("pink");
+    PINK("pink");
 
-	@SuppressWarnings("deprecation") // this sucks
-	public static final Codec<CowType> CODEC = StringIdentifiable.createCodec(CowType::values);
-	public static final TrackedData<String> COW_TYPE = DataTracker.registerData(CowEntity.class,
-		TrackedDataHandlerRegistry.STRING
-	);
+    @SuppressWarnings("deprecation")
+    public static final Codec<CowType> CODEC = StringIdentifiable.createCodec(CowType::values);
+    public static final TrackedData<String> COW_TYPE = DataTracker.registerData(CowEntity.class,
+        TrackedDataHandlerRegistry.STRING
+    );
 
-	private final String name;
+    private final String name;
 
-	CowType(String name) {
-		this.name = name;
-	}
+    CowType(String name) {
+        this.name = name;
+    }
 
-	public static CowType fromName(String name) {
-		return CODEC.byId(name, BROWN);
-	}
+    public static CowType fromName(String name) {
+        return CODEC.byId(name, BROWN);
+    }
 
-	@Override
-	public String asString() {
-		return this.name;
-	}
+    @Override
+    public String asString() {
+        return this.name;
+    }
 
 }

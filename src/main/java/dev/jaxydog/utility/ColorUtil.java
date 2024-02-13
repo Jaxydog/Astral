@@ -14,15 +14,18 @@ public interface ColorUtil {
 
     /** Performs a linear transition between two colors */
     static Rgb transition(Rgb start, Rgb end, double delta) {
+        // Scary math, just linearly interpolates between the two values per color component.
         final int r = (int) ((end.r() - start.r()) * delta);
         final int g = (int) ((end.g() - start.g()) * delta);
         final int b = (int) ((end.b() - start.b()) * delta);
 
+        // Adds the computed transition onto the starting color.
         return new Rgb(start.r() + r, start.g() + g, start.b() + b);
     }
 
     /** Performs a linear transition between two colors */
     static int transition(int start, int end, double delta) {
+        // Just converts the given integers into RGB colors.
         return transition(new Rgb(start), new Rgb(end), delta).asInt();
     }
 
@@ -30,29 +33,35 @@ public interface ColorUtil {
     record Rgb(int asInt) {
 
         public Rgb {
+            // Ensure that the given integer does not have a set alpha value.
             asInt &= 0x00FFFFFF;
         }
 
         public Rgb(int r, int g, int b) {
+            // Shifts the R, G, and B channel's bits into the correct places, then combines into a single int.
             this(((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF));
         }
 
         public Rgb(float r, float g, float b) {
+            // Converts the given floats from a 0-1 range into a 0-255 range.
             this((int) (r * 255F), (int) (g * 255F), (int) (b * 255F));
         }
 
         /** Returns the color's red component */
         public int r() {
+            // Unpacks the color channel from the internal integer.
             return (this.asInt() >> 16) & 0xFF;
         }
 
         /** Returns the color's green component */
         public int g() {
+            // Unpacks the color channel from the internal integer.
             return (this.asInt() >> 8) & 0xFF;
         }
 
         /** Returns the color's blue component */
         public int b() {
+            // Unpacks the color channel from the internal integer.
             return this.asInt() & 0xFF;
         }
 

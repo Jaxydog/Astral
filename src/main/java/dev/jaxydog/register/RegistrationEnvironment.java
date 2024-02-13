@@ -35,6 +35,7 @@ public enum RegistrationEnvironment {
 
     /** Registers the provided value within this environment. */
     public final void register(Registered registered) throws InvalidClassException {
+        // Ensures that the provided value is an instance of this environment's associated `Registered` type.
         if (!this.getInterface().isInstance(registered)) {
             throw new InvalidClassException("Expected an instance of " + this.getInterface().getSimpleName());
         }

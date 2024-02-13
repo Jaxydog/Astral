@@ -79,49 +79,43 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
     }
 
     protected static int convertColor(Rgb rgb, DyeColor color) {
-        final int alphaMask = 0xFF000000;
         final float s = rgb.saturation();
         final float b = rgb.brightness();
 
+        // Some colors have special rules.
         return (switch (color) {
             case WHITE -> rgb.withSaturation(0F);
             case LIGHT_GRAY -> rgb.withSaturation(0F).withBrightness(b - 0.225F);
             case GRAY -> rgb.withSaturation(0F).withBrightness(b - 0.45F);
             case BLACK -> rgb.withSaturation(0F).withBrightness(b - 0.6F);
             default -> {
+                // All other colors just hue rotate.
                 final float[] components = color.getColorComponents();
                 final Rgb target = new Rgb(components[0], components[1], components[2]);
                 final Rgb rotated = rgb.withHue(target.hue());
 
                 yield switch (color) {
+                    // These specific colors hue rotate *and* have differing brightness / saturation values.
                     case BROWN -> rotated.withBrightness(b - 0.25F);
                     case GREEN -> rotated.withSaturation(s + 0.375F).withBrightness(b - 0.325F);
                     case PINK -> rotated.withSaturation(s - 0.1F).withBrightness(b + 0.1F);
                     case CYAN -> rotated.withSaturation(s + 0.25F).withBrightness(b - 0.25F);
+                    // Everything else just increases in saturation.
                     default -> rotated.withSaturation(s + 0.25F);
                 };
             }
-        }).asInt() | alphaMask;
+        }).asInt() | 0xFF000000; // Re-introduce full alpha color.
     }
 
-    protected static void finalColorPass(BufferedImage image, DyeColor color) {
-        switch (color) {
-            case GRAY -> {
-                final RescaleOp contrast = new RescaleOp(0.625F, 15, null);
+    protected static void contrastFilter(BufferedImage image, DyeColor color) {
+        final float percentage = switch (color) {
+            case GRAY -> 0.625F;
+            case BLACK -> 0.5F;
+            case GREEN -> 0.875F;
+            default -> 1F;
+        };
 
-                contrast.filter(image, image);
-            }
-            case BLACK -> {
-                final RescaleOp contrast = new RescaleOp(0.5F, 15, null);
-
-                contrast.filter(image, image);
-            }
-            case GREEN -> {
-                final RescaleOp contrast = new RescaleOp(0.875F, 15, null);
-
-                contrast.filter(image, image);
-            }
-        }
+        if (percentage != 1F) new RescaleOp(percentage, 0xF, null).filter(image, image);
     }
 
     protected static void generateTexture(
@@ -134,17 +128,19 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
         final BufferedImage source = maybeSource.get();
         final BufferedImage generated = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
 
+        // Compute all pixels.
         for (int y = 0; y < source.getHeight(); y += 1) {
             for (int x = 0; x < source.getWidth(); x += 1) {
                 final int argb = source.getRGB(x, y);
 
+                // Ignore if the pixel is transparent.
                 if ((argb & 0xFF000000) == 0) continue;
 
                 generated.setRGB(x, y, convertColor(new Rgb(argb), color));
             }
         }
 
-        finalColorPass(generated, color);
+        contrastFilter(generated, color);
 
         instance.generate(identifier, generated);
     }

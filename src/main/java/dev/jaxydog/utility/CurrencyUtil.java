@@ -87,8 +87,9 @@ public interface CurrencyUtil {
 
         int count = 0;
 
+        // Try to roll a reward `rolls` times, with a `rewardChance` chance of success per iteration.
         for (int iteration = 0; iteration < rolls; iteration += 1) {
-            if (random.nextDouble() < rewardChance) count += 1;
+            if (random.nextDouble() <= rewardChance) count += 1;
         }
 
         final List<Reward> rewards = Reward.getRandom(count);
@@ -111,13 +112,14 @@ public interface CurrencyUtil {
 
         final List<ItemStack> stacks = new ObjectArrayList<>();
 
+        // Grab a reference of all stacks within the inventory.
         for (int slot = 0; slot < inventory.size(); slot += 1) {
             final ItemStack stack = inventory.getStack(slot);
 
             if (!stack.isEmpty()) stacks.add(stack);
         }
 
-        // Finds the unit value based on the streamed stack, yielding a pair if it could be found.
+        // Finds the unit value based on the streamed stack, yielding a stack-unit pair if it was found.
         final List<Pair<ItemStack, Unit>> units = stacks.stream()
             .flatMap(s -> Unit.UNITS.findByItem(s).stream().map(u -> new Pair<>(s, u)))
             .toList();
@@ -189,6 +191,7 @@ public interface CurrencyUtil {
 
             if (total == 0) return;
 
+            // Remove all consumed unit items.
             inventory.remove(
                 s -> s.getItem().equals(unit.getItem()) && canExchange(s),
                 total * price,
@@ -242,6 +245,7 @@ public interface CurrencyUtil {
             final List<Skeleton> removed = new ObjectArrayList<>();
 
             for (final Skeleton skeleton : possibleSkeletons) {
+                // If craftable, add a reward and retain the skeleton entry.
                 if (skeleton.hasRequirements(rewardCounts)) {
                     for (final Reward reward : skeleton.getRequirements()) {
                         removedCounts.merge(reward, 1, Integer::sum);
@@ -257,11 +261,13 @@ public interface CurrencyUtil {
             possibleSkeletons.removeAll(removed);
         }
 
+        // Remove all skeleton ingredients.
         removedCounts.forEach(((reward, count) -> inventory.remove(
             s -> s.getItem().equals(reward.getItem()) && canExchange(s),
             count,
             player.playerScreenHandler.getCraftingInput()
         )));
+        // Then give the player all crafted skeletons.
         skeletons.forEach((skeleton, count) -> {
             final ItemStack stack = skeleton.getItem().getDefaultStack();
 
@@ -454,6 +460,7 @@ public interface CurrencyUtil {
 
                 exchanges = new Object2IntOpenHashMap<>(exchangesObject.size());
 
+                // Parse out conversion rates for other namespaces.
                 for (final Entry<String, JsonElement> entry : exchangesObject.entrySet()) {
                     if (!entry.getValue().isJsonPrimitive()) continue;
 
@@ -503,7 +510,6 @@ public interface CurrencyUtil {
 
             if (!exactMultiple) return stream.min(Comparator.comparingInt(e -> e.getValue().value()));
 
-            // Make sure we use the converted value if this is from a different namespace.
             return stream.filter(entry -> {
                 // Make sure we use the converted value if this is from a different namespace.
                 if (entry.getKey().getNamespace().equals(thisNamespace)) {
@@ -619,6 +625,7 @@ public interface CurrencyUtil {
             final JsonArray array = JsonHelper.getArray(object, "cost");
             final List<Identifier> requirements = new ObjectArrayList<>(array.size());
 
+            // Parse a list of identifiers for requirements, ignoring invalid ones.
             for (JsonElement element : array) {
                 final String string = element.getAsString();
                 final Identifier identifier = Identifier.tryParse(string);
@@ -630,6 +637,8 @@ public interface CurrencyUtil {
                 }
             }
 
+            // Prevent the skeleton from generating if its requirement list is empty.
+            // This prevents potential infinite loops.
             if (requirements.isEmpty()) {
                 throw new JsonParseException("Expected a non-empty cost array");
             }
@@ -659,10 +668,12 @@ public interface CurrencyUtil {
             final Map<Reward, Integer> requirementCounts = new Object2ObjectArrayMap<>(rewardCounts.size());
             final List<Reward> requirements = this.getRequirements();
 
+            // Grab the total amount of requirements.
             for (final Reward reward : requirements) {
                 requirementCounts.merge(reward, 1, Integer::sum);
             }
 
+            // Ensure there's at least enough to craft one skeleton.
             return requirementCounts.entrySet().stream().allMatch(e -> {
                 if (!rewardCounts.containsKey(e.getKey())) return false;
 

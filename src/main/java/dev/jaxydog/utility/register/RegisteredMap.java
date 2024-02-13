@@ -32,6 +32,7 @@ public abstract class RegisteredMap<K, V extends Registered> implements Register
     }
 
     private void construct() {
+        // Generates and stores a new instance for each key.
         for (final K key : this.keys()) {
             final String id = this.getIdPath(key);
             final V value = this.CONSTRUCTOR.apply(id, key);

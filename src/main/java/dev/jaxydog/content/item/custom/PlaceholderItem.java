@@ -24,6 +24,7 @@ public class PlaceholderItem extends CustomItem implements Customized, Equipment
 
         if (data == 0) return super.getTranslationKey(stack);
 
+        // Cache translation keys to reduce repeated computation.
         if (!TRANSLATION_KEYS.containsKey(data)) {
             TRANSLATION_KEYS.put(data, super.getTranslationKey(stack) + "." + data);
         }

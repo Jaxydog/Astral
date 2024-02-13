@@ -38,6 +38,7 @@ import java.util.jar.JarFile;
  */
 public final class JarAccess {
 
+    // Formatted to be akin to Fabric's style of environment variable names.
     private static final String ENV_KEY = "astral.datagen.jar-path";
     private static final int MAX_HINTS = 5;
     private static @Nullable JarAccess instance;
@@ -91,6 +92,7 @@ public final class JarAccess {
                 access.file = new JarFile(access.path) {
                     @Override
                     public void close() throws IOException {
+                        // Track when the Jar is closed, so that we know when we need to re-open it.
                         access.closed = true;
 
                         super.close();
@@ -123,6 +125,7 @@ public final class JarAccess {
                 if (!allowDirs && e.isDirectory()) return false;
 
                 final DataResult<List<String>> maybeParts = PathUtil.split(e.getName());
+                // This converts the returned optional list into a concrete list of distinct parts.
                 final List<String> parts = maybeParts.result().stream().flatMap(List::stream).distinct().toList();
 
                 if (parts.isEmpty()) return false;
@@ -137,8 +140,10 @@ public final class JarAccess {
             if (!matches.isEmpty()) {
                 final StringBuilder builder = new StringBuilder();
 
+                // Scary method chain to combine possible valid paths into a list.
                 matches.stream().sorted().limit(MAX_HINTS).forEach(s -> builder.append("- ").append(s).append("\n"));
 
+                // Adds a little ellipsis if the number of possible paths exceeds the defined limit.
                 if (matches.size() > MAX_HINTS) builder.append("  ...");
 
                 Astral.LOGGER.warn("Valid entries:\n{}", builder);

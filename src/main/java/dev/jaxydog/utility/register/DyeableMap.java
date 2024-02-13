@@ -44,6 +44,7 @@ public class DyeableMap<T extends Registered> extends RegisteredMap<DyeColor, T>
 
     @Override
     protected final int compareKeys(DyeColor a, DyeColor b) {
+        // Sorts in rainbow order to be aligned with Minecraft's standard color ordering.
         return Integer.compare(ORDER.indexOf(a), ORDER.indexOf(b));
     }
 

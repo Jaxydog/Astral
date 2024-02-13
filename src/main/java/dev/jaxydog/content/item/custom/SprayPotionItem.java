@@ -106,6 +106,7 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
             }
         }
 
+        // Apply every effect in order.
         for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(stack)) {
             if (effect.getEffectType().isInstant()) {
                 effect.getEffectType().applyInstantEffect(player, player, entity, effect.getAmplifier(), 1D);

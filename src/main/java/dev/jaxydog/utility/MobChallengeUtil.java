@@ -29,10 +29,17 @@ public interface MobChallengeUtil {
     /** Determines whether a given entity should have scaling applied */
     @SuppressWarnings({ "BooleanMethodIsAlwaysInverted", "RedundantCast" })
     static boolean shouldScale(Entity entity) {
+        // Ensure the entity is living firstly.
         return entity instanceof final LivingEntity living
-            && (((AstralLivingEntity) living).astral$forcesChallengeScaling() || (isEnabled(living.getWorld())
+            // Check is scaling is being forced.
+            && (((AstralLivingEntity) living).astral$forcesChallengeScaling()
+            // Check if scaling is enabled.
+            || (isEnabled(living.getWorld())
+            // Check if the entity is in the scaling tag.
             && living.getType().isIn(SCALED_ENTITIES)
+            // Check if the entity ignores scaling.
             && !((AstralLivingEntity) living).astral$ignoresChallengeScaling()
+            // Check if the entity is tamed.
             && (!(living instanceof final TameableEntity tamable) || !tamable.isTamed())));
     }
 
@@ -57,6 +64,7 @@ public interface MobChallengeUtil {
 
         final int step = getChunkStep(entity.getWorld());
         final double distance = getSpawnDistance(entity);
+        // Scale by chunks, not blocks.
         final double modifier = Math.max(0D, additive) * ((distance / 16D) / step);
         final boolean overworld = entity.getWorld().getRegistryKey().equals(World.OVERWORLD);
 

@@ -53,6 +53,7 @@ public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableIt
         final ArrayList<ItemStack> armor = Lists.newArrayList(entity.getArmorItems());
         final boolean cloudy = armor.stream().allMatch(s -> s.getItem() instanceof DyeableCloudyArmorItem);
 
+        // Apply effects when wearing a full set.
         if (armor.size() == 4 && cloudy && entity instanceof final LivingEntity living) {
             final double level = armor.stream().map(this::getStorminess).reduce(0D, Double::sum) / 4D;
             final StatusEffect type = level < 0.5D ? StatusEffects.JUMP_BOOST : StatusEffects.SLOWNESS;
