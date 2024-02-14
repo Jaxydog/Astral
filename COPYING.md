@@ -10,5 +10,5 @@ If not, see [<https://www.gnu.org/licenses/>](https://www.gnu.org/licenses/).
 
 Any files containing assets pulled from Minecraft are Copyright © Mojang AB. This includes, but may not be limited to:
 
-* ./src/generated/resources/assets/astral/textures/block/\*\_amethyst\*.png
+* ./src/main/generated/resources/assets/astral/textures/block/\*\_amethyst\*.png
 * ./src/main/resources/assets/astral/textures/entity/cow/pink\_cow.png

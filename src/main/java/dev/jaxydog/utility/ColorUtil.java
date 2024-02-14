@@ -65,19 +65,24 @@ public interface ColorUtil {
             return this.asInt() & 0xFF;
         }
 
+        /** Returns this color's HSB values. */
+        public float[] hsb() {
+            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null);
+        }
+
         /** Returns the color's hue */
         public float hue() {
-            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null)[0];
+            return this.hsb()[0];
         }
 
         /** Returns the color's saturation */
         public float saturation() {
-            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null)[1];
+            return this.hsb()[1];
         }
 
         /** Returns the color's brightness */
         public float brightness() {
-            return Color.RGBtoHSB(this.r(), this.g(), this.b(), null)[2];
+            return this.hsb()[2];
         }
 
         /** Maps each component using the given closure. */
