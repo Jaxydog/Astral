@@ -16,7 +16,7 @@ import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.register.IgnoreRegistration;
 
 /** Contains all instances of defined content container classes */
-@SuppressWarnings("ALL")
+@SuppressWarnings("unused")
 public final class CustomContent extends ContentRegistrar {
 
     /** Stores the custom content container instance */

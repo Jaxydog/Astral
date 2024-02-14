@@ -16,6 +16,8 @@
         "LightningEntityMixin",
         "ModelMixin",
         "MooshroomEntityMixin",
+        "NetworkStateMixin",
+        "NetworkStateMixin$PacketHandlerInitializerAccess",
         "ParrotEntityMixin",
         "PassiveEntityMixin",
         "PlayerInventoryMixin",
@@ -51,6 +53,8 @@
     ],
     "client": [
         "client.ArmorFeatureRendererMixin",
+        "client.ClientPlayNetworkHandlerMixin",
+        "client.ClientWorldMixin",
         "client.CowEntityRendererMixin",
         "client.CreativeInventoryScreenMixin",
         "client.HeadFeatureRendererMixin",
