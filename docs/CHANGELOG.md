@@ -2,7 +2,6 @@
 
 ### Internal changes
 
-- Added dependency to ETF.
 - Added support for status effects.
 - Added basic support for entities.
 - Improved support for potions.
@@ -16,6 +15,8 @@
     - Added support for texture and language file generation.
 - Refactor dyeable amethyst implementation.
 - Improve item group support.
+- Added recipe for shroomlight.
+- Added recipe for gilded blackstone.
 - Major internal refactoring.
     - Removed unused command support.
     - Removed unused entity support.
