@@ -1,7 +1,6 @@
 package dev.jaxydog.content.power;
 
 import dev.jaxydog.content.data.CustomData;
-import dev.jaxydog.content.data.ScaleOperation;
 import dev.jaxydog.content.power.custom.*;
 import dev.jaxydog.register.ContentRegistrar;
 import io.github.apace100.calio.data.SerializableData;
@@ -31,7 +30,7 @@ public final class CustomPowers extends ContentRegistrar {
             .add("motion", SerializableDataTypes.FLOAT, 1F)
             .add("jump", SerializableDataTypes.FLOAT, 1F)
             .add("reset_on_lost", SerializableDataTypes.BOOLEAN, true)
-            .add("operation", CustomData.SCALE_OPERATION, ScaleOperation.MULTIPLICATIVE),
+            .add("operation", CustomData.SCALE_OPERATION, dev.jaxydog.content.data.ScaleOperation.MULTIPLICATIVE),
         data -> (type, entity) -> new ScalePower(
             type,
             entity,

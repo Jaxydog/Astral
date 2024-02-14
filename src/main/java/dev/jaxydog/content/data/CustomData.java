@@ -21,6 +21,7 @@ public final class CustomData extends ContentRegistrar {
     public static final SerializableDataType<List<MoonPhase>> MOON_PHASES = SerializableDataType.list(MOON_PHASE);
 
     /** The scale operation data type */
+    @SuppressWarnings("removal") // To be removed in tandem.
     @IgnoreRegistration
     @Deprecated(since = "1.7.0", forRemoval = true)
     public static final SerializableDataType<ScaleOperation> SCALE_OPERATION = SerializableDataType.enumValue(ScaleOperation.class,
