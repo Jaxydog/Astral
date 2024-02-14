@@ -13,13 +13,29 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = SoundSystem.class)
+@Mixin(SoundSystem.class)
 public abstract class SoundSystemMixin {
 
     @Shadow
     protected abstract float getSoundVolume(@Nullable SoundCategory category);
 
-    @SuppressWarnings("UnresolvedMixinReference") // False positive
+    @WrapOperation(
+        method = "method_19754(Lnet/minecraft/client/sound/SoundInstance;Lnet/minecraft/client/sound/Channel$SourceManager;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(Lnet/minecraft/client/sound/SoundInstance;)F"
+        )
+    )
+    private float updateUnboundedVolume(
+        SoundSystem self, SoundInstance instance, Operation<Float> original
+    ) {
+        if (instance instanceof PositionedUnboundedSoundInstance) {
+            return Math.max(0F, instance.getVolume() * this.getSoundVolume(instance.getCategory()));
+        } else {
+            return original.call(self, instance);
+        }
+    }
+
     @WrapOperation(
         method = "play(Lnet/minecraft/client/sound/SoundInstance;)V", at = @At(
         value = "INVOKE",
