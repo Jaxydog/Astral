@@ -48,7 +48,7 @@ public class TickingCooldownPower extends CooldownPower {
         this.setTicking(true);
     }
 
-    public static CustomPowerFactory<TickingCooldownPower> createTickingCooldownFactory() {
+    public static CustomPowerFactory<TickingCooldownPower> getCooldownFactory() {
         return new CustomPowerFactory<>(
             "ticking_cooldown",
             new SerializableData().add("cooldown", SerializableDataTypes.INT)

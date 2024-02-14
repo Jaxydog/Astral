@@ -36,7 +36,7 @@ public class ActionOnKeyPower extends TickingCooldownPower implements Active {
         this.activeFunction = activeFunction;
     }
 
-    public static CustomPowerFactory<ActionOnKeyPower> createActionOnKeyFactory() {
+    public static CustomPowerFactory<ActionOnKeyPower> getActionFactory() {
         return new CustomPowerFactory<ActionOnKeyPower>(
             "action_on_key",
             new SerializableData().add("cooldown", SerializableDataTypes.INT)

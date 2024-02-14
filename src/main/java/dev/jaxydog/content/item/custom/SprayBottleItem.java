@@ -2,6 +2,7 @@ package dev.jaxydog.content.item.custom;
 
 import dev.jaxydog.content.item.CustomItem;
 import dev.jaxydog.content.power.custom.ActionOnSprayPower;
+import dev.jaxydog.content.power.custom.ActionWhenSprayedPower;
 import dev.jaxydog.utility.injected.SprayableEntity;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.advancement.criterion.Criteria;
@@ -68,15 +69,30 @@ public class SprayBottleItem extends CustomItem implements Sprayable {
 
         if (this.isEmptied(stack)) return charges;
 
-        // Iterate through all spray powers and apply their effects if possible.
-        final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+        // Iterate through all on spray powers and apply their effects if possible.
+        final List<ActionOnSprayPower> playerPowers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
 
-        powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
+        playerPowers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
 
-        for (final ActionOnSprayPower power : powers) {
+        for (final ActionOnSprayPower power : playerPowers) {
             if (!power.canSprayEntity(stack, entity)) continue;
 
             if (power.onSprayEntity(stack, entity)) {
+                charges = Math.max(charges, power.getCharges());
+            }
+        }
+
+        // Iterate through all when sprayed powers and apply their effects if possible.
+        final List<ActionWhenSprayedPower> entityPowers = PowerHolderComponent.getPowers(entity,
+            ActionWhenSprayedPower.class
+        );
+
+        entityPowers.sort(Comparator.comparingInt(ActionWhenSprayedPower::getPriority).reversed());
+
+        for (final ActionWhenSprayedPower power : entityPowers) {
+            if (!power.canBeSprayed(player, stack)) continue;
+
+            if (power.onSprayed(player, stack)) {
                 charges = Math.max(charges, power.getCharges());
             }
         }

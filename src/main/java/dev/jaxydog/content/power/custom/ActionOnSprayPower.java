@@ -1,7 +1,11 @@
 package dev.jaxydog.content.power.custom;
 
 import dev.jaxydog.content.power.CustomPower;
+import dev.jaxydog.content.power.CustomPowerFactory;
+import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.PowerType;
+import io.github.apace100.calio.data.SerializableData;
+import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -50,6 +54,32 @@ public class ActionOnSprayPower extends CustomPower {
         this.bientityCondition = bientityCondition;
         this.blockAction = blockAction;
         this.blockCondition = blockCondition;
+    }
+
+    public static CustomPowerFactory<ActionOnSprayPower> getFactory() {
+        return new CustomPowerFactory<ActionOnSprayPower>(
+            "action_on_spray",
+            new SerializableData().add("priority", SerializableDataTypes.INT, 0)
+                .add("charges", SerializableDataTypes.INT, 1)
+                .add("item_action", ApoliDataTypes.ITEM_ACTION, null)
+                .add("item_condition", ApoliDataTypes.ITEM_CONDITION, null)
+                .add("bientity_action", ApoliDataTypes.BIENTITY_ACTION, null)
+                .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null)
+                .add("block_action", ApoliDataTypes.BLOCK_ACTION, null)
+                .add("block_condition", ApoliDataTypes.BLOCK_CONDITION, null),
+            data -> (type, entity) -> new ActionOnSprayPower(
+                type,
+                entity,
+                data.getInt("priority"),
+                data.getInt("charges"),
+                data.get("item_action"),
+                data.get("item_condition"),
+                data.get("bientity_action"),
+                data.get("bientity_condition"),
+                data.get("block_action"),
+                data.get("block_condition")
+            )
+        ).allowCondition();
     }
 
     public int getPriority() {
