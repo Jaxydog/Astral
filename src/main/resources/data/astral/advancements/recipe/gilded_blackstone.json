@@ -1,0 +1,15 @@
+{
+    "criteria": {
+        "block": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    { "items": [ "minecraft:blackstone" ] }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "recipes": [ "astral:gilded_blackstone" ]
+    }
+}
