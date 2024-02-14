@@ -3,7 +3,6 @@
 ### Internal changes
 
 - Added support for status effects.
-- Added basic support for entities.
 - Improved support for potions.
 - Made sprayable items more generic.
 - Adjusted the range for sound pitches from `0.5-2.0` to `0.01-255.0`
