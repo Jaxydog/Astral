@@ -4,7 +4,6 @@ import dev.jaxydog.content.block.CustomBlocks;
 import dev.jaxydog.content.data.CustomData;
 import dev.jaxydog.content.effect.CustomPotions;
 import dev.jaxydog.content.effect.CustomStatusEffects;
-import dev.jaxydog.content.entity.CustomEntityTypes;
 import dev.jaxydog.content.item.CustomItemGroups;
 import dev.jaxydog.content.item.CustomItems;
 import dev.jaxydog.content.power.CustomActions;
@@ -28,7 +27,6 @@ public final class CustomContent extends ContentRegistrar {
     public static final CustomBlocks BLOCKS = new CustomBlocks();
     public static final CustomConditions CONDITIONS = new CustomConditions();
     public static final CustomData DATA = new CustomData();
-    public static final CustomEntityTypes ENTITY_TYPES = new CustomEntityTypes();
     public static final CustomGamerules GAMERULES = new CustomGamerules();
     public static final CustomItemGroups ITEM_GROUPS = new CustomItemGroups();
     public static final CustomItems ITEMS = new CustomItems();

@@ -18,6 +18,7 @@
 - Improve item group support.
 - Major internal refactoring.
     - Removed unused command support.
+    - Removed unused entity support.
     - Several classes relocated.
     - Duplicate logic condensed into interfaces.
     - Mixin accessors converted into injected interfaces.
