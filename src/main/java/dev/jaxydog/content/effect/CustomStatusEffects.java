@@ -79,7 +79,7 @@ public final class CustomStatusEffects extends ContentRegistrar {
 
             if (amplifier > 0) {
                 this.scheduler.queue(server -> entity.addStatusEffect(new StatusEffectInstance(SINISTER,
-                    Math.max(20 * (amplifier), 200),
+                    Math.min(20 * (amplifier), 200),
                     amplifier - 1
                 )), 1);
             }
