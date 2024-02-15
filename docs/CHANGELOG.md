@@ -46,6 +46,14 @@
 - Values stored within a `DyeableMap` are now registered in color order rather than enum ordinal order.
 - Many, many things are now documented! See [our new documentation page](https://astral-smp.readthedocs.io/en/latest/).
 
+## Patch 1.7.1
+
+### Internal changes
+
+- Refactored and (hopefully) fixed the sinister effect.
+- Prevent spray potion activation if all effects are already added.
+- Remove deprecation log (sorry lol).
+
 # Release 1.6.0
 
 ### Internal changes
