@@ -26,15 +26,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
 /**
- * An extension of an {@link AstralItem} that returns a glass bottle to the entity when consumed.
+ * An extension of an {@link AstralItem} that returns an empty bowl to the entity when consumed.
  * <p>
  * This is one of the various instances of already-provided wrapper classes for commonly used types.
  * <p>
@@ -45,10 +43,10 @@ import java.util.function.Supplier;
  * @author Jaxydog
  * @see Custom
  */
-public class BottledItem extends AstralItem {
+public class SoupItem extends AstralItem {
 
     /**
-     * Creates a new bowl item using the given settings.
+     * Creates a new soup item using the given settings.
      * <p>
      * If the {@code preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
      *
@@ -56,30 +54,20 @@ public class BottledItem extends AstralItem {
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
      */
-    public BottledItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
+    public SoupItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
         super(path, settings, preferredGroup);
     }
 
     /**
-     * Creates a new bowl item using the given settings.
+     * Creates a new soup item using the given settings.
      * <p>
      * This item will not be added to any item groups.
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
      */
-    public BottledItem(String path, Settings settings) {
+    public SoupItem(String path, Settings settings) {
         super(path, settings);
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 32;
-    }
-
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.DRINK;
     }
 
     @Override
@@ -89,7 +77,10 @@ public class BottledItem extends AstralItem {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.emitGameEvent(GameEvent.DRINK);
+        final int count = stack.getCount();
+        final ItemStack consumed = super.finishUsing(stack, world, user);
+
+        if (consumed.getCount() >= count) return consumed;
 
         if (user instanceof final PlayerEntity player) {
             // If the user is a player, increment stats & trigger criteria
@@ -99,20 +90,12 @@ public class BottledItem extends AstralItem {
                 Criteria.CONSUME_ITEM.trigger(serverPlayer, stack);
             }
 
-            // If they are not in creative, decrement the stack and give them a bottle in return.
-            if (!player.isCreative()) {
-                stack.decrement(1);
-
-                if (stack.isEmpty()) {
-                    return Items.GLASS_BOTTLE.getDefaultStack();
-                } else {
-                    player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
-                }
-            }
-        } else if (stack.isEmpty()) {
-            // Otherwise, give them a bottle if the stack is empty.
-            return Items.GLASS_BOTTLE.getDefaultStack();
+            // If the entity is a player, give them a bowl when consuming.
+            if (!stack.isEmpty()) player.giveItemStack(Items.BOWL.getDefaultStack());
         }
+
+        // Otherwise, give them a bottle if the stack is empty.
+        if (stack.isEmpty()) return Items.BOWL.getDefaultStack();
 
         return stack;
     }

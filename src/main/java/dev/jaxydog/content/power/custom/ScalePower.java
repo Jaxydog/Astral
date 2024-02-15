@@ -1,6 +1,5 @@
 package dev.jaxydog.content.power.custom;
 
-import dev.jaxydog.Astral;
 import dev.jaxydog.content.power.CustomPower;
 import io.github.apace100.apoli.power.PowerType;
 import net.minecraft.entity.LivingEntity;
@@ -49,8 +48,6 @@ public class ScalePower extends CustomPower {
         this.OPERATION = operation;
 
         this.setTicking(true);
-
-        Astral.LOGGER.warn("The power `astral:scale` is deprecated! It will be removed in a future version!");
     }
 
     @Override
