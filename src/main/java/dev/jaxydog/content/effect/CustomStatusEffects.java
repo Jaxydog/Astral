@@ -2,6 +2,7 @@ package dev.jaxydog.content.effect;
 
 import dev.jaxydog.register.ContentRegistrar;
 import dev.jaxydog.utility.injected.AstralLightningEntity;
+import io.github.apace100.origins.util.Scheduler;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
@@ -9,7 +10,6 @@ import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.PufferfishEntity;
-import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.random.Random;
 
 public final class CustomStatusEffects extends ContentRegistrar {
@@ -18,50 +18,40 @@ public final class CustomStatusEffects extends ContentRegistrar {
         StatusEffectCategory.HARMFUL,
         0xE43727
     ) {
-        private final WeightedList<Runnable> effects = new WeightedList<>();
+        private final Scheduler scheduler = new Scheduler();
 
         @SuppressWarnings("RedundantCast")
         @Override
-        public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-            super.onApplied(entity, attributes, amplifier);
-
-            this.effects.add(() -> {
-                entity.setFrozenTicks(0);
-                entity.setOnFireFor(amplifier + 1);
-            }, 1);
-            this.effects.add(() -> {
-                entity.extinguishWithSound();
-                entity.setFrozenTicks(60 * (amplifier + 2));
-            }, 1);
-            this.effects.add(() -> {
-                final float damage = 2 * (amplifier + 2);
-
-                entity.damage(entity.getWorld().getDamageSources().magic(), damage);
-            }, 1);
-
-            if (amplifier >= 1) {
-                this.effects.add(() -> {
+        public synchronized void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+            switch (Math.min(entity.getRandom().nextBetween(0, amplifier + 2), 5)) {
+                case 0 -> entity.damage(entity.getWorld().getDamageSources().magic(), 2 * (amplifier + 2));
+                case 1 -> {
+                    entity.setFrozenTicks(0);
+                    entity.setOnFireFor(amplifier + 2);
+                }
+                case 2 -> {
+                    entity.extinguishWithSound();
+                    entity.setFrozenTicks(60 * (amplifier + 2));
+                }
+                case 3 -> {
                     final Random random = entity.getWorld().getRandom();
+                    final double x = (random.nextDouble() - 0.5) * 2;
+                    final double y = amplifier * 1.5;
+                    final double z = (random.nextDouble() - 0.5) * 2;
 
-                    // Flings the player randomly.
-                    entity.setVelocity((random.nextDouble() - 0.5) * 4,
-                        amplifier * 0.5,
-                        (random.nextDouble() - 0.5) * 4
-                    );
+                    entity.setVelocity(x, y, z);
                     entity.velocityModified = true;
-                }, 1);
-            }
-            if (amplifier >= 2) {
-                this.effects.add(() -> {
+                }
+                case 4 -> {
                     if (entity.isSubmergedInWater()) {
                         final Random random = entity.getWorld().getRandom();
+                        final double x = (random.nextDouble() - 0.5) * 2;
+                        final double y = -amplifier * 0.75;
+                        final double z = (random.nextDouble() - 0.5) * 2;
 
                         // Attempt to drown the player if they're swimming.
                         entity.setAir(0);
-                        entity.setVelocity((random.nextDouble() - 0.5) * 2,
-                            amplifier * 0.5,
-                            (random.nextDouble() - 0.5) * 2
-                        );
+                        entity.setVelocity(x, y, z);
                         entity.velocityModified = true;
                     } else if (!entity.getWorld().isClient()) {
                         // Otherwise spawn a pufferfish on them.
@@ -73,10 +63,8 @@ public final class CustomStatusEffects extends ContentRegistrar {
 
                         entity.getWorld().spawnEntity(pufferfish);
                     }
-                }, 1);
-            }
-            if (amplifier >= 3) {
-                this.effects.add(() -> {
+                }
+                case 5 -> {
                     if (entity.getWorld().isClient()) return;
 
                     // Strike them with lightning.
@@ -86,18 +74,15 @@ public final class CustomStatusEffects extends ContentRegistrar {
                     ((AstralLightningEntity) lightning).astral$setPreservesItems(true);
 
                     entity.getWorld().spawnEntity(lightning);
-                }, 1);
+                }
             }
-        }
 
-        @Override
-        public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-            this.effects.shuffle();
-            this.effects.stream().findFirst().ifPresent(Runnable::run);
-
-            super.onRemoved(entity, attributes, amplifier);
-
-            if (amplifier > 0) entity.addStatusEffect(new StatusEffectInstance(SINISTER, 200, amplifier - 1));
+            if (amplifier > 0) {
+                this.scheduler.queue(server -> entity.addStatusEffect(new StatusEffectInstance(SINISTER,
+                    Math.max(20 * (amplifier), 200),
+                    amplifier - 1
+                )), 1);
+            }
         }
     };
 
