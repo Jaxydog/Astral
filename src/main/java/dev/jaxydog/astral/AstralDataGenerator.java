@@ -21,7 +21,21 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
 import java.nio.file.Path;
 
-/** The mod data generator entrypoint */
+/**
+ * The mod's data generation entrypoint.
+ * <p>
+ * This class is initialized during the `runDatagen` Gradle process.
+ * <p>
+ * It should be assumed that prior to the invocation of {@link #onInitializeDataGenerator(FabricDataGenerator)}, nothing
+ * has been properly loaded.
+ * <p>
+ * Please modify with a healthy dose of caution!
+ *
+ * @author Jaxydog
+ * @see Astral
+ * @see AstralClient
+ * @see AstralServer
+ */
 public final class AstralDataGenerator implements DataGeneratorEntrypoint {
 
     @Override

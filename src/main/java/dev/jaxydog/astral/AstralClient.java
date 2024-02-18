@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Copyright © 2024 Jaxydog
+ * Copyright © 2023–2024 Jaxydog
  *
  * This file is part of Astral.
  *
@@ -16,13 +16,56 @@ package dev.jaxydog.astral;
 
 import dev.jaxydog.astral.content.CustomContent;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-/** The mod client entrypoint */
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/**
+ * The mod's client entrypoint.
+ * <p>
+ * This class is initialized on the client, never the server.
+ * <p>
+ * It should be assumed that prior to the invocation of {@link #onInitializeClient()}, nothing has been properly loaded.
+ * Once the mod has finished loading, the provided {@link #hasInitialized()} method will always return {@code true}.
+ * <p>
+ * Please modify with a healthy dose of caution!
+ *
+ * @author Jaxydog
+ * @see Astral
+ * @see AstralServer
+ * @see AstralDataGenerator
+ */
+@Environment(EnvType.CLIENT)
 public final class AstralClient implements ClientModInitializer {
+
+    /**
+     * Tracks whether the mod has been initialized.
+     * <p>
+     * This will be true only if an instance of the common initializer has fully loaded.
+     */
+    private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
+
+    /**
+     * Returns whether the mod has finished initializing.
+     * <p>
+     * This method will always return {@code false} during the registration process.
+     * <p>
+     * If an instance of {@link AstralClient} has been initialized, this will return {@code true}.
+     *
+     * @return If the mod is initialized.
+     */
+    public static boolean hasInitialized() {
+        return INITIALIZED.get();
+    }
 
     @Override
     public void onInitializeClient() {
+        if (hasInitialized()) throw new IllegalStateException("The mod may not be initialized more than once");
+
         CustomContent.INSTANCE.registerClient();
+
+        INITIALIZED.set(true);
     }
 
 }
