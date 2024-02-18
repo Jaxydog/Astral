@@ -19,7 +19,7 @@ import dev.jaxydog.astral.content.block.CustomBlock;
 import dev.jaxydog.astral.content.item.CustomBlockItem;
 import dev.jaxydog.astral.content.item.CustomItems;
 import dev.jaxydog.astral.datagen.*;
-import dev.jaxydog.astral.register.Generated;
+import dev.jaxydog.astral.register.Registered.Generated;
 import dev.jaxydog.astral.utility.ColorUtil.Rgb;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
@@ -151,7 +151,7 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
      * @return The associated item.
      */
     public CustomBlockItem getItem() {
-        return CustomItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor());
+        return CustomItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor()).orElseThrow();
     }
 
     /**

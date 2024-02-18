@@ -48,7 +48,7 @@ public class CustomPotionItem extends PotionItem implements Custom {
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.idPath;
     }
 

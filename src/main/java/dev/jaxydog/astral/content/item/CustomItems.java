@@ -1,3 +1,17 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Copyright © 2024 Jaxydog
+ *
+ * This file is part of Astral.
+ *
+ * Astral is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * Astral is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package dev.jaxydog.astral.content.item;
 
 import dev.jaxydog.astral.content.block.CustomBlocks;
@@ -7,9 +21,9 @@ import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.item.custom.*;
 import dev.jaxydog.astral.datagen.TagGenerator;
+import dev.jaxydog.astral.register.ArmorMap;
 import dev.jaxydog.astral.register.ContentRegistrar;
-import dev.jaxydog.astral.utility.register.ArmorMap;
-import dev.jaxydog.astral.utility.register.DyeableMap;
+import dev.jaxydog.astral.register.DyedMap;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
@@ -31,7 +45,7 @@ public final class CustomItems extends ContentRegistrar {
         new Settings().rarity(Rarity.UNCOMMON)
     );
     public static final ArmorMap<DyeableCloudyArmorItem> CLOUD_ARMOR = new ArmorMap<>("cloudy",
-        (rawId, type) -> new DyeableCloudyArmorItem(rawId, ArmorMaterials.CLOUDY, type, new Settings())
+        (idPath, type) -> new DyeableCloudyArmorItem(idPath, ArmorMaterials.CLOUDY, type, new Settings())
     );
 
     public static final MirrorItem MIRROR = new MirrorItem("mirror", new Settings().maxCount(1).rarity(Rarity.RARE));
@@ -39,44 +53,44 @@ public final class CustomItems extends ContentRegistrar {
         new Settings().fireproof().maxCount(1).rarity(Rarity.UNCOMMON)
     );
 
-    public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
+    public static final DyedMap<CustomBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyedMap<>("amethyst_block",
         (rawId, color) -> new CustomBlockItem(rawId,
-            CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color),
+            CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color).orElseThrow(),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeableMap<>("budding_amethyst",
+    public static final DyedMap<CustomBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyedMap<>("budding_amethyst",
         (rawId, color) -> new CustomBlockItem(rawId,
-            CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color),
+            CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color).orElseThrow(),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeableMap<>("amethyst_cluster",
+    public static final DyedMap<CustomBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyedMap<>("amethyst_cluster",
         (rawId, color) -> new CustomBlockItem(rawId,
-            CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color),
+            CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color).orElseThrow(),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeableMap<>("large_amethyst_bud",
+    public static final DyedMap<CustomBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyedMap<>("large_amethyst_bud",
         (rawId, color) -> new CustomBlockItem(rawId,
-            CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(color),
+            CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(color).orElseThrow(),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeableMap<>("medium_amethyst_bud",
+    public static final DyedMap<CustomBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyedMap<>("medium_amethyst_bud",
         (rawId, color) -> new CustomBlockItem(rawId,
-            CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(color),
+            CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(color).orElseThrow(),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeableMap<>("small_amethyst_bud",
+    public static final DyedMap<CustomBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyedMap<>("small_amethyst_bud",
         (rawId, color) -> new CustomBlockItem(rawId,
-            CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(color),
+            CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(color).orElseThrow(),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )

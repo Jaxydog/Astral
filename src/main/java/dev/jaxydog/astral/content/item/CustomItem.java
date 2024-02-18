@@ -43,7 +43,7 @@ public class CustomItem extends Item implements Custom {
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.idPath;
     }
 

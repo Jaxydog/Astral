@@ -46,7 +46,7 @@ public class CustomBlockItem extends BlockItem implements Custom {
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.idPath;
     }
 

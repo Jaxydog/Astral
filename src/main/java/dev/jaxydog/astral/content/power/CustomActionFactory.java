@@ -32,7 +32,7 @@ public class CustomActionFactory<T> extends ActionFactory<T> implements Register
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 

@@ -1,8 +1,22 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Copyright © 2024 Jaxydog
+ *
+ * This file is part of Astral.
+ *
+ * Astral is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * Astral is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package dev.jaxydog.astral.content.item.custom;
 
 import com.google.common.collect.Multimap;
+import dev.jaxydog.astral.register.RegisteredMap;
 import dev.jaxydog.astral.utility.injected.AstralItemStack;
-import dev.jaxydog.astral.utility.register.RegisteredMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.item.TooltipData;
@@ -25,6 +39,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -365,20 +380,20 @@ public class PlaceholderMimicItem extends PlaceholderItem {
         }
 
         @Override
-        protected int compareKeys(Item a, Item b) {
+        protected int compareKeys(@NotNull Item a, @NotNull Item b) {
             return Integer.compare(Item.getRawId(a), Item.getRawId(b));
+        }
+
+        @Override
+        protected String getPath(@NotNull Item key) {
+            final String id = Registries.ITEM.getId(key).getPath();
+
+            return String.format("%s_%s", super.getRegistryPath(), id);
         }
 
         @Override
         public Set<Item> keys() {
             return this.ITEMS;
-        }
-
-        @Override
-        public String getIdPath(Item item) {
-            final String id = Registries.ITEM.getId(item).getPath();
-
-            return String.format("%s_%s", super.getRegistryIdPath(), id);
         }
 
     }

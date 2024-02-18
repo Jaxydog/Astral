@@ -172,10 +172,10 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
      */
     public CustomBlockItem getItem() {
         return switch (this.variant) {
-            case CLUSTER -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor());
-            case LARGE_BUD -> CustomItems.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor());
-            case MEDIUM_BUD -> CustomItems.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor());
-            case SMALL_BUD -> CustomItems.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor());
+            case CLUSTER -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor()).orElseThrow();
+            case LARGE_BUD -> CustomItems.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
+            case MEDIUM_BUD -> CustomItems.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
+            case SMALL_BUD -> CustomItems.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
         };
     }
 

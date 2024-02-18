@@ -20,7 +20,7 @@ public abstract class CustomAction<T> implements Registered.Common {
     public abstract void execute(Instance data, T value);
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 

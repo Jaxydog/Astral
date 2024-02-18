@@ -69,7 +69,7 @@ public class CustomItemGroup extends ItemGroup implements Registered.Common {
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.idPath;
     }
 

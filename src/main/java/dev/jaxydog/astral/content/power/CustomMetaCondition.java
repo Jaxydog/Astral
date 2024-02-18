@@ -22,7 +22,7 @@ public abstract class CustomMetaCondition implements Registered.Common {
     public abstract <T> boolean check(Instance data, T value);
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 

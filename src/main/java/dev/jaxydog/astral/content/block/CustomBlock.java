@@ -8,23 +8,23 @@ import net.minecraft.registry.Registry;
 /** An extension of a regular block that provides additional functionality */
 public class CustomBlock extends Block implements Registered.Common {
 
-	/** The custom block's inner raw identifier */
-	private final String RAW_ID;
+    /** The custom block's inner raw identifier */
+    private final String RAW_ID;
 
-	public CustomBlock(String rawId, Settings settings) {
-		super(settings);
+    public CustomBlock(String rawId, Settings settings) {
+        super(settings);
 
-		this.RAW_ID = rawId;
-	}
+        this.RAW_ID = rawId;
+    }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryPath() {
+        return this.RAW_ID;
+    }
 
-	@Override
-	public void register() {
-		Registry.register(Registries.BLOCK, this.getRegistryId(), this);
-	}
+    @Override
+    public void register() {
+        Registry.register(Registries.BLOCK, this.getRegistryId(), this);
+    }
 
 }

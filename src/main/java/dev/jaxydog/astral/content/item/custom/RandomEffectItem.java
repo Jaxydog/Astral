@@ -16,7 +16,7 @@ package dev.jaxydog.astral.content.item.custom;
 
 import dev.jaxydog.astral.content.item.CustomItem;
 import dev.jaxydog.astral.datagen.ModelGenerator;
-import dev.jaxydog.astral.register.Generated;
+import dev.jaxydog.astral.register.Registered.Generated;
 import net.minecraft.data.client.Models;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

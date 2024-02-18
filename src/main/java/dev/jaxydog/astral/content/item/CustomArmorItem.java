@@ -61,7 +61,7 @@ public class CustomArmorItem extends ArmorItem implements Custom {
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.idPath;
     }
 

@@ -34,7 +34,7 @@ public class CustomConditionFactory<T> extends ConditionFactory<T> implements Re
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 
