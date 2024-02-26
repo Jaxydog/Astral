@@ -118,13 +118,13 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
         }
 
         final boolean useInner = this.usesInnerModel(armorSlot);
-        final int layers = armorItem.getTextureLayers(stack);
+        final int layers = armorItem.getArmorTextureLayers(stack);
 
         for (int layer = 0; layer < layers; layer += 1) {
             final String overlay = String.valueOf(layer);
 
             if (armorItem instanceof final Colored colored) {
-                final Rgb color = new Rgb(colored.getColor(stack, layer));
+                final Rgb color = new Rgb(colored.getStackColor(stack, layer));
 
                 final float r = ((float) color.r()) / 255F;
                 final float g = ((float) color.g()) / 255F;

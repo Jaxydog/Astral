@@ -5,6 +5,7 @@ import dev.jaxydog.astral.content.block.custom.DyeableAmethystBlock;
 import dev.jaxydog.astral.content.block.custom.DyeableAmethystClusterBlock;
 import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
+import dev.jaxydog.astral.content.item.AstralArmorItem.Material;
 import dev.jaxydog.astral.content.item.custom.*;
 import dev.jaxydog.astral.datagen.TagGenerator;
 import dev.jaxydog.astral.register.ArmorMap;
@@ -254,11 +255,11 @@ public final class AstralItems extends ContentRegistrar {
 
     private static final class ArmorMaterials {
 
-        public static final CustomArmorMaterial CLOUDY = CustomArmorMaterial.builder("cloud")
+        public static final Material CLOUDY = Material.builder("cloud")
             .setDurability(52, 64, 60, 44)
             .setEnchantability(15)
             .setEquipSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER)
-            .setProtectionAmount(2, 5, 3, 2)
+            .setProtection(2, 5, 3, 2)
             .setRepairIngredient(Ingredient.ofItems(CLOUDY_COTTON))
             .build();
 
