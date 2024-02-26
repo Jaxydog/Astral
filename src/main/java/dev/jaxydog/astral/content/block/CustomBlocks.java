@@ -7,7 +7,7 @@ import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.astral.content.block.custom.RandomizerBlock;
 import dev.jaxydog.astral.datagen.TagGenerator;
 import dev.jaxydog.astral.register.ContentRegistrar;
-import dev.jaxydog.astral.utility.register.DyeableMap;
+import dev.jaxydog.astral.register.DyeableMap;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Blocks;
 

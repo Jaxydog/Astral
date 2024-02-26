@@ -7,9 +7,9 @@ import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.item.custom.*;
 import dev.jaxydog.astral.datagen.TagGenerator;
+import dev.jaxydog.astral.register.ArmorMap;
 import dev.jaxydog.astral.register.ContentRegistrar;
-import dev.jaxydog.astral.utility.register.ArmorMap;
-import dev.jaxydog.astral.utility.register.DyeableMap;
+import dev.jaxydog.astral.register.DyeableMap;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
@@ -248,7 +248,7 @@ public final class CustomItems extends ContentRegistrar {
             .saturationModifier(0.25F)
             .build();
 
-        private FoodComponents() { }
+        private FoodComponents() {}
 
     }
 
@@ -262,7 +262,7 @@ public final class CustomItems extends ContentRegistrar {
             .setRepairIngredient(Ingredient.ofItems(CLOUDY_COTTON))
             .build();
 
-        private ArmorMaterials() { }
+        private ArmorMaterials() {}
 
     }
 
