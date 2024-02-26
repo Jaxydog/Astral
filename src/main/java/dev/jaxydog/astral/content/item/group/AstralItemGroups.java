@@ -20,17 +20,19 @@ import net.minecraft.item.Items;
 import net.minecraft.util.DyeColor;
 
 /**
- * Contains definitions for all custom item groups.
+ * A container class that registers all {@link net.minecraft.item.ItemGroup} instances.
  *
  * @author Jaxydog
  */
 @SuppressWarnings("unused")
 public final class AstralItemGroups extends ContentRegistrar {
 
+    /** The mod's default item group. */
     public static final AstralItemGroup DEFAULT = AstralItemGroup.builder("default")
         .icon(Items.NETHER_STAR::getDefaultStack)
-        .finish();
+        .build();
 
+    /** The item group used to list all dyeable amethyst blocks. */
     public static final AstralCycledItemGroup DYEABLE_AMETHYST = AstralCycledItemGroup.builder("dyeable_amethyst")
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).getDefaultStack())
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).getDefaultStack())
@@ -38,11 +40,12 @@ public final class AstralItemGroups extends ContentRegistrar {
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIME).getDefaultStack())
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).getDefaultStack())
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).getDefaultStack())
-        .interval(60)
-        .finish();
+        .cycleInterval(60)
+        .build();
 
+    /** The item group used to store all of Starmoney's lore items. */
     public static final AstralItemGroup STARMONEY_PLAZA = AstralItemGroup.builder("starmoney_plaza")
         .icon(Items.DRAGON_HEAD::getDefaultStack)
-        .finish();
+        .build();
 
 }

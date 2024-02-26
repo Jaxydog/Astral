@@ -15,6 +15,8 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
     - Move `BottleItem`, `Colored`, and `Customized` into `dev.jaxydog.astral.content.item`.
     - Rename all `Custom*Item` classes (excluding the `Custom` interface itself) to `Astral*Item`.
     - The `Customized` interface's `getCustomModelData` method now returns an `Optional`.
+    - Item groups have been moved to `dev.jaxydog.astral.content.item.group`.
+    - Item groups have been renamed from `Custom*ItemGroup` to `Astral*ItemGroup`.
 
 ### Content changes
 
