@@ -3,8 +3,8 @@
 ### Submitting Changes
 
 When working on contributions to this project,
-please [create a pull request](https://github.com/Jaxydog/Astral/pull/new/1.20) containing your commits and (
-preferably) a list of what has been added, removed, and / or otherwise changed.
+please [create a pull request](https://github.com/Jaxydog/Astral/pull/new/1.20) containing your commits and (preferably)
+a list of what has been added, removed, and / or otherwise changed.
 
 Please also do your best to ensure that your changes follow the conventions outlined below!
 
@@ -25,8 +25,8 @@ regular will make it easier to understand and reason about.
     - Around binary operators (`a + b`, `n |= 0x4`) but *not* around unary operators (`if (!false) {}`, `int a = -5`).
     - After commas (`[1, 2, 3]`, `this.method(this.field, true)`).
     - After keywords (`if (...) {}`, `try {} catch (...) {}`)
-- If / While statements may be single-line *only if* they do not contain an `else` block and their definitions are "
-  relatively simple" (e.g. `if (value != null) return a || b`).
+- If / While statements may be single-line *only if* they do not contain an `else` block, and their definitions are
+  "relatively simple" (e.g. `if (value != null) return a || b`).
 - Empty brackets should not continue onto multiple lines, except for in class declarations.
 - Mixin classes should always be named `[BaseClass]Mixin`, and accessors should always be `[BaseClass]Access`
 - Mixin method names should represent what function they provide (i.e. `modifyPlayerHealth`).
