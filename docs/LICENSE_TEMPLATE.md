@@ -23,10 +23,16 @@ If you are using IntelliJ, or any other editor that supports Velocity template h
 ```text
 SPDX-License-Identifier: AGPL-3.0-or-later
 
-#if( $originalComment.match("((?:Copyright © \d+(?:–\d+)? [\w\d ]+\n)+)", 1, "", "") != "" )
-$originalComment.match("((?:Copyright © \d+(?:–\d+)? [\w\d ]+\n)+)", 1, "", "")
+#if( $originalComment.match("(Copyright © \d+(?:[-–]\d+)? [\w\d ]+)") != "" )
+#set( $text = $originalComment.getText().replaceAll(" \*[ \/]?", "") )
+#set( $added = [] )
+#foreach( $line in $text.split("\r?\n")  )
+#if( $line.startsWith("Copyright ©") && !$added.contains($line) && $added.add($line) )
+$line
+#end
+#end
 #else
-Copyright © 2024 Name
+Copyright © $today.year $username
 #end
 
 This file is part of $project.name.
