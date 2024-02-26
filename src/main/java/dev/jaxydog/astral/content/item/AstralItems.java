@@ -7,6 +7,7 @@ import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.item.AstralArmorItem.Material;
 import dev.jaxydog.astral.content.item.custom.*;
+import dev.jaxydog.astral.content.item.group.CustomItemGroups;
 import dev.jaxydog.astral.datagen.TagGenerator;
 import dev.jaxydog.astral.register.ArmorMap;
 import dev.jaxydog.astral.register.ContentRegistrar;

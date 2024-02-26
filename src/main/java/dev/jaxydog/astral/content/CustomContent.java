@@ -5,7 +5,7 @@ import dev.jaxydog.astral.content.data.CustomData;
 import dev.jaxydog.astral.content.effect.CustomPotions;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.item.AstralItems;
-import dev.jaxydog.astral.content.item.CustomItemGroups;
+import dev.jaxydog.astral.content.item.group.CustomItemGroups;
 import dev.jaxydog.astral.content.power.CustomActions;
 import dev.jaxydog.astral.content.power.CustomConditions;
 import dev.jaxydog.astral.content.power.CustomPowers;

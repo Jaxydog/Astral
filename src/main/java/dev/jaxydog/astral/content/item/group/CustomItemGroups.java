@@ -12,8 +12,9 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.astral.content.item;
+package dev.jaxydog.astral.content.item.group;
 
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.register.ContentRegistrar;
 import net.minecraft.item.Items;
 import net.minecraft.util.DyeColor;

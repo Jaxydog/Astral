@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.astral.content.item;
+package dev.jaxydog.astral.content.item.group;
 
 import dev.jaxydog.astral.Astral;
 import dev.jaxydog.astral.register.Registered;
@@ -81,7 +81,7 @@ public class CustomItemGroup extends ItemGroup implements Registered.Common {
     public static class Builder extends ItemGroup.Builder {
 
         protected final String idPath;
-        protected EntryCollector entryCollector = (a, b) -> { };
+        protected EntryCollector entryCollector = (a, b) -> {};
 
         public Builder(String idPath) {
             super(null, -1);

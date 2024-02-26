@@ -14,6 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
+import dev.jaxydog.astral.content.item.group.CustomItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;

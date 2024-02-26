@@ -14,6 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
+import dev.jaxydog.astral.content.item.group.CustomItemGroups;
 import dev.jaxydog.astral.register.Registered.Common;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.ItemConvertible;
