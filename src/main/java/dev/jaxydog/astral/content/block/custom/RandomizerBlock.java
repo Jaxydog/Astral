@@ -2,7 +2,7 @@ package dev.jaxydog.astral.content.block.custom;
 
 import dev.jaxydog.astral.content.block.CustomBlock;
 import dev.jaxydog.astral.datagen.TagGenerator;
-import dev.jaxydog.astral.register.Generated;
+import dev.jaxydog.astral.register.Registered.Generated;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

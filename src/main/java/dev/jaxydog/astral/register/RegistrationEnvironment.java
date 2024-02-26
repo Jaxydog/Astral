@@ -1,55 +1,134 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Copyright © 2023–2024 Jaxydog
+ *
+ * This file is part of Astral.
+ *
+ * Astral is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * Astral is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package dev.jaxydog.astral.register;
 
-import java.io.InvalidClassException;
+import dev.jaxydog.astral.register.Registered.Client;
+import dev.jaxydog.astral.register.Registered.Common;
+import dev.jaxydog.astral.register.Registered.Generated;
+import dev.jaxydog.astral.register.Registered.Server;
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import java.util.function.Consumer;
 
-/** Used as a representation of the current environment during the automatic registration process. */
+/**
+ * Represents a possible mod registration environment and its associated interface.
+ * <p>
+ * This is used to share common functionality during the automatic registration process.
+ * <p>
+ * You almost certainly do not need to use this directly.
+ *
+ * @author Jaxydog
+ * @see Registered
+ */
+@Internal
 public enum RegistrationEnvironment {
 
-    /** The client *and* the server. */
-    COMMON(Registered.Common.class, r -> ((Registered.Common) r).register()),
+    /**
+     * Represents both the client <i>and</i> the server environments.
+     * <p>
+     * Note that this is distinctly different from {@link #CLIENT} and {@link #SERVER}.
+     * <p>
+     * The associated interface of this environment is {@link Common}.
+     */
+    COMMON(Common.class, registered -> ((Common) registered).register()),
+    /**
+     * Represents the game client environment.
+     * <p>
+     * The associated interface of this environment is {@link Client}.
+     */
+    CLIENT(Client.class, registered -> ((Client) registered).registerClient()),
+    /**
+     * Represents the game server environment.
+     * <p>
+     * The associated interface of this environment is {@link Server}.
+     */
+    SERVER(Server.class, registered -> ((Server) registered).registerServer()),
+    /**
+     * Represents the data generation environment.
+     * <p>
+     * The associated interface of this environment is {@link Generated}.
+     */
+    GENERATOR(Generated.class, registered -> ((Generated) registered).generate());
 
-    /** The client. */
-    CLIENT(Registered.Client.class, r -> ((Registered.Client) r).registerClient()),
+    /**
+     * This environment's associated {@link Registered} interface.
+     * <p>
+     * This is used for runtime type checking and coercion.
+     */
+    private final Class<? extends Registered> registeredInterface;
+    /**
+     * A callback function that takes an instance of {@link Registered} and calls its registration method.
+     * <p>
+     * It's assumed that the value provided will always match the expected type, and as such this will preform an
+     * unchecked cast into the associated interface.
+     */
+    private final Consumer<? super Registered> consumeAndRegister;
 
-    /** The server. */
-    SERVER(Registered.Server.class, r -> ((Registered.Server) r).registerServer()),
-
-    /** The data generator. */
-    DATA_GEN(Generated.class, r -> ((Generated) r).generate());
-
-    /** The interface class. */
-    private final Class<? extends Registered> registered;
-    /** A method that consumes a value and registers it. */
-    private final Consumer<? super Registered> consumer;
-
-    RegistrationEnvironment(Class<? extends Registered> registered, Consumer<? super Registered> consumer) {
-        this.registered = registered;
-        this.consumer = consumer;
+    /**
+     * Creates a new registry environment.
+     *
+     * @param registeredInterface The interface associated with this environment.
+     * @param consumeAndRegister A callback that takes a value and registers it.
+     */
+    RegistrationEnvironment(
+        Class<? extends Registered> registeredInterface, Consumer<? super Registered> consumeAndRegister
+    ) {
+        this.registeredInterface = registeredInterface;
+        this.consumeAndRegister = consumeAndRegister;
     }
 
-    /** Returns this environment's associated interface. */
+    /**
+     * Returns this environment's associated {@link Registered} interface.
+     *
+     * @return An extension of {@link Registered}.
+     */
     public final Class<? extends Registered> getInterface() {
-        return this.registered;
+        return this.registeredInterface;
     }
 
-    /** Registers the provided value within this environment. */
-    public final void register(Registered registered) throws InvalidClassException {
-        // Ensures that the provided value is an instance of this environment's associated `Registered` type.
-        if (!this.getInterface().isInstance(registered)) {
-            throw new InvalidClassException("Expected an instance of " + this.getInterface().getSimpleName());
+    /**
+     * Registers the provided value within this environment.
+     * <p>
+     * This method blindly takes any instance of {@link Registered} and attempts to cast it into its associated type.
+     * Extra care should be taken to ensure that the value is of the proper interface.
+     *
+     * @param value The value to be registered.
+     *
+     * @throws IllegalArgumentException If the provided value is not a valid instance of the associated interface.
+     */
+    public final void registerValue(Registered value) throws IllegalArgumentException {
+        if (!this.getInterface().isInstance(value)) {
+            throw new IllegalArgumentException("Expected an instance of " + this.getInterface().getSimpleName());
         }
 
-        this.consumer.accept(registered);
+        this.consumeAndRegister.accept(value);
     }
 
-    /** Returns whether the provided annotation is enabled in the current environment. */
-    public final boolean shouldIgnore(IgnoreRegistration annotation) {
+    /**
+     * Returns whether this environment should be skipped based off of the provided annotation.
+     *
+     * @param annotation The provided filter annotation.
+     *
+     * @return Whether this environment should be ignored.
+     */
+    public final boolean isIgnored(IgnoreRegistration annotation) {
         return switch (this) {
             case COMMON -> annotation.common();
             case CLIENT -> annotation.client();
             case SERVER -> annotation.server();
-            case DATA_GEN -> annotation.dataGen();
+            case GENERATOR -> annotation.generator();
         };
     }
 

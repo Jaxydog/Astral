@@ -7,6 +7,10 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
 - Updated mod entrypoints.
     - Added `isInitialized` methods for each environment.
     - Verified that each entrypoint is only initialized once.
+- Updated registration system.
+    - Move `Generated` into `Registered`.
+    - Rename multiple usages of `dataGen` into variants of `generator`.
+    - Rename `getRegistryIdPath` to `getRegistryPath`.
 
 ### Content changes
 

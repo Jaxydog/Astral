@@ -1,14 +1,15 @@
 package dev.jaxydog.astral.utility.register;
 
-import dev.jaxydog.astral.register.Generated;
 import dev.jaxydog.astral.register.Registered;
+import dev.jaxydog.astral.register.Registered.All;
+import dev.jaxydog.astral.register.Registered.Generated;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public abstract class RegisteredMap<K, V extends Registered> implements Registered.All, Generated {
+public abstract class RegisteredMap<K, V extends Registered> implements All, Generated {
 
     private final String RAW_ID;
     private final BiFunction<String, K, V> CONSTRUCTOR;
@@ -54,7 +55,7 @@ public abstract class RegisteredMap<K, V extends Registered> implements Register
     }
 
     @Override
-    public final String getRegistryIdPath() {
+    public final String getRegistryPath() {
         return this.RAW_ID;
     }
 
