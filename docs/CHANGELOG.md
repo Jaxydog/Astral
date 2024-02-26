@@ -11,6 +11,10 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
     - Move `Generated` into `Registered`.
     - Rename multiple usages of `dataGen` into variants of `generator`.
     - Rename `getRegistryIdPath` to `getRegistryPath`.
+- Updated item content structure.
+    - Move `BottleItem`, `Colored`, and `Customized` into `dev.jaxydog.astral.content.item`.
+    - Rename all `Custom*Item` classes (excluding the `Custom` interface itself) to `Astral*Item`.
+    - The `Customized` interface's `getCustomModelData` method now returns an `Optional`.
 
 ### Content changes
 

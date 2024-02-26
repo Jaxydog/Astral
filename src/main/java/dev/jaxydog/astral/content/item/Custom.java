@@ -14,61 +14,42 @@
 
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.register.Registered;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import dev.jaxydog.astral.register.Registered.Common;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
- * Provides common functionality to custom item wrappers.
+ * Implements common functionality for all item extensions.
+ * <p>
+ * When creating a new item extension, this interface should be implemented.
+ * <p>
+ * This type is automatically registered.
  *
  * @author Jaxydog
  */
-public interface Custom extends ItemConvertible, Registered.Common {
+public interface Custom extends Common, ItemConvertible {
 
     /**
      * Returns this item's preferred item group.
      *
      * @return A reference to an item group.
      */
-    default RegistryKey<ItemGroup> getItemGroup() {
-        return CustomItemGroups.DEFAULT.getRegistryKey();
-    }
-
-    /**
-     * Returns a list of lore tooltips specified within the active lang file.
-     *
-     * @param stack The item stack.
-     *
-     * @return A list of tooltips.
-     */
-    default List<Text> getLoreTooltips(ItemStack stack) {
-        final String key = stack.getTranslationKey() + ".lore_";
-        final List<Text> lore = new ObjectArrayList<>();
-
-        for (int index = 0; I18n.hasTranslation(key + index); index += 1) {
-            final Text text = Text.translatable(key + index).formatted(Formatting.GRAY);
-
-            lore.add(text);
-        }
-
-        return lore;
+    default Optional<RegistryKey<ItemGroup>> getItemGroup() {
+        return Optional.of(CustomItemGroups.DEFAULT.getRegistryKey());
     }
 
     @Override
     default void register() {
         Registry.register(Registries.ITEM, this.getRegistryId(), this.asItem());
-        ItemGroupEvents.modifyEntriesEvent(this.getItemGroup()).register(g -> g.add(this.asItem().getDefaultStack()));
+
+        // If the preferred group is non-empty, add this item.
+        this.getItemGroup().ifPresent(group -> ItemGroupEvents.modifyEntriesEvent(group).register(g -> g.add(this)));
     }
 
 }
