@@ -1,3 +1,11 @@
+# Release 2.0.0
+
+Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the entire codebase.
+
+### Internal changes
+
+### Content changes
+
 # Release 1.7.0
 
 ### Internal changes
@@ -14,8 +22,8 @@
     - Added support for texture and language file generation.
 - Refactor dyeable amethyst implementation.
 - Improve item group support.
-- Added recipe for shroomlight.
-- Added recipe for gilded blackstone.
+- Added a new recipe for shroomlight.
+- Added a new recipe for gilded blackstone.
 - Major internal refactoring.
     - Removed unused command support.
     - Removed unused entity support.
@@ -144,7 +152,7 @@
     - `CustomItems.DYED_AMETHYST_BLOCK_MAP` has been renamed to `DYED_AMETHYST_BLOCKS`.
     - `CustomItems.DYED_AMETHYST_CLUSTER_MAP` has been renamed to `DYED_AMETHYST_CLUSTERS`.
 - `ItemStack`s now have the following methods added via interface injection:
-    - `astral$setItem` sets the `ItemStack`'s inner `Item` reference to a different item (e.g. a stack of 12 eggs -> a
+    - `astral$setItem` sets the `ItemStack`'s inner `Item` reference to a different item (e.g., a stack of 12 eggs -> a
       stack of 12 snowballs).
     - `astral$copyWithItem` makes a copy of the item stack with the inner `Item` reference changed into a different
       item.
@@ -196,7 +204,7 @@
 
 - Removed the "Sylvian Knife" model, as it's still not displaying properly.
 - Seeds used to feed damaged parrots are now specified within `#astral:parrot_feed`.
-- Simplified parrot mixin sound playing.
+- Simplified the parrot mixin's sound playing.
 - Removed excess mixin hooks from `PlayerInventoryMixin`.
 
 ## Patch 1.4.3
@@ -317,7 +325,7 @@
 
 #### Initial private release!
 
-> Welcome to pre-history...
+> Welcome to pre-history…
 >
 > Version 1.0.0 was the subject of my rapid-development process, where I fixed bugs and recompiled constantly without
 > effectively keeping records outside of conversations on Discord. Even the changelogs for 1.1.0 and 1.1.1 are difficult
