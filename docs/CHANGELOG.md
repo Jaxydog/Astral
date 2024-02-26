@@ -11,6 +11,8 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
     - Move `Generated` into `Registered`.
     - Rename multiple usages of `dataGen` into variants of `generator`.
     - Rename `getRegistryIdPath` to `getRegistryPath`.
+    - Moved all registered maps into `dev.jaxydog.register`
+    - Streamlined `RegisteredMap` implementation.
 - Updated item content structure.
     - New `LoreHolder` interface.
     - New `BowlItem` class.

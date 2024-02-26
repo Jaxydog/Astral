@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Copyright © 2024 Jaxydog
+ * Copyright © 2023–2024 Jaxydog
  *
  * This file is part of Astral.
  *
@@ -15,29 +15,43 @@
 package dev.jaxydog.astral.register;
 
 import net.minecraft.item.ArmorItem.Type;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public class ArmorMap<T extends Registered> extends RegisteredMap<Type, T> {
+/**
+ * A map containing values assigned to armor types.
+ *
+ * @param <V> The type of the value stored within this map.
+ *
+ * @author Jaxydog
+ */
+public class ArmorMap<V extends Registered> extends RegisteredMap<Type, V> {
 
-    public ArmorMap(String rawId, BiFunction<String, Type, T> constructor) {
-        super(rawId, constructor);
+    /**
+     * Creates a new registered map.
+     *
+     * @param basePath The base identifier path.
+     * @param computeCallback The value computation callback.
+     */
+    public ArmorMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull Type, V> computeCallback) {
+        super(basePath, computeCallback);
     }
 
     @Override
-    protected final int compareKeys(Type a, Type b) {
-        return a.compareTo(b);
-    }
-
-    @Override
-    public final Set<Type> keys() {
+    public Set<@NotNull Type> keys() {
         return Set.of(Type.values());
     }
 
     @Override
-    public final String getIdPath(Type key) {
-        return String.format("%s_%s", this.getRegistryPath(), key.getName());
+    protected int compareKeys(@NotNull Type left, @NotNull Type right) {
+        return left.compareTo(right);
+    }
+
+    @Override
+    protected String getPath(@NotNull Type key) {
+        return "%s_%s".formatted(this.getRegistryPath(), key.getName());
     }
 
 }

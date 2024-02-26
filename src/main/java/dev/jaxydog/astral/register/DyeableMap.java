@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Copyright © 2024 Jaxydog
+ * Copyright © 2023–2024 Jaxydog
  *
  * This file is part of Astral.
  *
@@ -15,14 +15,27 @@
 package dev.jaxydog.astral.register;
 
 import net.minecraft.util.DyeColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public class DyeableMap<T extends Registered> extends RegisteredMap<DyeColor, T> {
+/**
+ * A map containing values assigned to dye colors.
+ *
+ * @param <V> The type of the value stored within this map.
+ *
+ * @author Jaxydog
+ */
+public class DyeableMap<V extends Registered> extends RegisteredMap<DyeColor, V> {
 
-    private static final List<DyeColor> ORDER = List.of(
+    /**
+     * A list containing all dye colors in the standard Minecraft ordering.
+     * <p>
+     * This is used to control the registration order of values stored within this map.
+     */
+    private static final List<DyeColor> ORDERING = List.of(
         DyeColor.WHITE,
         DyeColor.LIGHT_GRAY,
         DyeColor.GRAY,
@@ -41,24 +54,30 @@ public class DyeableMap<T extends Registered> extends RegisteredMap<DyeColor, T>
         DyeColor.PINK
     );
 
-    public DyeableMap(String rawId, BiFunction<String, DyeColor, T> constructor) {
-        super(rawId, constructor);
+    /**
+     * Creates a new registered map.
+     *
+     * @param basePath The base identifier path.
+     * @param computeCallback The value computation callback.
+     */
+    public DyeableMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull DyeColor, V> computeCallback) {
+        super(basePath, computeCallback);
     }
 
     @Override
-    public final Set<DyeColor> keys() {
+    public Set<@NotNull DyeColor> keys() {
         return Set.of(DyeColor.values());
     }
 
     @Override
-    public final String getIdPath(DyeColor key) {
-        return String.format("%s_%s", key.asString(), this.getRegistryPath());
+    protected int compareKeys(@NotNull DyeColor left, @NotNull DyeColor right) {
+        // Sorts in rainbow order to be aligned with Minecraft's standard color ordering.
+        return Integer.compare(ORDERING.indexOf(left), ORDERING.indexOf(right));
     }
 
     @Override
-    protected final int compareKeys(DyeColor a, DyeColor b) {
-        // Sorts in rainbow order to be aligned with Minecraft's standard color ordering.
-        return Integer.compare(ORDER.indexOf(a), ORDER.indexOf(b));
+    protected String getPath(@NotNull DyeColor key) {
+        return "%s_%s".formatted(key.asString(), this.getRegistryPath());
     }
 
 }
