@@ -4,6 +4,10 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
 
 ### Internal changes
 
+- Updated mod entrypoints.
+    - Added `isInitialized` methods for each environment.
+    - Verified that each entrypoint is only initialized once.
+
 ### Content changes
 
 # Release 1.7.0
