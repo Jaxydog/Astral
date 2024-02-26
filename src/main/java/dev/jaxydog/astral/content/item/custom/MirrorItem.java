@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.content.item.AstralItem;
 import dev.jaxydog.astral.register.Registered;
 import dev.jaxydog.astral.utility.NbtUtil;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 /** Implements the fluxling's mirror item */
-public class MirrorItem extends CustomItem implements Registered.Client {
+public class MirrorItem extends AstralItem implements Registered.Client {
 
     /** The NBT key that determines whether a mirror is considered to be broken */
     public static final String BROKEN_KEY = "Broken";

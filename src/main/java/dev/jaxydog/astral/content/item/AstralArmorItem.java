@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /** An extension of a regular armor item that provides additional functionality */
-public class CustomArmorItem extends ArmorItem implements Custom {
+public class AstralArmorItem extends ArmorItem implements Custom {
 
     /** The custom armor item's inner raw identifier */
     private final String idPath;
     private final @Nullable Supplier<RegistryKey<ItemGroup>> group;
 
-    public CustomArmorItem(
+    public AstralArmorItem(
         String idPath,
         ArmorMaterial material,
         Type type,
@@ -33,7 +33,7 @@ public class CustomArmorItem extends ArmorItem implements Custom {
         this.group = group;
     }
 
-    public CustomArmorItem(String idPath, ArmorMaterial material, Type type, Settings settings) {
+    public AstralArmorItem(String idPath, ArmorMaterial material, Type type, Settings settings) {
         this(idPath, material, type, settings, null);
     }
 

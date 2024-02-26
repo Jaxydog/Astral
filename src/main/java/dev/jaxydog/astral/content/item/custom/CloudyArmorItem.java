@@ -1,7 +1,7 @@
 package dev.jaxydog.astral.content.item.custom;
 
+import dev.jaxydog.astral.content.item.AstralArmorItem;
 import dev.jaxydog.astral.content.item.Colored;
-import dev.jaxydog.astral.content.item.CustomArmorItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ArmorMaterial;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class CloudyArmorItem extends CustomArmorItem implements Cloudy, Colored {
+public class CloudyArmorItem extends AstralArmorItem implements Cloudy, Colored {
 
     private static final double INCREASE_DELTA = 1D / 160D;
     private static final double DECREASE_DELTA = 1D / 320D;

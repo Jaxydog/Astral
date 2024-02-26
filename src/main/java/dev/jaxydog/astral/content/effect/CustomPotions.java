@@ -1,7 +1,7 @@
 package dev.jaxydog.astral.content.effect;
 
 import dev.jaxydog.astral.content.effect.CustomPotion.Recipe;
-import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.register.ContentRegistrar;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
@@ -14,7 +14,7 @@ public final class CustomPotions extends ContentRegistrar {
 
     public static final CustomPotion SINISTER = new CustomPotion(
         "sinister",
-        new Recipe(Potions.THICK, Ingredient.ofItems(CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED))),
+        new Recipe(Potions.THICK, Ingredient.ofItems(AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED))),
         new StatusEffectInstance(CustomStatusEffects.SINISTER, 15 * 20, 0)
     );
 

@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.content.item.AstralItem;
 import dev.jaxydog.astral.datagen.ModelGenerator;
 import dev.jaxydog.astral.register.Registered.Generated;
 import net.minecraft.data.client.Models;
@@ -35,7 +35,7 @@ import java.util.function.Supplier;
  *
  * @author Jaxydog
  */
-public class RandomEffectItem extends CustomItem implements Generated {
+public class RandomEffectItem extends AstralItem implements Generated {
 
     private final float effectChance;
     private final StatusEffect effect;

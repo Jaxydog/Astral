@@ -13,20 +13,20 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /** An extension of a regular item that provides additional functionality */
-public class CustomItem extends Item implements Custom {
+public class AstralItem extends Item implements Custom {
 
     /** The custom item's inner raw identifier */
     private final String idPath;
     private final @Nullable Supplier<RegistryKey<ItemGroup>> group;
 
-    public CustomItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+    public AstralItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
         super(settings);
 
         this.idPath = idPath;
         this.group = group;
     }
 
-    public CustomItem(String idPath, Settings settings) {
+    public AstralItem(String idPath, Settings settings) {
         this(idPath, settings, null);
     }
 

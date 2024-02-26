@@ -31,12 +31,12 @@ public final class CustomItemGroups extends ContentRegistrar {
         .finish();
 
     public static final CustomCycledItemGroup DYEABLE_AMETHYST = CustomCycledItemGroup.builder("dyeable_amethyst")
-        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).getDefaultStack())
-        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).getDefaultStack())
-        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.YELLOW).getDefaultStack())
-        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIME).getDefaultStack())
-        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).getDefaultStack())
-        .icon(() -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.YELLOW).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIME).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).getDefaultStack())
         .interval(60)
         .finish();
 

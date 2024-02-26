@@ -1,7 +1,7 @@
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItems;
-import dev.jaxydog.astral.content.item.CustomPotionItem;
+import dev.jaxydog.astral.content.item.AstralItems;
+import dev.jaxydog.astral.content.item.AstralPotionItem;
 import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -39,7 +39,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class SprayPotionItem extends CustomPotionItem implements Sprayable {
+public class SprayPotionItem extends AstralPotionItem implements Sprayable {
 
     public static final int MAX_USES = 3;
     public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
@@ -191,7 +191,7 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
     public void register() {
         super.register();
 
-        BrewingRecipeRegistry.registerItemRecipe(Items.POTION, CustomItems.CLOUDY_MANE, this);
+        BrewingRecipeRegistry.registerItemRecipe(Items.POTION, AstralItems.CLOUDY_MANE, this);
 
         DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
 

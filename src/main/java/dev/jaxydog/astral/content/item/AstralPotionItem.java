@@ -19,19 +19,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class CustomPotionItem extends PotionItem implements Custom {
+public class AstralPotionItem extends PotionItem implements Custom {
 
     private final String idPath;
     private final @Nullable Supplier<RegistryKey<ItemGroup>> group;
 
-    public CustomPotionItem(String rawId, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
+    public AstralPotionItem(String rawId, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
         super(settings);
 
         this.idPath = rawId;
         this.group = group;
     }
 
-    public CustomPotionItem(String rawId, Settings settings) {
+    public AstralPotionItem(String rawId, Settings settings) {
         this(rawId, settings, null);
     }
 

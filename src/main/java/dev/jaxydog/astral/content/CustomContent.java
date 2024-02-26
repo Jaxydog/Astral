@@ -4,8 +4,8 @@ import dev.jaxydog.astral.content.block.CustomBlocks;
 import dev.jaxydog.astral.content.data.CustomData;
 import dev.jaxydog.astral.content.effect.CustomPotions;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.content.item.CustomItemGroups;
-import dev.jaxydog.astral.content.item.CustomItems;
 import dev.jaxydog.astral.content.power.CustomActions;
 import dev.jaxydog.astral.content.power.CustomConditions;
 import dev.jaxydog.astral.content.power.CustomPowers;
@@ -29,7 +29,7 @@ public final class CustomContent extends ContentRegistrar {
     public static final CustomData DATA = new CustomData();
     public static final CustomGamerules GAMERULES = new CustomGamerules();
     public static final CustomItemGroups ITEM_GROUPS = new CustomItemGroups();
-    public static final CustomItems ITEMS = new CustomItems();
+    public static final AstralItems ITEMS = new AstralItems();
     public static final CustomPotions POTIONS = new CustomPotions();
     public static final CustomPowers POWERS = new CustomPowers();
     public static final CustomSoundEvents SOUND_EVENTS = new CustomSoundEvents();

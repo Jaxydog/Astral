@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.content.item.AstralItem;
 import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
 import dev.jaxydog.astral.content.power.custom.ActionWhenSprayedPower;
 import dev.jaxydog.astral.utility.injected.SprayableEntity;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class SprayBottleItem extends CustomItem implements Sprayable {
+public class SprayBottleItem extends AstralItem implements Sprayable {
 
     public static final int MAX_USES = 48;
     public static final int SPRAY_DURATION = 40;

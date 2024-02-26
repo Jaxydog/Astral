@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.content.item.AstralItem;
 import dev.jaxydog.astral.content.item.Customized;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.EquipmentSlot;
@@ -11,7 +11,7 @@ import net.minecraft.registry.Registry;
 
 import java.util.Map;
 
-public class PlaceholderItem extends CustomItem implements Customized, Equipment {
+public class PlaceholderItem extends AstralItem implements Customized, Equipment {
 
     private static final Map<Integer, String> TRANSLATION_KEYS = new Object2ObjectOpenHashMap<>();
 

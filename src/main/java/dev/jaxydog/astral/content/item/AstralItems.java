@@ -21,7 +21,7 @@ import net.minecraft.util.Rarity;
 
 /** Contains definitions for all custom items */
 @SuppressWarnings("unused")
-public final class CustomItems extends ContentRegistrar {
+public final class AstralItems extends ContentRegistrar {
 
     public static final CloudyItem CLOUDY_CANDY = new CloudyItem("cloudy_candy",
         new Settings().food(FoodComponents.CLOUDY_CANDY_FOOD).rarity(Rarity.UNCOMMON)
@@ -39,43 +39,43 @@ public final class CustomItems extends ContentRegistrar {
         new Settings().fireproof().maxCount(1).rarity(Rarity.UNCOMMON)
     );
 
-    public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
-        (rawId, color) -> new CustomBlockItem(rawId,
+    public static final DyeableMap<AstralBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeableMap<>("amethyst_block",
+        (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeableMap<>("budding_amethyst",
-        (rawId, color) -> new CustomBlockItem(rawId,
+    public static final DyeableMap<AstralBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeableMap<>("budding_amethyst",
+        (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeableMap<>("amethyst_cluster",
-        (rawId, color) -> new CustomBlockItem(rawId,
+    public static final DyeableMap<AstralBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeableMap<>("amethyst_cluster",
+        (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeableMap<>("large_amethyst_bud",
-        (rawId, color) -> new CustomBlockItem(rawId,
+    public static final DyeableMap<AstralBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeableMap<>("large_amethyst_bud",
+        (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(color),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeableMap<>("medium_amethyst_bud",
-        (rawId, color) -> new CustomBlockItem(rawId,
+    public static final DyeableMap<AstralBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeableMap<>("medium_amethyst_bud",
+        (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(color),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
-    public static final DyeableMap<CustomBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeableMap<>("small_amethyst_bud",
-        (rawId, color) -> new CustomBlockItem(rawId,
+    public static final DyeableMap<AstralBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeableMap<>("small_amethyst_bud",
+        (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(color),
             new Settings(),
             CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
@@ -88,7 +88,7 @@ public final class CustomItems extends ContentRegistrar {
     public static final SprayPotionItem SPRAY_POTION = new SprayPotionItem("spray_potion",
         new Settings().maxDamage(SprayPotionItem.MAX_USES)
     );
-    public static final CustomBlockItem RANDOMIZER_BLOCK = new CustomBlockItem("randomizer",
+    public static final AstralBlockItem RANDOMIZER_BLOCK = new AstralBlockItem("randomizer",
         CustomBlocks.RANDOMIZER,
         new Settings().rarity(Rarity.UNCOMMON)
     );
@@ -102,31 +102,31 @@ public final class CustomItems extends ContentRegistrar {
     );
 
     // Items for star monkey
-    public static final CustomItem ROTTEN_CHORUS_FRUIT = new CustomItem("rotten_chorus_fruit",
+    public static final AstralItem ROTTEN_CHORUS_FRUIT = new AstralItem("rotten_chorus_fruit",
         new Settings().food(FoodComponents.ROTTEN_CHORUS_FRUIT),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
-    public static final CustomItem LIVING_SCULK = new CustomItem("living_sculk",
+    public static final AstralItem LIVING_SCULK = new AstralItem("living_sculk",
         new Settings().rarity(Rarity.RARE),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
-    public static final CustomItem PIG_CARD = new CustomItem("pig_card",
+    public static final AstralItem PIG_CARD = new AstralItem("pig_card",
         new Settings(),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
-    public static final CustomItem SLIME_CARD = new CustomItem("slime_card",
+    public static final AstralItem SLIME_CARD = new AstralItem("slime_card",
         new Settings(),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
-    public static final CustomItem APPY_SAUCE = new CustomItem("appy_sauce",
+    public static final AstralItem APPY_SAUCE = new AstralItem("appy_sauce",
         new Settings(),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
-    public static final CustomItem VOID_ESSENCE = new CustomItem("void_essence",
+    public static final AstralItem VOID_ESSENCE = new AstralItem("void_essence",
         new Settings().rarity(Rarity.EPIC),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
-    public static final CustomItem DRAGON_SCALE = new CustomItem("dragon_scale",
+    public static final AstralItem DRAGON_SCALE = new AstralItem("dragon_scale",
         new Settings().rarity(Rarity.EPIC),
         CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
     );

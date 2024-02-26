@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /** An extension of a regular block item that provides additional functionality */
-public class CustomBlockItem extends BlockItem implements Custom {
+public class AstralBlockItem extends BlockItem implements Custom {
 
     /** The custom item's inner raw identifier */
     private final String idPath;
     private final @Nullable Supplier<RegistryKey<ItemGroup>> group;
 
-    public CustomBlockItem(
+    public AstralBlockItem(
         String idPath, Block block, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group
     ) {
         super(block, settings);
@@ -29,7 +29,7 @@ public class CustomBlockItem extends BlockItem implements Custom {
         this.group = group;
     }
 
-    public CustomBlockItem(String idPath, Block block, Settings settings) {
+    public AstralBlockItem(String idPath, Block block, Settings settings) {
         this(idPath, block, settings, null);
     }
 

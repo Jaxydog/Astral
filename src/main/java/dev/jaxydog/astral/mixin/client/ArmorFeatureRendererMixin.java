@@ -1,8 +1,8 @@
 package dev.jaxydog.astral.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.jaxydog.astral.content.item.AstralArmorItem;
 import dev.jaxydog.astral.content.item.Colored;
-import dev.jaxydog.astral.content.item.CustomArmorItem;
 import dev.jaxydog.astral.content.trinket.CustomTrinketPredicates;
 import dev.jaxydog.astral.utility.ColorUtil.Rgb;
 import net.fabricmc.api.EnvType;
@@ -104,7 +104,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
         @Local ItemStack stack,
         @Local ArmorItem baseArmorItem
     ) {
-        if (!(baseArmorItem instanceof final CustomArmorItem armorItem)) return;
+        if (!(baseArmorItem instanceof final AstralArmorItem armorItem)) return;
 
         final ArmorRenderer renderer = ArmorRendererRegistryImpl.get(armorItem);
 

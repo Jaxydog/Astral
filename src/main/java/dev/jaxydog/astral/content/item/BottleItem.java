@@ -33,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class BottleItem extends CustomItem {
+public class BottleItem extends AstralItem {
 
     @SuppressWarnings("unused")
     public BottleItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {

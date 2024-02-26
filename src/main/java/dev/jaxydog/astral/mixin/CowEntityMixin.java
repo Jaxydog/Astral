@@ -2,7 +2,7 @@ package dev.jaxydog.astral.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.utility.CowType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -82,7 +82,7 @@ public abstract class CowEntityMixin extends PassiveEntityMixin {
 
         if (!stack.isOf(Items.GLASS_BOTTLE) || this.isBaby() || !this.isCowType(CowType.PINK)) return;
 
-        final ItemStack result = CustomItems.STRAWBERRY_MILK.getDefaultStack();
+        final ItemStack result = AstralItems.STRAWBERRY_MILK.getDefaultStack();
         final ItemStack exchanged = ItemUsage.exchangeStack(stack, player, result, false);
 
         player.setStackInHand(hand, exchanged);

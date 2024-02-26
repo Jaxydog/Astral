@@ -16,8 +16,8 @@ package dev.jaxydog.astral.content.block.custom;
 
 import dev.jaxydog.astral.Astral;
 import dev.jaxydog.astral.content.block.CustomBlock;
-import dev.jaxydog.astral.content.item.CustomBlockItem;
-import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.AstralBlockItem;
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.datagen.*;
 import dev.jaxydog.astral.register.Registered.Generated;
 import dev.jaxydog.astral.utility.ColorUtil.Rgb;
@@ -150,8 +150,8 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
      *
      * @return The associated item.
      */
-    public CustomBlockItem getItem() {
-        return CustomItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor());
+    public AstralBlockItem getItem() {
+        return AstralItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor());
     }
 
     /**
