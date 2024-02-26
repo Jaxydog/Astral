@@ -1,5 +1,6 @@
 package dev.jaxydog.astral.content.item.custom;
 
+import dev.jaxydog.astral.content.item.BottleItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

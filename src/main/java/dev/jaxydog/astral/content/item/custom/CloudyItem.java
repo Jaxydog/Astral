@@ -1,5 +1,6 @@
 package dev.jaxydog.astral.content.item.custom;
 
+import dev.jaxydog.astral.content.item.Colored;
 import dev.jaxydog.astral.content.item.CustomItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
