@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral;
 
-import dev.jaxydog.astral.content.CustomContent;
+import dev.jaxydog.astral.content.AstralContent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -63,7 +63,7 @@ public final class AstralClient implements ClientModInitializer {
     public void onInitializeClient() {
         if (hasInitialized()) throw new IllegalStateException("The mod may not be initialized more than once");
 
-        CustomContent.INSTANCE.registerClient();
+        AstralContent.INSTANCE.registerClient();
 
         INITIALIZED.set(true);
     }

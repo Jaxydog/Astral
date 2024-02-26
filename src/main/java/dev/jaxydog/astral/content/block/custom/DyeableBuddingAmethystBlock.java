@@ -16,8 +16,8 @@ package dev.jaxydog.astral.content.block.custom;
 
 import dev.jaxydog.astral.Astral;
 import dev.jaxydog.astral.content.block.CustomBlocks;
-import dev.jaxydog.astral.content.item.CustomBlockItem;
-import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.AstralBlockItem;
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.AmethystClusterBlock;
@@ -84,8 +84,8 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
     }
 
     @Override
-    public CustomBlockItem getItem() {
-        return CustomItems.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(this.getColor()).orElseThrow();
+    public AstralBlockItem getItem() {
+        return AstralItems.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(this.getColor()).orElseThrow();
     }
 
     @SuppressWarnings("deprecation")

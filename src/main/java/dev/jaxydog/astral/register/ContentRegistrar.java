@@ -15,6 +15,7 @@
 package dev.jaxydog.astral.register;
 
 import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.content.AstralContent;
 import net.minecraft.util.Identifier;
 
 import java.lang.reflect.Field;
@@ -26,8 +27,7 @@ import static java.lang.reflect.Modifier.isStatic;
  * Implements the automatic registration system for extending classes.
  * <p>
  * Extending classes should typically be {@code final} and only contain subclasses or {@code public static final}
- * fields. They should be singletons with their only instance being placed within the
- * {@link dev.jaxydog.astral.content.CustomContent} class.
+ * fields. They should be singletons with their only instance being placed within the {@link AstralContent} class.
  *
  * @author Jaxydog
  * @see Registered
@@ -70,6 +70,7 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
                     Astral.LOGGER.warn("Expected a value of type {}", environment.getInterface().getSimpleName());
                 }
             } catch (final IllegalAccessException | IllegalArgumentException exception) {
+                // If something fails, output the exception message and intentionally ignore the field.
                 Astral.LOGGER.error(exception.getLocalizedMessage());
             }
         }
@@ -84,6 +85,9 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
     public Identifier getRegistryId() {
         throw new UnsupportedOperationException("This cannot be called on instances of " + this.getClass().getName());
     }
+
+    // The methods below should be called within their respective mod entry-points, otherwise an entire environment will
+    // be cut off from initialization.
 
     @Override
     public final void register() {

@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral;
 
-import dev.jaxydog.astral.content.CustomContent;
+import dev.jaxydog.astral.content.AstralContent;
 import dev.jaxydog.astral.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -59,7 +59,7 @@ public final class AstralDataGenerator implements DataGeneratorEntrypoint {
 
         LanguageGenerator.getInstance().combine(languagePath);
 
-        CustomContent.INSTANCE.generate();
+        AstralContent.INSTANCE.generate();
     }
 
 }

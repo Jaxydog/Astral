@@ -14,14 +14,11 @@
 
 package dev.jaxydog.astral;
 
-import dev.jaxydog.astral.content.CustomContent;
-import dev.jaxydog.astral.utility.CurrencyUtil;
+import dev.jaxydog.astral.content.AstralContent;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,8 +102,7 @@ public final class Astral implements ModInitializer {
     public void onInitialize() {
         if (hasInitialized()) throw new IllegalStateException("The mod may not be initialized more than once");
 
-        CustomContent.INSTANCE.register();
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new CurrencyUtil.Loader());
+        AstralContent.INSTANCE.register();
 
         getMetadata().ifPresent(metadata -> {
             final String displayName = metadata.getName();

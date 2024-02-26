@@ -1,7 +1,21 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Copyright © 2024 Jaxydog
+ *
+ * This file is part of Astral.
+ *
+ * Astral is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * Astral is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItems;
-import dev.jaxydog.astral.content.item.CustomPotionItem;
+import dev.jaxydog.astral.content.item.AstralItems;
+import dev.jaxydog.astral.content.item.AstralPotionItem;
 import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -39,7 +53,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class SprayPotionItem extends CustomPotionItem implements Sprayable {
+public class SprayPotionItem extends AstralPotionItem implements Sprayable {
 
     public static final int MAX_USES = 3;
     public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
@@ -191,7 +205,7 @@ public class SprayPotionItem extends CustomPotionItem implements Sprayable {
     public void register() {
         super.register();
 
-        BrewingRecipeRegistry.registerItemRecipe(Items.POTION, CustomItems.CLOUDY_MANE, this);
+        BrewingRecipeRegistry.registerItemRecipe(Items.POTION, AstralItems.CLOUDY_MANE, this);
 
         DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
 

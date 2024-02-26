@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral;
 
-import dev.jaxydog.astral.content.CustomContent;
+import dev.jaxydog.astral.content.AstralContent;
 import net.fabricmc.api.DedicatedServerModInitializer;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -60,7 +60,7 @@ public final class AstralServer implements DedicatedServerModInitializer {
     public void onInitializeServer() {
         if (hasInitialized()) throw new IllegalStateException("The mod may not be initialized more than once");
 
-        CustomContent.INSTANCE.registerServer();
+        AstralContent.INSTANCE.registerServer();
 
         INITIALIZED.set(true);
     }

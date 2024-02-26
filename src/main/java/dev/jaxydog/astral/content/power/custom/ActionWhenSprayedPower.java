@@ -131,10 +131,11 @@ public class ActionWhenSprayedPower extends CustomPower {
      *
      * @return Whether this entity may be sprayed.
      */
-    public boolean canBeSprayed(Entity actor, ItemStack stack) {
+    public boolean canBeSprayed(@Nullable Entity actor, ItemStack stack) {
         if (!this.canUseItem(stack)) return false;
+        if (this.bientityCondition == null) return true;
 
-        return this.bientityCondition == null || this.bientityCondition.test(new Pair<>(actor, this.entity));
+        return actor != null && this.bientityCondition.test(new Pair<>(actor, this.entity));
     }
 
     /**
@@ -145,7 +146,7 @@ public class ActionWhenSprayedPower extends CustomPower {
      *
      * @return Whether the entity was sprayed.
      */
-    public boolean onSprayed(Entity actor, ItemStack stack) {
+    public boolean onSprayed(@Nullable Entity actor, ItemStack stack) {
         if (this.bientityAction == null) return false;
 
         this.bientityAction.accept(new Pair<>(actor, this.entity));

@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.content.item.AstralItem;
 import dev.jaxydog.astral.datagen.ModelGenerator;
 import dev.jaxydog.astral.register.Registered.Generated;
 import net.minecraft.data.client.Models;
@@ -31,31 +31,54 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 /**
- * A custom item that randomly applies the specified effect.
+ * A custom item that randomly applies a specified effect.
  *
  * @author Jaxydog
  */
-public class RandomEffectItem extends CustomItem implements Generated {
+@SuppressWarnings("unused")
+public class RandomEffectItem extends AstralItem implements Generated {
 
+    /** The chance that the effect will be applied. */
     private final float effectChance;
+    /** The status effect to be given to the living entity. */
     private final StatusEffect effect;
 
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * If the {@code #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     * @param preferredGroup The item's preferred item group.
+     * @param effectChance The chance that the effect will be applied.
+     * @param effect The status effect to be given to the living entity.
+     */
     public RandomEffectItem(
-        String idPath,
+        String path,
         Settings settings,
-        @Nullable Supplier<RegistryKey<ItemGroup>> group,
+        @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup,
         float effectChance,
         StatusEffect effect
     ) {
-        super(idPath, settings, group);
+        super(path, settings, preferredGroup);
 
         this.effectChance = effectChance;
         this.effect = effect;
     }
 
-    @SuppressWarnings("unused")
-    public RandomEffectItem(String idPath, Settings settings, float effectChance, StatusEffect effect) {
-        super(idPath, settings);
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * This item will be added to the default item group.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     * @param effectChance The chance that the effect will be applied.
+     * @param effect The status effect to be given to the living entity.
+     */
+    public RandomEffectItem(String path, Settings settings, float effectChance, StatusEffect effect) {
+        super(path, settings);
 
         this.effectChance = effectChance;
         this.effect = effect;
@@ -63,6 +86,7 @@ public class RandomEffectItem extends CustomItem implements Generated {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        // This is called first, in case any computation needs to be handled before applying the effect.
         super.inventoryTick(stack, world, entity, slot, selected);
 
         // Only run on the server for living entities.
@@ -71,14 +95,18 @@ public class RandomEffectItem extends CustomItem implements Generated {
         if (livingEntity.hasStatusEffect(this.effect)) return;
 
         if (world.getRandom().nextFloat() <= this.effectChance) {
+            // We need to make a new instance every time, otherwise the duration will be shared between invocations and
+            // cause weird behavior.
             final StatusEffectInstance instance = new StatusEffectInstance(this.effect, 200, 0, false, false, false);
 
+            // We also need to ensure that the entity can have the effect in the first place.
             if (livingEntity.canHaveStatusEffect(instance)) livingEntity.addStatusEffect(instance);
         }
     }
 
     @Override
     public void generate() {
+        // Generates a simple held item model.
         ModelGenerator.getInstance().generateItem(g -> g.register(this, Models.GENERATED));
     }
 

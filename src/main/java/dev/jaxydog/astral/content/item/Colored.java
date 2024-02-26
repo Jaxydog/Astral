@@ -12,33 +12,36 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.astral.content.item.custom;
+package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.register.Registered;
+import dev.jaxydog.astral.register.Registered.Client;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 
 /**
- * Provides dynamic color support for the implementing item.
+ * Implements common functionality for all colored item extensions.
+ * <p>
+ * By itself, this interface only handles registration on the client environment. It should usually be used in tandem
+ * with the {@link Custom} interface, which handles common registration as well.
  *
  * @author Jaxydog
  */
-public interface Colored extends ItemConvertible, Registered.Client {
+public interface Colored extends Client, ItemConvertible {
 
     /**
      * Returns the color for the given stack at the provided layer index.
      *
-     * @param stack The item stack
-     * @param index The color layer index.
+     * @param stack The item stack.
+     * @param layerIndex The index of the color layer.
      *
-     * @return The stack's color at the given index.
+     * @return The layer's color.
      */
-    int getColor(ItemStack stack, int index);
+    int getStackColor(ItemStack stack, int layerIndex);
 
     @Override
     default void registerClient() {
-        ColorProviderRegistry.ITEM.register(this::getColor, this.asItem());
+        ColorProviderRegistry.ITEM.register(this::getStackColor, this.asItem());
     }
 
 }

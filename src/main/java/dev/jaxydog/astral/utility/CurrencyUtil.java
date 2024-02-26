@@ -16,33 +16,27 @@ package dev.jaxydog.astral.utility;
 
 import com.google.gson.*;
 import dev.jaxydog.astral.Astral;
-import dev.jaxydog.astral.content.CustomGamerules;
+import dev.jaxydog.astral.content.AstralGamerules;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.profiler.Profiler;
 import org.jetbrains.annotations.ApiStatus.NonExtendable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -83,7 +77,7 @@ public interface CurrencyUtil {
         if (Reward.REWARDS.isEmpty()) return;
 
         final Random random = player.getRandom();
-        final double rewardChance = player.getWorld().getGameRules().get(CustomGamerules.CURRENCY_REWARD_CHANCE).get();
+        final double rewardChance = player.getWorld().getGameRules().get(AstralGamerules.CURRENCY_REWARD_CHANCE).get();
 
         int count = 0;
 
@@ -688,95 +682,6 @@ public interface CurrencyUtil {
             } else {
                 return Registries.ITEM.getDefaultId();
             }
-        }
-
-    }
-
-    /**
-     * The JSON data loader for all currency values.
-     *
-     * @author Jaxydog
-     */
-    final class Loader extends JsonDataLoader implements IdentifiableResourceReloadListener {
-
-        /** This loader's preferred GSON configuration. */
-        private static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        /** The resource folder that is expected to contain currency data. */
-        private static final String FOLDER = "currency";
-
-        public Loader() {
-            super(GSON, FOLDER);
-        }
-
-        /**
-         * Parses and loads currency data generically.
-         *
-         * @param object The JSON source object.
-         * @param parse Parses and constructs a new instance of the generic type.
-         * @param loader Loads a completed listing of parsed types.
-         * @param descriptor Describes the type as a string, used in logging.
-         * @param <T> The type to be loaded.
-         */
-        private <T extends ItemRepresenting> void load(
-            JsonObject object,
-            BiFunction<Identifier, JsonObject, T> parse,
-            Function<Map<Identifier, T>, Integer> loader,
-            String descriptor
-        ) {
-            final Map<Identifier, T> output = new Object2ObjectArrayMap<>(object.size());
-
-            object.asMap().forEach((key, value) -> {
-                final Identifier identifier, itemIdentifier;
-
-                if ((identifier = Identifier.tryParse(key)) == null) {
-                    Astral.LOGGER.warn("Invalid identifier key '{}'", key);
-
-                    return;
-                }
-                if (output.containsKey(identifier)) {
-                    Astral.LOGGER.warn("Duplicate identifier key '{}'", key);
-
-                    return;
-                }
-                if (!(value instanceof final JsonObject valueObject)) {
-                    Astral.LOGGER.warn("Expected an object for key '{}'", key);
-
-                    return;
-                }
-
-                try {
-                    if ((itemIdentifier = Identifier.tryParse(JsonHelper.getString(valueObject, "item"))) == null) {
-                        Astral.LOGGER.warn("Invalid item identifier '{}'", key);
-
-                        return;
-                    }
-
-                    output.put(identifier, parse.apply(itemIdentifier, valueObject));
-                } catch (JsonParseException exception) {
-                    Astral.LOGGER.warn(exception.getLocalizedMessage());
-                }
-            });
-
-            Astral.LOGGER.info("Loaded {} currency {}", loader.apply(output), descriptor);
-        }
-
-        @Override
-        public Identifier getFabricId() {
-            return Astral.getId(FOLDER);
-        }
-
-        @Override
-        protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
-            prepared.entrySet().stream().filter(e -> e.getValue() instanceof JsonObject).forEach(entry -> {
-                final JsonObject object = entry.getValue().getAsJsonObject();
-                final String path = entry.getKey().getPath();
-
-                switch (path.replaceFirst("\\.json$", "")) {
-                    case "units" -> this.load(object, Unit::parse, Unit.UNITS::load, "units");
-                    case "rewards" -> this.load(object, Reward::parse, Reward.REWARDS::load, "rewards");
-                    case "skeletons" -> this.load(object, Skeleton::parse, Skeleton.SKELETONS::load, "skeletons");
-                }
-            });
         }
 
     }

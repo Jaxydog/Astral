@@ -1,9 +1,23 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Copyright © 2024 Jaxydog
+ *
+ * This file is part of Astral.
+ *
+ * Astral is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * Astral is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package dev.jaxydog.astral.mixin;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.Multimap;
-import dev.jaxydog.astral.content.item.CustomArmorMaterial;
+import dev.jaxydog.astral.content.item.AstralArmorItem.Material;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
@@ -42,7 +56,7 @@ public abstract class ArmorItemMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void constructor(ArmorMaterial material, Type type, Settings settings, CallbackInfo info) {
-        if (!(material instanceof CustomArmorMaterial)) return;
+        if (!(material instanceof Material)) return;
 
         final UUID uuid = MODIFIERS.get(type);
         final Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();

@@ -17,8 +17,8 @@ package dev.jaxydog.astral.content.block.custom;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.jaxydog.astral.Astral;
-import dev.jaxydog.astral.content.item.CustomBlockItem;
-import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.AstralBlockItem;
+import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.datagen.*;
 import dev.jaxydog.astral.register.Registered.Client;
 import dev.jaxydog.astral.utility.injected.AstralModel;
@@ -170,12 +170,12 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
      *
      * @return The associated item.
      */
-    public CustomBlockItem getItem() {
+    public AstralBlockItem getItem() {
         return switch (this.variant) {
-            case CLUSTER -> CustomItems.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor()).orElseThrow();
-            case LARGE_BUD -> CustomItems.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
-            case MEDIUM_BUD -> CustomItems.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
-            case SMALL_BUD -> CustomItems.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
+            case CLUSTER -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor()).orElseThrow();
+            case LARGE_BUD -> AstralItems.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
+            case MEDIUM_BUD -> AstralItems.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
+            case SMALL_BUD -> AstralItems.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
         };
     }
 

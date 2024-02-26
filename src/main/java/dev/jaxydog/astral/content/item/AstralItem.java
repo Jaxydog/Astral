@@ -12,12 +12,11 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.astral.content.item.custom;
+package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.content.item.AstralItem;
-import dev.jaxydog.astral.content.item.Colored;
+import dev.jaxydog.astral.content.item.group.AstralItemGroups;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
@@ -26,29 +25,42 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
- * An item that implements the {@link Cloudy} interface.
+ * An extension of an {@link Item} that provides commonly used functionality.
+ * <p>
+ * This is one of the various instances of already-provided wrapper classes for commonly used types.
+ * <p>
+ * In future code, you should prefer to extend this class over {@link Item} if at all possible.
  * <p>
  * This type is automatically registered.
  *
  * @author Jaxydog
+ * @see Custom
  */
-@SuppressWarnings("unused")
-public class CloudyItem extends AstralItem implements Cloudy, Colored {
+public class AstralItem extends Item implements Custom, LoreHolder {
+
+    /** The item's identifier path used within the registration system. */
+    private final String path;
+    /** The item's preferred item group, or {@code null} if it should not be added to any group. */
+    private final @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup;
 
     /**
      * Creates a new item using the given settings.
      * <p>
-     * If the {@code #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     * If the {@link #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
      */
-    public CloudyItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
-        super(path, settings, preferredGroup);
+    public AstralItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
+        super(settings);
+
+        this.path = path;
+        this.preferredGroup = preferredGroup;
     }
 
     /**
@@ -59,37 +71,25 @@ public class CloudyItem extends AstralItem implements Cloudy, Colored {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      */
-    public CloudyItem(String path, Settings settings) {
-        super(path, settings);
+    public AstralItem(String path, Settings settings) {
+        this(path, settings, AstralItemGroups.DEFAULT::getRegistryKey);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(this.getStorminessText(stack));
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.addAll(this.getLoreTooltips(stack));
 
         super.appendTooltip(stack, world, tooltip, context);
     }
 
     @Override
-    public double getDecreaseDelta(ItemStack stack) {
-        return 1D / 160D;
+    public Optional<RegistryKey<ItemGroup>> getItemGroup() {
+        return Optional.ofNullable(this.preferredGroup).map(Supplier::get);
     }
 
     @Override
-    public double getIncreaseDelta(ItemStack stack) {
-        return 1D / 80D;
-    }
-
-    @Override
-    public int getStackColor(ItemStack stack, int index) {
-        return index == 0 ? this.getStorminessColor(stack) : 0xFF_FF_FF;
-    }
-
-    @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        this.updateStorminess(stack, entity);
-
-        super.inventoryTick(stack, world, entity, slot, selected);
+    public String getRegistryPath() {
+        return this.path;
     }
 
 }

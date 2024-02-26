@@ -1,7 +1,6 @@
 /*
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Copyright © 2024 Icepenguin
  * Copyright © 2024 Jaxydog
  *
  * This file is part of Astral.
@@ -15,61 +14,72 @@
 
 package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.astral.content.item.BottledItem;
+import dev.jaxydog.astral.content.item.AstralItem;
+import dev.jaxydog.astral.content.sound.SoundContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SuspiciousStewItem;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
 /**
- * Implements the chocolate milk item.
+ * A simple spray bottle item.
  * <p>
- * This item will apply effects to the consuming entity in the same manner as suspicious stew.
+ * This type is automatically registered.
  *
- * @author Icepenguin
  * @author Jaxydog
  */
 @SuppressWarnings("unused")
-public class ChocolateMilkItem extends BottledItem {
+public class NewSprayBottleItem extends AstralItem implements Sprayed {
+
+    /** The sound played when extinguishing fire. */
+    public static final SoundContext EXTINGUISH_SOUND = new SoundContext(SoundEvents.BLOCK_FIRE_EXTINGUISH,
+        SoundCategory.BLOCKS,
+        0.5F,
+        2.6F,
+        0.8F
+    );
 
     /**
      * Creates a new item using the given settings.
      * <p>
-     * If the {@code preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     * If the {@code #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
      */
-    public ChocolateMilkItem(
+    public NewSprayBottleItem(
         String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
     ) {
         super(path, settings, preferredGroup);
     }
 
     /**
-     * Creates a new mirror item using the given settings.
+     * Creates a new item using the given settings.
      * <p>
      * This item will be added to the default item group.
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
      */
-    public ChocolateMilkItem(String path, Settings settings) {
+    public NewSprayBottleItem(String path, Settings settings) {
         super(path, settings);
     }
 
     @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entity) {
-        // The functionality for this item is, for the most part, shared with suspicious stew.
-        if (entity != null) SuspiciousStewItem.forEachEffect(stack, entity::addStatusEffect);
+    public void invokeSpray(ItemStack stack, World world, @Nullable LivingEntity entity, Entity target, int charges) {
+        if (this.canSpray(stack, entity, target, charges)) {
 
-        return super.finishUsing(stack, world, entity);
+        }
+
+        Sprayed.super.invokeSpray(stack, world, entity, target, charges);
     }
 
 }
