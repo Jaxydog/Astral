@@ -30,11 +30,11 @@ import java.util.function.Supplier;
  *
  * @author Jaxydog
  */
-public class CustomItemGroup extends ItemGroup implements Registered.Common {
+public class AstralItemGroup extends ItemGroup implements Registered.Common {
 
     private final String idPath;
 
-    protected CustomItemGroup(
+    protected AstralItemGroup(
         String idPath,
         Row row,
         int column,
@@ -48,7 +48,7 @@ public class CustomItemGroup extends ItemGroup implements Registered.Common {
         this.idPath = idPath;
     }
 
-    protected CustomItemGroup(String idPath, ItemGroup group, EntryCollector entryCollector) {
+    protected AstralItemGroup(String idPath, ItemGroup group, EntryCollector entryCollector) {
         this(
             idPath,
             group.getRow(),
@@ -126,10 +126,10 @@ public class CustomItemGroup extends ItemGroup implements Registered.Common {
             return (Builder) super.texture(texture);
         }
 
-        public CustomItemGroup finish() {
+        public AstralItemGroup finish() {
             final Text name = Text.translatable(Astral.getId(this.idPath).toTranslationKey("itemGroup"));
 
-            return new CustomItemGroup(this.idPath, super.displayName(name).build(), this.entryCollector);
+            return new AstralItemGroup(this.idPath, super.displayName(name).build(), this.entryCollector);
         }
 
     }

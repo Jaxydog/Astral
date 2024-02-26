@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * An extension of a {@link CustomItemGroup} that provides a cycling item icon.
+ * An extension of a {@link AstralItemGroup} that provides a cycling item icon.
  *
  * @author Jaxydog
  */
-public class CustomCycledItemGroup extends CustomItemGroup {
+public class AstralCycledItemGroup extends AstralItemGroup {
 
     private final List<Supplier<ItemStack>> stacks;
     private final int interval;
@@ -36,7 +36,7 @@ public class CustomCycledItemGroup extends CustomItemGroup {
     private int index = 0;
     private float progress = 0F;
 
-    private CustomCycledItemGroup(
+    private AstralCycledItemGroup(
         String idPath,
         Row row,
         int column,
@@ -52,7 +52,7 @@ public class CustomCycledItemGroup extends CustomItemGroup {
         this.interval = interval;
     }
 
-    protected CustomCycledItemGroup(
+    protected AstralCycledItemGroup(
         String idPath, ItemGroup group, EntryCollector entryCollector, List<Supplier<ItemStack>> stacks, int interval
     ) {
         this(idPath,
@@ -90,7 +90,7 @@ public class CustomCycledItemGroup extends CustomItemGroup {
         }
     }
 
-    public static class Builder extends CustomItemGroup.Builder {
+    public static class Builder extends AstralItemGroup.Builder {
 
         private final List<Supplier<ItemStack>> stacks = new ObjectArrayList<>(1);
         private int interval = 40;
@@ -141,10 +141,10 @@ public class CustomCycledItemGroup extends CustomItemGroup {
         }
 
         @Override
-        public CustomCycledItemGroup finish() {
+        public AstralCycledItemGroup finish() {
             final Text name = Text.translatable(Astral.getId(this.idPath).toTranslationKey("itemGroup"));
 
-            return new CustomCycledItemGroup(this.idPath,
+            return new AstralCycledItemGroup(this.idPath,
                 super.displayName(name).build(),
                 this.entryCollector,
                 this.stacks,

@@ -7,7 +7,7 @@ import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
 import dev.jaxydog.astral.content.effect.CustomStatusEffects;
 import dev.jaxydog.astral.content.item.AstralArmorItem.Material;
 import dev.jaxydog.astral.content.item.custom.*;
-import dev.jaxydog.astral.content.item.group.CustomItemGroups;
+import dev.jaxydog.astral.content.item.group.AstralItemGroups;
 import dev.jaxydog.astral.datagen.TagGenerator;
 import dev.jaxydog.astral.register.ArmorMap;
 import dev.jaxydog.astral.register.ContentRegistrar;
@@ -45,42 +45,42 @@ public final class AstralItems extends ContentRegistrar {
         (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color),
             new Settings(),
-            CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
+            AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeableMap<AstralBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeableMap<>("budding_amethyst",
         (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color),
             new Settings(),
-            CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
+            AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeableMap<AstralBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeableMap<>("amethyst_cluster",
         (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color),
             new Settings(),
-            CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
+            AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeableMap<AstralBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeableMap<>("large_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(color),
             new Settings(),
-            CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
+            AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeableMap<AstralBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeableMap<>("medium_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(color),
             new Settings(),
-            CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
+            AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeableMap<AstralBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeableMap<>("small_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
             CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(color),
             new Settings(),
-            CustomItemGroups.DYEABLE_AMETHYST::getRegistryKey
+            AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
 
@@ -106,102 +106,102 @@ public final class AstralItems extends ContentRegistrar {
     // Items for star monkey
     public static final AstralItem ROTTEN_CHORUS_FRUIT = new AstralItem("rotten_chorus_fruit",
         new Settings().food(FoodComponents.ROTTEN_CHORUS_FRUIT),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
     public static final AstralItem LIVING_SCULK = new AstralItem("living_sculk",
         new Settings().rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
     public static final AstralItem PIG_CARD = new AstralItem("pig_card",
         new Settings(),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
     public static final AstralItem SLIME_CARD = new AstralItem("slime_card",
         new Settings(),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
     public static final AstralItem APPY_SAUCE = new AstralItem("appy_sauce",
         new Settings(),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
     public static final AstralItem VOID_ESSENCE = new AstralItem("void_essence",
         new Settings().rarity(Rarity.EPIC),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
     public static final AstralItem DRAGON_SCALE = new AstralItem("dragon_scale",
         new Settings().rarity(Rarity.EPIC),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey
     );
 
     public static final RandomEffectItem CLOCK_OF_REGRET = new RandomEffectItem("clock_of_regret",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.NAUSEA
     );
     public static final RandomEffectItem CUP_OF_GRIEF = new RandomEffectItem("cup_of_grief",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.SLOWNESS
     );
     public static final RandomEffectItem SKULL_OF_JOY = new RandomEffectItem("skull_of_joy",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.REGENERATION
     );
     public static final RandomEffectItem BLOB_OF_MALINTENT = new RandomEffectItem("blob_of_malintent",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         CustomStatusEffects.SINISTER
     );
     public static final RandomEffectItem COOKIE_OF_RESENTMENT = new RandomEffectItem("cookie_of_resentment",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.STRENGTH
     );
     public static final RandomEffectItem EYE_OF_SURPRISE = new RandomEffectItem("eye_of_surprise",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.LEVITATION
     );
     public static final RandomEffectItem TARGET_OF_PANIC = new RandomEffectItem("target_of_panic",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.SPEED
     );
     public static final RandomEffectItem PHOTO_OF_HOPE = new RandomEffectItem("photo_of_hope",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.LUCK
     );
     public static final RandomEffectItem CROWN_OF_DREAD = new RandomEffectItem("crown_of_dread",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.DARKNESS
     );
     public static final RandomEffectItem EGG_OF_GREED = new RandomEffectItem("egg_of_greed",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.HERO_OF_THE_VILLAGE
     );
     public static final RandomEffectItem FLOWER_OF_SUFFERING = new RandomEffectItem("flower_of_suffering",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.WITHER
     );
     public static final RandomEffectItem BULB_OF_REJECTION = new RandomEffectItem("bulb_of_rejection",
         new Settings().maxCount(1).rarity(Rarity.RARE),
-        CustomItemGroups.STARMONEY_PLAZA::getRegistryKey,
+        AstralItemGroups.STARMONEY_PLAZA::getRegistryKey,
         0.0005F,
         StatusEffects.INVISIBILITY
     );

@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.content.item.group.CustomItemGroups;
+import dev.jaxydog.astral.content.item.group.AstralItemGroups;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -72,7 +72,7 @@ public class AstralPotionItem extends PotionItem implements Custom, LoreHolder {
      * @param settings The item's settings.
      */
     public AstralPotionItem(String path, Settings settings) {
-        this(path, settings, CustomItemGroups.DEFAULT::getRegistryKey);
+        this(path, settings, AstralItemGroups.DEFAULT::getRegistryKey);
     }
 
     @Override

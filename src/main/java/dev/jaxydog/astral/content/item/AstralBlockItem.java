@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.content.item.group.CustomItemGroups;
+import dev.jaxydog.astral.content.item.group.AstralItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;
@@ -77,7 +77,7 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      * @param settings The item's settings.
      */
     public AstralBlockItem(String path, Block block, Settings settings) {
-        this(path, block, settings, CustomItemGroups.DEFAULT::getRegistryKey);
+        this(path, block, settings, AstralItemGroups.DEFAULT::getRegistryKey);
     }
 
     @Override

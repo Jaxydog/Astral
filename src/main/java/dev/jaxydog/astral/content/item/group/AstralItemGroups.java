@@ -25,13 +25,13 @@ import net.minecraft.util.DyeColor;
  * @author Jaxydog
  */
 @SuppressWarnings("unused")
-public final class CustomItemGroups extends ContentRegistrar {
+public final class AstralItemGroups extends ContentRegistrar {
 
-    public static final CustomItemGroup DEFAULT = CustomItemGroup.builder("default")
+    public static final AstralItemGroup DEFAULT = AstralItemGroup.builder("default")
         .icon(Items.NETHER_STAR::getDefaultStack)
         .finish();
 
-    public static final CustomCycledItemGroup DYEABLE_AMETHYST = CustomCycledItemGroup.builder("dyeable_amethyst")
+    public static final AstralCycledItemGroup DYEABLE_AMETHYST = AstralCycledItemGroup.builder("dyeable_amethyst")
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).getDefaultStack())
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).getDefaultStack())
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.YELLOW).getDefaultStack())
@@ -41,7 +41,7 @@ public final class CustomItemGroups extends ContentRegistrar {
         .interval(60)
         .finish();
 
-    public static final CustomItemGroup STARMONEY_PLAZA = CustomItemGroup.builder("starmoney_plaza")
+    public static final AstralItemGroup STARMONEY_PLAZA = AstralItemGroup.builder("starmoney_plaza")
         .icon(Items.DRAGON_HEAD::getDefaultStack)
         .finish();
 

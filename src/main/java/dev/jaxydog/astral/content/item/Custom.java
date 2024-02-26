@@ -14,7 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.content.item.group.CustomItemGroups;
+import dev.jaxydog.astral.content.item.group.AstralItemGroups;
 import dev.jaxydog.astral.register.Registered.Common;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.ItemConvertible;
@@ -42,7 +42,7 @@ public interface Custom extends Common, ItemConvertible {
      * @return A reference to an item group.
      */
     default Optional<RegistryKey<ItemGroup>> getItemGroup() {
-        return Optional.of(CustomItemGroups.DEFAULT.getRegistryKey());
+        return Optional.of(AstralItemGroups.DEFAULT.getRegistryKey());
     }
 
     @Override
