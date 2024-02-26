@@ -7,7 +7,7 @@ An [Origins](https://github.com/apace100/origins-fabric) addon mod for Astral SM
 
 ## Documentation
 
-Astral's official documentation is hosted [here](https://astral-smp.readthedocs.io/en/latest). The full source code is
+The official Astral documentation is hosted [here](https://astral-smp.readthedocs.io/en/latest). The full source code is
 available within the [AstralWiki](https://github.com/Jaxydog/AstralWiki) repository.
 
 ## License
