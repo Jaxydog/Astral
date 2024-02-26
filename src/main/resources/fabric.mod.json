@@ -23,14 +23,14 @@
 	"accessWidener": "astral.accesswidener",
 	"custom": {
 		"loom:injected_interfaces": {
-			"net/minecraft/class_638": [ "dev/jaxydog/utility/injected/AstralClientWorld" ],
-			"net/minecraft/class_1309": [ "dev/jaxydog/utility/injected/AstralLivingEntity" ],
-			"net/minecraft/class_1451": [ "dev/jaxydog/utility/injected/SprayableEntity" ],
-			"net/minecraft/class_1538": [ "dev/jaxydog/utility/injected/AstralLightningEntity" ],
-			"net/minecraft/class_1761": [ "dev/jaxydog/utility/injected/AstralItemGroup" ],
-			"net/minecraft/class_1799": [ "dev/jaxydog/utility/injected/AstralItemStack" ],
-			"net/minecraft/class_4019": [ "dev/jaxydog/utility/injected/SprayableEntity" ],
-			"net/minecraft/class_4942": [ "dev/jaxydog/utility/injected/AstralModel" ]
+			"net/minecraft/class_638": [ "dev/jaxydog/astral/utility/injected/AstralClientWorld" ],
+			"net/minecraft/class_1309": [ "dev/jaxydog/astral/utility/injected/AstralLivingEntity" ],
+			"net/minecraft/class_1451": [ "dev/jaxydog/astral/utility/injected/SprayableEntity" ],
+			"net/minecraft/class_1538": [ "dev/jaxydog/astral/utility/injected/AstralLightningEntity" ],
+			"net/minecraft/class_1761": [ "dev/jaxydog/astral/utility/injected/AstralItemGroup" ],
+			"net/minecraft/class_1799": [ "dev/jaxydog/astral/utility/injected/AstralItemStack" ],
+			"net/minecraft/class_4019": [ "dev/jaxydog/astral/utility/injected/SprayableEntity" ],
+			"net/minecraft/class_4942": [ "dev/jaxydog/astral/utility/injected/AstralModel" ]
 		}
 	},
 	"depends": {
