@@ -1,4 +1,4 @@
-package dev.jaxydog.content.data;
+package dev.jaxydog.astral.content.data;
 
 import net.minecraft.world.LunarWorldView;
 

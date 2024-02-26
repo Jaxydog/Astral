@@ -12,11 +12,11 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.utility;
+package dev.jaxydog.astral.utility;
 
 import com.google.gson.*;
-import dev.jaxydog.Astral;
-import dev.jaxydog.content.CustomGamerules;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.content.CustomGamerules;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;

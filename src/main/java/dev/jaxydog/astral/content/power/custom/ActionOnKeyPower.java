@@ -1,6 +1,6 @@
-package dev.jaxydog.content.power.custom;
+package dev.jaxydog.astral.content.power.custom;
 
-import dev.jaxydog.content.power.CustomPowerFactory;
+import dev.jaxydog.astral.content.power.CustomPowerFactory;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.Active;
 import io.github.apace100.apoli.power.PowerType;

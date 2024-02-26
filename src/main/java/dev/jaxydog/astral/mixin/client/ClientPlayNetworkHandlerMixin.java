@@ -12,14 +12,14 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.utility.PlayUnboundedSoundFromEntityS2CPacket;
-import dev.jaxydog.utility.PlayUnboundedSoundS2CPacket;
-import dev.jaxydog.utility.injected.AstralClientWorld;
+import dev.jaxydog.astral.utility.PlayUnboundedSoundFromEntityS2CPacket;
+import dev.jaxydog.astral.utility.PlayUnboundedSoundS2CPacket;
+import dev.jaxydog.astral.utility.injected.AstralClientWorld;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

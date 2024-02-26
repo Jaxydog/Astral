@@ -1,9 +1,9 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.Multimap;
-import dev.jaxydog.content.item.CustomArmorMaterial;
+import dev.jaxydog.astral.content.item.CustomArmorMaterial;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;

@@ -1,11 +1,11 @@
-package dev.jaxydog.content.trinket;
+package dev.jaxydog.astral.content.trinket;
 
 import dev.emi.trinkets.api.SlotType;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
-import dev.jaxydog.Astral;
-import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.register.IgnoreRegistration;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.register.ContentRegistrar;
+import dev.jaxydog.astral.register.IgnoreRegistration;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;

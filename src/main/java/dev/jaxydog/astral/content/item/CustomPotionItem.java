@@ -1,4 +1,4 @@
-package dev.jaxydog.content.item;
+package dev.jaxydog.astral.content.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.TooltipContext;

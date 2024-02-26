@@ -12,10 +12,10 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.utility.PlayUnboundedSoundFromEntityS2CPacket;
-import dev.jaxydog.utility.PlayUnboundedSoundS2CPacket;
+import dev.jaxydog.astral.utility.PlayUnboundedSoundFromEntityS2CPacket;
+import dev.jaxydog.astral.utility.PlayUnboundedSoundS2CPacket;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.NetworkState;
 import net.minecraft.network.NetworkState.PacketHandler;

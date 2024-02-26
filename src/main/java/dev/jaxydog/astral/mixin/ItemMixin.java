@@ -1,8 +1,8 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.utility.NbtUtil;
+import dev.jaxydog.astral.utility.NbtUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

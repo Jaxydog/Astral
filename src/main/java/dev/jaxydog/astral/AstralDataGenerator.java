@@ -1,7 +1,7 @@
-package dev.jaxydog;
+package dev.jaxydog.astral;
 
-import dev.jaxydog.content.CustomContent;
-import dev.jaxydog.datagen.*;
+import dev.jaxydog.astral.content.CustomContent;
+import dev.jaxydog.astral.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 

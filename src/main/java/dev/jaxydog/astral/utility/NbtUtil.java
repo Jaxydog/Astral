@@ -1,4 +1,4 @@
-package dev.jaxydog.utility;
+package dev.jaxydog.astral.utility;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

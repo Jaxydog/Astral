@@ -1,8 +1,8 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.content.item.CustomPotionItem;
-import dev.jaxydog.content.power.custom.ActionOnSprayPower;
+import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.CustomPotionItem;
+import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.advancement.criterion.Criteria;

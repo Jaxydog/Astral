@@ -1,4 +1,4 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;

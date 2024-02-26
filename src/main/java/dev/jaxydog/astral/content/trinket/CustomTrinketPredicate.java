@@ -1,9 +1,9 @@
-package dev.jaxydog.content.trinket;
+package dev.jaxydog.astral.content.trinket;
 
 import com.mojang.datafixers.util.Function3;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;

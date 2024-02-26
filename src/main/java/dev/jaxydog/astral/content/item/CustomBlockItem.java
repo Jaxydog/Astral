@@ -1,4 +1,4 @@
-package dev.jaxydog.content.item;
+package dev.jaxydog.astral.content.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;

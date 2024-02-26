@@ -1,4 +1,4 @@
-package dev.jaxydog.utility.injected;
+package dev.jaxydog.astral.utility.injected;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.NoPenaltyTargeting;

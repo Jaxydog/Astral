@@ -12,9 +12,9 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.utility.injected.AstralItemGroup;
+import dev.jaxydog.astral.utility.injected.AstralItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

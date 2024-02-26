@@ -12,10 +12,10 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.datagen;
+package dev.jaxydog.astral.datagen;
 
 import com.mojang.serialization.DataResult;
-import dev.jaxydog.Astral;
+import dev.jaxydog.astral.Astral;
 import net.minecraft.util.PathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

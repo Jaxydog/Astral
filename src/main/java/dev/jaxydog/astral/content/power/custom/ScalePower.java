@@ -1,6 +1,6 @@
-package dev.jaxydog.content.power.custom;
+package dev.jaxydog.astral.content.power.custom;
 
-import dev.jaxydog.content.power.CustomPower;
+import dev.jaxydog.astral.content.power.CustomPower;
 import io.github.apace100.apoli.power.PowerType;
 import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.api.ScaleData;
@@ -24,7 +24,7 @@ public class ScalePower extends CustomPower {
     /** Whether to reset the entity's scale when the power is lost */
     private final boolean RESET;
     /** The scale operation */
-    private final dev.jaxydog.content.data.ScaleOperation OPERATION;
+    private final dev.jaxydog.astral.content.data.ScaleOperation OPERATION;
 
     public ScalePower(
         PowerType<?> type,
@@ -35,7 +35,7 @@ public class ScalePower extends CustomPower {
         float motion,
         float jump,
         boolean reset,
-        dev.jaxydog.content.data.ScaleOperation operation
+        dev.jaxydog.astral.content.data.ScaleOperation operation
     ) {
         super(type, entity);
 
@@ -85,7 +85,7 @@ public class ScalePower extends CustomPower {
     }
 
     /** Returns the scale operation */
-    public dev.jaxydog.content.data.ScaleOperation getOperation() {
+    public dev.jaxydog.astral.content.data.ScaleOperation getOperation() {
         return this.OPERATION;
     }
 

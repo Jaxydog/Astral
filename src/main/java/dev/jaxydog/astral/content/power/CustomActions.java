@@ -1,7 +1,7 @@
-package dev.jaxydog.content.power;
+package dev.jaxydog.astral.content.power;
 
-import dev.jaxydog.content.power.action.RepeatAction;
-import dev.jaxydog.register.ContentRegistrar;
+import dev.jaxydog.astral.content.power.action.RepeatAction;
+import dev.jaxydog.astral.register.ContentRegistrar;
 
 /** Contains definitions for all custom actions */
 @SuppressWarnings("unused")

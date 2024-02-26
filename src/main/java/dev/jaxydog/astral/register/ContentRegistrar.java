@@ -1,6 +1,6 @@
-package dev.jaxydog.register;
+package dev.jaxydog.astral.register;
 
-import dev.jaxydog.Astral;
+import dev.jaxydog.astral.Astral;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.Field;

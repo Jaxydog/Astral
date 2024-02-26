@@ -1,8 +1,8 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.Astral;
-import dev.jaxydog.utility.ColorUtil;
-import dev.jaxydog.utility.ColorUtil.Rgb;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.utility.ColorUtil;
+import dev.jaxydog.astral.utility.ColorUtil.Rgb;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

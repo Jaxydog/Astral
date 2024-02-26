@@ -12,13 +12,13 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.content.block.custom;
+package dev.jaxydog.astral.content.block.custom;
 
-import dev.jaxydog.Astral;
-import dev.jaxydog.content.block.CustomBlocks;
-import dev.jaxydog.content.item.CustomBlockItem;
-import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.datagen.*;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.content.block.CustomBlocks;
+import dev.jaxydog.astral.content.item.CustomBlockItem;
+import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.AmethystClusterBlock;
 import net.minecraft.block.Block;

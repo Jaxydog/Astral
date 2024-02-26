@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.Astral;
+import dev.jaxydog.astral.Astral;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerEntity;

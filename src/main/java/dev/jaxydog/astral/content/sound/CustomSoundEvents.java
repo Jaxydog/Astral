@@ -1,6 +1,6 @@
-package dev.jaxydog.content.sound;
+package dev.jaxydog.astral.content.sound;
 
-import dev.jaxydog.register.ContentRegistrar;
+import dev.jaxydog.astral.register.ContentRegistrar;
 
 public final class CustomSoundEvents extends ContentRegistrar {
 

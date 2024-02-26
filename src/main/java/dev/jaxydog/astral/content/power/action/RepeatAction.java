@@ -12,10 +12,10 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.content.power.action;
+package dev.jaxydog.astral.content.power.action;
 
-import dev.jaxydog.content.power.CustomActionFactory;
-import dev.jaxydog.content.power.CustomMetaAction;
+import dev.jaxydog.astral.content.power.CustomActionFactory;
+import dev.jaxydog.astral.content.power.CustomMetaAction;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableData.Instance;

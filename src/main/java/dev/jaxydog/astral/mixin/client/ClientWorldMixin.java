@@ -12,11 +12,11 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
-import dev.jaxydog.utility.EntityTrackingUnboundedSoundInstance;
-import dev.jaxydog.utility.PositionedUnboundedSoundInstance;
-import dev.jaxydog.utility.injected.AstralClientWorld;
+import dev.jaxydog.astral.utility.EntityTrackingUnboundedSoundInstance;
+import dev.jaxydog.astral.utility.PositionedUnboundedSoundInstance;
+import dev.jaxydog.astral.utility.injected.AstralClientWorld;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.world.ClientWorld;

@@ -12,9 +12,9 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.datagen;
+package dev.jaxydog.astral.datagen;
 
-import dev.jaxydog.utility.IdentifierMap;
+import dev.jaxydog.astral.utility.IdentifierMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator.Pack;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;

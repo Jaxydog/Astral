@@ -1,6 +1,6 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.utility.NbtUtil;
+import dev.jaxydog.astral.utility.NbtUtil;
 import net.minecraft.item.ItemStack;
 
 /** Represents an item that uses custom model data to render */

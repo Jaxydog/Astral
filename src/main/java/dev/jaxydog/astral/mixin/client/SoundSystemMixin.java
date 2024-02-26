@@ -1,10 +1,10 @@
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.utility.EntityTrackingUnboundedSoundInstance;
-import dev.jaxydog.utility.PositionedUnboundedSoundInstance;
+import dev.jaxydog.astral.utility.EntityTrackingUnboundedSoundInstance;
+import dev.jaxydog.astral.utility.PositionedUnboundedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundSystem;
 import net.minecraft.sound.SoundCategory;

@@ -1,8 +1,8 @@
-package dev.jaxydog.content.block.custom;
+package dev.jaxydog.astral.content.block.custom;
 
-import dev.jaxydog.content.block.CustomBlock;
-import dev.jaxydog.datagen.TagGenerator;
-import dev.jaxydog.register.Generated;
+import dev.jaxydog.astral.content.block.CustomBlock;
+import dev.jaxydog.astral.datagen.TagGenerator;
+import dev.jaxydog.astral.register.Generated;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,6 +1,6 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.item.CustomArmorItem;
+import dev.jaxydog.astral.content.item.CustomArmorItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ArmorMaterial;

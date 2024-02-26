@@ -1,9 +1,9 @@
-package dev.jaxydog.content.power.condition;
+package dev.jaxydog.astral.content.power.condition;
 
-import dev.jaxydog.content.data.CustomData;
-import dev.jaxydog.content.data.MoonPhase;
-import dev.jaxydog.content.power.CustomCondition;
-import dev.jaxydog.content.power.CustomConditionFactory;
+import dev.jaxydog.astral.content.data.CustomData;
+import dev.jaxydog.astral.content.data.MoonPhase;
+import dev.jaxydog.astral.content.power.CustomCondition;
+import dev.jaxydog.astral.content.power.CustomConditionFactory;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import io.github.apace100.calio.data.SerializableData;

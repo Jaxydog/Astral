@@ -1,10 +1,10 @@
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.content.item.CustomArmorItem;
-import dev.jaxydog.content.item.custom.Colored;
-import dev.jaxydog.content.trinket.CustomTrinketPredicates;
-import dev.jaxydog.utility.ColorUtil.Rgb;
+import dev.jaxydog.astral.content.item.CustomArmorItem;
+import dev.jaxydog.astral.content.item.custom.Colored;
+import dev.jaxydog.astral.content.trinket.CustomTrinketPredicates;
+import dev.jaxydog.astral.utility.ColorUtil.Rgb;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;

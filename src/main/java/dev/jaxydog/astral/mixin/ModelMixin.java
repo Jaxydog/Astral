@@ -12,12 +12,12 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.utility.injected.AstralModel;
+import dev.jaxydog.astral.utility.injected.AstralModel;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;

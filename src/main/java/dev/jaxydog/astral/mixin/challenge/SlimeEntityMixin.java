@@ -1,7 +1,7 @@
-package dev.jaxydog.mixin.challenge;
+package dev.jaxydog.astral.mixin.challenge;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.jaxydog.utility.MobChallengeUtil;
+import dev.jaxydog.astral.utility.MobChallengeUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;

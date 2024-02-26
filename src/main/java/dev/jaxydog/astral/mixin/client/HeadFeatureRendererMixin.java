@@ -1,7 +1,7 @@
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.content.trinket.CustomTrinketPredicates;
+import dev.jaxydog.astral.content.trinket.CustomTrinketPredicates;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.feature.HeadFeatureRenderer;

@@ -1,8 +1,8 @@
-package dev.jaxydog.content.effect;
+package dev.jaxydog.astral.content.effect;
 
-import dev.jaxydog.content.effect.CustomPotion.Recipe;
-import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.register.ContentRegistrar;
+import dev.jaxydog.astral.content.effect.CustomPotion.Recipe;
+import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.register.ContentRegistrar;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;

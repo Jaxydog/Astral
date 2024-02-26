@@ -1,6 +1,6 @@
-package dev.jaxydog.content.effect;
+package dev.jaxydog.astral.content.effect;
 
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.registry.Registries;

@@ -1,7 +1,7 @@
-package dev.jaxydog.content.effect;
+package dev.jaxydog.astral.content.effect;
 
-import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.utility.injected.AstralLightningEntity;
+import dev.jaxydog.astral.register.ContentRegistrar;
+import dev.jaxydog.astral.utility.injected.AstralLightningEntity;
 import io.github.apace100.origins.util.Scheduler;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;

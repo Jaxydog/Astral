@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin.challenge;
+package dev.jaxydog.astral.mixin.challenge;
 
-import dev.jaxydog.utility.MobChallengeUtil;
+import dev.jaxydog.astral.utility.MobChallengeUtil;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.GuardianEntity;
 import org.spongepowered.asm.mixin.Final;

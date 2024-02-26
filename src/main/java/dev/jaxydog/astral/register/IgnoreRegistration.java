@@ -1,4 +1,4 @@
-package dev.jaxydog.register;
+package dev.jaxydog.astral.register;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

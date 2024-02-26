@@ -1,18 +1,18 @@
-package dev.jaxydog.content;
+package dev.jaxydog.astral.content;
 
-import dev.jaxydog.content.block.CustomBlocks;
-import dev.jaxydog.content.data.CustomData;
-import dev.jaxydog.content.effect.CustomPotions;
-import dev.jaxydog.content.effect.CustomStatusEffects;
-import dev.jaxydog.content.item.CustomItemGroups;
-import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.content.power.CustomActions;
-import dev.jaxydog.content.power.CustomConditions;
-import dev.jaxydog.content.power.CustomPowers;
-import dev.jaxydog.content.sound.CustomSoundEvents;
-import dev.jaxydog.content.trinket.CustomTrinketPredicates;
-import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.register.IgnoreRegistration;
+import dev.jaxydog.astral.content.block.CustomBlocks;
+import dev.jaxydog.astral.content.data.CustomData;
+import dev.jaxydog.astral.content.effect.CustomPotions;
+import dev.jaxydog.astral.content.effect.CustomStatusEffects;
+import dev.jaxydog.astral.content.item.CustomItemGroups;
+import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.content.power.CustomActions;
+import dev.jaxydog.astral.content.power.CustomConditions;
+import dev.jaxydog.astral.content.power.CustomPowers;
+import dev.jaxydog.astral.content.sound.CustomSoundEvents;
+import dev.jaxydog.astral.content.trinket.CustomTrinketPredicates;
+import dev.jaxydog.astral.register.ContentRegistrar;
+import dev.jaxydog.astral.register.IgnoreRegistration;
 
 /** Contains all instances of defined content container classes */
 @SuppressWarnings("unused")

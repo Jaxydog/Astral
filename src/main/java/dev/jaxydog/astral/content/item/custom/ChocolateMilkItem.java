@@ -1,4 +1,4 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemGroup;

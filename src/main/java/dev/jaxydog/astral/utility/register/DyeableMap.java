@@ -1,6 +1,6 @@
-package dev.jaxydog.utility.register;
+package dev.jaxydog.astral.utility.register;
 
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import net.minecraft.util.DyeColor;
 
 import java.util.List;

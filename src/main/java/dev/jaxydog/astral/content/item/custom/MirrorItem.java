@@ -1,8 +1,8 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.item.CustomItem;
-import dev.jaxydog.register.Registered;
-import dev.jaxydog.utility.NbtUtil;
+import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.register.Registered;
+import dev.jaxydog.astral.utility.NbtUtil;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemGroup;

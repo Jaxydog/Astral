@@ -1,7 +1,7 @@
-package dev.jaxydog.mixin.challenge;
+package dev.jaxydog.astral.mixin.challenge;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.utility.MobChallengeUtil;
+import dev.jaxydog.astral.utility.MobChallengeUtil;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;

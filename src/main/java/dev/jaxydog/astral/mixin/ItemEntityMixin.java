@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.utility.injected.AstralLightningEntity;
+import dev.jaxydog.astral.utility.injected.AstralLightningEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;

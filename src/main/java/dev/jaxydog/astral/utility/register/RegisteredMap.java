@@ -1,7 +1,7 @@
-package dev.jaxydog.utility.register;
+package dev.jaxydog.astral.utility.register;
 
-import dev.jaxydog.register.Generated;
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Generated;
+import dev.jaxydog.astral.register.Registered;
 
 import java.util.Collection;
 import java.util.HashMap;

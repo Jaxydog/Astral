@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.utility.CurrencyUtil;
+import dev.jaxydog.astral.utility.CurrencyUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;

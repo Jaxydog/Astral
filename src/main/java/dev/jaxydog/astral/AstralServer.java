@@ -1,6 +1,6 @@
-package dev.jaxydog;
+package dev.jaxydog.astral;
 
-import dev.jaxydog.content.CustomContent;
+import dev.jaxydog.astral.content.CustomContent;
 import net.fabricmc.api.DedicatedServerModInitializer;
 
 /** The mod server entrypoint */

@@ -12,11 +12,11 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.item.CustomItem;
-import dev.jaxydog.datagen.ModelGenerator;
-import dev.jaxydog.register.Generated;
+import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.datagen.ModelGenerator;
+import dev.jaxydog.astral.register.Generated;
 import net.minecraft.data.client.Models;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

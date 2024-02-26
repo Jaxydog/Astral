@@ -1,4 +1,4 @@
-package dev.jaxydog.register;
+package dev.jaxydog.astral.register;
 
 import java.io.InvalidClassException;
 import java.util.function.Consumer;

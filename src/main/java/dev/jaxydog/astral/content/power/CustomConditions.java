@@ -1,9 +1,9 @@
-package dev.jaxydog.content.power;
+package dev.jaxydog.astral.content.power;
 
-import dev.jaxydog.content.power.condition.DistanceCondition;
-import dev.jaxydog.content.power.condition.MoonPhaseCondition;
-import dev.jaxydog.content.power.condition.UnobstructedBlockInRadiusCondition;
-import dev.jaxydog.register.ContentRegistrar;
+import dev.jaxydog.astral.content.power.condition.DistanceCondition;
+import dev.jaxydog.astral.content.power.condition.MoonPhaseCondition;
+import dev.jaxydog.astral.content.power.condition.UnobstructedBlockInRadiusCondition;
+import dev.jaxydog.astral.register.ContentRegistrar;
 
 /** Contains definitions for all custom conditions */
 @SuppressWarnings("unused")

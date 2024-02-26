@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.utility;
+package dev.jaxydog.astral.utility;
 
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundCategory;

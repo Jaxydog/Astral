@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.utility.injected.AstralItemStack;
+import dev.jaxydog.astral.utility.injected.AstralItemStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;

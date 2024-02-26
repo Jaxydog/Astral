@@ -1,6 +1,6 @@
-package dev.jaxydog.content.power;
+package dev.jaxydog.astral.content.power;
 
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.calio.data.SerializableData.Instance;
 import net.minecraft.registry.Registry;

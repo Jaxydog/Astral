@@ -1,7 +1,7 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.sound.CustomSoundEvents;
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.content.sound.CustomSoundEvents;
+import dev.jaxydog.astral.register.Registered;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

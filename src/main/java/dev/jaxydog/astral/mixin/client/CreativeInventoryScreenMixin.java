@@ -12,9 +12,9 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
-import dev.jaxydog.utility.injected.AstralItemGroup;
+import dev.jaxydog.astral.utility.injected.AstralItemGroup;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;

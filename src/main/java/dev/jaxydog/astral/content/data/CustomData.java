@@ -1,7 +1,7 @@
-package dev.jaxydog.content.data;
+package dev.jaxydog.astral.content.data;
 
-import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.register.IgnoreRegistration;
+import dev.jaxydog.astral.register.ContentRegistrar;
+import dev.jaxydog.astral.register.IgnoreRegistration;
 import io.github.apace100.calio.SerializationHelper;
 import io.github.apace100.calio.data.SerializableDataType;
 

@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin.challenge;
+package dev.jaxydog.astral.mixin.challenge;
 
-import dev.jaxydog.utility.MobChallengeUtil;
+import dev.jaxydog.astral.utility.MobChallengeUtil;
 import net.minecraft.client.render.entity.feature.SkinOverlayOwner;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.CreeperEntity;

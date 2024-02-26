@@ -1,7 +1,7 @@
-package dev.jaxydog.mixin.client;
+package dev.jaxydog.astral.mixin.client;
 
-import dev.jaxydog.Astral;
-import dev.jaxydog.utility.CowType;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.utility.CowType;
 import net.minecraft.client.render.entity.CowEntityRenderer;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.util.Identifier;

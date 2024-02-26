@@ -12,9 +12,9 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.content.block.custom;
+package dev.jaxydog.astral.content.block.custom;
 
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

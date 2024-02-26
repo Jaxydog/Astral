@@ -1,4 +1,4 @@
-package dev.jaxydog.utility.injected;
+package dev.jaxydog.astral.utility.injected;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

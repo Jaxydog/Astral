@@ -1,7 +1,7 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.utility.injected.AstralLightningEntity;
-import dev.jaxydog.utility.injected.SprayableEntity;
+import dev.jaxydog.astral.utility.injected.AstralLightningEntity;
+import dev.jaxydog.astral.utility.injected.SprayableEntity;
 import dev.onyxstudios.cca.api.v3.component.ComponentAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;

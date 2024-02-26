@@ -1,6 +1,6 @@
-package dev.jaxydog.content.effect;
+package dev.jaxydog.astral.content.effect;
 
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.potion.Potion;

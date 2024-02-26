@@ -1,8 +1,8 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.jaxydog.utility.PlayUnboundedSoundS2CPacket;
+import dev.jaxydog.astral.utility.PlayUnboundedSoundS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.PlaySoundCommand;

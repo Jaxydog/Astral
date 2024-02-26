@@ -1,9 +1,9 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.item.CustomItem;
-import dev.jaxydog.content.power.custom.ActionOnSprayPower;
-import dev.jaxydog.content.power.custom.ActionWhenSprayedPower;
-import dev.jaxydog.utility.injected.SprayableEntity;
+import dev.jaxydog.astral.content.item.CustomItem;
+import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
+import dev.jaxydog.astral.content.power.custom.ActionWhenSprayedPower;
+import dev.jaxydog.astral.utility.injected.SprayableEntity;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;

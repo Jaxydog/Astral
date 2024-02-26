@@ -1,9 +1,9 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.jaxydog.content.item.CustomItems;
-import dev.jaxydog.utility.CowType;
+import dev.jaxydog.astral.content.item.CustomItems;
+import dev.jaxydog.astral.utility.CowType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PathAwareEntity;

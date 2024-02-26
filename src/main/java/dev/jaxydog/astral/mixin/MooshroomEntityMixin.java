@@ -1,6 +1,6 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
-import dev.jaxydog.content.item.CustomItems;
+import dev.jaxydog.astral.content.item.CustomItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Shearable;
 import net.minecraft.entity.VariantHolder;

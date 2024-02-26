@@ -1,4 +1,4 @@
-package dev.jaxydog.utility;
+package dev.jaxydog.astral.utility;
 
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

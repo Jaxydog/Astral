@@ -12,10 +12,10 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.content.power.custom;
+package dev.jaxydog.astral.content.power.custom;
 
-import dev.jaxydog.content.power.CustomPower;
-import dev.jaxydog.content.power.CustomPowerFactory;
+import dev.jaxydog.astral.content.power.CustomPower;
+import dev.jaxydog.astral.content.power.CustomPowerFactory;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.util.modifier.Modifier;
 import io.github.apace100.calio.data.SerializableData;

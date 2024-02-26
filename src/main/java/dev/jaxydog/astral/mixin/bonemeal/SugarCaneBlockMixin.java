@@ -1,4 +1,4 @@
-package dev.jaxydog.mixin.bonemeal;
+package dev.jaxydog.astral.mixin.bonemeal;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

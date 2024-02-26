@@ -1,7 +1,7 @@
-package dev.jaxydog.content;
+package dev.jaxydog.astral.content;
 
-import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.register.IgnoreRegistration;
+import dev.jaxydog.astral.register.ContentRegistrar;
+import dev.jaxydog.astral.register.IgnoreRegistration;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.gamerule.v1.rule.DoubleRule;

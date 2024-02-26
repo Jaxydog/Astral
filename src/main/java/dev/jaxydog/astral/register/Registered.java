@@ -1,6 +1,6 @@
-package dev.jaxydog.register;
+package dev.jaxydog.astral.register;
 
-import dev.jaxydog.Astral;
+import dev.jaxydog.astral.Astral;
 import net.minecraft.util.Identifier;
 
 /** Provides a set of interfaces for registering values at runtime. */

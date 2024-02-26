@@ -1,4 +1,4 @@
-package dev.jaxydog.utility.injected;
+package dev.jaxydog.astral.utility.injected;
 
 public interface AstralLivingEntity {
 

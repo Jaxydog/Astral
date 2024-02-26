@@ -1,6 +1,6 @@
-package dev.jaxydog.content.block;
+package dev.jaxydog.astral.content.block;
 
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.register.Registered;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;

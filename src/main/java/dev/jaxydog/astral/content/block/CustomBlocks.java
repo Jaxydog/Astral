@@ -1,13 +1,13 @@
-package dev.jaxydog.content.block;
+package dev.jaxydog.astral.content.block;
 
-import dev.jaxydog.content.block.custom.DyeableAmethystBlock;
-import dev.jaxydog.content.block.custom.DyeableAmethystClusterBlock;
-import dev.jaxydog.content.block.custom.DyeableAmethystClusterBlock.Variant;
-import dev.jaxydog.content.block.custom.DyeableBuddingAmethystBlock;
-import dev.jaxydog.content.block.custom.RandomizerBlock;
-import dev.jaxydog.datagen.TagGenerator;
-import dev.jaxydog.register.ContentRegistrar;
-import dev.jaxydog.utility.register.DyeableMap;
+import dev.jaxydog.astral.content.block.custom.DyeableAmethystBlock;
+import dev.jaxydog.astral.content.block.custom.DyeableAmethystClusterBlock;
+import dev.jaxydog.astral.content.block.custom.DyeableAmethystClusterBlock.Variant;
+import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
+import dev.jaxydog.astral.content.block.custom.RandomizerBlock;
+import dev.jaxydog.astral.datagen.TagGenerator;
+import dev.jaxydog.astral.register.ContentRegistrar;
+import dev.jaxydog.astral.utility.register.DyeableMap;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Blocks;
 

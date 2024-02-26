@@ -1,7 +1,7 @@
-package dev.jaxydog.content.sound;
+package dev.jaxydog.astral.content.sound;
 
-import dev.jaxydog.Astral;
-import dev.jaxydog.register.Registered;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.register.Registered;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;

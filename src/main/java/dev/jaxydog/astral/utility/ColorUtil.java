@@ -1,4 +1,4 @@
-package dev.jaxydog.utility;
+package dev.jaxydog.astral.utility;
 
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.ApiStatus.NonExtendable;

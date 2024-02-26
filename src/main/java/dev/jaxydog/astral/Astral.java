@@ -1,7 +1,7 @@
-package dev.jaxydog;
+package dev.jaxydog.astral;
 
-import dev.jaxydog.content.CustomContent;
-import dev.jaxydog.utility.CurrencyUtil;
+import dev.jaxydog.astral.content.CustomContent;
+import dev.jaxydog.astral.utility.CurrencyUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;

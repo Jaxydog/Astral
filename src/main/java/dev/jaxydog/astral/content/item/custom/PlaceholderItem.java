@@ -1,6 +1,6 @@
-package dev.jaxydog.content.item.custom;
+package dev.jaxydog.astral.content.item.custom;
 
-import dev.jaxydog.content.item.CustomItem;
+import dev.jaxydog.astral.content.item.CustomItem;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Equipment;

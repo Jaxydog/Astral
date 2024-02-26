@@ -1,9 +1,9 @@
-package dev.jaxydog.mixin;
+package dev.jaxydog.astral.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.jaxydog.utility.CurrencyUtil;
-import dev.jaxydog.utility.CurrencyUtil.Reward;
-import dev.jaxydog.utility.CurrencyUtil.Unit;
+import dev.jaxydog.astral.utility.CurrencyUtil;
+import dev.jaxydog.astral.utility.CurrencyUtil.Reward;
+import dev.jaxydog.astral.utility.CurrencyUtil.Unit;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.ShapelessRecipe;

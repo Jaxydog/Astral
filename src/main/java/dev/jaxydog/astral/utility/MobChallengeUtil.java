@@ -1,8 +1,8 @@
-package dev.jaxydog.utility;
+package dev.jaxydog.astral.utility;
 
-import dev.jaxydog.Astral;
-import dev.jaxydog.content.CustomGamerules;
-import dev.jaxydog.utility.injected.AstralLivingEntity;
+import dev.jaxydog.astral.Astral;
+import dev.jaxydog.astral.content.CustomGamerules;
+import dev.jaxydog.astral.utility.injected.AstralLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
