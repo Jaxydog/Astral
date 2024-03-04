@@ -167,6 +167,9 @@
     "item.minecraft.lingering_potion.effect.sinister": "Lingering Potion of Sinister",
     "item.minecraft.lingering_potion.effect.long_sinister": "Lingering Potion of Sinister",
     "item.minecraft.lingering_potion.effect.strong_sinister": "Lingering Potion of Sinister",
+    "item.minecraft.tipped_arrow.effect.sinister": "Arrow of Sinister",
+    "item.minecraft.tipped_arrow.effect.long_sinister": "Arrow of Sinister",
+    "item.minecraft.tipped_arrow.effect.strong_sinister": "Arrow of Sinister",
 
     "itemGroup.astral.default": "Astral",
     "itemGroup.astral.dyeable_amethyst": "Dyeable Amethyst",
