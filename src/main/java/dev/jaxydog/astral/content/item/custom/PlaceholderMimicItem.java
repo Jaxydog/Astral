@@ -1,3 +1,17 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Copyright © 2023–2024 Jaxydog
+ *
+ * This file is part of Astral.
+ *
+ * Astral is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * Astral is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package dev.jaxydog.astral.content.item.custom;
 
 import com.google.common.collect.Multimap;
@@ -19,6 +33,7 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvent;
@@ -26,21 +41,76 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
+/**
+ * Implements a placeholder item, or an item that exists to mimic pre-existing items.
+ *
+ * @author Jaxydog
+ */
 @SuppressWarnings("unused")
 public class PlaceholderMimicItem extends PlaceholderItem {
 
-    private final Supplier<Item> ITEM;
+    /** Returns the item to be mimicked. */
+    private final Supplier<Item> item;
 
-    public PlaceholderMimicItem(String rawId, Settings settings, Supplier<Item> item) {
-        super(rawId, settings);
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * If the {@code #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     * @param preferredGroup The item's preferred item group.
+     */
+    public PlaceholderMimicItem(
+        String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup, Supplier<Item> item
+    ) {
+        super(path, settings, preferredGroup);
 
-        this.ITEM = item;
+        this.item = item;
+    }
+
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * This item will be added to the default item group.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     */
+    public PlaceholderMimicItem(String path, Settings settings, Supplier<Item> item) {
+        super(path, settings);
+
+        this.item = item;
+    }
+
+    /**
+     * Returns the mimicked item.
+     *
+     * @return The item.
+     */
+    public Item getItem() {
+        return this.item.get();
+    }
+
+    /**
+     * Returns the mimicked item depending on the provided stack.
+     * <p>
+     * The default implementation just calls {@link #getItem()}.
+     *
+     * @param stack The item stack.
+     *
+     * @return The item.
+     */
+    public Item getItem(ItemStack stack) {
+        return this.getItem();
     }
 
     @Override
@@ -52,17 +122,9 @@ public class PlaceholderMimicItem extends PlaceholderItem {
         }
     }
 
-    public Item getItem() {
-        return this.ITEM.get();
-    }
-
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         this.getItem(stack).usageTick(world, user, stack, remainingUseTicks);
-    }
-
-    public Item getItem(ItemStack ignoredStack) {
-        return this.getItem();
     }
 
     @Override
@@ -153,11 +215,6 @@ public class PlaceholderMimicItem extends PlaceholderItem {
     }
 
     @Override
-    public String toString() {
-        return this.getItem().toString();
-    }
-
-    @Override
     public boolean isNbtSynced() {
         return this.getItem().isNbtSynced();
     }
@@ -235,8 +292,10 @@ public class PlaceholderMimicItem extends PlaceholderItem {
     @SuppressWarnings("RedundantCast")
     @Override
     public ItemStack getDefaultStack() {
+        // This effectively copies the mimicked item's preferred default stack.
         final ItemStack stack = this.getItem().getDefaultStack();
 
+        // Then replaces the stack's item with the current instance.
         ((AstralItemStack) stack).astral$setItem(this);
 
         return stack;
@@ -328,9 +387,19 @@ public class PlaceholderMimicItem extends PlaceholderItem {
         }
     }
 
+    @SuppressWarnings("RedundantCast")
     @Override
     public TypedActionResult<ItemStack> equipAndSwap(Item item, World world, PlayerEntity user, Hand hand) {
+        // If the mimicked item has an implementation for this, prefer that implementation.
         if (this.getItem(user.getStackInHand(hand)) instanceof final Equipment equipment) {
+            final TypedActionResult<ItemStack> result = equipment.equipAndSwap(item, world, user, hand);
+
+            // Ensure the item is retained when calling the super method. This is unlikely to break functionality, but
+            // it is still possible.
+            // If mimicking an item that overrides this method, you should ideally create an extension that provides the
+            // expected behavior.
+            ((AstralItemStack) result.getValue()).astral$setItem(this);
+
             return equipment.equipAndSwap(item, world, user, hand);
         } else {
             return super.equipAndSwap(item, world, user, hand);
@@ -338,7 +407,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
     }
 
     @Override
-    public int getCustomModelData(ItemStack stack) {
+    public Optional<Integer> getCustomModelData(ItemStack stack) {
+        // If the mimicked item has an implementation for this, prefer that implementation.
         if (this.getItem(stack) instanceof final Customized customized) {
             return customized.getCustomModelData(stack);
         } else {
@@ -348,6 +418,7 @@ public class PlaceholderMimicItem extends PlaceholderItem {
 
     @Override
     public void setCustomModelData(ItemStack stack, int data) {
+        // If the mimicked item has an implementation for this, prefer that implementation.
         if (this.getItem(stack) instanceof final Customized customized) {
             customized.setCustomModelData(stack, data);
         } else {
@@ -355,31 +426,67 @@ public class PlaceholderMimicItem extends PlaceholderItem {
         }
     }
 
+    /**
+     * A group of mimicking placeholder items.
+     * <p>
+     * This is most useful for bulk declaration, for example when defining armor items or dye items.
+     *
+     * @author Jaxydog
+     */
     public static class Group extends RegisteredMap<Item, PlaceholderMimicItem> {
 
-        private final Set<Item> ITEMS;
+        /** The mimicked items. */
+        private final Set<Item> items;
 
-        public Group(String rawId, Settings settings, Item... items) {
-            super(rawId, (id, item) -> new PlaceholderMimicItem(id, settings, () -> item));
+        /**
+         * Creates a new group of mimicking items.
+         * <p>
+         * If the {@code #preferredGroup} supplier is {@code null}, the items will not be added to any item groups.
+         *
+         * @param path The item's base identifier path.
+         * @param settings The item's settings.
+         * @param preferredGroup The item's preferred item group.
+         * @param items The items to be mimicked.
+         */
+        public Group(
+            String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup, Item... items
+        ) {
+            super(path, (id, item) -> new PlaceholderMimicItem(id, settings, preferredGroup, () -> item));
 
-            this.ITEMS = Set.of(items);
+            this.items = Set.of(items);
+        }
+
+        /**
+         * Creates a new group of mimicking items.
+         * <p>
+         * The items will be added to the default item group.
+         *
+         * @param path The item's base identifier path.
+         * @param settings The item's settings.
+         * @param items The items to be mimicked.
+         */
+        public Group(String path, Settings settings, Item... items) {
+            super(path, (id, item) -> new PlaceholderMimicItem(id, settings, () -> item));
+
+            this.items = Set.of(items);
         }
 
         @Override
-        protected int compareKeys(Item a, Item b) {
+        protected int compareKeys(@NotNull Item a, @NotNull Item b) {
+            // Prefer the registry's natural ordering of the item keys.
             return Integer.compare(Item.getRawId(a), Item.getRawId(b));
         }
 
         @Override
-        public Set<Item> keys() {
-            return this.ITEMS;
+        protected String getPath(@NotNull Item key) {
+            final String id = Registries.ITEM.getId(key).getPath();
+
+            return String.format("%s_%s", super.getRegistryPath(), id);
         }
 
         @Override
-        public String getIdPath(Item item) {
-            final String id = Registries.ITEM.getId(item).getPath();
-
-            return String.format("%s_%s", super.getRegistryIdPath(), id);
+        public Set<Item> keys() {
+            return this.items;
         }
 
     }

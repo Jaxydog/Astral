@@ -21,6 +21,9 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
     - The `Customized` interface's `getCustomModelData` method now returns an `Optional`.
     - Item groups have been moved to `dev.jaxydog.astral.content.item.group`.
     - Item groups have been renamed from `Custom*ItemGroup` to `Astral*ItemGroup`.
+    - All item classes have been slightly refactored.
+- Updated sound content structure.
+    - Added `SoundContext` record class.
 
 ### Content changes
 
