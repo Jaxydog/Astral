@@ -54,6 +54,13 @@
 - Prevent spray potion activation if all effects are already added.
 - Remove deprecation log (sorry lol).
 
+## Patch 1.7.2
+
+### Content changes
+
+- Fixed pink cow texture when using ETF.
+- Fixed sinister arrow translation keys.
+
 # Release 1.6.0
 
 ### Internal changes
