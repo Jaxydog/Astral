@@ -116,7 +116,6 @@ public class ModifyScalePower extends CustomPower {
      */
     public void addModifier(Modifier modifier) {
         this.modifiers.add(modifier);
-
     }
 
     /** Applies all modifiers to the entity. */
