@@ -17,6 +17,7 @@ package dev.jaxydog.astral.content.sound;
 import net.minecraft.entity.Entity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
@@ -35,6 +36,14 @@ import net.minecraft.world.World;
  */
 @SuppressWarnings("unused")
 public record SoundContext(SoundEvent event, SoundCategory category, float volume, float pitch, float pitchVariance) {
+
+    /** A player's burping sound. */
+    public static final SoundContext BURP = new SoundContext(SoundEvents.ENTITY_PLAYER_BURP,
+        SoundCategory.PLAYERS,
+        0.5F,
+        0.9F,
+        0.1F
+    );
 
     /**
      * A sound context.

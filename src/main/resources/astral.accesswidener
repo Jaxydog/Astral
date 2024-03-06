@@ -5,3 +5,4 @@ accessible class net/minecraft/network/NetworkState$PacketHandler
 accessible method net/minecraft/item/ItemGroup <init> (Lnet/minecraft/item/ItemGroup$Row;ILnet/minecraft/item/ItemGroup$Type;Lnet/minecraft/text/Text;Ljava/util/function/Supplier;Lnet/minecraft/item/ItemGroup$EntryCollector;)V
 accessible method net/minecraft/sound/SoundEvent <init> (Lnet/minecraft/util/Identifier;FZ)V
 accessible method net/minecraft/item/SuspiciousStewItem forEachEffect (Lnet/minecraft/item/ItemStack;Ljava/util/function/Consumer;)V
+accessible method net/minecraft/entity/LivingEntity applyFoodEffects (Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)V

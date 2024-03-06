@@ -14,6 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
+import dev.jaxydog.astral.content.sound.SoundContext;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +27,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -46,6 +49,9 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class BowlItem extends AstralItem {
 
+    /** Whether this item prefers drinking sounds over eating sounds. */
+    protected final boolean usesDrinkSounds;
+
     /**
      * Creates a new soup item using the given settings.
      * <p>
@@ -55,8 +61,15 @@ public class BowlItem extends AstralItem {
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
      */
-    public BowlItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
+    public BowlItem(
+        String path,
+        Settings settings,
+        boolean usesDrinkSounds,
+        @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
+    ) {
         super(path, settings, preferredGroup);
+
+        this.usesDrinkSounds = usesDrinkSounds;
     }
 
     /**
@@ -67,8 +80,15 @@ public class BowlItem extends AstralItem {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      */
-    public BowlItem(String path, Settings settings) {
+    public BowlItem(String path, Settings settings, boolean usesDrinkSounds) {
         super(path, settings);
+
+        this.usesDrinkSounds = usesDrinkSounds;
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return this.usesDrinkSounds ? UseAction.DRINK : UseAction.EAT;
     }
 
     @Override
@@ -78,29 +98,39 @@ public class BowlItem extends AstralItem {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        final int count = stack.getCount();
-        final ItemStack consumed = super.finishUsing(stack, world, user);
+        // Attempt to bind a player.
+        final @Nullable PlayerEntity player = user instanceof PlayerEntity p ? p : null;
 
-        if (consumed.getCount() >= count) return consumed;
+        // Emit game events.
+        user.emitGameEvent(this.usesDrinkSounds ? GameEvent.DRINK : GameEvent.EAT);
 
-        if (user instanceof final PlayerEntity player) {
-            // If the user is a player, increment stats & trigger criteria.
-            player.incrementStat(Stats.USED.getOrCreateStat(this));
-
-            if (player instanceof final ServerPlayerEntity serverPlayer) {
-                Criteria.CONSUME_ITEM.trigger(serverPlayer, consumed);
-            }
-
-            // If the entity is a player, give them a bowl when consuming.
-            if (!consumed.isEmpty() && consumed.getCount() < count) {
-                player.giveItemStack(Items.BOWL.getDefaultStack());
-            }
+        if (player instanceof final ServerPlayerEntity serverPlayer) {
+            Criteria.CONSUME_ITEM.trigger(serverPlayer, stack);
         }
 
-        // Otherwise, give them a bottle if the stack is empty.
-        if (consumed.isEmpty()) return Items.BOWL.getDefaultStack();
+        // Imitates the consumption method of vanilla players, excluding some already executed code.
+        if (stack.isFood()) {
+            if (player != null) {
+                player.getHungerManager().eat(stack.getItem(), stack);
+                player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
 
-        return consumed;
+                SoundContext.BURP.play(player.getWorld(), player);
+            }
+
+            user.applyFoodEffects(stack, world, user);
+        }
+
+        // Only decrement if the entity is not a player, or if they're not in creative.
+        if (player == null || !player.isCreative()) {
+            final ItemStack bowl = Items.BOWL.getDefaultStack();
+
+            stack.decrement(1);
+
+            if (stack.isEmpty()) return bowl;
+            if (player != null) player.giveItemStack(bowl);
+        }
+
+        return stack;
     }
 
 }

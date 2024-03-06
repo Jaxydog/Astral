@@ -15,6 +15,7 @@
 
 package dev.jaxydog.astral.content.item;
 
+import dev.jaxydog.astral.content.sound.SoundContext;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -90,29 +91,39 @@ public class BottleItem extends AstralItem {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        final int count = stack.getCount();
-        final ItemStack consumed = super.finishUsing(stack, world, user);
+        // Attempt to bind a player.
+        final @Nullable PlayerEntity player = user instanceof PlayerEntity p ? p : null;
 
+        // Emit game events.
         user.emitGameEvent(GameEvent.DRINK);
 
-        if (user instanceof final PlayerEntity player) {
-            // If the user is a player, increment stats & trigger criteria.
-            player.incrementStat(Stats.USED.getOrCreateStat(this));
-
-            if (player instanceof final ServerPlayerEntity serverPlayer) {
-                Criteria.CONSUME_ITEM.trigger(serverPlayer, consumed);
-            }
-
-            // If non-empty and an item was consumed.
-            if (!consumed.isEmpty() && consumed.getCount() < count) {
-                player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
-            }
+        if (player instanceof final ServerPlayerEntity serverPlayer) {
+            Criteria.CONSUME_ITEM.trigger(serverPlayer, stack);
         }
 
-        // Otherwise, give them a bottle if the stack is empty.
-        if (consumed.isEmpty()) return Items.GLASS_BOTTLE.getDefaultStack();
+        // Imitates the consumption method of vanilla players, excluding some already executed code.
+        if (stack.isFood()) {
+            if (player != null) {
+                player.getHungerManager().eat(stack.getItem(), stack);
+                player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
 
-        return consumed;
+                SoundContext.BURP.play(player.getWorld(), player);
+            }
+
+            user.applyFoodEffects(stack, world, user);
+        }
+
+        // Only decrement if the entity is not a player, or if they're not in creative.
+        if (player == null || !player.isCreative()) {
+            final ItemStack bottle = Items.GLASS_BOTTLE.getDefaultStack();
+
+            stack.decrement(1);
+
+            if (stack.isEmpty()) return bottle;
+            if (player != null) player.giveItemStack(bottle);
+        }
+
+        return stack;
     }
 
 }
