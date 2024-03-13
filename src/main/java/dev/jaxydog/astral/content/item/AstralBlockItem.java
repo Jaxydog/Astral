@@ -14,6 +14,7 @@
 
 package dev.jaxydog.astral.content.item;
 
+import dev.jaxydog.astral.content.block.CustomBlock;
 import dev.jaxydog.astral.content.item.group.AstralItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
@@ -70,6 +71,21 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
     /**
      * Creates a new block item using the given settings.
      * <p>
+     * If the {@link #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     *
+     * @param block The item's associated block.
+     * @param settings The item's settings.
+     * @param preferredGroup The item's preferred item group.
+     */
+    public AstralBlockItem(
+        CustomBlock block, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
+    ) {
+        this(block.getRegistryIdPath(), block, settings, preferredGroup);
+    }
+
+    /**
+     * Creates a new block item using the given settings.
+     * <p>
      * This item will be added to the default item group.
      *
      * @param path The item's identifier path.
@@ -78,6 +94,18 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      */
     public AstralBlockItem(String path, Block block, Settings settings) {
         this(path, block, settings, AstralItemGroups.DEFAULT::getRegistryKey);
+    }
+
+    /**
+     * Creates a new block item using the given settings.
+     * <p>
+     * This item will be added to the default item group.
+     *
+     * @param block The item's associated block.
+     * @param settings The item's settings.
+     */
+    public AstralBlockItem(CustomBlock block, Settings settings) {
+        this(block.getRegistryIdPath(), block, settings);
     }
 
     @Override
