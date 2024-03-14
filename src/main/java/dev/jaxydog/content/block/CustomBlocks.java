@@ -54,6 +54,10 @@ public final class CustomBlocks extends ContentRegistrar {
         Settings.copy(Blocks.IRON_BLOCK)
     );
 
+    public static final CustomBlock COBBLED_SANDSTONE = new CustomBlock("cobbled_sandstone",
+        Settings.copy(Blocks.SANDSTONE)
+    );
+
     @Override
     public void generate() {
         super.generate();
