@@ -16,7 +16,7 @@ public interface SprayableEntity {
     void astral$setSprayed(@Nullable LivingEntity source, int ticks, boolean initialSpray);
 
     default void astral$setSprayed(@Nullable LivingEntity source, int ticks) {
-        this.astral$setSprayed(source, ticks, true);
+        this.astral$setSprayed(source, ticks, !this.astral$isSprayed());
     }
 
     default void astral$setUnsprayed() {

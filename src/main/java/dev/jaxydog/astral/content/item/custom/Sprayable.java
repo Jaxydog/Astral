@@ -220,6 +220,19 @@ public interface Sprayable extends Client, Custom {
     }
 
     /**
+     * Returns the duration in ticks that {@link SprayableEntity} instances are sprayed for.
+     * <p>
+     * By default, this method returns {@code 40}.
+     *
+     * @param stack The item stack.
+     *
+     * @return The duration in ticks.
+     */
+    default int getSprayDuration(ItemStack stack) {
+        return 40;
+    }
+
+    /**
      * This method is called when the item is sprayed.
      * <p>
      * This runs on both the client and the server. To ensure proper functionality, the environment should be checked
@@ -285,6 +298,10 @@ public interface Sprayable extends Client, Custom {
      */
     default void invokeSpray(ItemStack stack, World world, @Nullable LivingEntity entity, Entity target, int charges) {
         if (!this.canSpray(stack, entity, target, charges)) return;
+
+        if (target instanceof final SprayableEntity sprayable && sprayable.astral$canSpray()) {
+            sprayable.astral$setSprayed(entity, this.getSprayDuration(stack));
+        }
 
         final List<ActionWhenSprayedPower> targetPowers = PowerHolderComponent.getPowers(target,
             ActionWhenSprayedPower.class
