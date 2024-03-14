@@ -1,3 +1,10 @@
+# Release 1.8.0
+
+### Content changes
+
+- Added cobbled sandstone.
+    - Crafted using sandstone within a stone-cutter.
+
 # Release 1.7.0
 
 ### Internal changes
