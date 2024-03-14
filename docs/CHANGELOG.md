@@ -1,6 +1,6 @@
 # Release 2.0.0
 
-Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the entire codebase.
+Essentially a rewrite of v1.*, adding/updating heaps of documentation and refactoring the entire codebase.
 
 ### Internal changes
 
@@ -26,6 +26,8 @@ Essentially a rewrite of v1.*, adding heaps of documentation and refactoring the
     - Added `SoundContext` record class.
 
 ### Content changes
+
+- Updated contribution guidelines.
 
 # Release 1.7.0
 
