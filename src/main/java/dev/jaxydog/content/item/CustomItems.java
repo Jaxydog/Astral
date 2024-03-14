@@ -93,6 +93,12 @@ public final class CustomItems extends ContentRegistrar {
         new Settings().rarity(Rarity.UNCOMMON)
     );
 
+    // Cobbled Sandstone by Funsul
+    public static final CustomBlockItem COBBLED_SANDSTONE_BLOCK = new CustomBlockItem("cobbled_sandstone",
+        CustomBlocks.COBBLED_SANDSTONE,
+        new Settings()
+    );
+
     // Milk Items by Ice(The Woman)
     public static final ChocolateMilkItem CHOCOLATE_MILK = new ChocolateMilkItem("chocolate_milk",
         new Settings().food(FoodComponents.CHOCOLATE_MILK).maxCount(16)
