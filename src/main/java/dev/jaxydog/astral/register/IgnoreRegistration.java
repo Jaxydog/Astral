@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  *
  * @author Jaxydog
  * @see Registered
- * @see RegistrationEnvironment
+ * @see Environment
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

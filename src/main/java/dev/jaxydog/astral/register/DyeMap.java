@@ -28,7 +28,7 @@ import java.util.function.BiFunction;
  *
  * @author Jaxydog
  */
-public class DyeableMap<V extends Registered> extends RegisteredMap<DyeColor, V> {
+public class DyeMap<V extends Registered> extends RegisteredMap<DyeColor, V> {
 
     /**
      * A list containing all dye colors in the standard Minecraft ordering.
@@ -60,7 +60,7 @@ public class DyeableMap<V extends Registered> extends RegisteredMap<DyeColor, V>
      * @param basePath The base identifier path.
      * @param computeCallback The value computation callback.
      */
-    public DyeableMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull DyeColor, V> computeCallback) {
+    public DyeMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull DyeColor, V> computeCallback) {
         super(basePath, computeCallback);
     }
 

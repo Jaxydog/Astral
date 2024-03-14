@@ -42,7 +42,7 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
      *
      * @param environment The target environment.
      */
-    private void registerFields(RegistrationEnvironment environment) {
+    private void registerFields(Environment environment) {
         // This iterates over all publicly defined fields within the implementing class.
         for (final Field field : this.getClass().getFields()) {
             final int modifiers = field.getModifiers();
@@ -91,22 +91,22 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
 
     @Override
     public final void register() {
-        this.registerFields(RegistrationEnvironment.COMMON);
+        this.registerFields(Environment.COMMON);
     }
 
     @Override
     public final void registerClient() {
-        this.registerFields(RegistrationEnvironment.CLIENT);
+        this.registerFields(Environment.CLIENT);
     }
 
     @Override
     public final void registerServer() {
-        this.registerFields(RegistrationEnvironment.SERVER);
+        this.registerFields(Environment.SERVER);
     }
 
     @Override
     public void generate() {
-        this.registerFields(RegistrationEnvironment.GENERATOR);
+        this.registerFields(Environment.GENERATOR);
     }
 
 }

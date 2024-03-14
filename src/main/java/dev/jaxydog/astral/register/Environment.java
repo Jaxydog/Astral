@@ -33,7 +33,7 @@ import java.util.function.Consumer;
  * @see Registered
  */
 @Internal
-public enum RegistrationEnvironment {
+public enum Environment {
 
     /**
      * Represents both the client <i>and</i> the server environments.
@@ -82,7 +82,7 @@ public enum RegistrationEnvironment {
      * @param registeredInterface The interface associated with this environment.
      * @param consumeAndRegister A callback that takes a value and registers it.
      */
-    RegistrationEnvironment(
+    Environment(
         Class<? extends Registered> registeredInterface, Consumer<? super Registered> consumeAndRegister
     ) {
         this.registeredInterface = registeredInterface;
