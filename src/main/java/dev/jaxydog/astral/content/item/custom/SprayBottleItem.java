@@ -1,16 +1,15 @@
 package dev.jaxydog.astral.content.item.custom;
 
 import dev.jaxydog.astral.content.item.AstralItem;
-import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
-import dev.jaxydog.astral.content.power.custom.ActionWhenSprayedPower;
-import dev.jaxydog.astral.utility.injected.SprayableEntity;
-import io.github.apace100.apoli.component.PowerHolderComponent;
+import dev.jaxydog.astral.content.sound.SoundContext;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
@@ -25,183 +24,124 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult.Type;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.math.*;
 import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.GameEvent.Emitter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class SprayBottleItem extends AstralItem implements Sprayable {
+/**
+ * A spray bottle item containing water.
+ *
+ * @author Jaxydog
+ * @since 1.6.0
+ */
+@SuppressWarnings("unused")
+public class SprayBottleItem extends AstralItem implements Sprayed {
 
+    /**
+     * The maximum amount of sprays contained within the bottle.
+     *
+     * @since 1.6.0
+     */
     public static final int MAX_USES = 48;
-    public static final int SPRAY_DURATION = 40;
 
-    @SuppressWarnings("unused")
-    public SprayBottleItem(String idPath, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
-        super(idPath, settings, group);
+    /**
+     * The sound played when extinguishing a block.
+     *
+     * @since 2.0.0
+     */
+    public static final SoundContext EXTINGUISH_BLOCK_SOUND = new SoundContext(SoundEvents.BLOCK_FIRE_EXTINGUISH,
+        SoundCategory.BLOCKS,
+        0.5F,
+        2.6F,
+        0.8F
+    );
+    /**
+     * The sound played when extinguishing an entity.
+     *
+     * @since 2.0.0
+     */
+    public static final SoundContext EXTINGUISH_ENTITY_SOUND = new SoundContext(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE,
+        SoundCategory.NEUTRAL,
+        0.5F,
+        2.6F,
+        0.8F
+    );
+    /**
+     * The sound played when wetting a sponge.
+     *
+     * @since 2.0.0
+     */
+    public static final SoundContext SPONGE_SQUISH_SOUND = new SoundContext(SoundEvents.BLOCK_SLIME_BLOCK_PLACE,
+        SoundCategory.BLOCKS
+    );
+
+    /**
+     * Stores custom behaviors registered to this spray bottle item.
+     *
+     * @since 2.0.0
+     */
+    private final Map<Class<? extends SprayTarget>, List<Behavior<? extends SprayTarget>>> behaviors = new Object2ObjectArrayMap<>();
+
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * If the {@code #preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
+     */
+    public SprayBottleItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
+        super(path, settings, preferredGroup);
     }
 
-    public SprayBottleItem(String idPath, Settings settings) {
-        super(idPath, settings);
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * This item will be added to the default item group.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     *
+     * @since 2.0.0
+     */
+    public SprayBottleItem(String path, Settings settings) {
+        super(path, settings);
     }
 
-    protected void playExtinguishSound(World world, BlockPos pos) {
-        final Random random = world.getRandom();
-        final float pitch = 2.6F + (random.nextFloat() - random.nextFloat()) * 0.8F;
-
-        world.playSoundAtBlockCenter(pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, pitch, false);
+    @Override
+    public <T extends SprayTarget> void addBehavior(Class<T> type, Behavior<T> behavior) {
+        this.behaviors.putIfAbsent(type, new ObjectArrayList<>(1));
+        this.behaviors.get(type).add(behavior);
     }
 
-    protected int sprayEntity(ItemStack stack, @Nullable PlayerEntity player, LivingEntity entity) {
-        int charges = 0;
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends SprayTarget> List<Behavior<T>> getBehaviors(Class<T> type) {
+        if (!this.behaviors.containsKey(type)) return List.of();
 
-        if (this.isEmptied(stack)) return charges;
-
-        // Iterate through all on spray powers and apply their effects if possible.
-        final List<ActionOnSprayPower> playerPowers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
-
-        playerPowers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
-
-        for (final ActionOnSprayPower power : playerPowers) {
-            if (!power.canSprayEntity(stack, entity)) continue;
-
-            if (power.onSprayEntity(stack, entity)) {
-                charges = Math.max(charges, power.getCharges());
-            }
-        }
-
-        // Iterate through all when sprayed powers and apply their effects if possible.
-        final List<ActionWhenSprayedPower> entityPowers = PowerHolderComponent.getPowers(entity,
-            ActionWhenSprayedPower.class
-        );
-
-        entityPowers.sort(Comparator.comparingInt(ActionWhenSprayedPower::getPriority).reversed());
-
-        for (final ActionWhenSprayedPower power : entityPowers) {
-            if (!power.canBeSprayed(player, stack)) continue;
-
-            if (power.onSprayed(player, stack)) {
-                charges = Math.max(charges, power.getCharges());
-            }
-        }
-
-        if (entity.isOnFire()) {
-            entity.extinguishWithSound();
-
-            charges = Math.max(charges, 2);
-        }
-
-        if (!entity.getWorld().isClient()
-            && entity instanceof final SprayableEntity sprayable
-            && sprayable.astral$canSpray()) {
-            sprayable.astral$setSprayed(player, SPRAY_DURATION, true);
-
-            charges = Math.max(charges, sprayable.astral$getSprayCharges());
-        }
-
-        return charges;
-    }
-
-    protected int sprayBlock(
-        ItemStack stack, @Nullable PlayerEntity player, World world, BlockPos blockPos, Direction side
-    ) {
-        int charges = 0;
-
-        if ((player != null && !world.canPlayerModifyAt(player, blockPos)) || this.isEmptied(stack)) {
-            return charges;
-        }
-
-        // Refill if possible.
-        final BlockState blockState = world.getBlockState(blockPos);
-
-        if (stack.isDamaged() && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
-            this.fill(stack, world, blockPos, player, this.getMaxDamage());
-
-            return charges;
-        }
-
-        // Iterate through all spray powers and apply their effects if possible.
-        final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
-
-        powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
-
-        for (final ActionOnSprayPower power : powers) {
-            if (!power.canSprayBlock(stack, world, blockPos)) continue;
-
-            if (power.onSprayBlock(stack, world, blockPos, side)) {
-                charges = Math.max(charges, power.getCharges());
-            }
-        }
-
-        final Block block = blockState.getBlock();
-
-        if (block instanceof Oxidizable) {
-            final Optional<Block> increased = Oxidizable.getIncreasedOxidationBlock(block);
-
-            if (increased.isPresent()) {
-                world.setBlockState(blockPos, increased.get().getDefaultState());
-
-                charges = Math.max(charges, 1);
-            }
-        }
-
-        if (block instanceof FarmlandBlock) {
-            final int moisture = blockState.get(FarmlandBlock.MOISTURE);
-
-            if (moisture < FarmlandBlock.MAX_MOISTURE) {
-                world.setBlockState(blockPos, blockState.with(FarmlandBlock.MOISTURE, FarmlandBlock.MAX_MOISTURE));
-
-                charges = Math.max(charges, 4);
-            }
-        }
-
-        if (block instanceof CampfireBlock) {
-            final boolean lit = blockState.get(CampfireBlock.LIT);
-
-            if (lit) {
-                world.setBlockState(blockPos, blockState.with(CampfireBlock.LIT, false));
-                this.playExtinguishSound(world, blockPos);
-
-                charges = Math.max(charges, 2);
-            }
-        }
-
-        if (block instanceof AbstractFireBlock) {
-            if (player == null) {
-                world.breakBlock(blockPos, false);
-            } else {
-                world.breakBlock(blockPos, false, player);
-            }
-
-            this.playExtinguishSound(world, blockPos);
-
-            charges = Math.max(charges, 2);
-        }
-
-        if (blockState.isOf(Blocks.SPONGE)) {
-            world.setBlockState(blockPos, Blocks.WET_SPONGE.getDefaultState());
-
-            charges = Math.max(charges, 4);
-        }
-
-        return charges;
+        return this.behaviors.get(type).stream().map(b -> (Behavior<T>) b).toList();
     }
 
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        if (this.isEmptied(stack)) {
+        if (this.isEmpty(stack)) {
             final String key = stack.getItem().getTranslationKey(stack) + ".empty";
 
             tooltip.add(Text.translatable(key).formatted(Formatting.GRAY));
@@ -214,17 +154,21 @@ public class SprayBottleItem extends AstralItem implements Sprayable {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         final ItemStack stack = player.getStackInHand(hand);
 
-        if (!stack.isDamaged()) return TypedActionResult.pass(stack);
+        if (this.isFilled(stack)) return TypedActionResult.pass(stack);
 
+        // Attempt to ray-cast for a water source.
         final BlockHitResult result = raycast(world, player, FluidHandling.SOURCE_ONLY);
+        final BlockPos pos = result.getBlockPos();
 
         if (result.getType() != Type.BLOCK) return TypedActionResult.pass(stack);
 
-        final BlockPos blockPos = result.getBlockPos();
+        // Attempt to refill using the detected water source.
+        if (world.canPlayerModifyAt(player, pos) && world.getFluidState(pos).isIn(FluidTags.WATER)) {
+            final int charges = this.getMaxCharges(stack) - this.getCharges(stack);
+            final RefillContext context = new RefillContext(world, pos, charges);
+            final Source source = new Source(stack, player, player.getPos());
 
-        // Attempt to refill using a water source.
-        if (world.canPlayerModifyAt(player, blockPos) && world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
-            this.fill(stack, world, blockPos, player, this.getMaxDamage());
+            this.refill(source, context);
 
             return TypedActionResult.success(stack, world.isClient());
         } else {
@@ -234,52 +178,53 @@ public class SprayBottleItem extends AstralItem implements Sprayable {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
-        final int charges = this.sprayEntity(stack, player, entity);
+        if (this.isEmpty(stack)) return ActionResult.PASS;
+        if (!this.spray(stack, player, player.getPos(), entity, false)) return ActionResult.PASS;
 
-        if (charges > 0) {
-            this.spray(stack, player.getWorld(), player, charges);
-
-            return ActionResult.success(player.getWorld().isClient());
-        } else {
-            return ActionResult.PASS;
+        if (player instanceof final ServerPlayerEntity serverPlayer) {
+            Criteria.PLAYER_INTERACTED_WITH_ENTITY.trigger(serverPlayer, stack, entity);
         }
+
+        return ActionResult.success(player.getWorld().isClient());
     }
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
+        if (this.isEmpty(context.getStack())) return ActionResult.PASS;
+
         final ItemStack stack = context.getStack();
         final PlayerEntity player = context.getPlayer();
         final World world = context.getWorld();
-        final BlockPos blockPos = context.getBlockPos();
+        final BlockPos pos = context.getBlockPos();
         final Direction side = context.getSide();
-        final BlockState oldState = world.getBlockState(blockPos);
+        final BlockState oldState = world.getBlockState(pos);
 
-        final int charges = this.sprayBlock(stack, player, world, blockPos, side);
+        final Vec3d position;
 
-        if (charges <= 0) return ActionResult.PASS;
+        if (player == null) {
+            // We can safely assume this is from a dispenser, in which case it will always be directly adjacent.
+            position = pos.offset(side).toCenterPos();
+        } else {
+            position = player.getPos();
+        }
 
-        final BlockState newState = world.getBlockState(blockPos);
+        if (!this.spray(stack, player, position, world, pos, side, false)) return ActionResult.PASS;
+
+        final BlockState newState = world.getBlockState(pos);
 
         // Emit game events if the state changed.
         if (!oldState.equals(newState)) {
-            final GameEvent.Emitter emitter;
+            final Emitter emitter = player == null ? Emitter.of(newState) : Emitter.of(player, newState);
 
-            if (player == null) {
-                emitter = GameEvent.Emitter.of(newState);
-            } else {
-                emitter = GameEvent.Emitter.of(player, newState);
-            }
-
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, emitter);
         }
 
         if (player instanceof final ServerPlayerEntity serverPlayer) {
-            Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
+            Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
         }
 
-        this.spray(stack, world, player, charges);
-
-        return ActionResult.success(player.getWorld().isClient());
+        // Don't bother swinging the player's hand if they don't exist.
+        return ActionResult.success(player != null && world.isClient());
     }
 
     @Override
@@ -291,22 +236,102 @@ public class SprayBottleItem extends AstralItem implements Sprayable {
 
     @Override
     public void register() {
+        // Entity extinguishing.
+        this.addBehavior(EntityTarget.class, new Behavior<>((source, target) -> target.target().isOnFire(),
+            (source, target) -> target.target().extinguishWithSound(),
+            2
+        ));
+
+        // Block oxidization.
+        this.addBehavior(BlockTarget.class, new Behavior<>((source, target) -> {
+            final Block block = target.state().getBlock();
+
+            return block instanceof Oxidizable oxidizable && Oxidizable.getIncreasedOxidationBlock(block).isPresent();
+        }, (source, target) -> {
+            final Block block = target.state().getBlock();
+            final Optional<Block> increased = Oxidizable.getIncreasedOxidationBlock(block);
+
+            increased.ifPresent(value -> target.world().setBlockState(target.pos(), value.getDefaultState()));
+        }, 1, 100));
+
+        // Farmland moisturization.
+        this.addBehavior(BlockTarget.class, new Behavior<>((source, target) -> {
+            final BlockState state = target.state();
+            final Block block = state.getBlock();
+
+            return block instanceof FarmlandBlock && state.get(FarmlandBlock.MOISTURE) < FarmlandBlock.MAX_MOISTURE;
+        }, (source, target) -> {
+            final BlockState state = target.state();
+
+            target.world().setBlockState(target.pos(), state.with(FarmlandBlock.MOISTURE, FarmlandBlock.MAX_MOISTURE));
+        }, 4));
+
+        // Fire extinguishing.
+        this.addBehavior(BlockTarget.class, new Behavior<>((source, target) -> {
+            final BlockState state = target.state();
+            final Block block = state.getBlock();
+
+            return block instanceof AbstractFireBlock;
+        }, (source, target) -> {
+            final BlockState state = target.state();
+
+            if (source.actor() == null) {
+                target.world().breakBlock(target.pos(), false);
+            } else {
+                target.world().breakBlock(target.pos(), false, source.actor());
+            }
+
+            EXTINGUISH_BLOCK_SOUND.play(target.world(), target.pos(), false);
+        }, 2));
+
+        // Campfire extinguishing.
+        this.addBehavior(BlockTarget.class, new Behavior<>((source, target) -> {
+            final BlockState state = target.state();
+            final Block block = state.getBlock();
+
+            return block instanceof CampfireBlock && state.get(CampfireBlock.LIT);
+        }, (source, target) -> {
+            final BlockState state = target.state();
+
+            target.world().setBlockState(target.pos(), state.with(CampfireBlock.LIT, false));
+
+            EXTINGUISH_BLOCK_SOUND.play(target.world(), target.pos(), false);
+        }, 2));
+
+        // Sponge drying.
+        this.addBehavior(BlockTarget.class, new Behavior<>((source, target) -> {
+            final BlockState state = target.state();
+
+            return state.isOf(Blocks.SPONGE);
+        }, (source, target) -> {
+            final BlockState state = target.state();
+
+            target.world().setBlockState(target.pos(), Blocks.SPONGE.getDefaultState());
+
+            SPONGE_SQUISH_SOUND.play(target.world(), target.pos(), false);
+        }, 4));
+
         super.register();
 
-        // Allow refill using cauldrons.
-        CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(this, (blockState, world, blockPos, player, hand, stack) -> {
-            if (!stack.isDamaged()) return ActionResult.PASS;
+        // Allow refilling using cauldrons.
+        CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(this, (blockState, world, pos, player, hand, stack) -> {
+            if (this.isFilled(stack)) return ActionResult.PASS;
 
             if (!world.isClient()) {
-                this.fill(stack, world, blockPos, player, stack.getMaxDamage());
+                final int charges = this.getMaxCharges(stack) - this.getCharges(stack);
+                final RefillContext context = new RefillContext(world, pos, charges);
+                final Source source = new Source(stack, player, player.getPos());
+
+                this.refill(source, context);
 
                 player.incrementStat(Stats.USE_CAULDRON);
 
-                LeveledCauldronBlock.decrementFluidLevel(blockState, world, blockPos);
+                LeveledCauldronBlock.decrementFluidLevel(blockState, world, pos);
             }
 
             return ActionResult.success(world.isClient());
         });
+
         // Allow dispensers to use the bottle.
         DispenserBlock.registerBehavior(this, new FallibleItemDispenserBehavior() {
 
@@ -315,56 +340,48 @@ public class SprayBottleItem extends AstralItem implements Sprayable {
                 if (stack.getItem() instanceof final SprayBottleItem item) {
                     this.setSuccess(false);
 
-                    if (item.isEmptied(stack)) return stack;
+                    if (item.isEmpty(stack)) return stack;
                 } else {
                     return super.dispenseSilently(pointer, stack);
                 }
 
                 final ServerWorld world = pointer.getWorld();
                 final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
-                final BlockPos blockPos = pointer.getPos().offset(direction);
+                final BlockPos pos = pointer.getPos().offset(direction);
+                final Vec3d position = pointer.getPos().toCenterPos();
+                final Direction side = direction.getOpposite();
+                final BlockState blockState = world.getBlockState(pos);
 
-                int charges = 0;
+                boolean sprayed = false;
 
                 // Spray entities in front of the dispenser.
-                final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
-                    new Box(blockPos),
+                final List<Entity> entities = world.getEntitiesByClass(Entity.class,
+                    new Box(pos),
                     EntityPredicates.EXCEPT_SPECTATOR
                 );
 
-                for (final LivingEntity entity : entities) {
-                    charges = Math.max(charges, item.sprayEntity(stack, null, entity));
+                for (final Entity entity : entities) {
+                    sprayed |= item.spray(stack, null, position, entity, true);
                 }
 
-                final BlockState blockState = world.getBlockState(blockPos);
-                final Direction side = direction.getOpposite();
+                sprayed |= item.spray(stack, null, position, world, pos, side, true);
 
-                charges = Math.max(charges, item.sprayBlock(stack, null, world, blockPos, side));
-
-                // Only spray if charges are > 0.
-                if (charges > 0) {
-                    item.spray(stack, world, null, charges);
-
+                if (sprayed) {
                     this.setSuccess(true);
 
-                    final BlockState newState = world.getBlockState(blockPos);
+                    final BlockState newState = world.getBlockState(pos);
 
                     if (!blockState.equals(newState)) {
-                        final GameEvent.Emitter emitter = GameEvent.Emitter.of(newState);
-
-                        world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+                        world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, Emitter.of(newState));
                     }
+
+                    SPRAY_SOUND.play(world, position);
                 }
 
                 return stack;
             }
 
         });
-    }
-
-    @Override
-    public void registerClient() {
-        ModelPredicateProviderRegistry.register(this, new Identifier("empty"), this::getEmptyModel);
     }
 
 }

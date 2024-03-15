@@ -22,6 +22,8 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
     - Item groups have been moved to `dev.jaxydog.astral.content.item.group`.
     - Item groups have been renamed from `Custom*ItemGroup` to `Astral*ItemGroup`.
     - All item classes have been slightly refactored.
+    - Rewrote the entire `Sprayable` interface.
+    - Instances of `Sprayable` have undergone major refactors.
 - Updated sound content structure.
     - Added `SoundContext` record class.
 

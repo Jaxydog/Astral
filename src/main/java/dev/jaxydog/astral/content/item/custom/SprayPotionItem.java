@@ -4,12 +4,15 @@ import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.content.item.AstralPotionItem;
 import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
 import io.github.apace100.apoli.component.PowerHolderComponent;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,36 +30,97 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.GameEvent.Emitter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
-public class SprayPotionItem extends AstralPotionItem implements Sprayable {
+/**
+ * A spray bottle item containing potion effects.
+ *
+ * @author Jaxydog
+ * @since 1.7.0
+ */
+public class SprayPotionItem extends AstralPotionItem implements Sprayed {
 
+    /**
+     * The maximum amount of sprays contained within the bottle.
+     *
+     * @since 1.7.0
+     */
     public static final int MAX_USES = 3;
+    /**
+     * The multiplier used to lessen the duration of the stored potion effects.
+     *
+     * @since 1.7.0
+     */
     public static final float DURATION_MULTIPLIER = 1F / (float) MAX_USES;
 
-    @SuppressWarnings("unused")
-    public SprayPotionItem(String rawId, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> group) {
-        super(rawId, settings, group);
+    /**
+     * Stores custom behaviors registered to this spray bottle item.
+     *
+     * @since 2.0.0
+     */
+    private final Map<Class<? extends SprayTarget>, List<Behavior<? extends SprayTarget>>> behaviors = new Object2ObjectArrayMap<>();
+
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * If the {@code preferredGroup} supplier is {@code null}, this item will not be added to any item groups.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
+     */
+    public SprayPotionItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
+        super(path, settings, preferredGroup);
     }
 
-    public SprayPotionItem(String rawId, Settings settings) {
-        super(rawId, settings);
+    /**
+     * Creates a new item using the given settings.
+     * <p>
+     * This item will be added to the default item group.
+     *
+     * @param path The item's identifier path.
+     * @param settings The item's settings.
+     *
+     * @since 2.0.0
+     */
+    public SprayPotionItem(String path, Settings settings) {
+        super(path, settings);
     }
 
+    /**
+     * Returns the item stack's color modifier at the given index.
+     *
+     * @param stack The item stack.
+     * @param index The color index.
+     *
+     * @return The color as an integer.
+     *
+     * @since 1.7.0
+     */
     public int getColor(ItemStack stack, int index) {
         return index == 0 ? PotionUtil.getColor(stack) : 0xFFFFFF;
     }
 
+    /**
+     * Returns a copy of the provided status effect instance with its duration shortened.
+     *
+     * @param instance The status effect.
+     *
+     * @return A new status effect.
+     *
+     * @since 1.7.0
+     */
     private StatusEffectInstance shortened(StatusEffectInstance instance) {
         return new StatusEffectInstance(instance.getEffectType(),
             Math.round(instance.getDuration() * DURATION_MULTIPLIER),
@@ -67,6 +131,20 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayable {
             null,
             instance.getFactorCalculationData()
         );
+    }
+
+    @Override
+    public <T extends SprayTarget> void addBehavior(Class<T> type, Behavior<T> behavior) {
+        this.behaviors.putIfAbsent(type, new ObjectArrayList<>(1));
+        this.behaviors.get(type).add(behavior);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends SprayTarget> List<Behavior<T>> getBehaviors(Class<T> type) {
+        if (!this.behaviors.containsKey(type)) return List.of();
+
+        return this.behaviors.get(type).stream().map(b -> (Behavior<T>) b).toList();
     }
 
     @Override
@@ -124,15 +202,11 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayable {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
+        if (this.isEmpty(stack)) return ActionResult.PASS;
         if (player.getItemCooldownManager().isCoolingDown(this)) return ActionResult.PASS;
+        if (!this.spray(stack, player, player.getPos(), entity, true)) return ActionResult.PASS;
 
-        final int charges = this.sprayEntity(stack, player, entity);
-
-        if (charges == 0) return ActionResult.PASS;
-
-        this.spray(stack, player.getWorld(), player, charges);
-
-        if (this.isEmptied(stack)) {
+        if (this.isEmpty(stack)) {
             player.getInventory().removeOne(stack);
             player.giveItemStack(Items.GLASS_BOTTLE.getDefaultStack());
         }
@@ -142,53 +216,64 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayable {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
+        if (this.isEmpty(context.getStack())) return ActionResult.PASS;
+
         final ItemStack stack = context.getStack();
         final PlayerEntity player = context.getPlayer();
         final World world = context.getWorld();
-        final BlockPos blockPos = context.getBlockPos();
+        final BlockPos pos = context.getBlockPos();
         final Direction side = context.getSide();
-        final BlockState oldState = world.getBlockState(blockPos);
-        final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
+        final BlockState oldState = world.getBlockState(pos);
 
-        int charges = 0;
+        final Vec3d position;
 
-        powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
-
-        for (final ActionOnSprayPower power : powers) {
-            if (!power.canSprayBlock(stack, world, blockPos)) continue;
-
-            if (power.onSprayBlock(stack, world, blockPos, side)) {
-                charges = Math.max(charges, power.getCharges());
-            }
+        if (player == null) {
+            // We can safely assume this is from a dispenser, in which case it will always be directly adjacent.
+            position = pos.offset(side).toCenterPos();
+        } else {
+            position = player.getPos();
         }
 
-        if (charges == 0) return ActionResult.PASS;
+        if (!this.spray(stack, player, position, world, pos, side, false)) return ActionResult.PASS;
 
-        final BlockState newState = world.getBlockState(blockPos);
+        final BlockState newState = world.getBlockState(pos);
 
+        // Emit game events if the state changed.
         if (!oldState.equals(newState)) {
-            final GameEvent.Emitter emitter;
+            final Emitter emitter = player == null ? Emitter.of(newState) : Emitter.of(player, newState);
 
-            if (player == null) {
-                emitter = GameEvent.Emitter.of(newState);
-            } else {
-                emitter = GameEvent.Emitter.of(player, newState);
-            }
-
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, emitter);
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, emitter);
         }
 
         if (player instanceof final ServerPlayerEntity serverPlayer) {
-            Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, stack);
+            Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
         }
 
-        this.spray(stack, world, player, charges);
-
-        return ActionResult.success(player.getWorld().isClient());
+        // Don't bother swinging the player's hand if they don't exist.
+        return ActionResult.success(player != null && world.isClient());
     }
 
     @Override
     public void register() {
+        this.addBehavior(EntityTarget.class,
+            new Behavior<>((source, target) -> target.target() instanceof LivingEntity, (source, target) -> {
+                for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(source.stack())) {
+                    final LivingEntity entity = (LivingEntity) target.target();
+
+                    if (entity.hasStatusEffect(effect.getEffectType())) continue;
+
+                    if (effect.getEffectType().isInstant()) {
+                        final LivingEntity actor = source.actor();
+                        final int amplifier = effect.getAmplifier();
+
+                        effect.getEffectType().applyInstantEffect(actor, actor, entity, amplifier, 1D);
+                    } else {
+                        entity.addStatusEffect(this.shortened(effect), source.actor());
+                    }
+                }
+            }, 1)
+        );
+
         super.register();
 
         BrewingRecipeRegistry.registerItemRecipe(Items.POTION, AstralItems.CLOUDY_MANE, this);
@@ -199,40 +284,53 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayable {
             protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
                 if (stack.getItem() instanceof final SprayPotionItem item) {
                     this.setSuccess(false);
+
+                    if (item.isEmpty(stack)) return stack;
                 } else {
                     return super.dispenseSilently(pointer, stack);
                 }
 
                 final ServerWorld world = pointer.getWorld();
                 final Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
-                final BlockPos blockPos = pointer.getPos().offset(direction);
+                final BlockPos pos = pointer.getPos().offset(direction);
+                final Vec3d position = pointer.getPos().toCenterPos();
+                final Direction side = direction.getOpposite();
 
-                int charges = 0;
+                boolean sprayed = false;
 
-                final List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class,
-                    new Box(blockPos),
+                // Spray entities in front of the dispenser.
+                final List<Entity> entities = world.getEntitiesByClass(Entity.class,
+                    new Box(pos),
                     EntityPredicates.EXCEPT_SPECTATOR
                 );
 
-                for (final LivingEntity entity : entities) {
-                    charges = Math.max(charges, item.sprayEntity(stack, null, entity));
+                for (final Entity entity : entities) {
+                    sprayed |= item.spray(stack, null, position, entity, true);
 
-                    if (charges >= stack.getMaxDamage()) break;
+                    if (stack.isEmpty()) break;
                 }
 
-                if (charges > 0) {
-                    item.spray(stack, world, null, charges);
+                final BlockState oldState = world.getBlockState(pos);
 
-                    this.setSuccess(true);
+                sprayed |= item.spray(stack, null, position, world, pos, side, true);
 
-                    if (stack.getDamage() >= stack.getMaxDamage()) {
-                        return Items.GLASS_BOTTLE.getDefaultStack();
-                    } else {
-                        return stack;
-                    }
+                if (!sprayed) return stack;
+
+                final BlockState newState = world.getBlockState(pos);
+
+                if (!oldState.equals(newState)) {
+                    world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, Emitter.of(newState));
                 }
 
-                return stack;
+                SPRAY_SOUND.play(world, position);
+
+                this.setSuccess(true);
+
+                if (stack.getDamage() >= stack.getMaxDamage()) {
+                    return Items.GLASS_BOTTLE.getDefaultStack();
+                } else {
+                    return stack;
+                }
             }
 
         });
