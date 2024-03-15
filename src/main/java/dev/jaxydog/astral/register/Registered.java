@@ -114,7 +114,8 @@ public interface Registered {
     }
 
     /**
-     * Represents a type that should be registered on the server, but not the client environment.
+     * Represents a type that should be registered on the server, but not the client environment (unless playing in
+     * single-player).
      *
      * @author Jaxydog
      * @see Common
@@ -122,7 +123,6 @@ public interface Registered {
      * @see Generated
      * @since 1.0.0
      */
-    @Environment(EnvType.SERVER)
     interface Server extends Registered {
 
         /**

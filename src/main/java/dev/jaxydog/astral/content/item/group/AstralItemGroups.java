@@ -35,7 +35,7 @@ public final class AstralItemGroups extends ContentRegistrar {
      */
     public static final AstralItemGroup DEFAULT = AstralItemGroup.builder("default")
         .icon(Items.NETHER_STAR::getDefaultStack)
-        .build();
+        .buildGroup();
 
     /**
      * The item group used to list all dyeable amethyst blocks.
@@ -50,7 +50,7 @@ public final class AstralItemGroups extends ContentRegistrar {
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).orElseThrow().getDefaultStack())
         .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).orElseThrow().getDefaultStack())
         .cycleInterval(60)
-        .build();
+        .buildGroup();
 
     /**
      * The item group used to store all of Starmoney's lore items.
@@ -59,6 +59,6 @@ public final class AstralItemGroups extends ContentRegistrar {
      */
     public static final AstralItemGroup STARMONEY_PLAZA = AstralItemGroup.builder("starmoney_plaza")
         .icon(Items.DRAGON_HEAD::getDefaultStack)
-        .build();
+        .buildGroup();
 
 }

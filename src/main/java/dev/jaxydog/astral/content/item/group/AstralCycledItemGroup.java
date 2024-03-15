@@ -245,8 +245,17 @@ public class AstralCycledItemGroup extends AstralItemGroup {
             return (Builder) super.type(type);
         }
 
+        /**
+         * Builds the item group.
+         * <p>
+         * This should be used over {@link Builder#build}.
+         * <p>
+         * This is not an override because attempting to override build causes a recursion-induced stack overflow.
+         *
+         * @return The item group.
+         */
         @Override
-        public AstralCycledItemGroup build() {
+        public AstralCycledItemGroup buildGroup() {
             final ItemGroup group;
 
             // Only set a name if one has not yet been set.

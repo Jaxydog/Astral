@@ -216,8 +216,18 @@ public class AstralItemGroup extends ItemGroup implements Common {
             return (Builder) super.type(type);
         }
 
-        @Override
-        public AstralItemGroup build() {
+        /**
+         * Builds the item group.
+         * <p>
+         * This should be used over {@link Builder#build}.
+         * <p>
+         * This is not an override because attempting to override build causes a recursion-induced stack overflow.
+         *
+         * @return The item group.
+         *
+         * @since 2.0.0
+         */
+        public AstralItemGroup buildGroup() {
             final ItemGroup group;
 
             // Only set a name if one has not yet been set.
