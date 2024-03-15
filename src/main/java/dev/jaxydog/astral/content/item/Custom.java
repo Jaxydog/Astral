@@ -33,6 +33,7 @@ import java.util.Optional;
  * This type is automatically registered.
  *
  * @author Jaxydog
+ * @since 2.0.0
  */
 public interface Custom extends Common, ItemConvertible {
 
@@ -40,13 +41,15 @@ public interface Custom extends Common, ItemConvertible {
      * Returns this item's preferred item group.
      *
      * @return A reference to an item group.
+     *
+     * @since 2.0.0
      */
     default Optional<RegistryKey<ItemGroup>> getItemGroup() {
         return Optional.of(AstralItemGroups.DEFAULT.getRegistryKey());
     }
 
     @Override
-    default void register() {
+    default void registerCommon() {
         Registry.register(Registries.ITEM, this.getRegistryId(), this.asItem());
 
         // If the preferred group is non-empty, add this item.

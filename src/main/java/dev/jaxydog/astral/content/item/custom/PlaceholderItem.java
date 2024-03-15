@@ -33,11 +33,15 @@ import java.util.function.Supplier;
  * The expected model, texture(s), and name of this item are controlled via the item stack's custom model data.
  *
  * @author Jaxydog
+ * @since 1.4.0
  */
-@SuppressWarnings("unused")
 public class PlaceholderItem extends AstralItem implements Customized, Equipment {
 
-    /** The item's cached translation keys. */
+    /**
+     * The item's cached translation keys.
+     *
+     * @since 1.4.0
+     */
     private static final Map<Integer, String> TRANSLATION_KEYS = new Object2ObjectOpenHashMap<>();
 
     /**
@@ -48,6 +52,8 @@ public class PlaceholderItem extends AstralItem implements Customized, Equipment
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public PlaceholderItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
         super(path, settings, preferredGroup);
@@ -60,6 +66,8 @@ public class PlaceholderItem extends AstralItem implements Customized, Equipment
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 1.4.0
      */
     public PlaceholderItem(String path, Settings settings) {
         super(path, settings);

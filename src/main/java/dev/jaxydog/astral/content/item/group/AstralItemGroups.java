@@ -23,27 +23,40 @@ import net.minecraft.util.DyeColor;
  * A container class that registers all {@link net.minecraft.item.ItemGroup} instances.
  *
  * @author Jaxydog
+ * @since 2.0.0
  */
 @SuppressWarnings("unused")
 public final class AstralItemGroups extends ContentRegistrar {
 
-    /** The mod's default item group. */
+    /**
+     * The mod's default item group.
+     *
+     * @since 2.0.0
+     */
     public static final AstralItemGroup DEFAULT = AstralItemGroup.builder("default")
         .icon(Items.NETHER_STAR::getDefaultStack)
         .build();
 
-    /** The item group used to list all dyeable amethyst blocks. */
+    /**
+     * The item group used to list all dyeable amethyst blocks.
+     *
+     * @since 2.0.0
+     */
     public static final AstralCycledItemGroup DYEABLE_AMETHYST = AstralCycledItemGroup.builder("dyeable_amethyst")
-        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).getDefaultStack())
-        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).getDefaultStack())
-        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.YELLOW).getDefaultStack())
-        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIME).getDefaultStack())
-        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).getDefaultStack())
-        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.RED).orElseThrow().getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.ORANGE).orElseThrow().getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.YELLOW).orElseThrow().getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIME).orElseThrow().getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.LIGHT_BLUE).orElseThrow().getDefaultStack())
+        .icon(() -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(DyeColor.PURPLE).orElseThrow().getDefaultStack())
         .cycleInterval(60)
         .build();
 
-    /** The item group used to store all of Starmoney's lore items. */
+    /**
+     * The item group used to store all of Starmoney's lore items.
+     *
+     * @since 2.0.0
+     */
     public static final AstralItemGroup STARMONEY_PLAZA = AstralItemGroup.builder("starmoney_plaza")
         .icon(Items.DRAGON_HEAD::getDefaultStack)
         .build();

@@ -35,6 +35,7 @@ import java.util.function.Supplier;
  * This type is automatically registered.
  *
  * @author Jaxydog
+ * @since 1.4.0
  */
 public class CloudyArmorItem extends AstralArmorItem implements Cloudy, Colored {
 
@@ -48,6 +49,8 @@ public class CloudyArmorItem extends AstralArmorItem implements Cloudy, Colored 
      * @param type The armor's type.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public CloudyArmorItem(
         String path,
@@ -68,6 +71,8 @@ public class CloudyArmorItem extends AstralArmorItem implements Cloudy, Colored 
      * @param material The armor's material.
      * @param type The armor's type.
      * @param settings The item's settings.
+     *
+     * @since 1.4.0
      */
     public CloudyArmorItem(String path, ArmorMaterial material, Type type, Settings settings) {
         super(path, material, type, settings);

@@ -10,22 +10,22 @@ import net.minecraft.item.ItemStack;
 
 public class CustomTrinketPredicate implements Registered.Common {
 
-	private final String RAW_ID;
-	private final Function3<ItemStack, SlotReference, LivingEntity, TriState> SUPPLIER;
+    private final String RAW_ID;
+    private final Function3<ItemStack, SlotReference, LivingEntity, TriState> SUPPLIER;
 
-	public CustomTrinketPredicate(String rawId, Function3<ItemStack, SlotReference, LivingEntity, TriState> predicate) {
-		this.RAW_ID = rawId;
-		this.SUPPLIER = predicate;
-	}
+    public CustomTrinketPredicate(String rawId, Function3<ItemStack, SlotReference, LivingEntity, TriState> predicate) {
+        this.RAW_ID = rawId;
+        this.SUPPLIER = predicate;
+    }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryIdPath() {
+        return this.RAW_ID;
+    }
 
-	@Override
-	public void register() {
-		TrinketsApi.registerTrinketPredicate(this.getRegistryId(), this.SUPPLIER);
-	}
+    @Override
+    public void registerCommon() {
+        TrinketsApi.registerTrinketPredicate(this.getRegistryId(), this.SUPPLIER);
+    }
 
 }

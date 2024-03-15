@@ -33,6 +33,7 @@ import java.util.function.Supplier;
  * This type is automatically registered.
  *
  * @author Jaxydog
+ * @since 2.0.0
  */
 public class AstralItemGroup extends ItemGroup implements Common {
 
@@ -51,6 +52,8 @@ public class AstralItemGroup extends ItemGroup implements Common {
      * @param displayName The item group's display name.
      * @param iconSupplier The item group's preferred icon.
      * @param entryCollector The item group's entry collector.
+     *
+     * @since 2.0.0
      */
     public AstralItemGroup(
         String path,
@@ -74,6 +77,8 @@ public class AstralItemGroup extends ItemGroup implements Common {
      * @param path The item group's identifier path.
      * @param group The source item group.
      * @param entryCollector The item group's entry collector.
+     *
+     * @since 2.0.0
      */
     protected AstralItemGroup(String path, ItemGroup group, EntryCollector entryCollector) {
         this(
@@ -93,6 +98,8 @@ public class AstralItemGroup extends ItemGroup implements Common {
      * @param path The identifier path.
      *
      * @return A new builder.
+     *
+     * @since 2.0.0
      */
     @Contract("_ -> new")
     public static @NotNull Builder builder(String path) {
@@ -105,6 +112,8 @@ public class AstralItemGroup extends ItemGroup implements Common {
      * If the item group has not been registered, this method will throw a run-time exception.
      *
      * @return The associated registry key.
+     *
+     * @since 2.0.0
      */
     public RegistryKey<ItemGroup> getRegistryKey() {
         return Registries.ITEM_GROUP.getKey(this).orElseThrow();
@@ -116,7 +125,7 @@ public class AstralItemGroup extends ItemGroup implements Common {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         Registry.register(Registries.ITEM_GROUP, this.getRegistryId(), this);
     }
 
@@ -124,14 +133,27 @@ public class AstralItemGroup extends ItemGroup implements Common {
      * Builds and constructs an instance of a new {@link AstralItemGroup}.
      *
      * @author Jaxydog
+     * @since 2.0.0
      */
     public static class Builder extends ItemGroup.Builder {
 
-        /** The item group's identifier path used within the registration system. */
+        /**
+         * The item group's identifier path used within the registration system.
+         *
+         * @since 2.0.0
+         */
         protected final String path;
-        /** The item group's inner entry collector. */
+        /**
+         * The item group's inner entry collector.
+         *
+         * @since 2.0.0
+         */
         protected EntryCollector entryCollector = (context, entries) -> {};
-        /** Whether this item group builder has set a display name. */
+        /**
+         * Whether this item group builder has set a display name.
+         *
+         * @since 2.0.0
+         */
         protected boolean hasDisplayName = false;
 
         /**
@@ -140,6 +162,8 @@ public class AstralItemGroup extends ItemGroup implements Common {
          * This is only accessible through {@link #builder(String)} or subclasses.
          *
          * @param path The identifier path.
+         *
+         * @since 2.0.0
          */
         protected Builder(String path) {
             // Mimic's the default Fabric builder's constructor.

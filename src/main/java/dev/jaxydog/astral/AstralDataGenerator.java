@@ -35,6 +35,7 @@ import java.nio.file.Path;
  * @see Astral
  * @see AstralClient
  * @see AstralServer
+ * @since 1.0.0
  */
 public final class AstralDataGenerator implements DataGeneratorEntrypoint {
 

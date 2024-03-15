@@ -34,8 +34,8 @@ import java.util.function.Supplier;
  * This type is automatically registered.
  *
  * @author Jaxydog
+ * @since 1.4.0
  */
-@SuppressWarnings("unused")
 public class CloudyItem extends AstralItem implements Cloudy, Colored {
 
     /**
@@ -46,6 +46,8 @@ public class CloudyItem extends AstralItem implements Cloudy, Colored {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public CloudyItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
         super(path, settings, preferredGroup);
@@ -58,6 +60,8 @@ public class CloudyItem extends AstralItem implements Cloudy, Colored {
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 1.4.0
      */
     public CloudyItem(String path, Settings settings) {
         super(path, settings);

@@ -27,6 +27,7 @@ import java.util.function.BiFunction;
  * @param <V> The type of the value stored within this map.
  *
  * @author Jaxydog
+ * @since 2.0.0
  */
 public class DyeMap<V extends Registered> extends RegisteredMap<DyeColor, V> {
 
@@ -34,6 +35,8 @@ public class DyeMap<V extends Registered> extends RegisteredMap<DyeColor, V> {
      * A list containing all dye colors in the standard Minecraft ordering.
      * <p>
      * This is used to control the registration order of values stored within this map.
+     *
+     * @since 2.0.0
      */
     private static final List<DyeColor> ORDERING = List.of(
         DyeColor.WHITE,
@@ -59,6 +62,8 @@ public class DyeMap<V extends Registered> extends RegisteredMap<DyeColor, V> {
      *
      * @param basePath The base identifier path.
      * @param computeCallback The value computation callback.
+     *
+     * @since 2.0.0
      */
     public DyeMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull DyeColor, V> computeCallback) {
         super(basePath, computeCallback);

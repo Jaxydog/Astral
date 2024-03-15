@@ -37,8 +37,8 @@ import java.util.function.Supplier;
  * This type is automatically registered.
  *
  * @author Jaxydog
+ * @since 1.4.0
  */
-@SuppressWarnings("unused")
 public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableItem {
 
     /**
@@ -51,6 +51,8 @@ public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableIt
      * @param type The armor's type.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public DyeableCloudyArmorItem(
         String path,
@@ -71,6 +73,8 @@ public class DyeableCloudyArmorItem extends CloudyArmorItem implements DyeableIt
      * @param material The armor's material.
      * @param type The armor's type.
      * @param settings The item's settings.
+     *
+     * @since 1.4.0
      */
     public DyeableCloudyArmorItem(String path, ArmorMaterial material, Type type, Settings settings) {
         super(path, material, type, settings);

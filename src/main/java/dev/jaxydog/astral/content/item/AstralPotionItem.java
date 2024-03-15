@@ -39,12 +39,21 @@ import java.util.function.Supplier;
  *
  * @author Jaxydog
  * @see Custom
+ * @since 2.0.0
  */
 public class AstralPotionItem extends PotionItem implements Custom, LoreHolder {
 
-    /** The item's identifier path used within the registration system. */
+    /**
+     * The item's identifier path used within the registration system.
+     *
+     * @since 2.0.0
+     */
     private final String path;
-    /** The item's preferred item group, or {@code null} if it should not be added to any group. */
+    /**
+     * The item's preferred item group, or {@code null} if it should not be added to any group.
+     *
+     * @since 2.0.0
+     */
     private final @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup;
 
     /**
@@ -55,6 +64,8 @@ public class AstralPotionItem extends PotionItem implements Custom, LoreHolder {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public AstralPotionItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
         super(settings);
@@ -70,6 +81,8 @@ public class AstralPotionItem extends PotionItem implements Custom, LoreHolder {
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 2.0.0
      */
     public AstralPotionItem(String path, Settings settings) {
         this(path, settings, AstralItemGroups.DEFAULT::getRegistryKey);

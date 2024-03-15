@@ -23,6 +23,7 @@ import java.util.Optional;
  * Provides common functionality for items that are expected to contain the {@value #CUSTOM_MODEL_DATA_KEY} NBT key.
  *
  * @author Jaxydog
+ * @since 1.0.0
  */
 public interface Customized {
 
@@ -32,6 +33,8 @@ public interface Customized {
      * This is directly taken from
      * {@link net.minecraft.client.item.ModelPredicateProviderRegistry#CUSTOM_MODEL_DATA_KEY}, where it is defined as a
      * private static constant.
+     *
+     * @since 1.4.0
      */
     @SuppressWarnings("JavadocReference")
     String CUSTOM_MODEL_DATA_KEY = "CustomModelData";
@@ -44,6 +47,8 @@ public interface Customized {
      * @param stack The item stack.
      *
      * @return The custom model data.
+     *
+     * @since 1.0.0
      */
     default Optional<Integer> getCustomModelData(ItemStack stack) {
         final NbtCompound compound = stack.getNbt();
@@ -60,6 +65,8 @@ public interface Customized {
      *
      * @param stack The item stack.
      * @param data The custom model data.
+     *
+     * @since 1.0.0
      */
     default void setCustomModelData(ItemStack stack, int data) {
         stack.getOrCreateNbt().putInt(CUSTOM_MODEL_DATA_KEY, data);

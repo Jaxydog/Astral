@@ -119,7 +119,7 @@ public class SprayBottleItem extends AstralItem implements Sprayed {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      *
-     * @since 2.0.0
+     * @since 1.6.0
      */
     public SprayBottleItem(String path, Settings settings) {
         super(path, settings);
@@ -235,7 +235,7 @@ public class SprayBottleItem extends AstralItem implements Sprayed {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         // Entity extinguishing.
         this.addBehavior(EntityTarget.class, new Behavior<>((source, target) -> target.target().isOnFire(),
             (source, target) -> target.target().extinguishWithSound(),
@@ -311,7 +311,7 @@ public class SprayBottleItem extends AstralItem implements Sprayed {
             SPONGE_SQUISH_SOUND.play(target.world(), target.pos(), false);
         }, 4));
 
-        super.register();
+        super.registerCommon();
 
         // Allow refilling using cauldrons.
         CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(this, (blockState, world, pos, player, hand, stack) -> {

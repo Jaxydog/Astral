@@ -31,7 +31,7 @@ public class CustomSoundEvent extends SoundEvent implements Registered.Common {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         Registry.register(Registries.SOUND_EVENT, this.getId(), this);
     }
 

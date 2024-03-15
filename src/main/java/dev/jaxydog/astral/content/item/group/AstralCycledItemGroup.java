@@ -31,17 +31,34 @@ import java.util.function.Supplier;
  * If you do not need more than one icon, it's recommended to use {@link AstralItemGroup} instead.
  *
  * @author Jaxydog
+ * @since 2.0.0
  */
 public class AstralCycledItemGroup extends AstralItemGroup {
 
-    /** A list containing all valid icons for this item group. */
+    /**
+     * A list containing all valid icons for this item group.
+     *
+     * @since 2.0.0
+     */
     protected final List<Supplier<ItemStack>> iconSuppliers = new ObjectArrayList<>();
-    /** A duration in ticks that determines the cycle speed of the icons. */
+    /**
+     * A duration in ticks that determines the cycle speed of the icons.
+     *
+     * @since 2.0.0
+     */
     protected final int cycleInterval;
 
-    /** An index into the supplier list that determines the active icon. */
+    /**
+     * An index into the supplier list that determines the active icon.
+     *
+     * @since 2.0.0
+     */
     private int iconIndex = 0;
-    /** A counter that controls when to increment and cycle the active icon. */
+    /**
+     * A counter that controls when to increment and cycle the active icon.
+     *
+     * @since 2.0.0
+     */
     private float cycleProgress = 0F;
 
     /**
@@ -57,6 +74,8 @@ public class AstralCycledItemGroup extends AstralItemGroup {
      * @param entryCollector The item group's entry collector.
      * @param icons The item group's preferred icons.
      * @param cycleInterval The duration in ticks that determines the length of stay for one icon.
+     *
+     * @since 2.0.0
      */
     @SuppressWarnings("unused")
     public AstralCycledItemGroup(
@@ -85,6 +104,8 @@ public class AstralCycledItemGroup extends AstralItemGroup {
      * @param entryCollector The item group's entry collector.
      * @param icons The item group's preferred icons.
      * @param cycleInterval The duration in ticks that determines the length of stay for one icon.
+     *
+     * @since 2.0.0
      */
     protected AstralCycledItemGroup(
         String path, ItemGroup group, EntryCollector entryCollector, List<Supplier<ItemStack>> icons, int cycleInterval
@@ -101,6 +122,8 @@ public class AstralCycledItemGroup extends AstralItemGroup {
      * @param path The identifier path.
      *
      * @return A new builder.
+     *
+     * @since 2.0.0
      */
     @Contract("_ -> new")
     public static @NotNull Builder builder(String path) {
@@ -134,13 +157,22 @@ public class AstralCycledItemGroup extends AstralItemGroup {
      * Builds and constructs an instance of a new {@link AstralItemGroup}.
      *
      * @author Jaxydog
+     * @since 2.0.0
      */
     public static class Builder extends AstralItemGroup.Builder {
 
-        /** A list of the currently added icon suppliers. */
+        /**
+         * A list of the currently added icon suppliers.
+         *
+         * @since 2.0.0
+         */
         // It's safe to assume that at least two icons will be added.
         protected final List<Supplier<ItemStack>> iconSuppliers = new ObjectArrayList<>(2);
-        /** A duration in ticks that determines the cycle speed of the icons. */
+        /**
+         * A duration in ticks that determines the cycle speed of the icons.
+         *
+         * @since 2.0.0
+         */
         protected int cycleInterval = 40;
 
         /**
@@ -149,6 +181,8 @@ public class AstralCycledItemGroup extends AstralItemGroup {
          * This is only accessible through {@link #builder(String)} or subclasses.
          *
          * @param path The identifier path.
+         *
+         * @since 2.0.0
          */
         protected Builder(String path) {
             super(path);
@@ -160,6 +194,8 @@ public class AstralCycledItemGroup extends AstralItemGroup {
          * @param ticks The duration in ticks.
          *
          * @return The builder instance.
+         *
+         * @since 2.0.0
          */
         public Builder cycleInterval(int ticks) {
             this.cycleInterval = ticks;

@@ -33,6 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @see Astral
  * @see AstralClient
  * @see AstralDataGenerator
+ * @since 1.0.0
  */
 public final class AstralServer implements DedicatedServerModInitializer {
 
@@ -40,6 +41,8 @@ public final class AstralServer implements DedicatedServerModInitializer {
      * Tracks whether the mod has been initialized.
      * <p>
      * This will be true only if an instance of the common initializer has fully loaded.
+     *
+     * @since 2.0.0
      */
     private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
 
@@ -51,6 +54,8 @@ public final class AstralServer implements DedicatedServerModInitializer {
      * If an instance of {@link AstralServer} has been initialized, this will return {@code true}.
      *
      * @return If the mod is initialized.
+     *
+     * @since 2.0.0
      */
     public static boolean hasInitialized() {
         return INITIALIZED.get();

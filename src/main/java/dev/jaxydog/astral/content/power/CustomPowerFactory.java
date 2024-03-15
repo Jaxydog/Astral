@@ -17,37 +17,37 @@ import java.util.function.Function;
 /** An extension of a regular power factory that provides additional functionality */
 public class CustomPowerFactory<P extends Power> extends PowerFactory<P> implements Registered.Common {
 
-	/** The custom power factory's inner raw identifier */
-	private final String RAW_ID;
+    /** The custom power factory's inner raw identifier */
+    private final String RAW_ID;
 
-	public CustomPowerFactory(
-		String rawId,
-		SerializableData data,
-		Function<SerializableData.Instance, BiFunction<PowerType<P>, LivingEntity, P>> factoryConstructor
-	) {
-		super(Astral.getId(rawId), data, factoryConstructor);
+    public CustomPowerFactory(
+        String rawId,
+        SerializableData data,
+        Function<SerializableData.Instance, BiFunction<PowerType<P>, LivingEntity, P>> factoryConstructor
+    ) {
+        super(Astral.getId(rawId), data, factoryConstructor);
 
-		this.RAW_ID = rawId;
-	}
+        this.RAW_ID = rawId;
+    }
 
-	@Override
-	public void register() {
-		Registry.register(ApoliRegistries.POWER_FACTORY, this.getRegistryId(), this);
-	}
+    @Override
+    public void registerCommon() {
+        Registry.register(ApoliRegistries.POWER_FACTORY, this.getRegistryId(), this);
+    }
 
-	@Override
-	public Identifier getRegistryId() {
-		return this.getSerializerId();
-	}
+    @Override
+    public Identifier getRegistryId() {
+        return this.getSerializerId();
+    }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryIdPath() {
+        return this.RAW_ID;
+    }
 
-	@Override
-	public CustomPowerFactory<P> allowCondition() {
-		return (CustomPowerFactory<P>) super.allowCondition();
-	}
+    @Override
+    public CustomPowerFactory<P> allowCondition() {
+        return (CustomPowerFactory<P>) super.allowCondition();
+    }
 
 }

@@ -31,22 +31,36 @@ import net.minecraft.util.math.MathHelper;
  * new implementations for the update delta provider methods.
  *
  * @author Jaxydog
+ * @since 1.4.0
  */
-@SuppressWarnings("unused")
 public interface Cloudy {
 
-    /** The NBT key used to determine and store an item stack's storminess value. */
+    /**
+     * The NBT key used to determine and store an item stack's storminess value.
+     *
+     * @since 1.4.0
+     */
     String STORMINESS_KEY = "Storminess";
     /**
      * The translation key assigned to the item's storminess tooltip label.
      * <p>
      * This will be the equivalent of {@code "text.astral.storminess"}
+     *
+     * @since 1.4.0
      */
     String STORMINESS_LABEL_KEY = Astral.getId(STORMINESS_KEY.toLowerCase()).toTranslationKey("text");
 
-    /** The minimum possible item color value. */
+    /**
+     * The minimum possible item color value.
+     *
+     * @since 1.4.0
+     */
     Rgb COLOR_MIN = new Rgb(0x66_66_66);
-    /** The maximum possible item color value. */
+    /**
+     * The maximum possible item color value.
+     *
+     * @since 1.4.0
+     */
     Rgb COLOR_MAX = new Rgb(0xEE_EE_EE);
 
     /**
@@ -54,6 +68,8 @@ public interface Cloudy {
      *
      * @param stack The item stack.
      * @param storminess The storminess level.
+     *
+     * @since 1.4.0
      */
     default void setStorminess(ItemStack stack, double storminess) {
         // Ensure the supplied value fits within the expected bounds.
@@ -75,6 +91,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The sRGB color as an integer.
+     *
+     * @since 1.4.0
      */
     default int getStorminessColor(ItemStack stack) {
         final double min = this.getMinStorminess(stack);
@@ -99,6 +117,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The storminess value.
+     *
+     * @since 1.4.0
      */
     default double getStorminess(ItemStack stack) {
         final NbtCompound nbt = stack.getNbt();
@@ -121,6 +141,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The lowest possible value.
+     *
+     * @since 1.4.0
      */
     default double getMinStorminess(ItemStack stack) {
         return 0D;
@@ -132,6 +154,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The highest possible value.
+     *
+     * @since 1.4.0
      */
     default double getMaxStorminess(ItemStack stack) {
         return 1D;
@@ -144,6 +168,8 @@ public interface Cloudy {
      * @param storminess The storminess value.
      *
      * @return The clamped storminess value.
+     *
+     * @since 1.4.0
      */
     default double clampStorminess(ItemStack stack, double storminess) {
         final double min = this.getMinStorminess(stack);
@@ -166,6 +192,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The tooltip text.
+     *
+     * @since 1.4.0
      */
     default Text getStorminessText(ItemStack stack) {
         final double min = this.getMinStorminess(stack);
@@ -191,6 +219,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The increase delta.
+     *
+     * @since 2.0.0
      */
     double getIncreaseDelta(ItemStack stack);
 
@@ -202,6 +232,8 @@ public interface Cloudy {
      * @param stack The item stack.
      *
      * @return The decrease delta.
+     *
+     * @since 2.0.0
      */
     double getDecreaseDelta(ItemStack stack);
 
@@ -210,6 +242,8 @@ public interface Cloudy {
      *
      * @param stack The item stack.
      * @param delta The amount of change.
+     *
+     * @since 1.4.0
      */
     default void increaseStorminess(ItemStack stack, double delta) {
         final double storminess = this.getStorminess(stack);
@@ -225,6 +259,8 @@ public interface Cloudy {
      *
      * @param stack The item stack.
      * @param delta The amount of change.
+     *
+     * @since 1.4.0
      */
     default void decreaseStorminess(ItemStack stack, double delta) {
         final double storminess = this.getStorminess(stack);
@@ -242,6 +278,8 @@ public interface Cloudy {
      * @param entity The entity holding the stack.
      * @param increaseDelta The delta used in {@link #increaseStorminess(ItemStack, double)}.
      * @param decreaseDelta The delta used in {@link #decreaseStorminess(ItemStack, double)}.
+     *
+     * @since 1.4.0
      */
     default void updateStorminess(ItemStack stack, Entity entity, double increaseDelta, double decreaseDelta) {
         // Increase normally if submerged in water.
@@ -271,6 +309,8 @@ public interface Cloudy {
      *
      * @param stack The item stack.
      * @param entity The entity holding the stack.
+     *
+     * @since 2.0.0
      */
     default void updateStorminess(ItemStack stack, Entity entity) {
         final double increase = this.getIncreaseDelta(stack);

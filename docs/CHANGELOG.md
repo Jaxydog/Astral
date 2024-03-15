@@ -11,6 +11,7 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
     - Move `Generated` into `Registered`.
     - Rename multiple usages of `dataGen` into variants of `generator`.
     - Rename `getRegistryIdPath` to `getRegistryPath`.
+    - Rename `register` to `registerCommon`.
     - Moved all registered maps into `dev.jaxydog.register`
     - Streamlined `RegisteredMap` implementation.
 - Updated item content structure.
@@ -22,7 +23,7 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
     - Item groups have been moved to `dev.jaxydog.astral.content.item.group`.
     - Item groups have been renamed from `Custom*ItemGroup` to `Astral*ItemGroup`.
     - All item classes have been slightly refactored.
-    - Rewrote the entire `Sprayable` interface.
+    - Rewrote the entire `Sprayable` interface into the new `Sprayed` interface.
     - Instances of `Sprayable` have undergone major refactors.
 - Updated sound content structure.
     - Added `SoundContext` record class.

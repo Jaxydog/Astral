@@ -31,6 +31,7 @@ import java.util.function.Consumer;
  *
  * @author Jaxydog
  * @see Registered
+ * @since 2.0.0
  */
 @Internal
 public enum Environment {
@@ -41,24 +42,32 @@ public enum Environment {
      * Note that this is distinctly different from {@link #CLIENT} and {@link #SERVER}.
      * <p>
      * The associated interface of this environment is {@link Common}.
+     *
+     * @since 2.0.0
      */
-    COMMON(Common.class, registered -> ((Common) registered).register()),
+    COMMON(Common.class, registered -> ((Common) registered).registerCommon()),
     /**
      * Represents the game client environment.
      * <p>
      * The associated interface of this environment is {@link Client}.
+     *
+     * @since 2.0.0
      */
     CLIENT(Client.class, registered -> ((Client) registered).registerClient()),
     /**
      * Represents the game server environment.
      * <p>
      * The associated interface of this environment is {@link Server}.
+     *
+     * @since 2.0.0
      */
     SERVER(Server.class, registered -> ((Server) registered).registerServer()),
     /**
      * Represents the data generation environment.
      * <p>
      * The associated interface of this environment is {@link Generated}.
+     *
+     * @since 2.0.0
      */
     GENERATOR(Generated.class, registered -> ((Generated) registered).generate());
 
@@ -66,6 +75,8 @@ public enum Environment {
      * This environment's associated {@link Registered} interface.
      * <p>
      * This is used for runtime type checking and coercion.
+     *
+     * @since 2.0.0
      */
     private final Class<? extends Registered> registeredInterface;
     /**
@@ -73,6 +84,8 @@ public enum Environment {
      * <p>
      * It's assumed that the value provided will always match the expected type, and as such this will preform an
      * unchecked cast into the associated interface.
+     *
+     * @since 2.0.0
      */
     private final Consumer<? super Registered> consumeAndRegister;
 
@@ -81,6 +94,8 @@ public enum Environment {
      *
      * @param registeredInterface The interface associated with this environment.
      * @param consumeAndRegister A callback that takes a value and registers it.
+     *
+     * @since 2.0.0
      */
     Environment(
         Class<? extends Registered> registeredInterface, Consumer<? super Registered> consumeAndRegister
@@ -93,6 +108,8 @@ public enum Environment {
      * Returns this environment's associated {@link Registered} interface.
      *
      * @return An extension of {@link Registered}.
+     *
+     * @since 2.0.0
      */
     public final Class<? extends Registered> getInterface() {
         return this.registeredInterface;
@@ -107,6 +124,7 @@ public enum Environment {
      * @param value The value to be registered.
      *
      * @throws IllegalArgumentException If the provided value is not a valid instance of the associated interface.
+     * @since 2.0.0
      */
     public final void registerValue(Registered value) throws IllegalArgumentException {
         if (!this.getInterface().isInstance(value)) {
@@ -122,6 +140,8 @@ public enum Environment {
      * @param annotation The provided filter annotation.
      *
      * @return Whether this environment should be ignored.
+     *
+     * @since 2.0.0
      */
     public final boolean isIgnored(IgnoreRegistration annotation) {
         return switch (this) {

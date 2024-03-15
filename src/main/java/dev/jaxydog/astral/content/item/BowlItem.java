@@ -45,11 +45,15 @@ import java.util.function.Supplier;
  *
  * @author Jaxydog
  * @see Custom
+ * @since 2.0.0
  */
-@SuppressWarnings("unused")
 public class BowlItem extends AstralItem {
 
-    /** Whether this item prefers drinking sounds over eating sounds. */
+    /**
+     * Whether this item prefers drinking sounds over eating sounds.
+     *
+     * @since 2.0.0
+     */
     protected final boolean usesDrinkSounds;
 
     /**
@@ -60,6 +64,8 @@ public class BowlItem extends AstralItem {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public BowlItem(
         String path,
@@ -79,6 +85,8 @@ public class BowlItem extends AstralItem {
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 2.0.0
      */
     public BowlItem(String path, Settings settings, boolean usesDrinkSounds) {
         super(path, settings);

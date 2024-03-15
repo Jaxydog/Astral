@@ -25,7 +25,7 @@ public abstract class CustomAction<T> implements Registered.Common {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         this.factory().register(this.registry());
     }
 

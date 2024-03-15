@@ -26,6 +26,7 @@ import java.util.function.BiFunction;
  * @param <V> The type of the value stored within this map.
  *
  * @author Jaxydog
+ * @since 1.3.0
  */
 public class ArmorMap<V extends Registered> extends RegisteredMap<Type, V> {
 
@@ -34,6 +35,8 @@ public class ArmorMap<V extends Registered> extends RegisteredMap<Type, V> {
      *
      * @param basePath The base identifier path.
      * @param computeCallback The value computation callback.
+     *
+     * @since 1.3.0
      */
     public ArmorMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull Type, V> computeCallback) {
         super(basePath, computeCallback);

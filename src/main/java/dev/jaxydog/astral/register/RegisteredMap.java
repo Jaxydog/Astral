@@ -36,14 +36,27 @@ import java.util.function.BiFunction;
  *
  * @author Jaxydog
  * @see Registered
+ * @since 1.5.0
  */
 public abstract class RegisteredMap<K, V extends Registered> implements All, Generated {
 
-    /** The inner hash map that contains all generated keys and values. */
+    /**
+     * The inner hash map that contains all generated keys and values.
+     *
+     * @since 2.0.0
+     */
     protected final Map<K, V> innerMap = new Object2ObjectOpenHashMap<>();
-    /** The base identifier path used to determine the identifier of each contained item. */
+    /**
+     * The base identifier path used to determine the identifier of each contained item.
+     *
+     * @since 2.0.0
+     */
     private final String basePath;
-    /** A callback function used to compute the value stored at an associated key. */
+    /**
+     * A callback function used to compute the value stored at an associated key.
+     *
+     * @since 2.0.0
+     */
     private final BiFunction<@NotNull String, @NotNull K, V> computeCallback;
 
     /**
@@ -51,6 +64,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      *
      * @param basePath The base identifier path.
      * @param computeCallback The value computation callback.
+     *
+     * @since 2.0.0
      */
     protected RegisteredMap(@NotNull String basePath, BiFunction<@NotNull String, @NotNull K, V> computeCallback) {
         this.basePath = basePath;
@@ -63,6 +78,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * The values within this set are fed into the computation callback to generate the values stored within this map.
      *
      * @return A set containing all expected keys.
+     *
+     * @since 2.0.0
      */
     public abstract Set<@NotNull K> keys();
 
@@ -80,6 +97,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * @param right The right key.
      *
      * @return The result as defined in the method documentation.
+     *
+     * @since 2.0.0
      */
     protected abstract int compareKeys(@NotNull K left, @NotNull K right);
 
@@ -89,6 +108,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * @param key The value's key.
      *
      * @return A valid identifier path.
+     *
+     * @since 2.0.0
      */
     protected abstract String getPath(@NotNull K key);
 
@@ -101,6 +122,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * @param key The value's expected key.
      *
      * @return A possible value.
+     *
+     * @since 2.0.0
      */
     public Optional<V> get(@NotNull K key) {
         if (!this.innerMap.containsKey(key)) {
@@ -116,6 +139,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * @param key The value's expected key.
      *
      * @return A value, or {@code null} if the value is not present.
+     *
+     * @since 2.0.0
      */
     public @Nullable V getNullable(@NotNull K key) {
         return this.innerMap.get(key);
@@ -125,6 +150,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * Returns a set of all entries stored within this map.
      *
      * @return A set of all stored entries.
+     *
+     * @since 2.0.0
      */
     public Set<Entry<K, V>> entries() {
         return this.innerMap.entrySet();
@@ -134,6 +161,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * Returns a collection of the values stored within this map.
      *
      * @return A collection of stored values.
+     *
+     * @since 2.0.0
      */
     public Collection<V> values() {
         return this.innerMap.values();
@@ -143,6 +172,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * Computes all values stored within the map if they have not yet been created.
      * <p>
      * If the {@link #keys()} method returns an empty set, this method does nothing.
+     *
+     * @since 2.0.0
      */
     public void computeValuesIfEmpty() {
         if (this.innerMap.isEmpty()) this.computeValues();
@@ -154,6 +185,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * If any keys are stored within the map that are included within the set returned by {}, they will be overwritten.
      * <p>
      * If the {@link #keys()} method returns an empty set, this method does nothing.
+     *
+     * @since 2.0.0
      */
     protected void computeValues() {
         for (final K key : this.keys()) {
@@ -170,6 +203,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      * @param type The expected type.
      *
      * @return A list of sorted values.
+     *
+     * @since 2.0.0
      */
     protected List<V> sortedValuesOfType(Class<? extends Registered> type) {
         return this.entries()
@@ -186,9 +221,9 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         this.computeValuesIfEmpty();
-        this.sortedValuesOfType(Common.class).forEach(v -> ((Common) v).register());
+        this.sortedValuesOfType(Common.class).forEach(v -> ((Common) v).registerCommon());
     }
 
     @Override

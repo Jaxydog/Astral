@@ -30,6 +30,7 @@ import java.util.List;
  * interface, which handles common registration as well.
  *
  * @author Jaxydog
+ * @since 2.0.0
  */
 public interface LoreHolder {
 
@@ -41,6 +42,8 @@ public interface LoreHolder {
      * @param lore The mutable text.
      *
      * @return A reference to the formatted text.
+     *
+     * @since 2.0.0
      */
     default Text formatLoreText(MutableText lore) {
         return lore.formatted(Formatting.GRAY);
@@ -58,6 +61,8 @@ public interface LoreHolder {
      * @param stack The target item stack.
      *
      * @return A list of assigned tooltips.
+     *
+     * @since 2.0.0
      */
     default List<Text> getLoreTooltips(ItemStack stack) {
         final String key = stack.getTranslationKey() + ".lore_";

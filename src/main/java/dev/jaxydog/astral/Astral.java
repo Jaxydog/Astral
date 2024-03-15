@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @see AstralClient
  * @see AstralServer
  * @see AstralDataGenerator
+ * @since 1.0.0
  */
 public final class Astral implements ModInitializer {
 
@@ -46,12 +47,16 @@ public final class Astral implements ModInitializer {
      * The mod's identifier.
      * <p>
      * This is most commonly used for generating {@link Identifier}s.
+     *
+     * @since 1.0.0
      */
     public static final String MOD_ID = "astral";
     /**
      * The mod's logger instance.
      * <p>
      * This is used extensively throughout the codebase to interface with Minecraft's console.
+     *
+     * @since 1.0.0
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -59,6 +64,8 @@ public final class Astral implements ModInitializer {
      * Tracks whether the mod has been initialized.
      * <p>
      * This will be true only if an instance of the common initializer has fully loaded.
+     *
+     * @since 2.0.0
      */
     private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
 
@@ -68,6 +75,8 @@ public final class Astral implements ModInitializer {
      * @param path The identifier's path.
      *
      * @return A new identifier.
+     *
+     * @since 1.0.0
      */
     public static Identifier getId(String path) {
         return Identifier.of(MOD_ID, path);
@@ -81,6 +90,8 @@ public final class Astral implements ModInitializer {
      * If an instance of {@link Astral} has been initialized, this will return {@code true}.
      *
      * @return If the mod is initialized.
+     *
+     * @since 2.0.0
      */
     public static boolean hasInitialized() {
         return INITIALIZED.get();
@@ -93,6 +104,8 @@ public final class Astral implements ModInitializer {
      * conditions this is impossible.
      *
      * @return The mod's metadata.
+     *
+     * @since 1.7.0
      */
     public static Optional<ModMetadata> getMetadata() {
         return FabricLoader.getInstance().getModContainer(MOD_ID).map(ModContainer::getMetadata);
@@ -102,7 +115,7 @@ public final class Astral implements ModInitializer {
     public void onInitialize() {
         if (hasInitialized()) throw new IllegalStateException("The mod may not be initialized more than once");
 
-        CustomContent.INSTANCE.register();
+        CustomContent.INSTANCE.registerCommon();
 
         getMetadata().ifPresent(metadata -> {
             final String name = metadata.getName();

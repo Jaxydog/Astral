@@ -53,11 +53,15 @@ import java.util.function.Supplier;
  * Implements a placeholder item, or an item that exists to mimic pre-existing items.
  *
  * @author Jaxydog
+ * @since 1.4.0
  */
-@SuppressWarnings("unused")
 public class PlaceholderMimicItem extends PlaceholderItem {
 
-    /** Returns the item to be mimicked. */
+    /**
+     * Returns the item to be mimicked.
+     *
+     * @since 1.4.0
+     */
     private final Supplier<Item> item;
 
     /**
@@ -68,6 +72,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public PlaceholderMimicItem(
         String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup, Supplier<Item> item
@@ -84,6 +90,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 1.4.0
      */
     public PlaceholderMimicItem(String path, Settings settings, Supplier<Item> item) {
         super(path, settings);
@@ -95,6 +103,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
      * Returns the mimicked item.
      *
      * @return The item.
+     *
+     * @since 1.4.0
      */
     public Item getItem() {
         return this.item.get();
@@ -108,6 +118,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
      * @param stack The item stack.
      *
      * @return The item.
+     *
+     * @since 1.4.0
      */
     public Item getItem(ItemStack stack) {
         return this.getItem();
@@ -432,10 +444,15 @@ public class PlaceholderMimicItem extends PlaceholderItem {
      * This is most useful for bulk declaration, for example when defining armor items or dye items.
      *
      * @author Jaxydog
+     * @since 1.4.0
      */
     public static class Group extends RegisteredMap<Item, PlaceholderMimicItem> {
 
-        /** The mimicked items. */
+        /**
+         * The mimicked items.
+         *
+         * @since 2.0.0
+         */
         private final Set<Item> items;
 
         /**
@@ -447,6 +464,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
          * @param settings The item's settings.
          * @param preferredGroup The item's preferred item group.
          * @param items The items to be mimicked.
+         *
+         * @since 2.0.0
          */
         public Group(
             String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup, Item... items
@@ -464,6 +483,8 @@ public class PlaceholderMimicItem extends PlaceholderItem {
          * @param path The item's base identifier path.
          * @param settings The item's settings.
          * @param items The items to be mimicked.
+         *
+         * @since 1.4.0
          */
         public Group(String path, Settings settings, Item... items) {
             super(path, (id, item) -> new PlaceholderMimicItem(id, settings, () -> item));

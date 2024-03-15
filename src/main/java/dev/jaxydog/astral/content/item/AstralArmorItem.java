@@ -46,12 +46,21 @@ import java.util.function.Supplier;
  *
  * @author Jaxydog
  * @see Custom
+ * @since 2.0.0
  */
 public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
 
-    /** The item's identifier path used within the registration system. */
+    /**
+     * The item's identifier path used within the registration system.
+     *
+     * @since 2.0.0
+     */
     private final String path;
-    /** The item's preferred item group, or {@code null} if it should not be added to any group. */
+    /**
+     * The item's preferred item group, or {@code null} if it should not be added to any group.
+     *
+     * @since 2.0.0
+     */
     private final @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup;
 
     /**
@@ -64,6 +73,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
      * @param type The armor's type.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public AstralArmorItem(
         String path,
@@ -87,6 +98,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
      * @param material The armor's material.
      * @param type The armor's type.
      * @param settings The item's settings.
+     *
+     * @since 2.0.0
      */
     public AstralArmorItem(String path, ArmorMaterial material, Type type, Settings settings) {
         this(path, material, type, settings, null);
@@ -100,8 +113,9 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
      * @param stack The item stack.
      *
      * @return The number of texture layers.
+     *
+     * @since 2.0.0
      */
-    @SuppressWarnings("unused")
     public int getArmorTextureLayers(ItemStack stack) {
         return 1;
     }
@@ -127,24 +141,57 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
      * Implements the {@link ArmorMaterial} interface as a buildable class.
      *
      * @author Jaxydog
+     * @since 2.0.0
      */
     public static class Material implements ArmorMaterial {
 
-        /** The armor material's durability values. */
+        /**
+         * The armor material's durability values.
+         *
+         * @since 2.0.0
+         */
         private final Map<Type, Integer> durability = new Object2IntOpenHashMap<>(Type.values().length);
-        /** The armor material's protection values. */
+        /**
+         * The armor material's protection values.
+         *
+         * @since 2.0.0
+         */
         private final Map<Type, Integer> protection = new Object2IntOpenHashMap<>(Type.values().length);
-        /** The armor material's enchantability. */
+        /**
+         * The armor material's enchantability.
+         *
+         * @since 2.0.0
+         */
         private final int enchantability;
-        /** The armor material's equipping sound event. */
+        /**
+         * The armor material's equipping sound event.
+         *
+         * @since 2.0.0
+         */
         private final SoundEvent equipSound;
-        /** The armor material's repair ingredient. */
+        /**
+         * The armor material's repair ingredient.
+         *
+         * @since 2.0.0
+         */
         private final Ingredient repairIngredient;
-        /** The armor material's name. */
+        /**
+         * The armor material's name.
+         *
+         * @since 2.0.0
+         */
         private final String name;
-        /** The armor material's toughness. */
+        /**
+         * The armor material's toughness.
+         *
+         * @since 2.0.0
+         */
         private final float toughness;
-        /** The armor material's knockback resistance. */
+        /**
+         * The armor material's knockback resistance.
+         *
+         * @since 2.0.0
+         */
         private final float knockbackResistance;
 
         /**
@@ -158,6 +205,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
          * @param name The armor's name.
          * @param toughness The armor's toughness.
          * @param knockbackResistance The armor's knockback resistance.
+         *
+         * @since 2.0.0
          */
         protected Material(
             Map<Type, Integer> durability,
@@ -185,6 +234,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
          * @param path The identifier path.
          *
          * @return A new builder.
+         *
+         * @since 2.0.0
          */
         @Contract("_ -> new")
         public static @NotNull Builder builder(String path) {
@@ -235,26 +286,59 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
          * Builds and constructs an instance of a new {@link Material}.
          *
          * @author Jaxydog
+         * @since 2.0.0
          */
         @SuppressWarnings("unused")
         public static class Builder {
 
-            /** The armor material's durability values. */
+            /**
+             * The armor material's durability values.
+             *
+             * @since 2.0.0
+             */
             private final Map<Type, Integer> durability = new Object2IntOpenHashMap<>(Type.values().length);
-            /** The armor material's protection values. */
+            /**
+             * The armor material's protection values.
+             *
+             * @since 2.0.0
+             */
             private final Map<Type, Integer> protection = new Object2IntOpenHashMap<>(Type.values().length);
-            /** The armor material's name. */
+            /**
+             * The armor material's name.
+             *
+             * @since 2.0.0
+             */
             private final String name;
 
-            /** The armor material's enchantability. */
+            /**
+             * The armor material's enchantability.
+             *
+             * @since 2.0.0
+             */
             private int enchantability = 0;
-            /** The armor material's equipping sound event. */
+            /**
+             * The armor material's equipping sound event.
+             *
+             * @since 2.0.0
+             */
             private SoundEvent equipSound = SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
-            /** The armor material's repair ingredient. */
+            /**
+             * The armor material's repair ingredient.
+             *
+             * @since 2.0.0
+             */
             private Ingredient repairIngredient = Ingredient.empty();
-            /** The armor material's toughness. */
+            /**
+             * The armor material's toughness.
+             *
+             * @since 2.0.0
+             */
             private float toughness = 0F;
-            /** The armor material's knockback resistance. */
+            /**
+             * The armor material's knockback resistance.
+             *
+             * @since 2.0.0
+             */
             private float knockbackResistance = 0F;
 
             /**
@@ -263,6 +347,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * This is only accessible through {@link #builder(String)} or subclasses.
              *
              * @param name The armor's name.
+             *
+             * @since 2.0.0
              */
             protected Builder(String name) {
                 this.name = name;
@@ -275,6 +361,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param durability The expected durability.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setDurability(Type type, int durability) {
                 this.durability.put(type, Math.max(1, durability));
@@ -291,6 +379,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param boots The boots' durability.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setDurability(int helmet, int chestplate, int leggings, int boots) {
                 return this.setDurability(Type.HELMET, helmet)
@@ -306,6 +396,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param protection The expected protection level.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setProtection(Type type, int protection) {
                 this.protection.put(type, protection);
@@ -322,6 +414,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param boots The boots' protection level.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setProtection(int helmet, int chestplate, int leggings, int boots) {
                 return this.setProtection(Type.HELMET, helmet)
@@ -338,6 +432,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param enchantability The armor's enchantability level.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setEnchantability(int enchantability) {
                 this.enchantability = enchantability;
@@ -351,6 +447,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param equipSound The sound to play when equipping the armor.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setEquipSound(SoundEvent equipSound) {
                 this.equipSound = equipSound;
@@ -364,6 +462,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param repairIngredient The ingredient that may repair an armor item.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setRepairIngredient(Ingredient repairIngredient) {
                 this.repairIngredient = repairIngredient;
@@ -379,6 +479,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param toughness The armor's toughness.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setToughness(float toughness) {
                 this.toughness = toughness;
@@ -394,6 +496,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * @param knockbackResistance The armor's knockback resistance.
              *
              * @return The builder instance.
+             *
+             * @since 2.0.0
              */
             public Builder setKnockbackResistance(float knockbackResistance) {
                 this.knockbackResistance = knockbackResistance;
@@ -405,6 +509,8 @@ public class AstralArmorItem extends ArmorItem implements Custom, LoreHolder {
              * Builds the material instance.
              *
              * @return A new material.
+             *
+             * @since 2.0.0
              */
             public Material build() {
                 return new Material(

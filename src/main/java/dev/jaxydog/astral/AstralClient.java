@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @see Astral
  * @see AstralServer
  * @see AstralDataGenerator
+ * @since 1.0.0
  */
 @Environment(EnvType.CLIENT)
 public final class AstralClient implements ClientModInitializer {
@@ -43,6 +44,8 @@ public final class AstralClient implements ClientModInitializer {
      * Tracks whether the mod has been initialized.
      * <p>
      * This will be true only if an instance of the common initializer has fully loaded.
+     *
+     * @since 2.0.0
      */
     private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
 
@@ -54,6 +57,8 @@ public final class AstralClient implements ClientModInitializer {
      * If an instance of {@link AstralClient} has been initialized, this will return {@code true}.
      *
      * @return If the mod is initialized.
+     *
+     * @since 2.0.0
      */
     public static boolean hasInitialized() {
         return INITIALIZED.get();

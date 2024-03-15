@@ -34,13 +34,21 @@ import java.util.function.Supplier;
  * A custom item that randomly applies a specified effect.
  *
  * @author Jaxydog
+ * @since 1.7.0
  */
-@SuppressWarnings("unused")
 public class RandomEffectItem extends AstralItem implements Generated {
 
-    /** The chance that the effect will be applied. */
+    /**
+     * The chance that the effect will be applied.
+     *
+     * @since 1.7.0
+     */
     private final float effectChance;
-    /** The status effect to be given to the living entity. */
+    /**
+     * The status effect to be given to the living entity.
+     *
+     * @since 1.7.0
+     */
     private final StatusEffect effect;
 
     /**
@@ -53,6 +61,8 @@ public class RandomEffectItem extends AstralItem implements Generated {
      * @param preferredGroup The item's preferred item group.
      * @param effectChance The chance that the effect will be applied.
      * @param effect The status effect to be given to the living entity.
+     *
+     * @since 2.0.0
      */
     public RandomEffectItem(
         String path,
@@ -76,6 +86,8 @@ public class RandomEffectItem extends AstralItem implements Generated {
      * @param settings The item's settings.
      * @param effectChance The chance that the effect will be applied.
      * @param effect The status effect to be given to the living entity.
+     *
+     * @since 1.7.0
      */
     public RandomEffectItem(String path, Settings settings, float effectChance, StatusEffect effect) {
         super(path, settings);

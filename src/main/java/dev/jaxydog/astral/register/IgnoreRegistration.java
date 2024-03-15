@@ -27,6 +27,7 @@ import java.lang.annotation.Target;
  * @author Jaxydog
  * @see Registered
  * @see Environment
+ * @since 2.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -40,6 +41,8 @@ public @interface IgnoreRegistration {
      * This field is {@code true} by default.
      *
      * @return Whether the common environment is ignored.
+     *
+     * @since 2.0.0
      */
     boolean common() default true;
 
@@ -49,6 +52,8 @@ public @interface IgnoreRegistration {
      * This field is {@code true} by default.
      *
      * @return Whether the client environment is ignored.
+     *
+     * @since 2.0.0
      */
     boolean client() default true;
 
@@ -58,6 +63,8 @@ public @interface IgnoreRegistration {
      * This field is {@code true} by default.
      *
      * @return Whether the server environment is ignored.
+     *
+     * @since 2.0.0
      */
     boolean server() default true;
 
@@ -67,6 +74,8 @@ public @interface IgnoreRegistration {
      * This field is {@code true} by default.
      *
      * @return Whether the generation environment is ignored.
+     *
+     * @since 2.0.0
      */
     boolean generator() default true;
 

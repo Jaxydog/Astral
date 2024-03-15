@@ -29,6 +29,7 @@ import net.minecraft.util.Identifier;
  * @see Client
  * @see Server
  * @see Generated
+ * @since 1.0.0
  */
 public interface Registered {
 
@@ -39,6 +40,8 @@ public interface Registered {
      * returning {@code "my_item"} will cause the associated identifier to be {@code astral:my_item}.
      *
      * @return An identifier path.
+     *
+     * @since 1.7.0
      */
     String getRegistryPath();
 
@@ -48,6 +51,8 @@ public interface Registered {
      * This is used to uniquely distinguish this instance from other equally-typed instances.
      *
      * @return A new identifier.
+     *
+     * @since 1.7.0
      */
     default Identifier getRegistryId() {
         return Astral.getId(this.getRegistryPath());
@@ -62,6 +67,7 @@ public interface Registered {
      * @see Client
      * @see Server
      * @see Generated
+     * @since 1.5.0
      */
     interface Common extends Registered {
 
@@ -74,8 +80,9 @@ public interface Registered {
          * @see Client
          * @see Server
          * @see Generated
+         * @since 2.0.0
          */
-        void register();
+        void registerCommon();
 
     }
 
@@ -86,6 +93,7 @@ public interface Registered {
      * @see Common
      * @see Server
      * @see Generated
+     * @since 1.0.0
      */
     @Environment(EnvType.CLIENT)
     interface Client extends Registered {
@@ -99,6 +107,7 @@ public interface Registered {
          * @see Common
          * @see Server
          * @see Generated
+         * @since 1.0.0
          */
         void registerClient();
 
@@ -111,6 +120,7 @@ public interface Registered {
      * @see Common
      * @see Client
      * @see Generated
+     * @since 1.0.0
      */
     @Environment(EnvType.SERVER)
     interface Server extends Registered {
@@ -124,6 +134,7 @@ public interface Registered {
          * @see Common
          * @see Client
          * @see Generated
+         * @since 1.0.0
          */
         void registerServer();
 
@@ -136,6 +147,7 @@ public interface Registered {
      * @see Common
      * @see Client
      * @see Server
+     * @since 1.5.0
      */
     interface Generated extends Registered {
 
@@ -143,6 +155,8 @@ public interface Registered {
          * Generates game assets or data.
          * <p>
          * It should be assumed that the contained code will only ever run on the server environment.
+         *
+         * @since 1.5.0
          */
         void generate();
 
@@ -161,6 +175,7 @@ public interface Registered {
      * @see Client
      * @see Server
      * @see Generated
+     * @since 1.0.0
      */
     interface All extends Common, Client, Server {
 

@@ -37,14 +37,16 @@ import java.util.function.Supplier;
  * A mirror item's state can be controlled via the {@value #BROKEN_KEY} boolean NBT key.
  *
  * @author Jaxydog
+ * @since 1.0.0
  */
-@SuppressWarnings("unused")
 public class MirrorItem extends AstralItem implements Client {
 
     /**
      * The NBT key that determines whether a mirror item is considered broken.
      * <p>
      * The value assigned to this is expected to be boolean-coercible.
+     *
+     * @since 1.0.0
      */
     public static final String BROKEN_KEY = "Broken";
 
@@ -52,6 +54,8 @@ public class MirrorItem extends AstralItem implements Client {
      * The identifier corresponding to the mirror item's broken model.
      * <p>
      * This is expected to be used solely within the {@link ModelPredicateProviderRegistry}.
+     *
+     * @since 2.0.0
      */
     public static final Identifier BROKEN_MODEL_ID = Astral.getId("broken");
 
@@ -63,6 +67,8 @@ public class MirrorItem extends AstralItem implements Client {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public MirrorItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
         super(path, settings, preferredGroup);
@@ -75,6 +81,8 @@ public class MirrorItem extends AstralItem implements Client {
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 1.0.0
      */
     public MirrorItem(String path, Settings settings) {
         super(path, settings);
@@ -88,6 +96,8 @@ public class MirrorItem extends AstralItem implements Client {
      * @param stack The item stack.
      *
      * @return If the mirror is broken.
+     *
+     * @since 1.0.0
      */
     public boolean isBroken(ItemStack stack) {
         final NbtCompound compound = stack.getNbt();
@@ -105,6 +115,8 @@ public class MirrorItem extends AstralItem implements Client {
      *
      * @param stack The item stack.
      * @param broken Whether the mirror is broken.
+     *
+     * @since 1.0.0
      */
     public void setBroken(ItemStack stack, boolean broken) {
         stack.getOrCreateNbt().putBoolean(BROKEN_KEY, broken);
@@ -124,6 +136,8 @@ public class MirrorItem extends AstralItem implements Client {
      * @param seed The randomness seed.
      *
      * @return The data used to determine the mirror's texture.
+     *
+     * @since 2.0.0
      */
     protected float getBrokenModelData(ItemStack stack, World world, LivingEntity entity, int seed) {
         return this.isBroken(stack) ? 1F : 0F;

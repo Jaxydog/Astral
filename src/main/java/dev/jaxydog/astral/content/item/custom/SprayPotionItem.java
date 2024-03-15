@@ -2,8 +2,6 @@ package dev.jaxydog.astral.content.item.custom;
 
 import dev.jaxydog.astral.content.item.AstralItems;
 import dev.jaxydog.astral.content.item.AstralPotionItem;
-import dev.jaxydog.astral.content.power.custom.ActionOnSprayPower;
-import io.github.apace100.apoli.component.PowerHolderComponent;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -36,7 +34,6 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.GameEvent.Emitter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -92,7 +89,7 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayed {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      *
-     * @since 2.0.0
+     * @since 1.7.0
      */
     public SprayPotionItem(String path, Settings settings) {
         super(path, settings);
@@ -169,37 +166,6 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayed {
         return 0;
     }
 
-    private int sprayEntity(ItemStack stack, @Nullable PlayerEntity player, LivingEntity entity) {
-        int charges = 0;
-
-        final List<ActionOnSprayPower> powers = PowerHolderComponent.getPowers(player, ActionOnSprayPower.class);
-
-        powers.sort(Comparator.comparingInt(ActionOnSprayPower::getPriority).reversed());
-
-        for (final ActionOnSprayPower power : powers) {
-            if (!power.canSprayEntity(stack, entity)) continue;
-
-            if (power.onSprayEntity(stack, entity)) {
-                charges = Math.max(charges, power.getCharges());
-            }
-        }
-
-        // Apply every effect in order.
-        for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(stack)) {
-            if (entity.hasStatusEffect(effect.getEffectType())) continue;
-
-            if (effect.getEffectType().isInstant()) {
-                effect.getEffectType().applyInstantEffect(player, player, entity, effect.getAmplifier(), 1D);
-
-                charges = Math.max(charges, 1);
-            } else if (entity.addStatusEffect(this.shortened(effect), player)) {
-                charges = Math.max(charges, 1);
-            }
-        }
-
-        return charges;
-    }
-
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
         if (this.isEmpty(stack)) return ActionResult.PASS;
@@ -254,7 +220,7 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayed {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         this.addBehavior(EntityTarget.class,
             new Behavior<>((source, target) -> target.target() instanceof LivingEntity, (source, target) -> {
                 for (final StatusEffectInstance effect : PotionUtil.getPotionEffects(source.stack())) {
@@ -274,7 +240,7 @@ public class SprayPotionItem extends AstralPotionItem implements Sprayed {
             }, 1)
         );
 
-        super.register();
+        super.registerCommon();
 
         BrewingRecipeRegistry.registerItemRecipe(Items.POTION, AstralItems.CLOUDY_MANE, this);
 

@@ -44,9 +44,17 @@ import java.util.function.Supplier;
  */
 public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
 
-    /** The item's identifier path used within the registration system. */
+    /**
+     * The item's identifier path used within the registration system.
+     *
+     * @since 2.0.0
+     */
     private final String path;
-    /** The item's preferred item group, or {@code null} if it should not be added to any group. */
+    /**
+     * The item's preferred item group, or {@code null} if it should not be added to any group.
+     *
+     * @since 2.0.0
+     */
     private final @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup;
 
     /**
@@ -58,6 +66,8 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      * @param block The item's associated block.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public AstralBlockItem(
         String path, Block block, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
@@ -76,6 +86,8 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      * @param block The item's associated block.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public AstralBlockItem(
         CustomBlock block, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
@@ -91,6 +103,8 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      * @param path The item's identifier path.
      * @param block The item's associated block.
      * @param settings The item's settings.
+     *
+     * @since 2.0.0
      */
     public AstralBlockItem(String path, Block block, Settings settings) {
         this(path, block, settings, AstralItemGroups.DEFAULT::getRegistryKey);
@@ -103,6 +117,8 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      *
      * @param block The item's associated block.
      * @param settings The item's settings.
+     *
+     * @since 2.0.0
      */
     public AstralBlockItem(CustomBlock block, Settings settings) {
         this(block.getRegistryIdPath(), block, settings);

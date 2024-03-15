@@ -46,6 +46,7 @@ import java.util.function.Supplier;
  *
  * @author Jaxydog
  * @see Custom
+ * @since 1.7.0
  */
 public class BottleItem extends AstralItem {
 
@@ -57,6 +58,8 @@ public class BottleItem extends AstralItem {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public BottleItem(String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup) {
         super(path, settings, preferredGroup);
@@ -69,6 +72,8 @@ public class BottleItem extends AstralItem {
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 1.7.0
      */
     public BottleItem(String path, Settings settings) {
         super(path, settings);

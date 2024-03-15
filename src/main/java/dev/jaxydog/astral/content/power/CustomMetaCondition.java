@@ -27,7 +27,7 @@ public abstract class CustomMetaCondition implements Registered.Common {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         this.factory(ApoliDataTypes.BIENTITY_CONDITION).register(ApoliRegistries.BIENTITY_CONDITION);
         this.factory(ApoliDataTypes.BLOCK_CONDITION).register(ApoliRegistries.BLOCK_CONDITION);
         this.factory(ApoliDataTypes.ENTITY_CONDITION).register(ApoliRegistries.ENTITY_CONDITION);

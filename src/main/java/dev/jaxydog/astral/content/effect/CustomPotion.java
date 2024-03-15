@@ -32,7 +32,7 @@ public class CustomPotion extends Potion implements Registered.Common {
     }
 
     @Override
-    public void register() {
+    public void registerCommon() {
         Registry.register(Registries.POTION, this.getRegistryId(), this);
 
         if (this.RECIPE != null) {
@@ -40,6 +40,6 @@ public class CustomPotion extends Potion implements Registered.Common {
         }
     }
 
-    public record Recipe(Potion base, Ingredient item) { }
+    public record Recipe(Potion base, Ingredient item) {}
 
 }

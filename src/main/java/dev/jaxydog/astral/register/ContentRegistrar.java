@@ -32,6 +32,7 @@ import static java.lang.reflect.Modifier.isStatic;
  * @author Jaxydog
  * @see Registered
  * @see IgnoreRegistration
+ * @since 1.5.0
  */
 public abstract class ContentRegistrar implements Registered.All, Registered.Generated {
 
@@ -41,6 +42,8 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
      * Attempting to register values within a mis-matched environment will result in a run-time crash.
      *
      * @param environment The target environment.
+     *
+     * @since 2.0.0
      */
     private void registerFields(Environment environment) {
         // This iterates over all publicly defined fields within the implementing class.
@@ -90,7 +93,7 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
     // be cut off from initialization.
 
     @Override
-    public final void register() {
+    public final void registerCommon() {
         this.registerFields(Environment.COMMON);
     }
 

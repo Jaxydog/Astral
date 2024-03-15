@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
  * with the {@link Custom} interface, which handles common registration as well.
  *
  * @author Jaxydog
+ * @since 1.7.0
  */
 public interface Colored extends Client, ItemConvertible {
 
@@ -36,6 +37,8 @@ public interface Colored extends Client, ItemConvertible {
      * @param layerIndex The index of the color layer.
      *
      * @return The layer's color.
+     *
+     * @since 2.0.0
      */
     int getStackColor(ItemStack stack, int layerIndex);
 

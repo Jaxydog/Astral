@@ -33,8 +33,8 @@ import java.util.function.Supplier;
  *
  * @author Icepenguin
  * @author Jaxydog
+ * @since 1.7.0
  */
-@SuppressWarnings("unused")
 public class ChocolateMilkItem extends BottleItem {
 
     /**
@@ -45,6 +45,8 @@ public class ChocolateMilkItem extends BottleItem {
      * @param path The item's identifier path.
      * @param settings The item's settings.
      * @param preferredGroup The item's preferred item group.
+     *
+     * @since 2.0.0
      */
     public ChocolateMilkItem(
         String path, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
@@ -53,12 +55,14 @@ public class ChocolateMilkItem extends BottleItem {
     }
 
     /**
-     * Creates a new mirror item using the given settings.
+     * Creates a new item using the given settings.
      * <p>
      * This item will be added to the default item group.
      *
      * @param path The item's identifier path.
      * @param settings The item's settings.
+     *
+     * @since 1.7.0
      */
     public ChocolateMilkItem(String path, Settings settings) {
         super(path, settings);
@@ -68,6 +72,9 @@ public class ChocolateMilkItem extends BottleItem {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entity) {
         // The functionality for this item is, for the most part, shared with suspicious stew.
         if (entity != null) SuspiciousStewItem.forEachEffect(stack, entity::addStatusEffect);
+
+        // This *should* never fail. If it does, something's gone terribly wrong.
+        assert entity != null;
 
         return super.finishUsing(stack, world, entity);
     }
