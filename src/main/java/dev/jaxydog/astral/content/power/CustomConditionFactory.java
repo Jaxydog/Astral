@@ -12,30 +12,30 @@ import java.util.function.BiFunction;
 /** An extension of a regular condition factory that provides additional functionality */
 public class CustomConditionFactory<T> extends ConditionFactory<T> implements Registered {
 
-	/** The custom condition factory's inner raw identifier */
-	private final String RAW_ID;
+    /** The custom condition factory's inner raw identifier */
+    private final String RAW_ID;
 
-	public CustomConditionFactory(
-		String rawId, SerializableData data, BiFunction<SerializableData.Instance, T, Boolean> condition
-	) {
-		super(Astral.getId(rawId), data, condition);
+    public CustomConditionFactory(
+        String rawId, SerializableData data, BiFunction<SerializableData.Instance, T, Boolean> condition
+    ) {
+        super(Astral.getId(rawId), data, condition);
 
-		this.RAW_ID = rawId;
-	}
+        this.RAW_ID = rawId;
+    }
 
-	/** Registers the factory in the given registry */
-	public void register(Registry<ConditionFactory<T>> registry) {
-		Registry.register(registry, this.getRegistryId(), this);
-	}
+    /** Registers the factory in the given registry */
+    public void register(Registry<ConditionFactory<T>> registry) {
+        Registry.register(registry, this.getRegistryId(), this);
+    }
 
-	@Override
-	public Identifier getRegistryId() {
-		return this.getSerializerId();
-	}
+    @Override
+    public Identifier getRegistryId() {
+        return this.getSerializerId();
+    }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryPath() {
+        return this.RAW_ID;
+    }
 
 }

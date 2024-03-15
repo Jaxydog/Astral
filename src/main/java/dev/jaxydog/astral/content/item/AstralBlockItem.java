@@ -92,7 +92,7 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
     public AstralBlockItem(
         CustomBlock block, Settings settings, @Nullable Supplier<RegistryKey<ItemGroup>> preferredGroup
     ) {
-        this(block.getRegistryIdPath(), block, settings, preferredGroup);
+        this(block.getRegistryPath(), block, settings, preferredGroup);
     }
 
     /**
@@ -121,7 +121,7 @@ public class AstralBlockItem extends BlockItem implements Custom, LoreHolder {
      * @since 2.0.0
      */
     public AstralBlockItem(CustomBlock block, Settings settings) {
-        this(block.getRegistryIdPath(), block, settings);
+        this(block.getRegistryPath(), block, settings);
     }
 
     @Override

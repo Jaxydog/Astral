@@ -27,7 +27,7 @@ public class CustomPotion extends Potion implements Registered.Common {
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 

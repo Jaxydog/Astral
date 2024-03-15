@@ -68,24 +68,24 @@ public class DyeableBuddingAmethystBlock extends DyeableAmethystBlock {
     }
 
     private Block getSmallBud() {
-        return CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor());
+        return CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
     }
 
     private Block getMediumBud() {
-        return CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor());
+        return CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
     }
 
     private Block getLargeBud() {
-        return CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor());
+        return CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor()).orElseThrow();
     }
 
     private Block getCluster() {
-        return CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor());
+        return CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor()).orElseThrow();
     }
 
     @Override
     public AstralBlockItem getItem() {
-        return AstralItems.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(this.getColor());
+        return AstralItems.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(this.getColor()).orElseThrow();
     }
 
     @SuppressWarnings("deprecation")

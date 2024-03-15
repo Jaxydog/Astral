@@ -17,7 +17,7 @@ public class CustomStatusEffect extends StatusEffect implements Registered.Commo
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 

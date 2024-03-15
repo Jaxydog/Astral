@@ -12,28 +12,28 @@ import java.util.function.BiConsumer;
 /** An extension of a regular action factory that provides additional functionality */
 public class CustomActionFactory<T> extends ActionFactory<T> implements Registered {
 
-	/** The custom action factory's inner raw identifier */
-	private final String RAW_ID;
+    /** The custom action factory's inner raw identifier */
+    private final String RAW_ID;
 
-	public CustomActionFactory(String rawId, SerializableData data, BiConsumer<SerializableData.Instance, T> effect) {
-		super(Astral.getId(rawId), data, effect);
+    public CustomActionFactory(String rawId, SerializableData data, BiConsumer<SerializableData.Instance, T> effect) {
+        super(Astral.getId(rawId), data, effect);
 
-		this.RAW_ID = rawId;
-	}
+        this.RAW_ID = rawId;
+    }
 
-	/** Registers the factory in the given registry */
-	public void register(Registry<ActionFactory<T>> registry) {
-		Registry.register(registry, this.getRegistryId(), this);
-	}
+    /** Registers the factory in the given registry */
+    public void register(Registry<ActionFactory<T>> registry) {
+        Registry.register(registry, this.getRegistryId(), this);
+    }
 
-	@Override
-	public Identifier getRegistryId() {
-		return this.getSerializerId();
-	}
+    @Override
+    public Identifier getRegistryId() {
+        return this.getSerializerId();
+    }
 
-	@Override
-	public String getRegistryIdPath() {
-		return this.RAW_ID;
-	}
+    @Override
+    public String getRegistryPath() {
+        return this.RAW_ID;
+    }
 
 }

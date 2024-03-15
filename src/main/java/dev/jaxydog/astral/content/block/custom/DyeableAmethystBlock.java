@@ -151,7 +151,7 @@ public class DyeableAmethystBlock extends CustomBlock implements Generated {
      * @return The associated item.
      */
     public AstralBlockItem getItem() {
-        return AstralItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor());
+        return AstralItems.DYEABLE_AMETHYST_BLOCKS.get(this.getColor()).orElseThrow();
     }
 
     /**
