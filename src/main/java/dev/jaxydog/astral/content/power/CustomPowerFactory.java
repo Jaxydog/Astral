@@ -41,7 +41,7 @@ public class CustomPowerFactory<P extends Power> extends PowerFactory<P> impleme
     }
 
     @Override
-    public String getRegistryIdPath() {
+    public String getRegistryPath() {
         return this.RAW_ID;
     }
 
