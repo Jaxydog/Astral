@@ -33,6 +33,8 @@ import net.minecraft.world.World;
  * @param volume The sound volume.
  * @param pitch The sound pitch.
  * @param pitchVariance The amount of variation in the sound pitch.
+ *
+ * @since 2.0.0
  */
 @SuppressWarnings("unused")
 public record SoundContext(SoundEvent event, SoundCategory category, float volume, float pitch, float pitchVariance) {
@@ -56,6 +58,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      * @param category The sound category.
      * @param volume The sound volume.
      * @param pitch The sound pitch.
+     *
+     * @since 2.0.0
      */
     public SoundContext(SoundEvent event, SoundCategory category, float volume, float pitch) {
         // A variance of `0.0625F` should be fine.
@@ -72,6 +76,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      * @param event The sound event.
      * @param category The sound category.
      * @param pitch The sound pitch.
+     *
+     * @since 2.0.0
      */
     public SoundContext(SoundEvent event, SoundCategory category, float pitch) {
         // 1F is full volume.
@@ -87,6 +93,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      *
      * @param event The sound event.
      * @param category The sound category.
+     *
+     * @since 2.0.0
      */
     public SoundContext(SoundEvent event, SoundCategory category) {
         // 1F is normal pitch.
@@ -99,6 +107,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      * @param random A random number generator.
      *
      * @return A varied pitch.
+     *
+     * @since 2.0.0
      */
     public float pitch(Random random) {
         // Effectively generates a random number between -1F and 1F.
@@ -114,6 +124,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      * @param x The X position.
      * @param y The Y position.
      * @param z The Z position.
+     *
+     * @since 2.0.0
      */
     public void play(World world, double x, double y, double z) {
         final float pitch = this.pitch(world.getRandom());
@@ -126,6 +138,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      *
      * @param world The world.
      * @param position The position.
+     *
+     * @since 2.0.0
      */
     public void play(World world, Vec3d position) {
         this.play(world, position.getX(), position.getY(), position.getZ());
@@ -136,6 +150,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      *
      * @param world The world.
      * @param entity The entity.
+     *
+     * @since 2.0.0
      */
     public void play(World world, Entity entity) {
         final float pitch = this.pitch(world.getRandom());
@@ -149,6 +165,8 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
      * @param world The world.
      * @param blockPos The position.
      * @param useDistance Whether to use distance to determine if the sound should be played.
+     *
+     * @since 2.0.0
      */
     public void play(World world, BlockPos blockPos, boolean useDistance) {
         final float pitch = this.pitch(world.getRandom());
