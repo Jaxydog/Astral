@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Affero General Public License along with Astral. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.jaxydog.astral.content.block.custom;
+package dev.jaxydog.astral.content.block;
 
 import dev.jaxydog.astral.register.Registered;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -26,7 +26,6 @@ import net.minecraft.world.BlockRenderView;
  *
  * @author Jaxydog
  */
-@SuppressWarnings("unused")
 public interface Colored extends Registered.Client {
 
     /**
