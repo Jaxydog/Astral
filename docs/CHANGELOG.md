@@ -4,6 +4,7 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
 
 ### Internal changes
 
+- All code is now within `dev.jaxydog.astral`, instead of `dev.jaxydog`.
 - Updated mod entrypoints.
     - Added `isInitialized` methods for each environment.
     - Verified that each entrypoint is only initialized once.
@@ -27,6 +28,9 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
     - All item classes have been slightly refactored.
     - Rewrote the entire `Sprayable` interface into the new `Sprayed` interface.
     - Instances of `Sprayable` have undergone major refactors.
+- Updated block content structure.
+    - Rename all `Custom*Block` classes to `Astral*Block`.
+    - Move `Colored` into `dev.jaxydog.astral.content.block`.
 - Updated sound content structure.
     - Added `SoundContext` record class.
 

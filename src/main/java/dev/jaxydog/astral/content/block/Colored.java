@@ -14,9 +14,8 @@
 
 package dev.jaxydog.astral.content.block;
 
-import dev.jaxydog.astral.register.Registered;
+import dev.jaxydog.astral.register.Registered.Client;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
@@ -25,8 +24,9 @@ import net.minecraft.world.BlockRenderView;
  * Provides dynamic color support for the implementing block.
  *
  * @author Jaxydog
+ * @since 1.7.0
  */
-public interface Colored extends Registered.Client {
+public interface Colored extends BlockConvertible, Client {
 
     /**
      * Returns the color for the given block at the provided layer index.
@@ -37,15 +37,10 @@ public interface Colored extends Registered.Client {
      * @param index The color layer index.
      *
      * @return The block's color at the given index.
+     *
+     * @since 1.7.0
      */
     int getColor(BlockState state, BlockRenderView view, BlockPos position, int index);
-
-    /**
-     * Returns this value's block representation.
-     *
-     * @return This value as a block.
-     */
-    Block asBlock();
 
     @Override
     default void registerClient() {

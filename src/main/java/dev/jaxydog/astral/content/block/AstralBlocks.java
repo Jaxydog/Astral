@@ -12,7 +12,7 @@ import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Blocks;
 
 /** Contains definitions for all custom blocks */
-public final class CustomBlocks extends ContentRegistrar {
+public final class AstralBlocks extends ContentRegistrar {
 
     public static final DyeMap<DyeableAmethystBlock> DYEABLE_AMETHYST_BLOCKS = new DyeMap<>("amethyst_block",
         (rawId, color) -> new DyeableAmethystBlock(rawId, Settings.copy(Blocks.AMETHYST_BLOCK), color)

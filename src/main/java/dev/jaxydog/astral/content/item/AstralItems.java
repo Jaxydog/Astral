@@ -1,6 +1,6 @@
 package dev.jaxydog.astral.content.item;
 
-import dev.jaxydog.astral.content.block.CustomBlocks;
+import dev.jaxydog.astral.content.block.AstralBlocks;
 import dev.jaxydog.astral.content.block.custom.DyeableAmethystBlock;
 import dev.jaxydog.astral.content.block.custom.DyeableAmethystClusterBlock;
 import dev.jaxydog.astral.content.block.custom.DyeableBuddingAmethystBlock;
@@ -43,42 +43,42 @@ public final class AstralItems extends ContentRegistrar {
 
     public static final DyeMap<AstralBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeMap<>("amethyst_block",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_AMETHYST_BLOCKS.getComputed(color),
+            AstralBlocks.DYEABLE_AMETHYST_BLOCKS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeMap<>("budding_amethyst",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.getComputed(color),
+            AstralBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeMap<>("amethyst_cluster",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.getComputed(color),
+            AstralBlocks.DYEABLE_AMETHYST_CLUSTERS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeMap<>("large_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.getComputed(color),
+            AstralBlocks.DYEABLE_LARGE_AMETHYST_BUDS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeMap<>("medium_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.getComputed(color),
+            AstralBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeMap<>("small_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.getComputed(color),
+            AstralBlocks.DYEABLE_SMALL_AMETHYST_BUDS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
@@ -91,7 +91,7 @@ public final class AstralItems extends ContentRegistrar {
         new Settings().maxDamage(SprayPotionItem.MAX_USES)
     );
     public static final AstralBlockItem RANDOMIZER_BLOCK = new AstralBlockItem("randomizer",
-        CustomBlocks.RANDOMIZER,
+        AstralBlocks.RANDOMIZER,
         new Settings().rarity(Rarity.UNCOMMON)
     );
 
