@@ -14,6 +14,8 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
     - Rename `register` to `registerCommon`.
     - Moved all registered maps into `dev.jaxydog.register`
     - Streamlined `RegisteredMap` implementation.
+    - Added the `RegistrationPriority` annotation, which allows for complete control over the order in which fields are
+      registered.
 - Updated item content structure.
     - New `LoreHolder` interface.
     - New `BowlItem` class.

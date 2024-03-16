@@ -19,6 +19,9 @@ import dev.jaxydog.astral.content.CustomContent;
 import net.minecraft.util.Identifier;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 import static java.lang.reflect.Modifier.isFinal;
 import static java.lang.reflect.Modifier.isStatic;
@@ -37,6 +40,19 @@ import static java.lang.reflect.Modifier.isStatic;
 public abstract class ContentRegistrar implements Registered.All, Registered.Generated {
 
     /**
+     * Used to sort registered fields by their assigned priorities.
+     *
+     * @since 2.0.0
+     */
+    private static final Comparator<Field> PRIORITY = Comparator.comparingInt((Field field) -> {
+        if (field.isAnnotationPresent(RegistrationPriority.class)) {
+            return field.getAnnotation(RegistrationPriority.class).value();
+        } else {
+            return 0; // Assume a value of zero for any unset field.
+        }
+    }).reversed();
+
+    /**
      * Registers all publicly-defined static constants within the extending class within the specified environment.
      * <p>
      * Attempting to register values within a mis-matched environment will result in a run-time crash.
@@ -46,15 +62,18 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
      * @since 2.0.0
      */
     private void registerFields(Environment environment) {
+        // Streams the fields and sorts them by their configured priority.
+        final List<Field> fields = Arrays.stream(this.getClass().getFields()).sorted(PRIORITY).toList();
+
         // This iterates over all publicly defined fields within the implementing class.
-        for (final Field field : this.getClass().getFields()) {
+        for (final Field field : fields) {
             final int modifiers = field.getModifiers();
 
             // Asserts that the checked field is both static and final.
             // We can assume that it is public, since `getFields` only returns publicly available fields.
             if (!isStatic(modifiers) || !isFinal(modifiers)) continue;
             // Asserts, for a field of type `T`, that `T instanceof Registered.<Environment>`.
-            if (!environment.getInterface().isAssignableFrom(field.getDeclaringClass())) continue;
+            if (!environment.getInterface().isAssignableFrom(field.getType())) continue;
             // Asserts that the field should not be ignored in the current environment.
             if (field.isAnnotationPresent(IgnoreRegistration.class)) {
                 final IgnoreRegistration annotation = field.getAnnotation(IgnoreRegistration.class);
@@ -65,13 +84,8 @@ public abstract class ContentRegistrar implements Registered.All, Registered.Gen
             try {
                 final Object registerable = field.get(null);
 
-                // Re-asserts that the returned value is an instance of `Registered`.
-                if (environment.getInterface().isInstance(registerable)) {
-                    // Which means that this cast is safe and should never throw.
-                    environment.registerValue((Registered) registerable);
-                } else {
-                    Astral.LOGGER.warn("Expected a value of type {}", environment.getInterface().getSimpleName());
-                }
+                // We already asserted that the returned value is an instance of `Registered`.
+                environment.registerValue((Registered) registerable);
             } catch (final IllegalAccessException | IllegalArgumentException exception) {
                 // If something fails, output the exception message and intentionally ignore the field.
                 Astral.LOGGER.error(exception.getLocalizedMessage());

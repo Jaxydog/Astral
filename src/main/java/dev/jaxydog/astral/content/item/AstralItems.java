@@ -43,42 +43,42 @@ public final class AstralItems extends ContentRegistrar {
 
     public static final DyeMap<AstralBlockItem> DYEABLE_AMETHYST_BLOCKS = new DyeMap<>("amethyst_block",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_AMETHYST_BLOCKS.get(color).orElseThrow(),
+            CustomBlocks.DYEABLE_AMETHYST_BLOCKS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_BUDDING_AMETHYST_BLOCKS = new DyeMap<>("budding_amethyst",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.get(color).orElseThrow(),
+            CustomBlocks.DYEABLE_BUDDING_AMETHYST_BLOCKS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_AMETHYST_CLUSTERS = new DyeMap<>("amethyst_cluster",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.get(color).orElseThrow(),
+            CustomBlocks.DYEABLE_AMETHYST_CLUSTERS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_LARGE_AMETHYST_BUDS = new DyeMap<>("large_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.get(color).orElseThrow(),
+            CustomBlocks.DYEABLE_LARGE_AMETHYST_BUDS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_MEDIUM_AMETHYST_BUDS = new DyeMap<>("medium_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.get(color).orElseThrow(),
+            CustomBlocks.DYEABLE_MEDIUM_AMETHYST_BUDS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )
     );
     public static final DyeMap<AstralBlockItem> DYEABLE_SMALL_AMETHYST_BUDS = new DyeMap<>("small_amethyst_bud",
         (rawId, color) -> new AstralBlockItem(rawId,
-            CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.get(color).orElseThrow(),
+            CustomBlocks.DYEABLE_SMALL_AMETHYST_BUDS.getComputed(color),
             new Settings(),
             AstralItemGroups.DYEABLE_AMETHYST::getRegistryKey
         )

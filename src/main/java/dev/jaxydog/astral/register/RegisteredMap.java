@@ -147,6 +147,26 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
     }
 
     /**
+     * Returns a value from within the map, creating it if it does not exist.
+     *
+     * @param key The value's expected key.
+     *
+     * @return A value, or {@code null} if the value is not present.
+     *
+     * @since 2.0.0
+     */
+    public V getComputed(@NotNull K key) {
+        if (!this.innerMap.containsKey(key)) {
+            final String path = this.getPath(key);
+            final V value = this.computeCallback.apply(path, key);
+
+            this.innerMap.put(key, value);
+        }
+
+        return this.innerMap.get(key);
+    }
+
+    /**
      * Returns a set of all entries stored within this map.
      *
      * @return A set of all stored entries.

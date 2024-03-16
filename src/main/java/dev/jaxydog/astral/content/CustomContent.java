@@ -13,6 +13,7 @@ import dev.jaxydog.astral.content.sound.CustomSoundEvents;
 import dev.jaxydog.astral.content.trinket.CustomTrinketPredicates;
 import dev.jaxydog.astral.register.ContentRegistrar;
 import dev.jaxydog.astral.register.IgnoreRegistration;
+import dev.jaxydog.astral.register.RegistrationPriority;
 
 /** Contains all instances of defined content container classes */
 @SuppressWarnings("unused")
@@ -22,18 +23,27 @@ public final class CustomContent extends ContentRegistrar {
     @IgnoreRegistration
     public static final CustomContent INSTANCE = new CustomContent();
 
-    // Defined custom content classes
+    // Origins extensions
     public static final CustomActions ACTIONS = new CustomActions();
-    public static final CustomBlocks BLOCKS = new CustomBlocks();
     public static final CustomConditions CONDITIONS = new CustomConditions();
+    @RegistrationPriority(1)
     public static final CustomData DATA = new CustomData();
+    public static final CustomPowers POWERS = new CustomPowers();
+
+    // Vanilla extensions
+    @RegistrationPriority(2)
+    public static final CustomBlocks BLOCKS = new CustomBlocks();
     public static final CustomGamerules GAMERULES = new CustomGamerules();
+    @RegistrationPriority(1)
     public static final AstralItemGroups ITEM_GROUPS = new AstralItemGroups();
+    @RegistrationPriority(1)
     public static final AstralItems ITEMS = new AstralItems();
     public static final CustomPotions POTIONS = new CustomPotions();
-    public static final CustomPowers POWERS = new CustomPowers();
     public static final CustomSoundEvents SOUND_EVENTS = new CustomSoundEvents();
+    @RegistrationPriority(1)
     public static final CustomStatusEffects STATUS_EFFECTS = new CustomStatusEffects();
+
+    // Miscellaneous
     public static final CustomTrinketPredicates TRINKET_SLOTS = new CustomTrinketPredicates();
 
 }

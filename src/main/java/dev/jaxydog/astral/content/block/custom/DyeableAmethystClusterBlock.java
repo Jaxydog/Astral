@@ -121,7 +121,6 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
     private final Variant variant;
 
     @SuppressWarnings("SuspiciousNameCombination")
-
     public DyeableAmethystClusterBlock(String rawId, Settings settings, DyeColor color, Variant variant) {
         super(rawId, settings, color);
 
@@ -172,11 +171,11 @@ public class DyeableAmethystClusterBlock extends DyeableAmethystBlock implements
      */
     public AstralBlockItem getItem() {
         return (switch (this.variant) {
-            case CLUSTER -> AstralItems.DYEABLE_AMETHYST_CLUSTERS.get(this.getColor());
-            case LARGE_BUD -> AstralItems.DYEABLE_LARGE_AMETHYST_BUDS.get(this.getColor());
-            case MEDIUM_BUD -> AstralItems.DYEABLE_MEDIUM_AMETHYST_BUDS.get(this.getColor());
-            case SMALL_BUD -> AstralItems.DYEABLE_SMALL_AMETHYST_BUDS.get(this.getColor());
-        }).orElseThrow();
+            case CLUSTER -> AstralItems.DYEABLE_AMETHYST_CLUSTERS;
+            case LARGE_BUD -> AstralItems.DYEABLE_LARGE_AMETHYST_BUDS;
+            case MEDIUM_BUD -> AstralItems.DYEABLE_MEDIUM_AMETHYST_BUDS;
+            case SMALL_BUD -> AstralItems.DYEABLE_SMALL_AMETHYST_BUDS;
+        }).get(this.getColor()).orElseThrow();
     }
 
     @SuppressWarnings("deprecation")
