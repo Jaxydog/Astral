@@ -195,8 +195,10 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      *
      * @since 2.0.0
      */
-    public void computeValuesIfEmpty() {
-        if (this.innerMap.isEmpty()) this.computeValues();
+    public void computeValuesIfMissing() {
+        if (this.keys().stream().anyMatch(k -> !this.innerMap.containsKey(k))) {
+            this.computeValues();
+        }
     }
 
     /**
@@ -210,6 +212,8 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
      */
     protected void computeValues() {
         for (final K key : this.keys()) {
+            if (this.innerMap.containsKey(key)) continue;
+
             final String path = this.getPath(key);
             final V value = this.computeCallback.apply(path, key);
 
@@ -242,25 +246,25 @@ public abstract class RegisteredMap<K, V extends Registered> implements All, Gen
 
     @Override
     public void registerCommon() {
-        this.computeValuesIfEmpty();
+        this.computeValuesIfMissing();
         this.sortedValuesOfType(Common.class).forEach(v -> ((Common) v).registerCommon());
     }
 
     @Override
     public void registerClient() {
-        this.computeValuesIfEmpty();
+        this.computeValuesIfMissing();
         this.sortedValuesOfType(Client.class).forEach(v -> ((Client) v).registerClient());
     }
 
     @Override
     public void registerServer() {
-        this.computeValuesIfEmpty();
+        this.computeValuesIfMissing();
         this.sortedValuesOfType(Server.class).forEach(v -> ((Server) v).registerServer());
     }
 
     @Override
     public void generate() {
-        this.computeValuesIfEmpty();
+        this.computeValuesIfMissing();
         this.sortedValuesOfType(Generated.class).forEach(v -> ((Generated) v).generate());
     }
 
