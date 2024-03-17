@@ -221,12 +221,12 @@ public class Rgba extends Rgb {
     }
 
     @Override
-    public Rgb withSaturation(float saturation) {
+    public Rgba withSaturation(float saturation) {
         return new Rgba(super.withSaturation(saturation), this.alpha());
     }
 
     @Override
-    public Rgb withBrightness(float brightness) {
+    public Rgba withBrightness(float brightness) {
         return new Rgba(super.withBrightness(brightness), this.alpha());
     }
 
