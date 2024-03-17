@@ -160,7 +160,7 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
     }
 
     /**
-     * Plays a sound centered on the provided entity.
+     * Plays a sound centered on the provided block position.
      *
      * @param world The world.
      * @param blockPos The position.
@@ -172,6 +172,18 @@ public record SoundContext(SoundEvent event, SoundCategory category, float volum
         final float pitch = this.pitch(world.getRandom());
 
         world.playSoundAtBlockCenter(blockPos, this.event(), this.category(), this.volume(), pitch, useDistance);
+    }
+
+    /**
+     * Plays a sound centered on the provided block position.
+     *
+     * @param world The world.
+     * @param blockPos The position.
+     *
+     * @since 2.0.0
+     */
+    public void play(World world, BlockPos blockPos) {
+        this.play(world, blockPos, false);
     }
 
 }
