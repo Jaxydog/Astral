@@ -33,6 +33,12 @@ Essentially a rewrite of v1.*, adding/updating heaps of documentation and refact
     - Move `Colored` into `dev.jaxydog.astral.content.block`.
 - Updated sound content structure.
     - Added `SoundContext` record class.
+- Vastly improved color and image manipulation support.
+    - Refactored `ColorUtil` into a new `utility.color` package.
+    - `Rgb` now stores its components as bytes.
+    - Created a new `Rgba` class for transparency support.
+    - Created new Mapper classes for storing color manipulation methods as lambdas / records.
+    - Created `ColorHelper`, which is based off of the old `ColorUtil` class.
 
 ### Content changes
 
